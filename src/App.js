@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {HashRouter as Router, Route, Link} from 'react-router-dom';
-import {BottomNavigation, BottomNavigationAction, IconButton} from '@material-ui/core';
+import {BottomNavigation, BottomNavigationAction, Modal} from '@material-ui/core';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import DashboardIcon from '@material-ui/icons/BarChart';
 import AddIcon from '@material-ui/icons/Add';
@@ -42,15 +42,39 @@ const theme = createMuiTheme({
         }
       }
     },
-    typography: { useNextVariants: true },
+    MuiFormControl: {
+        root: {
+            fontSize: 10
+        }
+    },
+    typography: { 
+        useNextVariants: true,
+        h3: {
+            fontFamily: 'Poppins',
+            fontWeight: 700,
+            color: 'black',
+            fontSize: 16,
+        },
+        h4: {
+            fontFamily: 'Poppins',
+            fontWeight: 700,
+            color: 'white',
+            fontSize: 24,
+        }
+    },
 });
 
 
 class App extends Component {
     state = {
+        ad: false,
         value: 'dash',
     };
-
+    toggleAdd = () => {
+        this.setState(state => ({
+            add: !state.add,
+        }));
+    }
     handleChange = (event, value) => {
         this.setState({ value });
     };
@@ -59,9 +83,15 @@ class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <Router basename={process.env.PUBLIC_URL}>
-                    <Route exact path='/dash' component={Dashboard} />
-                    <Route path='/add' component={Add} />
-                    <Route path='/settings' component={Settings} />
+                    <div className="page">
+                        <Route exact path='/dash' component={Dashboard} />
+                        <Route path='/settings' component={Settings} />
+                    </div>
+                    <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
+                        <div>
+                            <Add />
+                        </div>
+                    </Modal>
                     <BottomNavigation value={this.state.value} onChange={this.handleChange} className="bottom-nav">
                         <BottomNavigationAction 
                             label="Dashboard" 
@@ -71,10 +101,10 @@ class App extends Component {
                             icon={<DashboardIcon />}
                         />
                         <BottomNavigationAction 
-                            // label="Add Drink"
                             value="add"
                             component={Link}
-                            to="/add"
+                            disableRipple={true}
+                            onClick={this.toggleAdd}
                             icon={<div className="center-fab"> < AddIcon style={{ fontSize: 50 }}/></div>}
                         />
                         <BottomNavigationAction

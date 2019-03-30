@@ -1,0 +1,12 @@
+.dashboard-page{
+    padding: 40px 40px 40px 40px;
+    background: linear-gradient(180deg, #FC8A8A 0%, #FFD3B3 50%);
+    background-size: 100vw 189px;
+    background-repeat: no-repeat;;
+}
+.chart-holder{
+    height: calc(100vw - 84px);
+    margin-top: 15px;
+    width: calc(100vw - 84px);
+    border: 2px solid #FFDCDC;
+}

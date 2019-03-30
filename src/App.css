@@ -7,9 +7,17 @@
     height: 100px;
     width: 100px;
     box-sizing: border-box;
-    padding-top: 15px;
+    padding-top: 17px;
+    text-align: center;
     border: 5px solid #FFAFA4;
     border-radius: 50%;
     color: #FFAFA4;
     background-color: white;
+}
+.page{
+    height: calc(100vh - 56px);
+    box-sizing: border-box;
+    width: 100vw;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }

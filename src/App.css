@@ -1,0 +1,15 @@
+.bottom-nav{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+}
+.center-fab{
+    height: 100px;
+    width: 100px;
+    box-sizing: border-box;
+    padding-top: 15px;
+    border: 5px solid #FFAFA4;
+    border-radius: 50%;
+    color: #FFAFA4;
+    background-color: white;
+}

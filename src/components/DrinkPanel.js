@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import {Button, Modal} from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
 import Add from './Add';
@@ -30,9 +31,8 @@ export class DrinkPanel extends Component {
      * NOTE fetch should be the api endpoint to delete a certian drink
      */
     delete = () => {
-        fetch("https://api.boba.watch/drinks/" + this.props.data.id + "/" + this.props.accessToken,{
-            method: 'DELETE',
-        }).then((resp) => {this.props.getNewInfo();
+        axios.delete("https://api.boba.watch/drinks/" + this.props.data.id + "/" + this.props.accessToken)
+        .then((resp) => {this.props.getNewInfo();
         }).catch(err => { console.log(err)
         });
     }

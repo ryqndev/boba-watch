@@ -10,7 +10,10 @@ export class Login extends Component {
         this.retrieveHistory();
     };
     retrieveHistory = () => {
-    }
+    };
+    successfulLogin = (i1, i2) => {
+        this.props.successfulLogin(i1, i2);
+    };
 
 	responseFacebook = (fbRes) => {
 		console.log(fbRes);
@@ -20,7 +23,8 @@ export class Login extends Component {
 				this.setState(() => ({
 					userId: servRes.data.userId,
 					accessToken: fbRes.accessToken
-				}));
+                }));
+                this.successfulLogin(servRes.data.userId, fbRes.accessToken);
 			}
 			else {
 				throw 'Facebok Login Failed';

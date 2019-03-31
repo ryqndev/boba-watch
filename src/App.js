@@ -97,6 +97,8 @@ class App extends Component {
         add: false,
         user: false,
         value: 'dash',
+        userId: 0,
+        accessToken: 0,
     };
     toggleAdd = () => {
         this.setState(state => ({
@@ -111,6 +113,13 @@ class App extends Component {
     handleChange = (event, value) => {
         this.setState({ value });
     };
+    successfulLogin = (userid, token) => {
+        this.setState({
+            userId: userid,
+            accessToken: token
+        })
+        alert(userid, token);
+    };
     render() {
 
         return (
@@ -119,7 +128,7 @@ class App extends Component {
                     <div className="page">
                         <Route exact path='/dash' component={Dashboard} />
                         <Route path='/history' component={history} />
-                        <Route exact path='/' component={Login} />
+                        <Route exact path='/' render={() => <Login successfulLogin={this.successfulLogin}/> }/>
                     </div>
                     <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
                         <div>

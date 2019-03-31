@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/boba-watch/precache-manifest.8ad6a5573f7085b8933b2aa069292b46.js"
+  "/boba-watch/precache-manifest.01148b050f14499d58f0c918ab8f70e5.js"
 );
 
 workbox.clientsClaim();

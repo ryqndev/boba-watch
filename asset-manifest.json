@@ -1,13 +1,13 @@
 {
-  "main.css": "/boba-watch/static/css/main.874d48ea.chunk.css",
-  "main.js": "/boba-watch/static/js/main.ed7d3c75.chunk.js",
-  "main.js.map": "/boba-watch/static/js/main.ed7d3c75.chunk.js.map",
+  "main.css": "/boba-watch/static/css/main.50069b40.chunk.css",
+  "main.js": "/boba-watch/static/js/main.031064da.chunk.js",
+  "main.js.map": "/boba-watch/static/js/main.031064da.chunk.js.map",
   "runtime~main.js": "/boba-watch/static/js/runtime~main.fb5d26fc.js",
   "runtime~main.js.map": "/boba-watch/static/js/runtime~main.fb5d26fc.js.map",
-  "static/js/2.8f988f1d.chunk.js": "/boba-watch/static/js/2.8f988f1d.chunk.js",
-  "static/js/2.8f988f1d.chunk.js.map": "/boba-watch/static/js/2.8f988f1d.chunk.js.map",
+  "static/js/2.fb125c6b.chunk.js": "/boba-watch/static/js/2.fb125c6b.chunk.js",
+  "static/js/2.fb125c6b.chunk.js.map": "/boba-watch/static/js/2.fb125c6b.chunk.js.map",
   "index.html": "/boba-watch/index.html",
-  "precache-manifest.8ad6a5573f7085b8933b2aa069292b46.js": "/boba-watch/precache-manifest.8ad6a5573f7085b8933b2aa069292b46.js",
+  "precache-manifest.01148b050f14499d58f0c918ab8f70e5.js": "/boba-watch/precache-manifest.01148b050f14499d58f0c918ab8f70e5.js",
   "service-worker.js": "/boba-watch/service-worker.js",
-  "static/css/main.874d48ea.chunk.css.map": "/boba-watch/static/css/main.874d48ea.chunk.css.map"
+  "static/css/main.50069b40.chunk.css.map": "/boba-watch/static/css/main.50069b40.chunk.css.map"
 }

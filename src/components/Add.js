@@ -16,12 +16,13 @@ export class Add extends Component {
         this.setState({ selectedDate: date });
     };
     saveDrink = (callback=nothing) => {
+        let date = document.getElementById('date-value').value;
         let data = {
             drink: {
                 name: document.getElementById('name-value').value,
                 location: document.getElementById('location-value').value,
                 price: document.getElementById('price-value').value,
-                date: document.getElementById('date-value').value,
+                date: "2019-03-30T20:19:57.000Z",
                 photo: "",
                 userId: parseInt(this.props.userId),
                 description: document.getElementById('description-value').value

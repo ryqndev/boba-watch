@@ -25,7 +25,7 @@ export class History extends Component {
             sum += e['price'];
         });
         let newDrinks = drinks.map((e, i) => {
-            return (<DrinkPanel key={i} data={e}/>);
+            return (<DrinkPanel key={i} data={e} getNewInfo={this.retrieveHistory}/>);
         });
         this.setState({
             drinks: newDrinks,

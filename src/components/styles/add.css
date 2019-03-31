@@ -1,7 +1,7 @@
 .add-modal{
     position: fixed;
-    top: calc( 50vh - 160px);
-    height: 300px;
+    top: calc( 50vh - 230px);
+    height: 390px;
     width: calc( 100vw - 84px);
     left: 38px;
     background-color: white;
@@ -9,4 +9,11 @@
     border-radius: 10px;
     box-sizing: border-box;
     padding: 27px;
+}
+.add-input{
+    width: 100%;
+}
+.add-button-holder{
+    text-align: center;
+    width: 100%;
 }

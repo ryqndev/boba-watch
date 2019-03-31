@@ -44,14 +44,19 @@ const theme = createMuiTheme({
         }
       }
     },
-    MuiFormControl: {
+    MuiPickers: {
         root: {
-            fontSize: 10
-        }
+            backgroundColor: '#FFAFA4'
+        },
     },
     MuiCard: {
         root: {
             backgroundColor: '#FFAFA4'
+        }
+    },
+    MuiTextField: {
+        root: {
+            backgroundColor: '#FF0000'
         }
     },
     typography: { 
@@ -80,7 +85,7 @@ const theme = createMuiTheme({
             fontFamily: 'Poppins',
             fontWeight: 700,
             color: 'black',
-            fontSize: 16,
+            fontSize: 18,
         },
         h6: {
             fontFamily: 'Poppins',
@@ -121,7 +126,7 @@ class App extends Component {
                     </div>
                     <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
                         <div>
-                            <Add />
+                            <Add toggleSelf={this.toggleAdd}/>
                         </div>
                     </Modal>
                     <Modal open={this.state.user} onBackdropClick={this.toggleUser} >

@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
-import {Button} from '@material-ui/core';
+import {Button, Modal} from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
+import Add from './Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import './styles/history.css';
 
 export class DrinkPanel extends Component {
     state =  {
-        open: false
+        open: false,
+        add: false
     }
     toggle = () => {
         this.setState(state => ({
             open: !state.open
+        }));
+    }
+    toggleAdd = () => {
+        this.setState(state => ({
+            add: !state.add,
         }));
     }
     hasImage = () => {
@@ -19,9 +26,26 @@ export class DrinkPanel extends Component {
             return  <img alt="drink" src={this.props.data.photo} />;
         }
     }
+    /**
+     * NOTE fetch should be the api endpoint to delete a certian drink
+     */
+    delete = () => {
+        fetch("https://api.boba.watch/drinks/user/1",{
+        }).then((resp) => { console.log('u bich');this.props.getNewInfo();
+        }).catch(err => { console.log(err)
+        });
+    }
+    edit = () => {
+        this.toggleAdd(this.delete);
+    }
     render() {
         return (
         <div className="thaman-color">
+            <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
+                <div>
+                    <Add toggleSelf={this.edit}/>
+                </div>
+            </Modal>
             <div className="history-drink-label" onClick={this.toggle}>
                 <p className="drink-place">
                     {this.props.data.location.length > 13 
@@ -52,10 +76,10 @@ export class DrinkPanel extends Component {
                 <p className="drink-description">
                     {JSON.stringify(new Date(this.props.data.date))}
                 </p>
-
+                
                 <div className="drink-options">
-                    <Button>EDIT </Button>
-                    <Button>DELETE </Button>
+                    <Button onClick={this.edit}>EDIT</Button>
+                    <Button onClick={this.delete}>DELETE</Button>
                 </div>
             </Collapse>
         </div>

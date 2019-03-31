@@ -97,7 +97,7 @@ class App extends Component {
         add: false,
         user: false,
         value: 'dash',
-        userId: 0,
+        userId: 1,
         accessToken: 0,
     };
     toggleAdd = () => {
@@ -125,7 +125,7 @@ class App extends Component {
                 <Router basename={process.env.PUBLIC_URL}>
                     <div className="page">
                         <Route exact path='/dash' component={Dashboard} />
-                        <Route path='/history' render={() => { console.log(this.state.userId);return <History accessToken={this.state.accessToken} userId={this.state.userId}/>;} } />
+                        <Route path='/history' render={() => { console.log(this.state.userId); return <History accessToken={this.state.accessToken} userId={this.state.userId}/>;} } />
                         <Route exact path='/' render={() => <Login successfulLogin={this.successfulLogin}/> }/>
                     </div>
                     <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >

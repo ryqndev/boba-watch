@@ -8,6 +8,7 @@ import HistoryIcon from '@material-ui/icons/AttachMoney';
 import Dashboard from './components/Dashboard';
 import Add from './components/Add';
 import history from './components/History';
+import Login from './components/Login';
 import './App.css';
 
 const theme = createMuiTheme({
@@ -54,12 +55,7 @@ const theme = createMuiTheme({
             backgroundColor: '#FFAFA4'
         }
     },
-    MuiTextField: {
-        root: {
-            backgroundColor: '#FF0000'
-        }
-    },
-    typography: { 
+    typography: {
         useNextVariants: true,
         h2: {
             fontFamily: 'Poppins',
@@ -123,6 +119,7 @@ class App extends Component {
                     <div className="page">
                         <Route exact path='/dash' component={Dashboard} />
                         <Route path='/history' component={history} />
+                        <Route path='/' component={Login} />
                     </div>
                     <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
                         <div>
@@ -135,14 +132,14 @@ class App extends Component {
                         </div>
                     </Modal>
                     <BottomNavigation value={this.state.value} onChange={this.handleChange} className="bottom-nav">
-                        <BottomNavigationAction 
-                            label="Dashboard" 
-                            value="dash" 
+                        <BottomNavigationAction
+                            label="Dashboard"
+                            value="dash"
                             component={Link}
                             to="/dash"
                             icon={<DashboardIcon />}
                         />
-                        <BottomNavigationAction 
+                        <BottomNavigationAction
                             value="add"
                             disableRipple={true}
                             onClick={this.toggleAdd}

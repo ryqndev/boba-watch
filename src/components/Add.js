@@ -29,6 +29,10 @@ export class Add extends Component {
         }
         fetch("https://api.boba.watch/drinks/" + this.props.accessToken, {
             method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(data),
         }).then((resp) => { alert("Drink Added!"); callback(); this.props.toggleSelf();
         }).catch(err => { console.log(err);

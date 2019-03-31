@@ -1,68 +1,22 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Inspiration
+**Subtle Asian Traits** is one of the largest existing Facebook groups, comprised of 1.2 million members who share relatable posts, subtle or not, about the first or second-generation Asian experience across the globe—ranging from posts about cultural clashes to widely shared joys such as boba milk tea. We were inspired by recent posts of members sharing logs of their boba purchases, most of which have taken the form of a Google spreadsheet or iPhone note. These posts garnered a lot of attention, as a love for boba and the resulting negative consequences on our wallets is not an uncommon experience amongst members of the group. We wanted to create an all-encompassing, minimally designed app that would be both relevant to and loved by this community.
 
-## Available Scripts
+## What it does
+Boba Watch is a mobile website that tracks a user's monthly spendings on drinks. The dashboard feature shows a graphical depiction of how close a user is to approaching their personally set monthly spending limit as well as the number of drinks a user has purchased that month. Both of these levels can be adjusted in the user settings. The spendings tracker is a feature that lists out all of a user's purchases, detailing the name, date, location, and price of purchase. These details are all added to the app using the add function, which allows a user to fill out these details along with an option to attach an image and/or description of the drink or experience.
 
-In the project directory, you can run:
+## How I built it
+We used [Figma] (https://www.figma.com/file/IuWnH6jb2nxdyiDd8kP0YjEr/boba-watch?node-id=60%3A8) to design the layout and graphics for the app. The [frontend] (https://github.com/Ryabn/boba-watch) is built using React.js and is compiled to static files then hosted on GitHub Pages. The [backend] (https://github.com/alexanderqchen/boba-watch-backend) is built using Express.js/Node.js and MySQL. We used the Sequelize ORM to simplify SQL queries. The SQL Server is running on GCP Compute SQL and the backend is running on a GCP Compute VM Instance.
 
-### `npm start`
+## Challenges I ran into
+One of the most time-consuming obstacles we faced was managing https and obtaining our SSL certificate for our backend server. Reliable internet access was also a bit of an issue for most of the duration of this hackathon. :-(
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Accomplishments that I'm proud of
+Team synergy! We had three team members who all worked on different aspects of the project—frontend, backend, and design—which made the process easy and fluid.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+_"I'm so used to making shit but this was so easy; I just put eight buttons in a box and called it a day."_ –Ryan Yang
 
-### `npm test`
+## What I learned
+I learned some math.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## What's next for Boba Watch
+We'd love to add a community aspect to the app, providing a way for friends to view each other's drink purchase histories and implement a type of leaderboard feature (or rather, a loserboard in regards to money). We would also add geotagging as a feature so that orders would be able to be pinned to a specific location on a map in addition to a map that would display all boba locations surrounding a user.

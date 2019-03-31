@@ -1,12 +1,6 @@
 .history-page{
     padding: 40px 40px 40px 40px;
 }
-hr{
-    color: white;
-    border-color: #F68080;
-    background-color: #F68080;
-    margin-top: 10px;
-}
 .history-drink-label{
     display: grid;
     grid-template-columns: 1fr 1fr 40px;
@@ -31,9 +25,31 @@ p{
 }
 .drink-description{
     text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 img{
     width: 60vw;
     background-color: #FFC9C2;
     margin: 30px calc(50% - 30vw) 0 calc(50% - 30vw);
+}
+.thaman-color{
+    border-bottom: 2px solid #F68080;
+    margin-bottom: 10px;
+}
+h3 span{
+    color: black;
+}
+.history-total{
+    margin-top: 25px !important;
+    text-align: right;
+}
+.expand-icon{
+    margin-top: 10px;
+    color: #F68080;
+}
+.drink-options{
+    display: grid;
+    grid-template-columns: 100px 100px;
+    grid-template-rows: 60px;
 }

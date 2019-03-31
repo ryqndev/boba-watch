@@ -39,7 +39,6 @@ export class Add extends Component {
                     onChange={this.handleDateChange}
                 />
             </MuiPickersUtilsProvider>
-            
             <TextField
                 id="location-value"
                 className="add-input"

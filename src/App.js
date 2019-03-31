@@ -14,14 +14,17 @@ const theme = createMuiTheme({
     overrides: {
       MuiButton: {
         text: {
-          background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+          backgroundColor: '#F68080',
           borderRadius: 3,
           border: 0,
           color: 'white',
-          height: 48,
+          height: 30,
           padding: '0 30px',
           margin: '20px',
           boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+          fontFamily: 'Poppins',
+          fontWeight: 700,
+          fontSize: 14
         },
       },
       MuiBottomNavigation: {
@@ -46,8 +49,20 @@ const theme = createMuiTheme({
             fontSize: 10
         }
     },
+    MuiCard: {
+        root: {
+            backgroundColor: '#FFAFA4'
+        }
+    },
     typography: { 
         useNextVariants: true,
+        h2: {
+            fontFamily: 'Poppins',
+            fontWeight: 700,
+            color: '#FFFFFF',
+            fontSize: 48,
+            margin: 0
+        },
         h3: {
             fontFamily: 'Poppins',
             fontWeight: 700,

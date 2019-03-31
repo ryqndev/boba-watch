@@ -16,6 +16,11 @@ const data = [
 ];
 const amount = 4.23;
 export class Dashboard extends Component {
+    state = {
+        totalMoney: 200,
+        totalDrinks: 12,
+        drinkPercentage: 70
+    }
     render() {
         return (
         <div className="dashboard-page">
@@ -41,6 +46,20 @@ export class Dashboard extends Component {
                 </PieChart>
             </ResponsiveContainer>
             </Card>
+            <div className="stats-holder">
+                <Card className="month-total-money">
+                    <p>This is how much you’ve spent on boba this month:</p>
+                    <Typography variant="h2">${this.state.totalMoney}</Typography>
+                </Card>
+                <Card className="month-drink-limit">
+                    <Typography variant="h3">{this.state.drinkPercentage}%</Typography>
+                    <p>to your max number of drinks this month</p>
+                </Card>
+                <Card className="month-total-drinks">
+                    <Typography variant="h2">{this.state.totalDrinks}</Typography>
+                    <p>drinks this month</p>
+                </Card>
+            </div>
         </div>
         )
     }

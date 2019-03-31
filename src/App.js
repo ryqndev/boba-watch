@@ -119,7 +119,7 @@ class App extends Component {
                     <div className="page">
                         <Route exact path='/dash' component={Dashboard} />
                         <Route path='/history' component={history} />
-                        <Route path='/' component={Login} />
+                        <Route exact path='/' component={Login} />
                     </div>
                     <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
                         <div>

@@ -4,11 +4,10 @@ import {BottomNavigation, BottomNavigationAction, Modal} from '@material-ui/core
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import DashboardIcon from '@material-ui/icons/BarChart';
 import AddIcon from '@material-ui/icons/Add';
-// import AddIcon from './assets/add.svg';
-import SettingsIcon from '@material-ui/icons/Settings';
+import HistoryIcon from '@material-ui/icons/AttachMoney';
 import Dashboard from './components/Dashboard';
 import Add from './components/Add';
-import Settings from './components/Settings';
+import history from './components/History';
 import './App.css';
 
 const theme = createMuiTheme({
@@ -52,14 +51,26 @@ const theme = createMuiTheme({
         h3: {
             fontFamily: 'Poppins',
             fontWeight: 700,
-            color: 'black',
-            fontSize: 16,
+            color: '#F68080',
+            fontSize: 24,
+            marginBottom: '16px'
         },
         h4: {
             fontFamily: 'Poppins',
             fontWeight: 700,
             color: 'white',
             fontSize: 24,
+        },
+        h5: {
+            fontFamily: 'Poppins',
+            fontWeight: 700,
+            color: 'black',
+            fontSize: 16,
+        },
+        h6: {
+            fontFamily: 'Poppins',
+            color: '#F68080',
+            fontSize: 12,
         }
     },
 });
@@ -67,12 +78,18 @@ const theme = createMuiTheme({
 
 class App extends Component {
     state = {
-        ad: false,
+        add: false,
+        user: false,
         value: 'dash',
     };
     toggleAdd = () => {
         this.setState(state => ({
             add: !state.add,
+        }));
+    }
+    toggleUser = () => {
+        this.setState(state => ({
+            add: !state.user,
         }));
     }
     handleChange = (event, value) => {
@@ -85,9 +102,14 @@ class App extends Component {
                 <Router basename={process.env.PUBLIC_URL}>
                     <div className="page">
                         <Route exact path='/dash' component={Dashboard} />
-                        <Route path='/settings' component={Settings} />
+                        <Route path='/history' component={history} />
                     </div>
                     <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
+                        <div>
+                            <Add />
+                        </div>
+                    </Modal>
+                    <Modal open={this.state.user} onBackdropClick={this.toggleUser} >
                         <div>
                             <Add />
                         </div>
@@ -102,17 +124,17 @@ class App extends Component {
                         />
                         <BottomNavigationAction 
                             value="add"
-                            component={Link}
                             disableRipple={true}
                             onClick={this.toggleAdd}
+                            onClose={this.refocus}
                             icon={<div className="center-fab"> < AddIcon style={{ fontSize: 50 }}/></div>}
                         />
                         <BottomNavigationAction
-                            label="Settings"
-                            value="settings"
+                            label="Spending"
+                            value="history"
                             component={Link}
-                            to="/settings"
-                            icon={<SettingsIcon />}
+                            to="/history"
+                            icon={<HistoryIcon />}
                         />
                     </BottomNavigation>
                 </Router>

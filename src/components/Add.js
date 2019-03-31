@@ -16,7 +16,7 @@ export class Add extends Component {
     render() {
         return (
         <div className="add-modal">
-            <Typography variant="h3">Add a purchase</Typography>
+            <Typography variant="h5">Add a purchase</Typography>
             <TextField
                 id="location-value"
                 className="add-input"

@@ -1,0 +1,39 @@
+.history-page{
+    padding: 40px 40px 40px 40px;
+}
+hr{
+    color: white;
+    border-color: #F68080;
+    background-color: #F68080;
+    margin-top: 10px;
+}
+.history-drink-label{
+    display: grid;
+    grid-template-columns: 1fr 1fr 40px;
+    grid-template-rows: 25px 35px;
+}
+p{
+    margin: 0 !important;
+    font-family: Poppins;
+}
+.drink-place{
+    color: #F68080;
+}
+.drink-time{
+    text-align: right;
+    color: grey;
+    font-size: 12px;
+    padding-top: 8px;
+}
+.drink-price{
+    font-size: 24px;
+    text-align: right;
+}
+.drink-description{
+    text-align: center;
+}
+img{
+    width: 60vw;
+    background-color: #FFC9C2;
+    margin: 30px calc(50% - 30vw) 0 calc(50% - 30vw);
+}

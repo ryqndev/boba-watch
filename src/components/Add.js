@@ -23,7 +23,8 @@ export class Add extends Component {
                 price: 123,
                 date: "2019-03-30T20:19:57.000Z",
                 photo: "",
-                userId: this.props.userId
+                userId: parseInt(this.props.userId),
+                description: "Test drink"
             }
         }
         fetch("https://api.boba.watch/drinks/" + this.props.accessToken, {

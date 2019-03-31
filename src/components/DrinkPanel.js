@@ -30,8 +30,8 @@ export class DrinkPanel extends Component {
      * NOTE fetch should be the api endpoint to delete a certian drink
      */
     delete = () => {
-        fetch("https://api.boba.watch/drinks/user/1",{
-        }).then((resp) => { console.log('u bich');this.props.getNewInfo();
+        fetch("https://api.boba.watch/drinks/user/",{
+        }).then((resp) => {this.props.getNewInfo();
         }).catch(err => { console.log(err)
         });
     }

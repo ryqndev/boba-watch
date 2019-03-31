@@ -7,7 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import HistoryIcon from '@material-ui/icons/AttachMoney';
 import Dashboard from './components/Dashboard';
 import Add from './components/Add';
-import history from './components/History';
+import History from './components/History';
 import Login from './components/Login';
 import './App.css';
 
@@ -117,22 +117,20 @@ class App extends Component {
         this.setState({
             userId: userid,
             accessToken: token
-        })
-        alert(userid, token);
+        });
     };
     render() {
-
         return (
             <MuiThemeProvider theme={theme}>
                 <Router basename={process.env.PUBLIC_URL}>
                     <div className="page">
                         <Route exact path='/dash' component={Dashboard} />
-                        <Route path='/history' component={history} />
+                        <Route path='/history' render={() => <History accessToken={this.state.accessToken} userId={this.state.userId}/> } />
                         <Route exact path='/' render={() => <Login successfulLogin={this.successfulLogin}/> }/>
                     </div>
                     <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
                         <div>
-                            <Add toggleSelf={this.toggleAdd}/>
+                            <Add accessToken={this.state.accessToken} userId={this.state.userId} toggleSelf={this.toggleAdd}/>
                         </div>
                     </Modal>
                     <Modal open={this.state.user} onBackdropClick={this.toggleUser} >

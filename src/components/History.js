@@ -13,7 +13,8 @@ export class History extends Component {
         this.retrieveHistory();  
     };
     retrieveHistory = () => {
-        fetch("https://api.boba.watch/drinks/user/1",{
+        console.log(this.props.userId);
+        fetch("https://api.boba.watch/drinks/user/" + this.props.userId,{
         }).then((resp) => { return resp.json();
         }).then((resp) => { this.generate(resp);
         }).catch(err => { console.log(err)

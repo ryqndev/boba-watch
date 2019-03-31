@@ -16,9 +16,21 @@ export class Add extends Component {
         this.setState({ selectedDate: date });
     };
     saveDrink = (callback=nothing) => {
-        fetch("https://api.boba.watch/drinks/user/1",{
+        let data = {
+            drink: {
+                name: "test1",
+                location: "test12",
+                price: 123,
+                date: "2019-03-30T20:19:57.000Z",
+                photo: "",
+                userId: this.props.userId
+            }
+        }
+        fetch("https://api.boba.watch/drinks/" + this.props.accessToken, {
+            method: 'POST',
+            body: JSON.stringify(data),
         }).then((resp) => { alert("Drink Added!"); callback(); this.props.toggleSelf();
-        }).catch(err => { console.log(err)
+        }).catch(err => { console.log(err);
         });
     };
     render() {

@@ -18,13 +18,13 @@ export class Add extends Component {
     saveDrink = (callback=nothing) => {
         let data = {
             drink: {
-                name: "test1",
-                location: "test12",
-                price: 123,
-                date: "2019-03-30T20:19:57.000Z",
+                name: document.getElementById('name-value').value,
+                location: document.getElementById('location-value').value,
+                price: document.getElementById('price-value').value,
+                date: document.getElementById('date-value').value,
                 photo: "",
                 userId: parseInt(this.props.userId),
-                description: "Test drink"
+                description: document.getElementById('description-value').value
             }
         }
         fetch("https://api.boba.watch/drinks/" + this.props.accessToken, {
@@ -48,19 +48,20 @@ export class Add extends Component {
                 label="Location"
             />
             <TextField
-                id="location-value"
+                id="name-value"
                 className="add-input"
                 margin="dense"
                 label="Drink name"
             />
             <TextField
-                id="location-value"
+                id="price-value"
                 className="add-input"
                 margin="dense"
-                label="Date"
+                label="Price"
             />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DatePicker
+                    id="date-value"
                     className="add-input"
                     margin="dense"
                     label="Date picker"
@@ -69,7 +70,7 @@ export class Add extends Component {
                 />
             </MuiPickersUtilsProvider>
             <TextField
-                id="location-value"
+                id="description-value"
                 className="add-input"
                 label="Description"
             />

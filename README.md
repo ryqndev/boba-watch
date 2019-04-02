@@ -13,7 +13,7 @@ One of the most time-consuming obstacles we faced was managing https and obtaini
 ## Accomplishments that I'm proud of
 Team synergy! We had three team members who all worked on different aspects of the project—frontend, backend, and design—which made the process easy and fluid.
 
-_"I'm so used to making shit but this was so easy; I just put eight buttons in a box and called it a day."_ –Ryan Yang
+_"I'm so used to making shit where I just put eight buttons in a box and called it a day."_ –Ryan Yang
 
 ## What I learned
 I learned some math.

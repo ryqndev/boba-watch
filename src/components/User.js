@@ -3,7 +3,6 @@ import {Typography, TextField, Button} from '@material-ui/core';
 import './styles/user.css';
 
 export class User extends Component {
-
     render() {
         return (
         <div className="user-modal">
@@ -19,7 +18,7 @@ export class User extends Component {
                 className="user-input"
                 margin="dense"
                 variant="outlined"
-                label="Max number of dirnks per month"
+                label="Max number of drinks per month"
             />
             <div className="update-button-holder">
                 <Button className="update-button">UPDATE</Button>

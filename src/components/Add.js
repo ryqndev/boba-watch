@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import 'date-fns';
+import swal from 'sweetalert';
 import './styles/add.css';
 import {Typography, TextField, Button} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
+import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 
-function nothing(){
-    return;
-}
 export class Add extends Component {
     state = {
         selectedDate: new Date()
@@ -15,14 +13,13 @@ export class Add extends Component {
     handleDateChange = (date) => {
         this.setState({ selectedDate: date });
     };
-    saveDrink = (callback=nothing) => {
-        let date = document.getElementById('date-value').value;
+    saveDrink = () => {
         let data = {
             drink: {
                 name: document.getElementById('name-value').value,
                 location: document.getElementById('location-value').value,
-                price: document.getElementById('price-value').value,
-                date: "2019-03-30T20:19:57.000Z",
+                price: parseInt(document.getElementById('price-value').value * 100),
+                date: new Date(document.getElementById('date-value').value).toISOString(),
                 photo: "",
                 userId: parseInt(this.props.userId),
                 description: document.getElementById('description-value').value
@@ -35,7 +32,7 @@ export class Add extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data),
-        }).then((resp) => { alert("Drink Added!"); callback(); this.props.toggleSelf();
+        }).then((resp) => { swal("Done!", "Drink has been added", "success"); this.props.toggleSelf();
         }).catch(err => { console.log(err);
         });
     };
@@ -61,10 +58,11 @@ export class Add extends Component {
                 label="Price"
             />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <DatePicker
+                <DateTimePicker
                     id="date-value"
                     className="add-input"
                     margin="dense"
+                    format="M/d/yyyy h:mm a"
                     label="Date picker"
                     value={this.state.selectedDate}
                     onChange={this.handleDateChange}

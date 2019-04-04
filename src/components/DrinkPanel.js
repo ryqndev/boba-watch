@@ -27,12 +27,9 @@ export class DrinkPanel extends Component {
             return  <img alt="drink" src={this.props.data.photo} />;
         }
     }
-    /**
-     * NOTE fetch should be the api endpoint to delete a certian drink
-     */
     delete = () => {
         axios.post("https://api.boba.watch/drinks/delete/" + this.props.data.id + "/" + this.props.accessToken)
-        .then((resp) => {this.props.getNewInfo();
+        .then((resp) => { this.props.getNewInfo();
         }).catch(err => { console.log(err)
         });
     }

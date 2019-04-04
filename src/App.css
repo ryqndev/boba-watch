@@ -14,6 +14,7 @@
     border-radius: 50%;
     color: #FFAFA4;
     background-color: white;
+    z-index: 1000;
 }
 .page{
     height: calc(100vh - 56px);

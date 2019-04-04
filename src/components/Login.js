@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Typography} from '@material-ui/core';
 import FacebookLogin from 'react-facebook-login';
+import './styles/login.css';
 import axios from 'axios';
 
 export class Login extends Component {
@@ -13,10 +14,10 @@ export class Login extends Component {
     };
     successfulLogin = (i1, i2) => {
         this.props.successfulLogin(i1, i2);
+        this.props.history.push('/dash');
     };
 
 	responseFacebook = (fbRes) => {
-		console.log(fbRes);
 		axios.post("https://api.boba.watch/users/login", { fbRes })
 		.then(servRes => {
 			if (servRes.data.hasOwnProperty('userId')) {
@@ -36,15 +37,14 @@ export class Login extends Component {
     render() {
         return (
         <div className="login-page">
-            <Typography variant="h3">boba watch</Typography>
+            <div className="login-logo"> </div>
+            <Typography variant="h1">boba watch</Typography>
             <FacebookLogin
 				appId="333104870889201"
 				autoLoad={true}
-				fields="name,email,picture"
+                fields="name,email,picture"
 				callback={this.responseFacebook}
 			/>
-			<p>{this.state.userId}</p>
-			<p>{this.state.accessToken}</p>
         </div>
         )
     }

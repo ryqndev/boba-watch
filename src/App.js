@@ -57,6 +57,13 @@ const theme = createMuiTheme({
     },
     typography: {
         useNextVariants: true,
+        h1: {
+            fontFamily: 'Poppins',
+            fontWeight: 700,
+            color: '#FFFFFF',
+            fontSize: 44,
+            marginBottom: 20
+        },
         h2: {
             fontFamily: 'Poppins',
             fontWeight: 700,
@@ -91,7 +98,6 @@ const theme = createMuiTheme({
     },
 });
 
-
 class App extends Component {
     state = {
         add: false,
@@ -123,44 +129,53 @@ class App extends Component {
         return (
             <MuiThemeProvider theme={theme}>
                 <Router basename={process.env.PUBLIC_URL}>
-                    <div className="page">
-                        <Route exact path='/dash' component={Dashboard} />
-                        <Route path='/history' render={() => { console.log(this.state.userId); return <History accessToken={this.state.accessToken} userId={this.state.userId}/>;} } />
-                        <Route exact path='/' render={() => <Login successfulLogin={this.successfulLogin}/> }/>
+                <Route exact strict path='/' render={() => <Login successfulLogin={ this.successfulLogin }/> }/>
+                <Route strict path='/:page' render={() => 
+                    <div>
+                        <div className="page">
+                            <Route exact path='/dash' component={Dashboard} />
+                            <Route path='/history' render={
+                                () => { return <History
+                                            accessToken={ this.state.accessToken } 
+                                            userId={ this.state.userId} />; 
+                                    }
+                            } />
+                        </div>
+                        <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
+                            <div>
+                                <Add accessToken={this.state.accessToken} userId={this.state.userId} toggleSelf={this.toggleAdd}/>
+                            </div>
+                        </Modal>
+                        <Modal open={this.state.user} onBackdropClick={this.toggleUser} >
+                            <div>
+                                <Add accessToken={this.state.accessToken} userId={this.state.userId}/>
+                            </div>
+                        </Modal>
+                        <BottomNavigation value={this.state.value} onChange={this.handleChange} className="bottom-nav">
+                            <BottomNavigationAction
+                                label="Dashboard"
+                                value="dash"
+                                component={Link}
+                                to="/dash"
+                                icon={<DashboardIcon />}
+                            />
+                            <BottomNavigationAction
+                                value="add"
+                                disableRipple={true}
+                                onClick={this.toggleAdd}
+                                onClose={this.refocus}
+                                icon={ <div className="center-fab"> < AddIcon style={{ fontSize: 50 }}/></div> }
+                            />
+                            <BottomNavigationAction
+                                label="Spending"
+                                value="history"
+                                component={Link}
+                                to="/history"
+                                icon={<HistoryIcon />}
+                            />
+                        </BottomNavigation>
                     </div>
-                    <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
-                        <div>
-                            <Add accessToken={this.state.accessToken} userId={this.state.userId} toggleSelf={this.toggleAdd}/>
-                        </div>
-                    </Modal>
-                    <Modal open={this.state.user} onBackdropClick={this.toggleUser} >
-                        <div>
-                            <Add accessToken={this.state.accessToken} userId={this.state.userId}/>
-                        </div>
-                    </Modal>
-                    <BottomNavigation value={this.state.value} onChange={this.handleChange} className="bottom-nav">
-                        <BottomNavigationAction
-                            label="Dashboard"
-                            value="dash"
-                            component={Link}
-                            to="/dash"
-                            icon={<DashboardIcon />}
-                        />
-                        <BottomNavigationAction
-                            value="add"
-                            disableRipple={true}
-                            onClick={this.toggleAdd}
-                            onClose={this.refocus}
-                            icon={<div className="center-fab"> < AddIcon style={{ fontSize: 50 }}/></div>}
-                        />
-                        <BottomNavigationAction
-                            label="Spending"
-                            value="history"
-                            component={Link}
-                            to="/history"
-                            icon={<HistoryIcon />}
-                        />
-                    </BottomNavigation>
+                    } />
                 </Router>
             </MuiThemeProvider>
         );

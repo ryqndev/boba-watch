@@ -12,7 +12,7 @@ export class DrinkPanel extends Component {
         open: false,
         add: false
     }
-    toggle = () => {
+    toggle = () => { 
         this.setState(state => ({
             open: !state.open
         }));

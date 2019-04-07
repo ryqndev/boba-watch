@@ -17,29 +17,37 @@
   }
 ]
    */
-function checkLoad(){
-    
-}
-function recalculateMetrics(drinkObjects){
-    let metrics  = {
+function getDefaultMetrics(){
+    return {
         'numDrinks': 0,
         'totalCost': 0,
         'drinkAvg': 0,
-        'dates': [ 0, 0, 0, 0, 0, 0, 0],
-        'times': [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+        'drinks': Array(7)
+    }
+}
+function recalculateMetrics(drinkObjects){
+    let metrics = getDefaultMetrics();
+    for(let i = 0; i < 7; i++){
+        metrics.drinks[i] = Array(24).fill(0);
     }
     drinkObjects.forEach(drink => {
-        updateMetrics(drink);
-        localStorage.setItem('metrics', metrics);
+        updateMetrics(drink, metrics);
+        localStorage.setItem(drink.id, JSON.stringify(drink));
     });
+    return metrics;
+
 }
+// if(!localStorage.hasOwnProperty(drink.id)){}
 function updateMetrics(drinkObject, metrics){
     metrics.numDrinks += 1;
     metrics.totalCost += drinkObject.price;
     metrics.drinkAvg = metrics.totalCost / metrics.numDrinks;
-
     let date = new Date(drinkObject.date);
-    metrics.dates[date.getDay()] += 1
-    metrics.times[date.getHours()] += 1;
+    metrics.drinks[date.getDay()][date.getHours()] += 1;
+}
+
+export default {
+    'recalculateMetrics': recalculateMetrics,
+    'updateMetrics': updateMetrics,
+    'getDefaultMetrics': getDefaultMetrics
 }

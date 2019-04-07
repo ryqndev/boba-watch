@@ -47,6 +47,9 @@
     grid-column: 1/3;
     grid-row: 2/3;
 }
+.daily-chart{
+    margin-top: 20px;
+}
 .month-total-drinks > p {
     color: #FC8A8A;
 }

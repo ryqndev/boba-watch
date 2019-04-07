@@ -5,6 +5,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Add from './Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import Utils from './textUtil.js';
 import './styles/history.css';
 
 export class DrinkPanel extends Component {
@@ -51,11 +52,7 @@ export class DrinkPanel extends Component {
                         : this.props.data.location }
                 </p>
                 <p className="drink-price">
-                    ${parseInt(this.props.data.price/100) + '.' + 
-                    (this.props.data.price % 100 < 10 
-                        ? "0" + this.props.data.price % 100 
-                        : this.props.data.price % 100)
-                    }
+                    ${Utils.toMoney(this.props.data.price)}
                 </p>
                 <div className="expand-icon">
                     {this.state.open ? <ExpandLessIcon /> : <ExpandMoreIcon/>}

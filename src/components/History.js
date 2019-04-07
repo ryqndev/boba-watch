@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Typography} from '@material-ui/core';
 import DrinkPanel from './DrinkPanel';
+import Utils from './textUtil.js';
 import './styles/history.css';
 
 
@@ -40,7 +41,7 @@ export class History extends Component {
             <div id="history-spending">
                 {this.state.drinks}
             </div>
-            <Typography variant="h3" className="history-total"> <span>Monthly Total:</span> ${parseInt(this.state.sum/100) + '.' + (this.state.sum % 100 < 10 ? "0" + this.state.sum % 100 : this.state.sum % 100)} </Typography>
+            <Typography variant="h3" className="history-total"> <span>Monthly Total:</span> ${Utils.toMoney(this.state.sum)} </Typography>
         </div>
         )
     }

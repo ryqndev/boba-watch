@@ -6,6 +6,7 @@ import Add from './Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Utils from './textUtil.js';
+import stats from './calculateStatistics';
 import './styles/history.css';
 
 export class DrinkPanel extends Component {
@@ -14,23 +15,22 @@ export class DrinkPanel extends Component {
         add: false
     }
     toggle = () => { 
-        this.setState(state => ({
-            open: !state.open
-        }));
+        this.setState(state => ({ open: !state.open }));
     }
     toggleAdd = () => {
-        this.setState(state => ({
-            add: !state.add,
-        }));
+        this.setState(state => ({ add: !state.add }));
     }
     hasImage = () => {
         if(this.props.data.photo.trim() !== "" && this.props.data.photo !== "asdf" ){
             return  <img alt="drink" src={this.props.data.photo} />;
         }
     }
+    /**
+     * TODO: delete should update localstorage
+     */
     delete = () => {
         axios.post("https://api.boba.watch/drinks/delete/" + this.props.data.id + "/" + this.props.accessToken)
-        .then((resp) => { this.props.getNewInfo();
+        .then((resp) => { console.log(resp); this.props.getNewInfo();
         }).catch(err => { console.log(err)
         });
     }

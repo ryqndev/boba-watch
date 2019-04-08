@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Typography, Card} from '@material-ui/core';
-import { XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, LineSeries, HeatmapSeries, LabelSeries, Hint} from 'react-vis';
+import { XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, LineSeries, HeatmapSeries } from 'react-vis';
 import Utils from './textUtil.js';
 import './styles/dashboard.css';
 import 'react-vis/dist/style.css';
@@ -25,7 +25,6 @@ function getDailyTotal(metrics){
     let totals = [{x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 2}];
     return totals;
 }
-
 
 export class Dashboard extends Component {
     constructor(props) {

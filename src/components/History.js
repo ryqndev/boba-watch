@@ -4,7 +4,6 @@ import DrinkPanel from './DrinkPanel';
 import Utils from './textUtil.js';
 import './styles/history.css';
 
-
 export class History extends Component {
     state = {
         drinks: [<Typography variant="h3" key={1}>No Drinks</Typography>],
@@ -14,18 +13,13 @@ export class History extends Component {
         this.retrieveHistory();  
     };
     retrieveHistory = () => {
-        fetch("https://api.boba.watch/drinks/user/" + this.props.userId,{
-        }).then((resp) => { return resp.json();
-        }).then((resp) => { this.generate(resp);
-        }).catch(err => { console.log(err)
-        });
+        let drinks = JSON.parse(localStorage.getItem('drinksList'));
+        this.generate(drinks.map(id => JSON.parse(localStorage.getItem(id)) ));
     }
     generate = (drinks) => {
         let sum = 0;
-        drinks.forEach(e => {
-            sum += e['price'];
-        });
         let newDrinks = drinks.map((e, i) => {
+            sum += e['price'];
             return (<DrinkPanel key={i} data={e} getNewInfo={this.retrieveHistory} accessToken={this.props.accessToken}/>);
         });
         this.setState({

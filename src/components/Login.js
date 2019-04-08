@@ -54,13 +54,13 @@ export class Login extends Component {
         return (
             /**TODO REMOVE IN PROD 
              * @function onLoad(this.fakeLoginTestData)
+             *  onClick={this.fakeLoginTestData}
             */
-        <div className="login-page" onClick={this.fakeLoginTestData}>
+        <div className="login-page">
             <div className="login-logo"> </div>
             <Typography variant="h1">boba watch</Typography>
             <FacebookLogin
 				appId="333104870889201"
-				autoLoad={true}
                 fields="name,email,picture"
 				callback={this.responseFacebook}
 			/>

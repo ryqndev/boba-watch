@@ -16,6 +16,7 @@ export class Login extends Component {
         });
     };
     storeData = (resp, userid) => {
+        stats.recalculateMetrics(resp);
         if(localStorage.getItem('userid') !== userid){
             localStorage.clear();
             localStorage.setItem('userId', userid);

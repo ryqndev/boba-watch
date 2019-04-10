@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard';
 import Add from './components/Add';
 import History from './components/History';
 import Login from './components/Login';
+import stats from './components/calculateStatistics.js';
 import './App.css';
 
 const theme = createMuiTheme({
@@ -105,6 +106,7 @@ class App extends Component {
         value: 'dash',
         userId: 1,
         accessToken: 0,
+        metrics: stats.getDefaultMetrics()
     };
     toggleAdd = () => {
         this.setState(state => ({
@@ -124,7 +126,7 @@ class App extends Component {
             userId: userid,
             accessToken: token
         });
-    };
+    }
     render() {
         return (
             <MuiThemeProvider theme={theme}>
@@ -133,7 +135,7 @@ class App extends Component {
                 <Route strict path='/:page' render={() => 
                     <div>
                         <div className="page">
-                            <Route exact path='/dash' component={Dashboard} />
+                            <Route exact path='/dash' render={() => <Dashboard metrics={this}/>} />
                             <Route path='/history' render={
                                 () => { return <History
                                             accessToken={ this.state.accessToken } 

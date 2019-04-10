@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Typography} from '@material-ui/core';
-import {withRouter} from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
+import { withRouter } from 'react-router-dom';
 import './styles/login.css';
 import stats from './calculateStatistics';
 import axios from 'axios';
@@ -9,10 +9,10 @@ import axios from 'axios';
 export class Login extends Component {
     successfulLogin = (i1, i2) => {
         this.props.successfulLogin(i1, i2);
-        fetch("https://api.boba.watch/drinks/user/" + i1,{
+        fetch("https://api.boba.watch/drinks/user/" + i1, {
         }).then((resp) => { return resp.json();
         }).then((resp) => { this.storeData(resp, i1);
-        }).catch(err => { console.log(err)
+        }).catch(err => { console.log("Error logging in: ", err);
         });
     };
     storeData = (resp, userid) => {
@@ -24,6 +24,7 @@ export class Login extends Component {
         this.props.history.push('/dash');
     }
 	responseFacebook = (fbRes) => {
+        console.log(fbRes);
 		axios.post("https://api.boba.watch/users/login", { fbRes })
 		.then(servRes => {
 			if (servRes.data.hasOwnProperty('userId')) {
@@ -47,20 +48,21 @@ export class Login extends Component {
     fakeLoginTestData = () => {
         this.setState(() => ({
             userId: 1
-        }), () => {this.successfulLogin(1, 1);});
+        }), () => {this.successfulLogin(1, 1); });
     }
 
     render() {
         return (
             /**TODO REMOVE IN PROD 
              * @function onLoad(this.fakeLoginTestData)
-             *  onClick={this.fakeLoginTestData}
             */
-        <div className="login-page">
-            <div className="login-logo"> </div>
+        <div className="login-page" onClick={this.fakeLoginTestData}>
+            <div className="login-logo"></div>
             <Typography variant="h1">boba watch</Typography>
             <FacebookLogin
-				appId="333104870889201"
+                appId="333104870889201"
+                autoLoad={true}
+                cookies={true}
                 fields="name,email,picture"
 				callback={this.responseFacebook}
 			/>

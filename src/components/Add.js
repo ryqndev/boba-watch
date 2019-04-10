@@ -5,6 +5,7 @@ import './styles/add.css';
 import {Typography, TextField, Button} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
+import stats from './calculateStatistics';
 
 export class Add extends Component {
     state = {
@@ -13,6 +14,20 @@ export class Add extends Component {
     handleDateChange = (date) => {
         this.setState({ selectedDate: date });
     };
+    /**
+     * @function update
+     * TODO: implement live reload instead of using recalculate metrics
+     */
+    update = () => {
+        fetch("https://api.boba.watch/drinks/user/" + this.props.userId,{
+        }).then((resp) => { return resp.json();
+        }).then((resp) => { 
+            stats.recalculateMetrics(resp);
+            swal("Done!", "Drink has been added", "success"); 
+            this.props.toggleSelf();
+        }).catch(err => { console.log(err);
+        });   
+    }
     saveDrink = () => {
         let data = {
             drink: {
@@ -32,7 +47,7 @@ export class Add extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data),
-        }).then((resp) => { swal("Done!", "Drink has been added", "success"); this.props.toggleSelf();
+        }).then((resp) => { this.update();
         }).catch(err => { console.log(err);
         });
     };

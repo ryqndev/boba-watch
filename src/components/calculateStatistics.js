@@ -76,6 +76,7 @@ function liveReload(drinkObjects, metrics){
 }
 
 export default {
+    'getDefaultMetrics': getDefaultMetrics,
     'liveReload': liveReload,
     'recalculateMetrics': recalculateMetrics,
     'updateMetrics': updateMetrics

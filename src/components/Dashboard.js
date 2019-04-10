@@ -38,9 +38,6 @@ export class Dashboard extends Component {
             time: getDailyData(metrics)
         };
     };
-    componentDidMount = () => {
-        this,
-    }
     render() {
         let width = window.innerWidth - 40;
         return (

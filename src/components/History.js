@@ -2,21 +2,32 @@ import React, { Component } from 'react';
 import {Typography} from '@material-ui/core';
 import DrinkPanel from './DrinkPanel';
 import Utils from './textUtil.js';
+import stats from './calculateStatistics';
+import swal from 'sweetalert';
 import './styles/history.css';
 
 export class History extends Component {
     state = {
         drinks: [<Typography variant="h3" key={1}>No Drinks</Typography>],
         sum: 0
-    }
-    componentDidMount = () => {
-        this.retrieveHistory();  
     };
-    retrieveHistory = () => {
-        let drinks = JSON.parse(localStorage.getItem('drinksList'));
-        this.generate(drinks.map(id => JSON.parse(localStorage.getItem(id)) ));
+    componentDidMount = () => {
+        this.generate();
     }
-    generate = (drinks) => {
+    retrieveHistory = () => {
+        fetch("https://api.boba.watch/drinks/user/" + this.props.userId,{
+        }).then((resp) => { return resp.json();
+        }).then((resp) => { 
+            stats.recalculateMetrics(resp);
+            swal("Done!", "Drink has been deleted", "success"); 
+            this.generate();
+            // this.props.toggleSelf();
+        }).catch(err => { console.log(err);
+        });   
+    }
+    generate = () => {
+        let drinks = JSON.parse(localStorage.getItem('drinksList'));
+        drinks = drinks.map(id => JSON.parse(localStorage.getItem(id)) );
         let sum = 0;
         let newDrinks = drinks.map((e, i) => {
             sum += e['price'];

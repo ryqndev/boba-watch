@@ -6,7 +6,6 @@ import Add from './Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Utils from './textUtil.js';
-import stats from './calculateStatistics';
 import './styles/history.css';
 
 export class DrinkPanel extends Component {

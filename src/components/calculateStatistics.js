@@ -53,7 +53,7 @@ function updateMetrics(drinkObject, metrics){
     metrics.totalCost += drinkObject.price;
     metrics.drinkAvg = metrics.totalCost / metrics.numDrinks;
     let date = new Date(drinkObject.date);
-    metrics.drinks[(date.getDay() + 1) % 7][date.getHours() - 1] += 1;
+    metrics.drinks[(date.getDay()][date.getHours() - 1] += 1;
 }
 
 /**

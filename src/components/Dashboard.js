@@ -20,7 +20,7 @@ const sunburstData = {
         {
             title: "Progress",
             size: 75,
-            color: "#22ee22",
+            color: "#32de44",
             animation: true,
             children:[
                 {
@@ -60,10 +60,13 @@ export class Dashboard extends Component {
     constructor(props) {
         super(props);
         let metrics = JSON.parse(localStorage.getItem('metrics'));
+        const drinkTotal = 15;
         this.state = {
             totalMoney: metrics.totalCost,
             totalDrinks: metrics.numDrinks,
-            drinkPercentage: 70,
+            drinkPercentage: parseInt((metrics.numDrinks/drinkTotal) * 100),
+            userDrinkTotal: drinkTotal,
+            userCostTotal: 75,
             monthSpendData: getDailyTotal(metrics),
             time: getDailyData(metrics)
         };
@@ -81,12 +84,15 @@ export class Dashboard extends Component {
         <div className="dashboard-page">
             <Typography variant="h4">Monthly Spending</Typography>
             <Card className="chart-holder">
-            <Sunburst height={width-45} width={width-45} data={sunburstData} padAngle={0.06} colorType={'literal'} />
+                <Sunburst height={width-45} width={width-45} data={sunburstData} padAngle={0.06} colorType={'literal'} />
+                <div className="chard-holder-description">
+                    Monthly Limit: ${this.state.userCostTotal}
+                </div>
             </Card>
             <div className="stats-holder">
                 <Card className="month-total-money">
                     <p>This is how much you’ve spent on boba this month:</p>
-                    <Typography variant="h2">${Utils.toMoney(this.state.totalMoney)}</Typography>
+                    <Typography variant="h2">${Utils.toMoney(this.state.totalMoney, this.state.totalMoney/10000 > 1)}</Typography>
                 </Card>
                 <Card className="month-drink-limit">
                     <Typography variant="h3">{this.state.drinkPercentage}%</Typography>

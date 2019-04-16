@@ -20,6 +20,8 @@ export class Login extends Component {
      * @function storeData
      * @param {JSON} resp - array of drink objects
      * @param {int} userId - user id in database to get drinks of
+     * 
+     * TODO: Firefox has a weird bug that doesn't make the login work out well
      */
     storeData = (resp, userId, avatar) => {
         stats.recalculateMetrics(resp);

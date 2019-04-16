@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Typography, TextField, Button} from '@material-ui/core';
+import swal from 'sweetalert';
 import './styles/user.css';
 
 export class User extends Component {
@@ -12,9 +13,9 @@ export class User extends Component {
         ).then(resp => {
             return resp.json();
         }).then(resp => {
-            console.log(resp);
+            swal("Success!", "Updated your settings successfully.", "success")
         }).catch(err => {
-            console.log(err);
+            swal("Error!", "Error updating data", "error");
         });
     }
     render() {

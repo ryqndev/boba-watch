@@ -21,7 +21,6 @@ export class History extends Component {
             stats.recalculateMetrics(resp);
             swal("Done!", "Drink has been deleted", "success"); 
             this.generate();
-            // this.props.toggleSelf();
         }).catch(err => { console.log(err);
         });   
     }
@@ -31,7 +30,7 @@ export class History extends Component {
         let sum = 0;
         let newDrinks = drinks.map((e, i) => {
             sum += e['price'];
-            return (<DrinkPanel key={i} data={e} getNewInfo={this.retrieveHistory} accessToken={this.props.accessToken}/>);
+            return (<DrinkPanel key={e.id} data={e} getNewInfo={this.retrieveHistory} accessToken={this.props.accessToken}/>);
         });
         this.setState({
             drinks: newDrinks,

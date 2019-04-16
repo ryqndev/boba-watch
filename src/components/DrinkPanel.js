@@ -36,14 +36,17 @@ export class DrinkPanel extends Component {
     edit = () => {
         this.toggleAdd(this.delete);
     }
+    /**
+     * TODO: if implementing edit function ever again, uncomment below code
+     */
     render() {
         return (
         <div className="thaman-color">
-            <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
+            {/* <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
                 <div>
                     <Add toggleSelf={this.edit}/>
                 </div>
-            </Modal>
+            </Modal> */}
             <div className="history-drink-label" onClick={this.toggle}>
                 <p className="drink-place">
                     {this.props.data.location.length > 13 
@@ -68,11 +71,12 @@ export class DrinkPanel extends Component {
             <Collapse in={this.state.open}>
                 {this.hasImage()}
                 <p className="drink-description">
+                    {this.props.data.description}
                     {JSON.stringify(new Date(this.props.data.date))}
                 </p>
                 
                 <div className="drink-options">
-                    <Button onClick={this.edit}>EDIT</Button>
+                    {/* <Button onClick={this.edit}>EDIT</Button> */}
                     <Button onClick={this.delete}>DELETE</Button>
                 </div>
             </Collapse>

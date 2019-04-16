@@ -49,7 +49,7 @@ export class Add extends Component {
             },
             body: JSON.stringify(data),
         }).then((resp) => { this.update();
-        }).catch(err => { console.log(err);
+        }).catch(err => {swal("Error!", `Couldn't update drinks. Error: ${err}`, "error");
         });
     };
     render() {

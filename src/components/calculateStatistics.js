@@ -7,7 +7,7 @@
 /**
  * @function getDefaultMetrics - returns an emtpy metrics object. Called during
  * metric recalcuation when starting from nothing. 
- * @note - drinks member should be a 2d array of 168 objects (7x24) of day by time
+ * NOTE @note - drinks member should be a 2d array of 168 objects (7x24) of day by time
  * Array(7).fill(Array(24).fill(0)) creates 7 references to the same array and therefore
  * will not work as intended
  */

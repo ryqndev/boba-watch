@@ -8,7 +8,14 @@ export class User extends Component {
         userDrinkMax: 12,
     };
     updateUser = () => {
-        fetch('https://api.boba.watch/user/').then
+        fetch('https://api.boba.watch/user/1'
+        ).then(resp => {
+            return resp.json();
+        }).then(resp => {
+            console.log(resp);
+        }).catch(err => {
+            console.log(err);
+        });
     }
     render() {
         return (

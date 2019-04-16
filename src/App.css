@@ -23,9 +23,29 @@
     overflow-y: scroll;
     overflow-x: hidden;
     padding-bottom: 40px;
+    position: relative;
+}
+.avatar-button{
+    height: 37px;
+    width: 37px;
+    border-radius: 50%;
+    position: absolute;
+    right: -36px;
+    top: 5px;
 }
 @-moz-document url-prefix() {
     .center-fab{
         margin-top: -5px;
     }
 }
+@media only screen and (max-width: 350px) {
+    h2 {
+        font-size: 30px !important;
+    }
+    h3 {
+        font-size: 20px !important;
+    }
+    h4 {
+      font-size: 20px !important;
+    }
+  }

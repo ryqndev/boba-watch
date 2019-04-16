@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Typography, Card} from '@material-ui/core';
 import { XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, LineSeries, HeatmapSeries, Sunburst } from 'react-vis';
 import Utils from './textUtil.js';
+import stats from './calculateStatistics.js';
+import swal from 'sweetalert';
 import './styles/dashboard.css';
 import 'react-vis/dist/style.css';
 
@@ -67,10 +69,10 @@ export class Dashboard extends Component {
         };
     };
     updateInfo = () => {
-        fetch("https://api.boba.watch/drinks/user/" + userId, {
+        fetch("https://api.boba.watch/drinks/user/" + this.props.userid, {
         }).then((resp) => { return resp.json();
-        }).then((resp) => { this.storeData(resp, userId, fbRes.picture.data.url);
-        }).catch(err => { console.log("Error logging in: ", err);
+        }).then((resp) => { stats.recalculateMetrics(resp);
+        }).catch(err => { swal("Error!", `Couldn't update data. Try again later! \nError: ${err}`, "error");
         });
     };
     render() {

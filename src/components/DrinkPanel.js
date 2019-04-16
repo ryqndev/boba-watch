@@ -29,7 +29,7 @@ export class DrinkPanel extends Component {
      */
     delete = () => {
         axios.post("https://api.boba.watch/drinks/delete/" + this.props.data.id + "/" + this.props.accessToken)
-        .then((resp) => { console.log(resp); this.props.getNewInfo();
+        .then((resp) => { this.props.getNewInfo();
         }).catch(err => { console.log(err)
         });
     }

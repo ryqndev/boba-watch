@@ -8,7 +8,7 @@
     width: 100px;
     box-sizing: border-box;
     padding-top: 17px;
-    margin-top: -32px;
+    margin-top: -35px;
     text-align: center;
     border: 5px solid #FFAFA4;
     border-radius: 50%;
@@ -22,4 +22,10 @@
     width: 100vw;
     overflow-y: scroll;
     overflow-x: hidden;
+    padding-bottom: 40px;
+}
+@-moz-document url-prefix() {
+    .center-fab{
+        margin-top: -5px;
+    }
 }

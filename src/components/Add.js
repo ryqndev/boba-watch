@@ -5,6 +5,7 @@ import './styles/add.css';
 import {Typography, TextField, Button} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
+import {withRouter} from 'react-router-dom';
 import stats from './calculateStatistics';
 
 export class Add extends Component {
@@ -25,7 +26,7 @@ export class Add extends Component {
             stats.recalculateMetrics(resp);
             swal("Done!", "Drink has been added", "success"); 
             this.props.toggleSelf();
-        }).catch(err => { console.log(err);
+        }).catch(err => { swal("Error!", `Something Went Wrong: ${err}`, "error");
         });   
     }
     saveDrink = () => {
@@ -96,4 +97,4 @@ export class Add extends Component {
     }
 }
 
-export default Add
+export default withRouter(Add);

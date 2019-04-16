@@ -1,14 +1,42 @@
 import React, { Component } from 'react';
 import {Typography, Card} from '@material-ui/core';
-import { XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, LineSeries, HeatmapSeries } from 'react-vis';
+import { XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, LineSeries, HeatmapSeries, Sunburst } from 'react-vis';
 import Utils from './textUtil.js';
 import './styles/dashboard.css';
 import 'react-vis/dist/style.css';
 
 const days = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
 const times = [ "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 AM" ,
-                "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 PM" ]
+                "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 PM" ];
 
+const sunburstData = {
+    title: "$3253",
+    size: 0,
+    color: "#FFFFFF",
+    animation: true,
+    children: [
+        {
+            title: "Progress",
+            size: 75,
+            color: "#22ee22",
+            animation: true,
+            children:[
+                {
+                    title: "Padding",
+                    size: 0,
+                    color: "#FFFFFF",
+                    animation: false
+                }
+            ]
+        },
+        {
+            title: "Until Limit",
+            size: 25,
+            color: "#F4F4F4",
+            animation: true
+        }
+    ]
+}
 function getDailyData(metrics){
     let dailyGraph = [];
     let maxes = [];
@@ -38,19 +66,20 @@ export class Dashboard extends Component {
             time: getDailyData(metrics)
         };
     };
+    updateInfo = () => {
+        fetch("https://api.boba.watch/drinks/user/" + userId, {
+        }).then((resp) => { return resp.json();
+        }).then((resp) => { this.storeData(resp, userId, fbRes.picture.data.url);
+        }).catch(err => { console.log("Error logging in: ", err);
+        });
+    };
     render() {
         let width = window.innerWidth - 40;
         return (
         <div className="dashboard-page">
             <Typography variant="h4">Monthly Spending</Typography>
             <Card className="chart-holder">
-                <XYPlot height={width-45} width={width-30} margin={40}>
-                    <HorizontalGridLines />
-                    <VerticalGridLines />
-                    <LineSeries data={this.state.monthSpendData} />
-                    <XAxis />
-                    <YAxis />
-                </XYPlot>
+            <Sunburst height={width-45} width={width-45} data={sunburstData} padAngle={0.06} colorType={'literal'} />
             </Card>
             <div className="stats-holder">
                 <Card className="month-total-money">

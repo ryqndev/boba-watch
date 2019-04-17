@@ -41,6 +41,12 @@ export class Add extends Component {
                 description: document.getElementById('description-value').value
             }
         }
+        if(document.getElementById('price-value').value === '' || 
+            isNaN(parseInt(document.getElementById('price-value').value)) ||
+            parseInt(document.getElementById('price-value').value) === 0){
+            swal("Error!", `Please enter a price to add drink`, "error");
+            return;
+        }
         fetch("https://api.boba.watch/drinks/" + this.props.accessToken, {
             method: 'POST',
             headers: {

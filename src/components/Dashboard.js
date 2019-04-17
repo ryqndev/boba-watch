@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Typography, Card} from '@material-ui/core';
-import { XYPlot, XAxis, YAxis, HorizontalGridLines, VerticalGridLines, LineSeries, HeatmapSeries, Sunburst } from 'react-vis';
+import { XYPlot, XAxis, YAxis, HeatmapSeries, Sunburst } from 'react-vis';
 import Utils from './textUtil.js';
 import stats from './calculateStatistics.js';
 import swal from 'sweetalert';
@@ -59,6 +59,9 @@ function getDailyTotal(metrics){
 export class Dashboard extends Component {
     constructor(props) {
         super(props);
+        if(this.props.accessToken === 0){
+            window.location.href = window.origin.toString();
+        }
         let metrics = JSON.parse(localStorage.getItem('metrics'));
         const drinkTotal = 15;
         this.state = {
@@ -70,6 +73,17 @@ export class Dashboard extends Component {
             monthSpendData: getDailyTotal(metrics),
             time: getDailyData(metrics)
         };
+        fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`
+        ).then(resp => {
+            return resp.json();
+        }).then(resp => {
+            this.setState({
+                userCostTotal: resp.budget == null ? 100 : resp.budget,
+                userDrinkTotal: resp.maxDrinks == null ? 15 : resp.maxDrinks
+            });
+        }).catch(err => {
+            swal("Error!", "I had trouble getting your settings.", "error");
+        });
     };
     updateInfo = () => {
         fetch("https://api.boba.watch/drinks/user/" + this.props.userid, {
@@ -84,10 +98,10 @@ export class Dashboard extends Component {
         <div className="dashboard-page">
             <Typography variant="h4">Monthly Spending</Typography>
             <Card className="chart-holder">
-                <Sunburst height={width-45} width={width-45} data={sunburstData} padAngle={0.06} colorType={'literal'} />
                 <div className="chard-holder-description">
                     Monthly Limit: ${this.state.userCostTotal}
                 </div>
+                <Sunburst height={width-45} width={width-45} data={sunburstData} padAngle={0.06} colorType={'literal'} />
             </Card>
             <div className="stats-holder">
                 <Card className="month-total-money">

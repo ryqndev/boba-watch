@@ -7,11 +7,17 @@ import swal from 'sweetalert';
 import './styles/history.css';
 
 export class History extends Component {
-    state = {
-        drinks: [<Typography variant="h3" key={1}>No Drinks</Typography>],
-        sum: 0
-    };
-    componentDidMount = () => {
+    constructor(props){
+        super(props);
+        this.state = {
+            drinks: [<Typography variant="h3" key={1}>No Drinks</Typography>],
+            sum: 0
+        };
+        if(this.props.accessToken === 0){
+            window.location.href = window.origin.toString();
+        }
+    }
+    componentDidMount(){
         this.generate();
     }
     retrieveHistory = () => {

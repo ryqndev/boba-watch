@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {HashRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import {MemoryRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import {BottomNavigation, BottomNavigationAction, Modal} from '@material-ui/core';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import DashboardIcon from '@material-ui/icons/BarChart';
@@ -15,14 +15,19 @@ import theme from './theme';
 import './App.css';
 
 class App extends Component {
-    state = {
-        add: false,
-        user: false,
-        value: 'dash',
-        userId: 1,
-        accessToken: 0,
-        metrics: stats.getDefaultMetrics()
-    };
+    constructor(props){
+        super(props);
+
+        this.state = {
+            add: false,
+            user: false,
+            value: '',
+            userId: 1,
+            accessToken: 0,
+            metrics: stats.getDefaultMetrics()
+        };
+    }
+    
     toggleAdd = () => {
         this.setState(state => ({
             add: !state.add,
@@ -53,13 +58,12 @@ class App extends Component {
                             <div>
                                 <div className="page">
                                     <img src={localStorage.getItem('avatar')} alt="user-settings" className="avatar-button" onClick={this.toggleUser} />
-                                    <Route exact path='/dash' render={() => <Dashboard metrics={this}/>} />
-                                    <Route path='/history' render={
-                                        () => { return <History
-                                                accessToken={ this.state.accessToken } 
-                                                userId={ this.state.userId} />; 
-                                            }
-                                    } />
+                                    <Route exact path='/dash' render={() => 
+                                        <Dashboard userId={this.state.userId} accessToken={this.state.accessToken} metrics={this}/>
+                                    }/>
+                                    <Route path='/history' render={() => 
+                                        <History accessToken={ this.state.accessToken } userId={ this.state.userId} />
+                                    }/>
                                 </div>
                                 <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
                                     <div>

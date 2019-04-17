@@ -6,10 +6,36 @@ import './styles/user.css';
 export class User extends Component {
     state = {
         userSpendMax: 100,
-        userDrinkMax: 12,
+        userDrinkMax: 15,
+    };
+    componentDidMount(){
+        fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`
+        ).then(resp => {
+            return resp.json();
+        }).then(resp => {
+            this.setState({
+                userSpendMax: resp.budget == null ? 100 : resp.budget,
+                userDrinkMax: resp.maxDrinks == null ? 15 : resp.maxDrinks
+            });
+        }).catch(err => {
+            swal("Error!", "I had trouble getting your settings.", "error");
+        });
     };
     updateUser = () => {
-        fetch('https://api.boba.watch/user/1'
+        const data = { 
+            "user": { 
+                "budget": parseInt(this.state.userSpendMax),
+                "maxDrinks": parseInt(this.state.userDrinkMax)
+            }
+        };
+        fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        }
         ).then(resp => {
             return resp.json();
         }).then(resp => {
@@ -17,7 +43,12 @@ export class User extends Component {
         }).catch(err => {
             swal("Error!", "Error updating data", "error");
         });
-    }
+    };
+    handleChange = name => event => {
+        this.setState({
+            [name]: event.target.value,
+        });
+    };
     render() {
         return (
         <div className="user-modal">
@@ -28,14 +59,16 @@ export class User extends Component {
                 className="user-input"
                 variant="outlined"
                 margin="normal"
+                onChange={this.handleChange('userSpendMax')}
                 value={this.state.userSpendMax}
                 label="Monthly Spending Limit"
             />
             <TextField
-                id="montly-drinking-limit"
+                id="monthly-drinking-limit"
                 className="user-input"
                 margin="dense"
                 variant="outlined"
+                onChange={this.handleChange('userDrinkMax')}
                 value={this.state.userDrinkMax}
                 label="Max of drinks / month"
             />

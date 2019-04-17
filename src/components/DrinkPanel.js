@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Button, Modal} from '@material-ui/core';
+import {Button} from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
-import Add from './Add';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Utils from './textUtil.js';

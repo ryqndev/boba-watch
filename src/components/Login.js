@@ -31,10 +31,6 @@ export class Login extends Component {
         }
         localStorage.setItem('avatar', avatar);
         localStorage.setItem('metrics', JSON.stringify(stats.recalculateMetrics(resp)));
-        
-        //TODO: remove when login is secured and successful everytime
-        alert("Login Successful!");
-
         this.props.history.push('./dash');
     }
 	responseFacebook = (fbRes) => {

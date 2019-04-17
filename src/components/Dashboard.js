@@ -57,6 +57,10 @@ function getDailyTotal(metrics){
 }
 
 export class Dashboard extends Component {
+    /**
+     * @constructor
+     * TODO: make user settings a localstorage object
+     */
     constructor(props) {
         super(props);
         if(this.props.accessToken === 0){
@@ -99,7 +103,11 @@ export class Dashboard extends Component {
             <Typography variant="h4">Monthly Spending</Typography>
             <Card className="chart-holder">
                 <div className="chard-holder-description">
-                    Monthly Limit: ${this.state.userCostTotal}
+                    MONTHLY LIMIT: ${this.state.userCostTotal}
+                    <br />
+                    <span>${Utils.toMoney(this.state.totalMoney, this.state.totalMoney/10000 > 1)}</span>
+                    <br />
+                    REMAINING: ${Utils.toMoney(this.state.userCostTotal*100 - this.state.totalMoney)}
                 </div>
                 <Sunburst height={width-45} width={width-45} data={sunburstData} padAngle={0.06} colorType={'literal'} />
             </Card>

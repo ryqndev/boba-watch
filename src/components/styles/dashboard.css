@@ -57,5 +57,16 @@
     color: #FC8A8A;
 }
 .chard-holder-description{
+    font-family: 'Poppins';
     position: absolute;
+    text-align: center;
+    margin-top: calc(50vw - 84px);
+    z-index: 100;
+    width: calc(100vw - 84px);
+    font-size: 12px;
+}
+.chard-holder-description span{
+    font-weight: bold;
+    font-size: 45px;
+    line-height: 48px;
 }

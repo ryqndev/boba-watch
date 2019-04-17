@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {MemoryRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import {MemoryRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
 import {BottomNavigation, BottomNavigationAction, Modal} from '@material-ui/core';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import DashboardIcon from '@material-ui/icons/BarChart';
@@ -17,7 +17,6 @@ import './App.css';
 class App extends Component {
     constructor(props){
         super(props);
-
         this.state = {
             add: false,
             user: false,
@@ -27,7 +26,6 @@ class App extends Component {
             metrics: stats.getDefaultMetrics()
         };
     }
-    
     toggleAdd = () => {
         this.setState(state => ({
             add: !state.add,
@@ -51,7 +49,7 @@ class App extends Component {
     render() {
         return (
             <MuiThemeProvider theme={theme}>
-                <Router basename={process.env.PUBLIC_URL}>
+                <Router basename={process.env.PUBLIC_URL} initialEntries={['/', '/dash', '/history']} initialIndex={0}>
                     <Switch>
                         <Route exact strict path='/' render={() => <Login successfulLogin={ this.successfulLogin }/> }/>
                         <Route strict path='/:page' render={() => 
@@ -61,7 +59,7 @@ class App extends Component {
                                     <Route exact path='/dash' render={() => 
                                         <Dashboard userId={this.state.userId} accessToken={this.state.accessToken} metrics={this}/>
                                     }/>
-                                    <Route path='/history' render={() => 
+                                    <Route exact path='/history' render={() => 
                                         <History accessToken={ this.state.accessToken } userId={ this.state.userId} />
                                     }/>
                                 </div>

@@ -4,6 +4,7 @@ import {Button} from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import swal from 'sweetalert';
 import Utils from './textUtil.js';
 import './styles/history.css';
 
@@ -28,9 +29,8 @@ export class DrinkPanel extends Component {
      */
     delete = () => {
         axios.post("https://api.boba.watch/drinks/delete/" + this.props.data.id + "/" + this.props.accessToken)
-        .then((resp) => { this.props.getNewInfo();
-        }).catch(err => { console.log(err)
-        });
+        .then((resp) => { this.props.getNewInfo();})
+        .catch(err => { swal('Error!', `Couldn't delete your drink. Try again later!`, 'error') });
     }
     edit = () => {
         this.toggleAdd(this.delete);

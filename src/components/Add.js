@@ -29,6 +29,16 @@ export class Add extends Component {
         }).catch(err => { swal("Error!", `Something Went Wrong: ${err}`, "error");
         });   
     }
+    /**
+     * @function saveDrink - called when the user submits drink information to be added.
+     * Has 3 parts:
+     *  1. Gets all the user filled out info
+     *  2. Only required parameter is price and if not filled, throws error
+     *  3. Makes api call to server to add the drink with info
+     * 
+     * TODO: better job of parsing the info and potentially add chips and autofill for
+     * better data processing
+     */
     saveDrink = () => {
         let data = {
             drink: {
@@ -43,7 +53,8 @@ export class Add extends Component {
         }
         if(document.getElementById('price-value').value === '' || 
             isNaN(parseInt(document.getElementById('price-value').value)) ||
-            parseInt(document.getElementById('price-value').value) === 0){
+            parseInt(document.getElementById('price-value').value) === 0
+        ){
             swal("Error!", `Please enter a price to add drink`, "error");
             return;
         }

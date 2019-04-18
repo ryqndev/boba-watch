@@ -68,7 +68,7 @@ export class DrinkPanel extends Component {
                 </p>
             </div>
             <Collapse in={this.state.open}>
-                {this.hasImage()}
+                {/* {this.hasImage()} */}
                 <p className="drink-description">
                     {this.props.data.description}
                     {JSON.stringify(new Date(this.props.data.date))}

@@ -27,3 +27,10 @@
     margin: 0;
     border: 4px solid #FFDCDC;
 }
+.close-button{
+    position: absolute !important;
+    top: 15px;
+    right: 15px;
+    padding: 3px !important;
+    background-color: #FFAFA4 !important;
+}

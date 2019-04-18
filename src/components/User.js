@@ -1,25 +1,13 @@
 import React, { Component } from 'react';
-import {Typography, TextField, Button} from '@material-ui/core';
+import {Typography, TextField, Button, IconButton} from '@material-ui/core';
 import swal from 'sweetalert';
+import CloseButton from '@material-ui/icons/Close';
 import './styles/user.css';
 
 export class User extends Component {
     state = {
-        userSpendMax: 100,
-        userDrinkMax: 15,
-    };
-    componentDidMount(){
-        fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`
-        ).then(resp => {
-            return resp.json();
-        }).then(resp => {
-            this.setState({
-                userSpendMax: resp.budget == null ? 100 : resp.budget,
-                userDrinkMax: resp.maxDrinks == null ? 15 : resp.maxDrinks
-            });
-        }).catch(err => {
-            swal("Error!", "I had trouble getting your settings.", "error");
-        });
+        userSpendMax: localStorage.getItem('userSpendMax'),
+        userDrinkMax: localStorage.getItem('userDrinkMax'),
     };
     updateUser = () => {
         const data = { 
@@ -39,6 +27,8 @@ export class User extends Component {
         ).then(resp => {
             return resp.json();
         }).then(resp => {
+            localStorage.setItem('userSpendMax', this.state.userSpendMax);
+            localStorage.setItem('userDrinkMax', this.state.userDrinkMax);
             swal("Success!", "Updated your settings successfully.", "success")
         }).catch(err => {
             swal("Error!", "Error updating data", "error");
@@ -49,9 +39,15 @@ export class User extends Component {
             [name]: event.target.value,
         });
     };
+    close = () => {
+        this.props.close();
+    }
     render() {
         return (
         <div className="user-modal">
+            <IconButton color="secondary" className="close-button" onClick={this.close}>
+                <CloseButton color="secondary" style={{ fontSize: 14 }}/>
+            </IconButton>
             <img src={localStorage.getItem('avatar')} className="user-avatar" alt="user"/>
             <Typography variant="h5">User settings</Typography>
             <TextField

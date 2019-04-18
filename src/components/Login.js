@@ -9,11 +9,18 @@ import axios from 'axios';
 
 export class Login extends Component {
     successfulLogin = (userId, fbRes) => {
+        if(localStorage.getItem('userId') !== userId){
+            localStorage.clear();
+            localStorage.setItem('userId', userId);
+        }
+        localStorage.setItem('avatar', fbRes.picture.data.url);
+        //set parent component all data
         this.props.successfulLogin(userId, fbRes);
-        fetch("https://api.boba.watch/drinks/user/" + userId, {
+        fetch(`https://api.boba.watch/drinks/user/${userId}`, {
         }).then((resp) => { return resp.json();
-        }).then((resp) => { this.storeData(resp, userId, fbRes.picture.data.url);
-        }).catch(err => { console.log("Error logging in: ", err);
+        }).then((resp) => { 
+            this.storeData(resp, userId, fbRes.accessToken);
+        }).catch(err => { swal('Whoops!', `Error logging you in: ${err}`, 'error');
         });
     };
     /**
@@ -23,18 +30,20 @@ export class Login extends Component {
      * 
      * TODO: Firefox has a weird bug that doesn't make the login work out well
      */
-    storeData = (resp, userId, avatar) => {
+    storeData = (resp, userId, accessToken) => {
         stats.recalculateMetrics(resp);
-        if(localStorage.getItem('userId') !== userId){
-            localStorage.clear();
-            localStorage.setItem('userId', userId);
-        }
-        localStorage.setItem('avatar', avatar);
-        localStorage.setItem('metrics', JSON.stringify(stats.recalculateMetrics(resp)));
-        this.props.history.push('./dash');
+        fetch(`https://api.boba.watch/users/${userId}/${accessToken}`
+        ).then(resp => {
+            return resp.json();
+        }).then(resp => {
+            localStorage.setItem('userSpendMax', resp.budget);
+            localStorage.setItem('userDrinkMax', resp.maxDrinks);
+            this.props.history.push('./dash');
+        }).catch(err => {
+            swal("Error!", "I had trouble getting your settings.", "error");
+        });
     }
 	responseFacebook = (fbRes) => {
-        // console.log(fbRes);
 		axios.post("https://api.boba.watch/users/login", { fbRes })
 		.then(servRes => {
 			if (servRes.data.hasOwnProperty('userId')) {

@@ -25,11 +25,13 @@ class App extends Component {
             accessToken: 0,
             metrics: stats.getDefaultMetrics()
         };
+        this.update = React.createRef();
     }
     toggleAdd = () => {
         this.setState(state => ({
             add: !state.add,
         }));
+        this.update.current.updateDash();
     }
     toggleUser = () => {
         this.setState(state => ({
@@ -57,7 +59,7 @@ class App extends Component {
                                 <div className="page">
                                     <img src={localStorage.getItem('avatar')} alt="user-settings" className="avatar-button" onClick={this.toggleUser} />
                                     <Route exact path='/dash' render={() => 
-                                        <Dashboard userId={this.state.userId} accessToken={this.state.accessToken} metrics={this}/>
+                                        <Dashboard userId={this.state.userId} accessToken={this.state.accessToken} metrics={this} ref={this.update}/>
                                     }/>
                                     <Route exact path='/history' render={() => 
                                         <History accessToken={ this.state.accessToken } userId={ this.state.userId} />
@@ -65,12 +67,12 @@ class App extends Component {
                                 </div>
                                 <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
                                     <div>
-                                        <Add accessToken={this.state.accessToken} userId={this.state.userId} toggleSelf={this.toggleAdd}/>
+                                        <Add accessToken={this.state.accessToken} userId={this.state.userId} close={this.toggleAdd}/>
                                     </div>
                                 </Modal>
                                 <Modal open={this.state.user} onBackdropClick={this.toggleUser} >
                                     <div>
-                                        <User accessToken={this.state.accessToken} userId={this.state.userId}/>
+                                        <User accessToken={this.state.accessToken} userId={this.state.userId} close={this.toggleUser}/>
                                     </div>
                                 </Modal>
                                 <BottomNavigation value={this.state.value} onChange={this.handleChange} className="bottom-nav">

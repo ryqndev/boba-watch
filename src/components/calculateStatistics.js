@@ -39,6 +39,7 @@ function recalculateMetrics(drinkObjects){
         localStorage.setItem(drink.id, JSON.stringify(drink));
     });
     localStorage.setItem('drinksList', JSON.stringify(drinksList));
+    localStorage.setItem('metrics', JSON.stringify(metrics));
     return metrics;
 }
 

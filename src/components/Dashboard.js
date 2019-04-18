@@ -21,13 +21,13 @@ const sunburstData = {
             title: "Progress",
             size: 75,
             color: "#32de44",
-            animation: true,
+            animation: {damping: 9, stiffness: 300},
             children:[
                 {
                     title: "Padding",
                     size: 0,
                     color: "#FFFFFF",
-                    animation: false
+                    animation: {damping: 9, stiffness: 300}
                 }
             ]
         },
@@ -35,7 +35,7 @@ const sunburstData = {
             title: "Until Limit",
             size: 25,
             color: "#F4F4F4",
-            animation: true
+            animation: {damping: 9, stiffness: 300}
         }
     ]
 }
@@ -51,51 +51,35 @@ function getDailyData(metrics){
     });
     return dailyGraph;  
 }
-function getDailyTotal(metrics){
-    let totals = [{x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 2}];
-    return totals;
-}
-
 export class Dashboard extends Component {
-    /**
-     * @constructor
-     * TODO: make user settings a localstorage object
-     */
     constructor(props) {
         super(props);
         if(this.props.accessToken === 0){
             window.location.href = window.origin.toString();
         }
         let metrics = JSON.parse(localStorage.getItem('metrics'));
-        const drinkTotal = 15;
+        const drinkTotal = localStorage.getItem('userDrinkMax');
         this.state = {
             totalMoney: metrics.totalCost,
             totalDrinks: metrics.numDrinks,
             drinkPercentage: parseInt((metrics.numDrinks/drinkTotal) * 100),
-            userDrinkTotal: drinkTotal,
-            userCostTotal: 75,
-            monthSpendData: getDailyTotal(metrics),
+            userDrinkMax: drinkTotal,
+            userSpendMax: localStorage.getItem('userSpendMax'),
             time: getDailyData(metrics)
         };
-        fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`
-        ).then(resp => {
-            return resp.json();
-        }).then(resp => {
-            this.setState({
-                userCostTotal: resp.budget == null ? 100 : resp.budget,
-                userDrinkTotal: resp.maxDrinks == null ? 15 : resp.maxDrinks
-            });
-        }).catch(err => {
-            swal("Error!", "I had trouble getting your settings.", "error");
-        });
     };
-    updateInfo = () => {
-        fetch("https://api.boba.watch/drinks/user/" + this.props.userid, {
-        }).then((resp) => { return resp.json();
-        }).then((resp) => { stats.recalculateMetrics(resp);
-        }).catch(err => { swal("Error!", `Couldn't update data. Try again later! \nError: ${err}`, "error");
+    updateDash = () => {
+        let metrics = JSON.parse(localStorage.getItem('metrics'));
+        const drinkTotal = localStorage.getItem('userDrinkMax');
+        this.setState({
+            totalMoney: metrics.totalCost,
+            totalDrinks: metrics.numDrinks,
+            drinkPercentage: parseInt((metrics.numDrinks/drinkTotal) * 100),
+            userDrinkMax: drinkTotal,
+            userSpendMax: localStorage.getItem('userSpendMax'),
+            time: getDailyData(metrics)
         });
-    };
+    }
     render() {
         let width = window.innerWidth - 40;
         return (
@@ -103,20 +87,20 @@ export class Dashboard extends Component {
             <Typography variant="h4">Monthly Spending</Typography>
             <Card className="chart-holder">
                 <div className="chard-holder-description">
-                    MONTHLY LIMIT: ${this.state.userCostTotal}
+                    MONTHLY LIMIT: ${this.state.userSpendMax}
                     <br />
                     <span>${Utils.toMoney(this.state.totalMoney, this.state.totalMoney/10000 > 1)}</span>
                     <br />
-                    REMAINING: ${Utils.toMoney(this.state.userCostTotal*100 - this.state.totalMoney)}
+                    REMAINING: ${Utils.toMoney(this.state.userSpendMax*100 - this.state.totalMoney)}
                 </div>
-                <Sunburst height={width-45} width={width-45} data={sunburstData} padAngle={0.06} colorType={'literal'} />
+                <Sunburst height={width-45} width={width-45} data={sunburstData} padAngle={0.06} animation colorType={'literal'} />
             </Card>
             <div className="stats-holder">
                 <Card className="month-total-money">
                     <p>This is how much you’ve spent on boba this month:</p>
                     <Typography variant="h2">${Utils.toMoney(this.state.totalMoney, this.state.totalMoney/10000 > 1)}</Typography>
                 </Card>
-                <Card className="month-drink-limit">
+                <Card className="month-drink-limit" style={{backgroundPositionY: (100 - this.state.drinkPercentage) * 3}}>
                     <Typography variant="h3">{this.state.drinkPercentage}%</Typography>
                     <p>to your max number of drinks this month</p>
                 </Card>

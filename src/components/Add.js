@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import 'date-fns';
 import swal from 'sweetalert';
 import './styles/add.css';
-import {Typography, TextField, Button} from '@material-ui/core';
+import {Typography, TextField, Button, IconButton} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
+import CloseButton from '@material-ui/icons/Close';
 import {withRouter} from 'react-router-dom';
 import stats from './calculateStatistics';
 
@@ -25,7 +26,7 @@ export class Add extends Component {
         }).then((resp) => { 
             stats.recalculateMetrics(resp);
             swal("Done!", "Drink has been added", "success"); 
-            this.props.toggleSelf();
+            this.props.close();
         }).catch(err => { swal("Error!", `Something Went Wrong: ${err}`, "error");
         });   
     }
@@ -69,9 +70,15 @@ export class Add extends Component {
         }).catch(err => {swal("Error!", `Couldn't update drinks. Error: ${err}`, "error");
         });
     };
+    close = () => {
+        this.props.close();
+    }
     render() {
         return (
         <div className="add-modal">
+            <IconButton color="secondary" className="close-button" onClick={this.close}>
+                <CloseButton color="secondary" style={{ fontSize: 14 }}/>
+            </IconButton>
             <Typography variant="h5">Add a purchase</Typography>
             <TextField
                 id="location-value"

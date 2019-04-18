@@ -84,4 +84,4 @@ export class DrinkPanel extends Component {
     }
 }
 
-export default DrinkPanel
+export default DrinkPanel;

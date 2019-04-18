@@ -20,6 +20,9 @@ export class History extends Component {
     componentDidMount(){
         this.generate();
     }
+    update = () => {
+        this.generate();
+    }
     retrieveHistory = () => {
         fetch("https://api.boba.watch/drinks/user/" + this.props.userId,{
         }).then((resp) => { return resp.json();

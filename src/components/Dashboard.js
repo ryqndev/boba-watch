@@ -68,7 +68,7 @@ export class Dashboard extends Component {
             time: getDailyData(metrics)
         };
     };
-    updateDash = () => {
+    update = () => {
         let metrics = JSON.parse(localStorage.getItem('metrics'));
         const drinkTotal = localStorage.getItem('userDrinkMax');
         this.setState({

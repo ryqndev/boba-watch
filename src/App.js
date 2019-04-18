@@ -31,7 +31,7 @@ class App extends Component {
         this.setState(state => ({
             add: !state.add,
         }));
-        this.update.current.updateDash();
+        this.update.current.update();
     }
     toggleUser = () => {
         this.setState(state => ({
@@ -62,7 +62,7 @@ class App extends Component {
                                         <Dashboard userId={this.state.userId} accessToken={this.state.accessToken} metrics={this} ref={this.update}/>
                                     }/>
                                     <Route exact path='/history' render={() => 
-                                        <History accessToken={ this.state.accessToken } userId={ this.state.userId} />
+                                        <History accessToken={ this.state.accessToken } userId={ this.state.userId} ref={this.update}/>
                                     }/>
                                 </div>
                                 <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >

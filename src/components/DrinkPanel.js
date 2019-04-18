@@ -13,14 +13,14 @@ export class DrinkPanel extends Component {
         open: false,
         add: false
     }
-    toggle = () => { 
+    toggle = () => {
         this.setState(state => ({ open: !state.open }));
     }
     toggleAdd = () => {
         this.setState(state => ({ add: !state.add }));
     }
     hasImage = () => {
-        if(this.props.data.photo.trim() !== "" && this.props.data.photo !== "asdf" ){
+        if(this.props.data.photo !== null && this.props.data.photo.trim() !== "" && this.props.data.photo !== "asdf" ){
             return  <img alt="drink" src={this.props.data.photo} />;
         }
     }
@@ -48,8 +48,8 @@ export class DrinkPanel extends Component {
             </Modal> */}
             <div className="history-drink-label" onClick={this.toggle}>
                 <p className="drink-place">
-                    {this.props.data.location.length > 13 
-                        ? this.props.data.location.substr(0, 10) + "..." 
+                    {this.props.data.location.length > 13
+                        ? this.props.data.location.substr(0, 10) + "..."
                         : this.props.data.location }
                 </p>
                 <p className="drink-price">
@@ -59,8 +59,8 @@ export class DrinkPanel extends Component {
                     {this.state.open ? <ExpandLessIcon /> : <ExpandMoreIcon/>}
                 </div>
                 <p className="drink-name">
-                    {this.props.data.name.length > 13 
-                        ? this.props.data.name.substr(0, 10) + "..." 
+                    {this.props.data.name.length > 13
+                        ? this.props.data.name.substr(0, 10) + "..."
                         : this.props.data.name }
                 </p>
                 <p className="drink-time">
@@ -73,7 +73,7 @@ export class DrinkPanel extends Component {
                     {this.props.data.description}
                     {JSON.stringify(new Date(this.props.data.date))}
                 </p>
-                
+
                 <div className="drink-options">
                     {/* <Button onClick={this.edit}>EDIT</Button> */}
                     <Button onClick={this.delete}>DELETE</Button>

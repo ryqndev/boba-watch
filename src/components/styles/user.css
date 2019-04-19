@@ -1,7 +1,6 @@
 .user-modal{
     position: fixed;
-    top: calc( 50vh - 140px);
-    height: 350px;
+    top: calc( 50vh - 190px);
     width: calc( 100vw - 50px);
     left: 25px;
     background-color: white;
@@ -9,6 +8,7 @@
     border-radius: 10px;
     box-sizing: border-box;
     padding: 60px 40px 40px 40px;
+    transition: all 320ms;
 }
 .user-input{
     width: 100%;
@@ -33,4 +33,8 @@
     right: 15px;
     padding: 3px !important;
     background-color: #FFAFA4 !important;
+}
+.user-share-profile{
+    padding-left: 20px;
+    text-align: center;
 }

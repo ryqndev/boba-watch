@@ -15,7 +15,8 @@ export class User extends Component {
         const data = { 
             "user": { 
                 "budget": parseInt(this.state.userSpendMax),
-                "maxDrinks": parseInt(this.state.userDrinkMax)
+                "maxDrinks": parseInt(this.state.userDrinkMax),
+                "public": this.state.userPublic
             }
         };
         fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`, {
@@ -52,7 +53,7 @@ export class User extends Component {
     }
     render() { 
         return (
-        <div className="user-modal">
+        <div className="user-modal" style={{height: this.state.userPublic ? 385 : 350}}>
             <IconButton color="secondary" className="close-button" onClick={this.close}>
                 <CloseButton color="secondary" style={{ fontSize: 14 }}/>
             </IconButton>
@@ -76,14 +77,17 @@ export class User extends Component {
                 value={this.state.userDrinkMax}
                 label="Max of drinks / month"
             />
-            <Switch
-                checked={this.state.userPublic}
-                onClick={this.handleToggle}
-                label="Share Profile"
-                color="primary"
-            />
+            <div className="user-share-profile">
+                Share Profile: 
+                <Switch
+                    checked={this.state.userPublic}
+                    onClick={this.handleToggle}
+                    label="Share Profile"
+                    color="primary"
+                />
+            </div>
             <Collapse in={this.state.userPublic}>
-                <TextClipboard text={`https://boba.watch/`}/>
+                <TextClipboard text={`https://boba.watch/sdfsmfjsgvhefvhkvdkg`}/>
             </Collapse>
             <div className="update-button-holder">
                 <Button className="update-button" onClick={this.updateUser}>UPDATE</Button>

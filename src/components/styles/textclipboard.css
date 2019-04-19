@@ -3,8 +3,11 @@
     border-radius: 2px;
     padding: 3px 0 3px 10px;
     font-size: 14px;
-    font-family: 'Poppins';
-    user-select: all;
     display: grid;
     grid-template-columns: 1fr 25px;
+}
+.clipboard-text{
+    font-family: 'Poppins';
+    user-select: all;
+    overflow-x: scroll;
 }

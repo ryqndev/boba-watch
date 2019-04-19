@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import {Typography, TextField, Button, IconButton} from '@material-ui/core';
+import {Typography, TextField, Button, IconButton, Switch, Collapse} from '@material-ui/core';
 import swal from 'sweetalert';
 import CloseButton from '@material-ui/icons/Close';
+import TextClipboard from './TextClipboard';
 import './styles/user.css';
 
 export class User extends Component {
     state = {
         userSpendMax: localStorage.getItem('userSpendMax'),
         userDrinkMax: localStorage.getItem('userDrinkMax'),
+        userPublic: localStorage.getItem('userPublic') === 'true' ? true : false,
     };
     updateUser = () => {
         const data = { 
@@ -29,6 +31,7 @@ export class User extends Component {
         }).then(resp => {
             localStorage.setItem('userSpendMax', this.state.userSpendMax);
             localStorage.setItem('userDrinkMax', this.state.userDrinkMax);
+            localStorage.setItem('userPublic', this.state.userPublic);
             swal("Success!", "Updated your settings successfully.", "success")
         }).catch(err => {
             swal("Error!", "Error updating data", "error");
@@ -39,10 +42,15 @@ export class User extends Component {
             [name]: event.target.value,
         });
     };
+    handleToggle = () => {
+        this.setState(state => ({
+            userPublic: !state.userPublic,
+        }));
+    };
     close = () => {
         this.props.close();
     }
-    render() {
+    render() { 
         return (
         <div className="user-modal">
             <IconButton color="secondary" className="close-button" onClick={this.close}>
@@ -68,6 +76,15 @@ export class User extends Component {
                 value={this.state.userDrinkMax}
                 label="Max of drinks / month"
             />
+            <Switch
+                checked={this.state.userPublic}
+                onClick={this.handleToggle}
+                label="Share Profile"
+                color="primary"
+            />
+            <Collapse in={this.state.userPublic}>
+                <TextClipboard text={`https://boba.watch/`}/>
+            </Collapse>
             <div className="update-button-holder">
                 <Button className="update-button" onClick={this.updateUser}>UPDATE</Button>
             </div>

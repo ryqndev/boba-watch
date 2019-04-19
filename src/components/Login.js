@@ -14,7 +14,6 @@ export class Login extends Component {
             localStorage.setItem('userId', userId);
         }
         localStorage.setItem('avatar', fbRes.picture.data.url);
-        //set parent component all data
         this.props.successfulLogin(userId, fbRes);
         fetch(`https://api.boba.watch/drinks/user/${userId}`, {
         }).then((resp) => { return resp.json();
@@ -38,6 +37,8 @@ export class Login extends Component {
         }).then(resp => {
             localStorage.setItem('userSpendMax', resp.budget);
             localStorage.setItem('userDrinkMax', resp.maxDrinks);
+            // localStorage.setItem('userPublic', resp.public);
+            localStorage.setItem('userPublic', true);
             this.props.history.push('./dash');
         }).catch(err => {
             swal("Error!", "I had trouble getting your settings.", "error");

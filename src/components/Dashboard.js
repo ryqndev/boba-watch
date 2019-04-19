@@ -3,7 +3,6 @@ import {Typography, Card} from '@material-ui/core';
 import { XYPlot, XAxis, YAxis, HeatmapSeries, Sunburst } from 'react-vis';
 import Utils from './textUtil.js';
 import stats from './calculateStatistics.js';
-import swal from 'sweetalert';
 import './styles/dashboard.css';
 import 'react-vis/dist/style.css';
 

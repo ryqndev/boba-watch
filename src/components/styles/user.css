@@ -1,7 +1,7 @@
 .user-modal{
     position: fixed;
     top: calc( 50vh - 140px);
-    height: 300px;
+    height: 350px;
     width: calc( 100vw - 50px);
     left: 25px;
     background-color: white;

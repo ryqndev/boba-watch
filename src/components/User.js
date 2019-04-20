@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import {Typography, TextField, Button, IconButton, Switch, Collapse} from '@material-ui/core';
 import swal from 'sweetalert';
+import Utils from './textUtil';
 import CloseButton from '@material-ui/icons/Close';
 import TextClipboard from './TextClipboard';
 import './styles/user.css';
 
 export class User extends Component {
     state = {
-        userSpendMax: localStorage.getItem('userSpendMax'),
+        userSpendMax: Utils.toMoney(localStorage.getItem('userSpendMax'), localStorage.getItem('userSpendMax') % 100 === 0),
         userDrinkMax: localStorage.getItem('userDrinkMax'),
         userPublic: localStorage.getItem('userPublic') === 'true' ? true : false,
     };
     updateUser = () => {
         const data = { 
             "user": { 
-                "budget": parseInt(this.state.userSpendMax),
+                "budget": parseInt(this.state.userSpendMax * 100),
                 "maxDrinks": parseInt(this.state.userDrinkMax),
             }
         };
@@ -29,7 +30,7 @@ export class User extends Component {
         ).then(resp => {
             return resp.json();
         }).then(resp => {
-            localStorage.setItem('userSpendMax', this.state.userSpendMax);
+            localStorage.setItem('userSpendMax', parseInt(this.state.userSpendMax * 100));
             localStorage.setItem('userDrinkMax', this.state.userDrinkMax);
             swal("Success!", "Updated your settings successfully.", "success");
             this.props.close();

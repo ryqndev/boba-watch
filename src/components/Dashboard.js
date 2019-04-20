@@ -55,7 +55,7 @@ export class Dashboard extends Component {
                     },
                     {
                         title: "Until Limit",
-                        size: localStorage.getItem('userSpendMax') * 100 - metrics.totalCost,
+                        size: localStorage.getItem('userSpendMax') - metrics.totalCost,
                         color: "#F4F4F4",
                     }
                 ]
@@ -90,7 +90,7 @@ export class Dashboard extends Component {
                     },
                     {
                         title: "Until Limit",
-                        size: localStorage.getItem('userSpendMax') * 100 - metrics.totalCost,
+                        size: localStorage.getItem('userSpendMax') - metrics.totalCost,
                         color: "#F4F4F4",
                     }
                 ]
@@ -104,11 +104,11 @@ export class Dashboard extends Component {
             <Typography variant="h4">Monthly Spending</Typography>
             <Card className="chart-holder">
                 <div className="chard-holder-description">
-                    MONTHLY LIMIT: ${this.state.userSpendMax}
+                    MONTHLY LIMIT: ${Utils.toMoney(this.state.userSpendMax, this.state.userSpendMax/10000 > 1)}
                     <br />
                     <span>${Utils.toMoney(this.state.totalCost, this.state.totalCost/10000 > 1)}</span>
                     <br />
-                    REMAINING: ${Utils.toMoney(this.state.userSpendMax*100 - this.state.totalCost)}
+                    REMAINING: ${Utils.toMoney(this.state.userSpendMax - this.state.totalCost)}
                 </div>
                 <Sunburst height={width-45} width={width-45} data={this.state.sunburstData} padAngle={0.06} animation colorType={'literal'} />
             </Card>

@@ -79,7 +79,7 @@ export class Add extends Component {
             <IconButton color="secondary" className="close-button" onClick={this.close}>
                 <CloseButton color="secondary" style={{ fontSize: 14 }}/>
             </IconButton>
-            <Typography variant="h5">Add a purchase</Typography>
+            <Typography variant="h5" style={{textAlign: "center"}}>Add a purchase</Typography>
             <TextField
                 id="location-value"
                 className="add-input"

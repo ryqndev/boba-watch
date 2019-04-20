@@ -24,13 +24,11 @@ export class DrinkPanel extends Component {
             return  <img alt="drink" src={this.props.data.photo} />;
         }
     }
-    /**
-     * TODO: delete should update localstorage
-     */
     delete = () => {
         axios.post("https://api.boba.watch/drinks/delete/" + this.props.data.id + "/" + this.props.accessToken)
-        .then((resp) => { this.props.getNewInfo();})
-        .catch(err => { swal('Error!', `Couldn't delete your drink. Try again later!`, 'error') });
+        .then((resp) => { 
+            this.props.retrieveHistory();
+        }).catch(err => { swal('Error!', `Couldn't delete your drink. Try again later!`, 'error') });
     }
     edit = () => {
         this.toggleAdd(this.delete);

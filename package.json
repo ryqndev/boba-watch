@@ -12,6 +12,7 @@
     "material-ui-pickers": "^2.2.4",
     "react": "^16.8.6",
     "react-chartjs": "^1.2.0",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.8.6",
     "react-facebook-login": "^4.1.1",
     "react-router-dom": "^5.0.0",

@@ -35,6 +35,7 @@ class App extends Component {
         this.setState(state => ({
             user: !state.user,
         }));
+        this.update.current.update();
     }
     handleChange = (event, value) => {
         this.setState({ value });
@@ -62,12 +63,12 @@ class App extends Component {
                                 <History accessToken={ this.state.accessToken } userId={ this.state.userId} ref={this.update}/>
                             }/>
                         </div>
-                        <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
+                        <Modal open={this.state.add}>
                             <div>
                                 <Add accessToken={this.state.accessToken} userId={this.state.userId} close={this.toggleAdd}/>
                             </div>
                         </Modal>
-                        <Modal open={this.state.user} onBackdropClick={this.toggleUser} >
+                        <Modal open={this.state.user} >
                             <div>
                                 <User accessToken={this.state.accessToken} userId={this.state.userId} close={this.toggleUser}/>
                             </div>

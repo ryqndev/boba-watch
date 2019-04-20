@@ -16,7 +16,6 @@ export class User extends Component {
             "user": { 
                 "budget": parseInt(this.state.userSpendMax),
                 "maxDrinks": parseInt(this.state.userDrinkMax),
-                "public": this.state.userPublic
             }
         };
         fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`, {
@@ -32,12 +31,35 @@ export class User extends Component {
         }).then(resp => {
             localStorage.setItem('userSpendMax', this.state.userSpendMax);
             localStorage.setItem('userDrinkMax', this.state.userDrinkMax);
-            localStorage.setItem('userPublic', this.state.userPublic);
-            swal("Success!", "Updated your settings successfully.", "success")
+            swal("Success!", "Updated your settings successfully.", "success");
+            this.props.close();
         }).catch(err => {
             swal("Error!", "Error updating data", "error");
         });
     };
+    makePublic = () => {
+        const data = { 
+            "user": {
+                "public": this.state.userPublic.toString()
+            }
+        };
+        fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        }
+        ).then(resp => {
+            return resp.json();
+        }).then(resp => {
+            localStorage.setItem('userPublic', this.state.userPublic);
+            swal("Success!", "Your privacy settings have been changed", "success");
+        }).catch(err => {
+            swal("Error!", "Error changing privacy setting", "error");
+        });
+    }
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value,
@@ -46,7 +68,7 @@ export class User extends Component {
     handleToggle = () => {
         this.setState(state => ({
             userPublic: !state.userPublic,
-        }));
+        }), () => {this.makePublic()});
     };
     close = () => {
         this.props.close();
@@ -58,7 +80,7 @@ export class User extends Component {
                 <CloseButton color="secondary" style={{ fontSize: 14 }}/>
             </IconButton>
             <img src={localStorage.getItem('avatar')} className="user-avatar" alt="user"/>
-            <Typography variant="h5">User settings</Typography>
+            <Typography variant="h5" style={{textAlign: "center"}}>User settings</Typography>
             <TextField
                 id="monthly-spending-input"
                 className="user-input"
@@ -87,7 +109,7 @@ export class User extends Component {
                 />
             </div>
             <Collapse in={this.state.userPublic}>
-                <TextClipboard text={`https://boba.watch/sdfsmfjsgvhefvhkvdkg`}/>
+                <TextClipboard text={`https://share.boba.watch/#/${this.props.userId}`}/>
             </Collapse>
             <div className="update-button-holder">
                 <Button className="update-button" onClick={this.updateUser}>UPDATE</Button>

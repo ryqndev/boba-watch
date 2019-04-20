@@ -13,10 +13,10 @@
  */
 function getDefaultMetrics(){
     let metrics = {
-        'numDrinks': 0,
+        'totalDrinks': 0,
         'totalCost': 0,
         'drinkAvg': 0,
-        'drinks': Array(7)
+        'drinks': Array(7),
     }
     for(let i = 0; i < 7; i++){
         metrics.drinks[i] = Array(24).fill(0);
@@ -50,9 +50,9 @@ function recalculateMetrics(drinkObjects){
  * @param {*} metrics - metrics object to be updated
  */
 function updateMetrics(drinkObject, metrics){
-    metrics.numDrinks += 1;
+    metrics.totalDrinks += 1;
     metrics.totalCost += drinkObject.price;
-    metrics.drinkAvg = metrics.totalCost / metrics.numDrinks;
+    metrics.drinkAvg = metrics.totalCost / metrics.totalDrinks;
     let date = new Date(drinkObject.date);
     metrics.drinks[date.getDay()][date.getHours() - 1] += 1;
 }

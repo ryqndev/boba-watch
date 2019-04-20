@@ -10,8 +10,8 @@
     width: 100vw;
     max-width: 50vh;
     margin: 0 auto;
-    padding-top: 7vh;
-    background-image: url('../../assets/logo.svg');
+    padding-top: 20vh;
+    background-image: url('../../assets/logo-shadow.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;

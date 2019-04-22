@@ -37,8 +37,7 @@ export class Login extends Component {
         }).then(resp => {
             localStorage.setItem('userSpendMax', resp.budget);
             localStorage.setItem('userDrinkMax', resp.maxDrinks);
-            // localStorage.setItem('userPublic', resp.public);
-            localStorage.setItem('userPublic', true);
+            localStorage.setItem('userPublic', resp.public);
             this.props.history.push('./dash');
         }).catch(err => {
             swal("Error!", "I had trouble getting your settings.", "error");

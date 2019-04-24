@@ -1,4 +1,6 @@
 import {createMuiTheme} from '@material-ui/core';
+import { DatePicker } from "material-ui-pickers";
+
 
 const theme = createMuiTheme({
     overrides: {
@@ -11,10 +13,13 @@ const theme = createMuiTheme({
           height: 30,
           padding: '0 30px',
           margin: '20px',
-          boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+          boxShadow: '0 3px 5px 2px rgba(255, 105, 135, 0.3)',
           fontFamily: 'Poppins',
           fontWeight: 700,
-          fontSize: 14
+          fontSize: 14,
+          '&:hover': {
+            backgroundColor: '#FFDCDC'
+          }
         },
       },
       MuiBottomNavigation: {
@@ -32,11 +37,22 @@ const theme = createMuiTheme({
         wrapper: {
             color: '#FFFFFF ',
         }
+      },
+      MuiDialog: {
+        MuiButton: {
+            color: '#FFFFFF'
+        }
+      },
+      MuiDialogActions: {
+        action: {
+          color: '#FFFFFF'
+        },
       }
     },
     palette: {
         primary: {
           main: '#F68080',
+          light: '#FFDCDC',
           contrastText:'#FFFFFF'
         },
         secondary: {

@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
-import {Typography, TextField, Button, IconButton, Switch, Collapse} from '@material-ui/core';
+import {Typography, TextField, Button, IconButton, Switch, Collapse, Modal} from '@material-ui/core';
 import swal from 'sweetalert';
 import Utils from './textUtil';
 import CloseButton from '@material-ui/icons/Close';
 import TextClipboard from './TextClipboard';
 import './styles/user.css';
+
+let logoutButton = {
+    color: '#FF0000',
+    border: '1px solid red',
+    boxShadow: 'none',
+    backgroundColor: '#FFFFFF'
+};
 
 export class User extends Component {
     state = {
@@ -61,6 +68,10 @@ export class User extends Component {
             swal("Error!", "Error changing privacy setting", "error");
         });
     }
+    logout = () => {
+        //add logout here TODO
+        window.location.reload();
+    }
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value,
@@ -76,46 +87,50 @@ export class User extends Component {
     }
     render() { 
         return (
-        <div className="user-modal" style={{height: this.state.userPublic ? 385 : 350}}>
-            <IconButton color="secondary" className="close-button" onClick={this.close}>
-                <CloseButton color="secondary" style={{ fontSize: 14 }}/>
-            </IconButton>
-            <img src={localStorage.getItem('avatar')} className="user-avatar" alt="user"/>
-            <Typography variant="h5" style={{textAlign: "center"}}>User settings</Typography>
-            <TextField
-                id="monthly-spending-input"
-                className="user-input"
-                variant="outlined"
-                margin="normal"
-                onChange={this.handleChange('userSpendMax')}
-                value={this.state.userSpendMax}
-                label="Monthly Spending Limit"
-            />
-            <TextField
-                id="monthly-drinking-limit"
-                className="user-input"
-                margin="dense"
-                variant="outlined"
-                onChange={this.handleChange('userDrinkMax')}
-                value={this.state.userDrinkMax}
-                label="Max of drinks / month"
-            />
-            <div className="user-share-profile">
-                Share Profile: 
-                <Switch
-                    checked={this.state.userPublic}
-                    onClick={this.handleToggle}
-                    label="Share Profile"
-                    color="primary"
+        <Modal open={this.props.open}>
+            <div className="user-modal" style={{height: this.state.userPublic ? 385 : 350}}>
+                <IconButton color="secondary" className="close-button" onClick={this.close}>
+                    <CloseButton color="secondary" style={{ fontSize: 14 }}/>
+                </IconButton>
+                <img src={localStorage.getItem('avatar')} className="user-avatar" alt="user"/>
+                <Typography variant="h5" style={{textAlign: "center"}}>User settings</Typography>
+                <TextField
+                    id="monthly-spending-input"
+                    className="user-input"
+                    variant="outlined"
+                    margin="normal"
+                    onChange={this.handleChange('userSpendMax')}
+                    value={this.state.userSpendMax}
+                    label="Monthly Spending Limit"
                 />
+                <TextField
+                    id="monthly-drinking-limit"
+                    className="user-input"
+                    margin="dense"
+                    variant="outlined"
+                    onChange={this.handleChange('userDrinkMax')}
+                    value={this.state.userDrinkMax}
+                    label="Max of drinks / month"
+                />
+                <div className="user-share-profile">
+                    Share Profile: 
+                    <Switch
+                        checked={this.state.userPublic}
+                        onClick={this.handleToggle}
+                        label="Share Profile"
+                        color="primary"
+                    />
+                </div>
+                <Collapse in={this.state.userPublic}>
+                    <TextClipboard text={`https://share.boba.watch/#/${this.props.userId}`}/>
+                </Collapse>
+                <div className="update-button-holder">
+                    <Button className="logout-button" variant="flat" onClick={this.logout}
+                        style={logoutButton}>LOGOUT</Button>
+                    <Button className="update-button" onClick={this.updateUser}>UPDATE</Button>
+                </div>
             </div>
-            <Collapse in={this.state.userPublic}>
-                <TextClipboard text={`https://share.boba.watch/#/${this.props.userId}`}/>
-            </Collapse>
-            <div className="update-button-holder">
-                <Button className="update-button" onClick={this.updateUser}>UPDATE</Button>
-            </div>
-        </div>
+        </Modal>
         )
     }
 }

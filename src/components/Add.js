@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'date-fns';
 import swal from 'sweetalert';
 import './styles/add.css';
-import {Typography, TextField, Button, IconButton} from '@material-ui/core';
+import {Typography, TextField, Button, IconButton, Modal, MuiThemeProvider} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';
@@ -70,53 +70,34 @@ export class Add extends Component {
         }).catch(err => {swal("Error!", `Couldn't update drinks. Error: ${err}`, "error");
         });
     };
-    close = () => {
-        this.props.close();
-    }
     render() {
         return (
-        <div className="add-modal">
-            <IconButton color="secondary" className="close-button" onClick={this.close}>
-                <CloseButton color="secondary" style={{ fontSize: 14 }}/>
-            </IconButton>
-            <Typography variant="h5" style={{textAlign: "center"}}>Add a purchase</Typography>
-            <TextField
-                id="location-value"
-                className="add-input"
-                label="Location"
-            />
-            <TextField
-                id="name-value"
-                className="add-input"
-                margin="dense"
-                label="Drink name"
-            />
-            <TextField
-                id="price-value"
-                className="add-input"
-                margin="dense"
-                label="Price"
-            />
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <DateTimePicker
-                    id="date-value"
-                    className="add-input"
-                    margin="dense"
-                    format="M/d/yyyy h:mm a"
-                    label="Date picker"
-                    value={this.state.selectedDate}
-                    onChange={this.handleDateChange}
-                />
-            </MuiPickersUtilsProvider>
-            <TextField
-                id="description-value"
-                className="add-input"
-                label="Description"
-            />
-            <div className="add-button-holder">
-                <Button onClick={this.saveDrink} className="add-button">ADD</Button>
+        <Modal open={this.props.open}>
+            <div className="add-modal">
+                <IconButton color="secondary" className="close-button" onClick={this.props.close}>
+                    <CloseButton color="secondary" style={{ fontSize: 14 }}/>
+                </IconButton>
+                <Typography variant="h5" style={{textAlign: "center"}}>Add a purchase</Typography>
+                <TextField id="location-value" className="add-input" label="Location"/>
+                <TextField id="name-value" className="add-input" margin="dense" label="Drink name"/>
+                <TextField id="price-value" className="add-input" margin="dense" label="Price" />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <DateTimePicker
+                        id="date-value"
+                        className="add-input"
+                        margin="dense"
+                        format="M/d/yyyy h:mm a"
+                        label="Date picker"
+                        value={this.state.selectedDate}
+                        onChange={this.handleDateChange}
+                    />
+                </MuiPickersUtilsProvider>
+                <TextField id="description-value" className="add-input" label="Description"/>
+                <div className="add-button-holder">
+                    <Button onClick={this.saveDrink} className="add-button">ADD</Button>
+                </div>
             </div>
-        </div>
+        </Modal>
         )
     }
 }

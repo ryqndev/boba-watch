@@ -125,8 +125,7 @@ export class User extends Component {
                     <TextClipboard text={`https://share.boba.watch/#/${this.props.userId}`}/>
                 </Collapse>
                 <div className="update-button-holder">
-                    <Button className="logout-button" variant="flat" onClick={this.logout}
-                        style={logoutButton}>LOGOUT</Button>
+                    <Button className="logout-button" variant="text" onClick={this.logout} style={logoutButton}>LOGOUT</Button>
                     <Button className="update-button" onClick={this.updateUser}>UPDATE</Button>
                 </div>
             </div>

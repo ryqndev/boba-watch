@@ -3,7 +3,9 @@
     top: calc( 50vh - 230px);
     height: 390px;
     width: calc( 100vw - 84px);
-    left: 38px;
+    max-width: 420px;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: white;
     border: 2px solid #FFDCDC;
     border-radius: 10px;

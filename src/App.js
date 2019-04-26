@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {MemoryRouter as Router, Route, Link, Switch} from 'react-router-dom';
-import {BottomNavigation, BottomNavigationAction} from '@material-ui/core';
-import DashboardIcon from '@material-ui/icons/BarChart';
-import AddIcon from '@material-ui/icons/Add';
-import HistoryIcon from '@material-ui/icons/AttachMoney';
+import {MemoryRouter as Router, Route, Switch} from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Add from './components/Add';
 import User from './components/User';

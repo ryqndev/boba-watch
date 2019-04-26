@@ -1,5 +1,4 @@
 import {createMuiTheme} from '@material-ui/core';
-import { DatePicker } from "material-ui-pickers";
 
 
 const theme = createMuiTheme({

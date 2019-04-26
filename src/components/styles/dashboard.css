@@ -1,29 +1,28 @@
 .dashboard-page{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 50px calc(100vw - 84px) 150px 120px;
+    row-gap: 15px;
+    column-gap: 15px;
     padding: 40px 40px 40px 40px;
     background: linear-gradient(180deg, #FC8A8A 0%, #FFD3B3 50%);
-    background-size: 100vw 189px;
+    background-size: 100vw 190px;
     background-repeat: no-repeat;
 }
 .chart-holder{
-    height: calc(100vw - 84px);
-    margin-top: 15px;
-    width: calc(100vw - 84px);
     border: 2px solid #FFDCDC;
+    grid-column: 1/4;
+    grid-row: 2/3;
 }
-.stats-holder{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 4fr 3fr;
-    height: 300px;
-    row-gap: 20px;
-    column-gap: 20px;
-    margin-top: 20px;
+.dashboard-page--title{
+    grid-column: 1/4;
+    grid-row: 1/2;
 }
 .month-total-money{
     text-align: center;
     background-color: #FFAFA4 !important;
     grid-column: 1/3;
-    grid-row: 1/2;
+    grid-row: 3/4;
 }
 .month-total-money > p {
     color: white;
@@ -38,7 +37,7 @@
     padding: 80px 3px 0 3px;
     border: 2px solid #FFDCDC;
     grid-column: 3/4;
-    grid-row: 1/3;
+    grid-row: 3/5;
     transition: all 1s;
 }
 .month-drink-limit > p{
@@ -50,10 +49,10 @@
     padding: 20px;
     text-align: center;
     grid-column: 1/3;
-    grid-row: 2/3;
+    grid-row: 4/5;
 }
 .daily-chart{
-    margin-top: 20px;
+    grid-column: 1/4;
 }
 .month-total-drinks > p {
     color: #FC8A8A;
@@ -75,3 +74,47 @@
     font-size: 40px;
     line-height: 40px;
 }
+/**
+TODO desktop mode
+*/
+/* @media only screen and (min-width: 700px){
+    .dashboard-page{
+        grid-template-columns: 85vh calc(75vw - 85vh - 110px) 25vw;
+        grid-template-rows: 40px 20vh 20vh calc(45vh - 100px);
+        row-gap: 15px;
+        column-gap: 15px;
+    }
+    .chart-holder{
+        grid-column: 1/2;
+        grid-row: 2/5;
+    }
+    .chard-holder-description{
+        position: absolute;
+        text-align: center;
+        margin-top: calc(50vh - 130px);
+        z-index: 100;
+        width: 40vw;
+        font-size: 11px;
+    }
+    .month-total-drinks{
+        grid-column: 2/3;
+        grid-row: 3/4;
+    }
+    .month-total-money{
+        grid-column: 2/3;
+        grid-row: 2/3;
+    }
+    .month-drink-limit{
+        grid-column: 2/3;
+        grid-row: 4/5;
+        padding: 5vh 3px 0 3px;
+    }
+    .dashboard-page--title{
+        grid-column: 1/3;
+        grid-row: 1/2;
+    }
+    .daily-chart{
+        grid-column: 3/4;
+        grid-row: 2/5;
+    }
+} */

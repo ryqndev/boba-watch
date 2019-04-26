@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'date-fns';
 import swal from 'sweetalert';
 import './styles/add.css';
-import {Typography, TextField, Button, IconButton, Modal, MuiThemeProvider} from '@material-ui/core';
+import {Typography, TextField, Button, IconButton, Modal} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';

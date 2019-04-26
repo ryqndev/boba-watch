@@ -61,7 +61,7 @@ export class Dashboard extends Component {
                 ]
             }
         };
-    };
+    }
     update = () => {
         let metrics = JSON.parse(localStorage.getItem('metrics'));
         const drinkTotal = localStorage.getItem('userDrinkMax');
@@ -101,7 +101,7 @@ export class Dashboard extends Component {
         let width = window.innerWidth - 40;
         return (
         <div className="dashboard-page">
-            <Typography variant="h4">Monthly Spending</Typography>
+            <Typography variant="h4" className="dashboard-page--title">Monthly Spending</Typography>
             <Card className="chart-holder">
                 <div className="chard-holder-description">
                     MONTHLY LIMIT: ${Utils.toMoney(this.state.userSpendMax, this.state.userSpendMax/10000 > 1)}
@@ -112,20 +112,18 @@ export class Dashboard extends Component {
                 </div>
                 <Sunburst height={width-45} width={width-45} data={this.state.sunburstData} padAngle={0.06} animation colorType={'literal'} />
             </Card>
-            <div className="stats-holder">
-                <Card className="month-total-money">
-                    <p>This is how much you’ve spent on boba this month:</p>
-                    <Typography variant="h2">${Utils.toMoney(this.state.totalCost, this.state.totalCost/10000 > 1)}</Typography>
-                </Card>
-                <Card className="month-drink-limit" style={{backgroundPositionY: (100 - this.state.drinkPercentage) * 3}}>
-                    <Typography variant="h3">{this.state.drinkPercentage}%</Typography>
-                    <p>to your max number of drinks this month</p>
-                </Card>
-                <Card className="month-total-drinks">
-                    <Typography variant="h2">{this.state.totalDrinks}</Typography>
-                    <p>drinks this month</p>
-                </Card>
-            </div>
+            <Card className="month-total-money">
+                <p>This is how much you’ve spent on boba this month:</p>
+                <Typography variant="h2">${Utils.toMoney(this.state.totalCost, this.state.totalCost/10000 > 1)}</Typography>
+            </Card>
+            <Card className="month-drink-limit" style={{backgroundPositionY: (100 - this.state.drinkPercentage) * 2.7}}>
+                <Typography variant="h3">{this.state.drinkPercentage}%</Typography>
+                <p>to your max number of drinks this month</p>
+            </Card>
+            <Card className="month-total-drinks">
+                <Typography variant="h2">{this.state.totalDrinks}</Typography>
+                <p>drinks this month</p>
+            </Card>
             <Card className="daily-chart">
                 <XYPlot xType="ordinal" yType="ordinal" margin={60} width={width} height={1.8*width}>
                 <XAxis orientation="top" />

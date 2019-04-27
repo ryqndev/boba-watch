@@ -48,7 +48,7 @@ export class User extends Component {
     makePublic = () => {
         const data = { 
             "user": {
-                "public": this.state.userPublic.toString()
+                "public": this.state.userPublic
             }
         };
         fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`, {

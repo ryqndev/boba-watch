@@ -24,9 +24,8 @@ p{
     text-align: right;
 }
 .drink-description{
-    text-align: center;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 img{
     width: 60vw;
@@ -53,4 +52,24 @@ h3 span{
     grid-template-columns: 1fr;
     grid-template-rows: 60px;
     margin-bottom: 5px;
+}
+.drink-label{
+    font-weight: bold;
+    text-align: center;
+}
+.drink-label span{
+    color: #8888FF;
+    text-align: center;
+}
+.drink-date{
+    text-align: center;
+}
+.drink-date span{
+    color: #8888FF;
+    font-weight: bold;
+    font-size: 14px;
+
+}
+.drink-collapse{
+    text-align: center;
 }

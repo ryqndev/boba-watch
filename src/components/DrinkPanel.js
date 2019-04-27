@@ -37,6 +37,7 @@ export class DrinkPanel extends Component {
      * TODO: if implementing edit function ever again, uncomment below code
      */
     render() {
+        let dDate = new Date(this.props.data.date);
         return (
         <div className="thaman-color">
             {/* <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
@@ -65,11 +66,18 @@ export class DrinkPanel extends Component {
                     {(new Date(this.props.data.date)).toDateString().substr(4)}
                 </p>
             </div>
-            <Collapse in={this.state.open}>
+            <Collapse in={this.state.open} className="drink-collapse">
                 {/* {this.hasImage()} */}
+                <p className="drink-label">
+                    {this.props.data.name} 
+                    <br />
+                    <span>@{this.props.data.location}</span>
+                </p>
                 <p className="drink-description">
                     {this.props.data.description}
-                    {JSON.stringify(new Date(this.props.data.date))}
+                </p>
+                <p className="drink-date">
+                    <span>on</span> {dDate.toDateString()}
                 </p>
 
                 <div className="drink-options">

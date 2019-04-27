@@ -37,11 +37,6 @@ const theme = createMuiTheme({
             color: '#FFFFFF ',
         }
       },
-      MuiDialog: {
-        MuiButton: {
-            color: '#FFFFFF'
-        }
-      },
       MuiDialogActions: {
         action: {
           color: '#FFFFFF'

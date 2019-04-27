@@ -12,6 +12,9 @@
     padding: 60px 40px 40px 40px;
     transition: all 320ms;
 }
+.user-modal:focus{
+    outline: none;
+}
 .user-input{
     width: 100%;
 }

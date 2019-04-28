@@ -32,6 +32,12 @@ class App extends Component {
         };
         this.update = React.createRef();
     }
+    toggle = (item) => {
+        this.setState(state => ({
+            [item]: !state[item],
+        }));
+        this.update.current.update();
+    }
     toggleAdd = () => {
         this.setState(state => ({
             add: !state.add,
@@ -62,17 +68,17 @@ class App extends Component {
                 <Route strict path='/:page' render={() => 
                     <div>
                         <div className="page">
-                            <img src={localStorage.getItem('avatar')} alt="user-settings" className="avatar-button" onClick={this.toggleUser} />
+                            <img src={localStorage.getItem('avatar')} alt="user-settings" className="avatar-button" onClick={() => this.toggle('user')} />
                             <Route exact path='/dash' render={() => 
                                 <Dashboard userId={this.state.userId} accessToken={this.state.accessToken} metrics={this} ref={this.update}/>
                             }/>
                             <Route exact path='/history' render={() => 
-                                <History accessToken={ this.state.accessToken } userId={ this.state.userId} ref={this.update}/>
+                                <History accessToken={ this.state.accessToken } userId={this.state.userId} ref={this.update}/>
                             }/>
                         </div>
-                        <Add open={this.state.add} accessToken={this.state.accessToken} userId={this.state.userId} close={this.toggleAdd}/>
-                        <User open={this.state.user} accessToken={this.state.accessToken} userId={this.state.userId} close={this.toggleUser}/>
-                        <Navigation value={this.state.value} handleChange={this.handleChange} toggleAdd={this.toggleAdd}/>
+                        <Add open={this.state.add} accessToken={this.state.accessToken} userId={this.state.userId} close={() => this.toggle('add')}/>
+                        <User open={this.state.user} accessToken={this.state.accessToken} userId={this.state.userId} close={() => this.toggle('user')}/>
+                        <Navigation value={this.state.value} handleChange={this.handleChange} toggleAdd={() => this.toggle('add')}/>
                     </div>
                 } />
                 <Route render={() => <Login successfulLogin={ this.successfulLogin }/> }/>

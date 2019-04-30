@@ -38,18 +38,6 @@ class App extends Component {
         }));
         this.update.current.update();
     }
-    toggleAdd = () => {
-        this.setState(state => ({
-            add: !state.add,
-        }));
-        this.update.current.update();
-    }
-    toggleUser = () => {
-        this.setState(state => ({
-            user: !state.user,
-        }));
-        this.update.current.update();
-    }
     handleChange = (event, value) => {
         this.setState({ value });
     };
@@ -68,17 +56,45 @@ class App extends Component {
                 <Route strict path='/:page' render={() => 
                     <div>
                         <div className="page">
-                            <img src={localStorage.getItem('avatar')} alt="user-settings" className="avatar-button" onClick={() => this.toggle('user')} />
+                            <img 
+                                src={localStorage.getItem('avatar')}
+                                alt="user-settings"
+                                className="avatar-button"
+                                onClick={() => this.toggle('user')}
+                            />
                             <Route exact path='/dash' render={() => 
-                                <Dashboard userId={this.state.userId} accessToken={this.state.accessToken} metrics={this} ref={this.update}/>
+                                <Dashboard 
+                                    userId={this.state.userId} 
+                                    accessToken={this.state.accessToken}
+                                    metrics={this}
+                                    ref={this.update}
+                                />
                             }/>
                             <Route exact path='/history' render={() => 
-                                <History accessToken={ this.state.accessToken } userId={this.state.userId} ref={this.update}/>
+                                <History 
+                                    accessToken={ this.state.accessToken }
+                                    userId={this.state.userId}
+                                    ref={this.update}
+                                />
                             }/>
                         </div>
-                        <Add open={this.state.add} accessToken={this.state.accessToken} userId={this.state.userId} close={() => this.toggle('add')}/>
-                        <User open={this.state.user} accessToken={this.state.accessToken} userId={this.state.userId} close={() => this.toggle('user')}/>
-                        <Navigation value={this.state.value} handleChange={this.handleChange} toggleAdd={() => this.toggle('add')}/>
+                        <Add 
+                            open={this.state.add}
+                            accessToken={this.state.accessToken}
+                            userId={this.state.userId}
+                            close={() => this.toggle('add')}
+                        />
+                        <User
+                            open={this.state.user}
+                            accessToken={this.state.accessToken}
+                            userId={this.state.userId}
+                            close={() => this.toggle('user')}
+                        />
+                        <Navigation
+                            value={this.state.value}
+                            handleChange={this.handleChange}
+                            toggleAdd={() => this.toggle('add')}
+                        />
                     </div>
                 } />
                 <Route render={() => <Login successfulLogin={ this.successfulLogin }/> }/>

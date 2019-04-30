@@ -10,6 +10,7 @@
     background-repeat: no-repeat;
 }
 .chart-holder{
+    z-index: 0;
     border: 2px solid #FFDCDC;
     grid-column: 1/4;
     grid-row: 2/3;
@@ -52,6 +53,7 @@
     grid-row: 4/5;
 }
 .daily-chart{
+    touch-action: none;
     grid-column: 1/4;
 }
 .month-total-drinks > p {
@@ -65,7 +67,7 @@
     position: absolute;
     text-align: center;
     margin-top: calc(50vw - 80px);
-    z-index: 100;
+    z-index: 1;
     width: calc(100vw - 84px);
     font-size: 11px;
 }

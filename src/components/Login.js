@@ -97,7 +97,6 @@ export class Login extends Component {
                 <FacebookLogin
                     appId="333104870889201"
                     autoLoad={true}
-                    cookies={true}
                     fields="name,email,picture"
                     style={{margin: '50px'}}
                     callback={this.responseFacebook}

@@ -69,8 +69,10 @@ export class User extends Component {
         });
     }
     logout = () => {
-        //add logout here TODO
-        window.location.reload();
+        window.FB.logout((resp) => {
+            console.log(resp);
+            alert(resp);
+        });
     }
     handleChange = name => event => {
         this.setState({

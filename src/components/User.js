@@ -70,8 +70,10 @@ export class User extends Component {
     }
     logout = () => {
         window.FB.logout((resp) => {
-            console.log(resp);
-            alert(resp);
+            document.cookie.split(";").forEach(function(c) {
+                document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+            });
+            window.location = window.location.origin;
         });
     }
     handleChange = name => event => {

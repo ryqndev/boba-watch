@@ -3,12 +3,12 @@
   "name": "Boba Watch",
   "icons": [
     {
-      "src": "logo_144.png",
+      "src": "logo-no-bg.png",
       "type": "image/png",
       "sizes": "144x144"
     },
     {
-      "src": "logo.png",
+      "src": "logo-no-bg.png",
       "type": "image/png",
       "sizes": "512x512"
     }

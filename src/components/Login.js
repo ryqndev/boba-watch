@@ -18,6 +18,11 @@ export class Login extends Component {
         window.addEventListener('resize', 
             () => this.setState({isDesktop: (window.innerHeight/window.innerWidth < 1.2)})
         );
+        let url = new URL(window.location.href);
+        let accessToken = url.searchParams.get("code");
+        if(accessToken != null){
+
+        }
     }
     handleClose = () => {
         this.setState({ isDesktop: false });
@@ -68,22 +73,49 @@ export class Login extends Component {
         });
     }
 	responseFacebook = (fbRes) => {
-		axios.post("https://api.boba.watch/users/login", { fbRes })
-		.then(servRes => {
-			if (servRes.data.hasOwnProperty('userId')) {
-				this.setState(() => ({
-					userId: servRes.data.userId,
-					accessToken: fbRes.accessToken
-                }), () => {this.successfulLogin(servRes.data.userId, fbRes);});
-			}
-			else {
-                swal("Error!", `Login Unsuccessful`, "error");
-                // eslint-disable-next-line
-				throw 'Facebok Login Failed';
-			}
-		})
-		.catch(err => console.log(err));
+		// axios.post("https://api.boba.watch/users/login", { fbRes })
+		// .then(servRes => {
+		// 	if (servRes.data.hasOwnProperty('userId')) {
+		// 		this.setState(() => ({
+		// 			userId: servRes.data.userId,
+		// 			accessToken: fbRes.accessToken
+        //         }), () => {this.successfulLogin(servRes.data.userId, fbRes);});
+		// 	}
+		// 	else {
+        //         swal("Error!", `Login Unsuccessful`, "error");
+        //         // eslint-disable-next-line
+		// 		throw 'Facebok Login Failed';
+		// 	}
+		// })
+        // .catch(err => console.log(err));
+        this.login(fbRes.accessToken);
+
     };
+    login = (accessToken) => {
+        let loginURL = `https://api.boba.watch/v1/users/login`;
+        let loginBody = {
+            "accessToken": accessToken
+        };
+        fetch(loginURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": 'application/json',
+            },
+            body: JSON.stringify(loginBody)
+        }).then(resp => {
+            return resp.json();
+        }).then(resp => {
+            console.log(resp);
+            if (resp.hasOwnProperty('userId')) {
+                this.successfulLogin(resp.userId, accessToken);
+            }else{
+                // eslint-disable-next-line
+                throw 'Facebok Login Failed';
+            }
+        }).catch(err => {
+            swal("Error!", `Login Unsuccessful. Err: ${err}`, "error");
+        });
+    }
 
     render() {
         return (

@@ -22,6 +22,7 @@ class App extends Component {
         //      * TODO: Prompt user for adding on safari
         //      */
         // }
+        alert(window.location.href);
         this.state = {
             add: false,
             user: false,

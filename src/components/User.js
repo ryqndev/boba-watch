@@ -35,6 +35,11 @@ export class User extends Component {
             body: JSON.stringify(data),
         }
         ).then(resp => {
+            if (!resp.ok) {
+                throw Error(resp.statusText);
+            }
+            return resp;
+        }).then(resp => {
             return resp.json();
         }).then(resp => {
             localStorage.setItem('userSpendMax', parseInt(this.state.userSpendMax * 100));
@@ -60,6 +65,11 @@ export class User extends Component {
             body: JSON.stringify(data),
         }
         ).then(resp => {
+            if (!resp.ok) {
+                throw Error(resp.statusText);
+            }
+            return resp;
+        }).then(resp => {
             return resp.json();
         }).then(resp => {
             localStorage.setItem('userPublic', this.state.userPublic);

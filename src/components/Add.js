@@ -22,6 +22,11 @@ export class Add extends Component {
      */
     update = () => {
         fetch("https://api.boba.watch/drinks/user/" + this.props.userId,{
+        }).then(resp => {
+            if (!resp.ok) {
+                throw Error(resp.statusText);
+            }
+            return resp;
         }).then((resp) => { return resp.json();
         }).then((resp) => { 
             stats.recalculateMetrics(resp);
@@ -66,6 +71,11 @@ export class Add extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data),
+        }).then(resp => {
+            if (!resp.ok) {
+                throw Error(resp.statusText);
+            }
+            return resp;
         }).then((resp) => { this.update();
         }).catch(err => {swal("Error!", `Couldn't update drinks. Error: ${err}`, "error");
         });

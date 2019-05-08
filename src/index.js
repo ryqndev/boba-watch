@@ -11,5 +11,9 @@ ReactDOM.render(
         <App />
     </MuiThemeProvider>
 , document.getElementById('root'));
-
-serviceWorker.unregister();
+/**
+ * Service worker is activated but doesn't do much other than default
+ * react service worker code.
+ * Things to be implemented: cache, indexdb, complete offline mode
+ */
+serviceWorker.register();

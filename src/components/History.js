@@ -25,6 +25,11 @@ export class History extends Component {
     }
     retrieveHistory = () => {
         fetch("https://api.boba.watch/drinks/user/" + this.props.userId,{
+        }).then(resp => {
+            if (!resp.ok) {
+                throw Error(resp.statusText);
+            }
+            return resp;
         }).then((resp) => { return resp.json();
         }).then((resp) => { 
             stats.recalculateMetrics(resp);

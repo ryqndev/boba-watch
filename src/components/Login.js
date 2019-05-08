@@ -30,6 +30,11 @@ export class Login extends Component {
         localStorage.setItem('avatar', fbRes.picture.data.url);
         this.props.successfulLogin(userId, fbRes);
         fetch(`https://api.boba.watch/drinks/user/${userId}`, {
+        }).then(resp => {
+            if (!resp.ok) {
+                throw Error(resp.statusText);
+            }
+            return resp;
         }).then((resp) => { return resp.json();
         }).then((resp) => { 
             this.storeData(resp, userId, fbRes.accessToken);
@@ -47,6 +52,11 @@ export class Login extends Component {
         stats.recalculateMetrics(resp);
         fetch(`https://api.boba.watch/users/${userId}/${accessToken}`
         ).then(resp => {
+            if (!resp.ok) {
+                throw Error(resp.statusText);
+            }
+            return resp;
+        }).then(resp => {
             return resp.json();
         }).then(resp => {
             localStorage.setItem('userSpendMax', resp.budget);

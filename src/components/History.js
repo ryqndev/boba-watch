@@ -13,9 +13,6 @@ export class History extends Component {
             drinks: [<Typography variant="h3" key={1}>No Drinks</Typography>],
             sum: 0
         };
-        if(this.props.accessToken === 0){
-            window.location.href = window.origin.toString();
-        }
     }
     componentDidMount(){
         this.generate();
@@ -24,32 +21,32 @@ export class History extends Component {
         this.generate();
     }
     retrieveHistory = () => {
-        fetch("https://api.boba.watch/drinks/user/" + this.props.userId,{
-        }).then(resp => {
-            if (!resp.ok) {
-                throw Error(resp.statusText);
-            }
-            return resp;
-        }).then((resp) => { return resp.json();
-        }).then((resp) => { 
-            stats.recalculateMetrics(resp);
-            swal("Done!", "Drink has been deleted", "success"); 
-            this.generate();
-        }).catch(err => { console.log(err);
-        });   
+        // fetch("https://api.boba.watch/drinks/user/" + this.props.userId,{
+        // }).then(resp => {
+        //     if (!resp.ok) {
+        //         throw Error(resp.statusText);
+        //     }
+        //     return resp;
+        // }).then((resp) => { return resp.json();
+        // }).then((resp) => { 
+        //     stats.recalculateMetrics(resp);
+        //     swal("Done!", "Drink has been deleted", "success"); 
+        //     this.generate();
+        // }).catch(err => { console.log(err);
+        // });   
     }
     generate = () => {
-        let drinks = JSON.parse(localStorage.getItem('drinksList'));
-        drinks = drinks.map(id => JSON.parse(localStorage.getItem(id)) );
-        let sum = 0;
-        let newDrinks = drinks.map((e, i) => {
-            sum += e['price'];
-            return (<DrinkPanel key={e.id} data={e} retrieveHistory={this.retrieveHistory} accessToken={this.props.accessToken}/>);
-        });
-        this.setState({
-            drinks: newDrinks,
-            sum: sum
-        });
+        // let drinks = JSON.parse(localStorage.getItem('drinksList'));
+        // drinks = drinks.map(id => JSON.parse(localStorage.getItem(id)) );
+        // let sum = 0;
+        // let newDrinks = drinks.map((e, i) => {
+        //     sum += e['price'];
+        //     return (<DrinkPanel key={e.id} data={e} retrieveHistory={this.retrieveHistory} accessToken={this.props.accessToken}/>);
+        // });
+        // this.setState({
+        //     drinks: newDrinks,
+        //     sum: sum
+        // });
     };
     
     render() {

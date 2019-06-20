@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {MemoryRouter as Router, Route, Switch} from 'react-router-dom';
+import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Add from './components/Add';
 import User from './components/User';
@@ -7,50 +7,42 @@ import History from './components/History';
 import Login from './components/Login';
 import stats from './components/calculateStatistics.js';
 import Navigation from './Navigation';
+import backend from './components/firebaseCalls';
 import './App.css';
 
 class App extends Component {
     constructor(props){
         super(props);
-        // const isIos = () => {
-        //     const userAgent = window.navigator.userAgent.toLowerCase();
-        //     return /iphone|ipad|ipod/.test( userAgent );
-        // }
-        // const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);        
-        // if (isIos() && !isInStandaloneMode()) {
-        //     /**
-        //      * TODO: Prompt user for adding on safari
-        //      */
-        // }
+
+        backend.init();
+        backend.login.check( this.successfulLogin );
+        
         this.state = {
             add: false,
             user: false,
             value: '',
-            userId: 1,
-            accessToken: 0,
-            metrics: stats.getDefaultMetrics()
+            metrics: stats.getDefaultMetrics(),
         };
         this.update = React.createRef();
     }
     toggle = (item) => {
-        this.setState(state => ({
-            [item]: !state[item],
-        }));
+        this.setState(state => ({ [item]: !state[item] }));
         this.update.current.update();
     }
-    handleChange = (event, value) => {
-        this.setState({ value });
-    };
-    successfulLogin = (userid, fbRes) => {
-        this.setState({
-            userId: userid,
-            accessToken: fbRes.accessToken,
-            fbRes: fbRes
-        });
+    handleChange = (event, value) => { this.setState({ value }) };
+    successfulLogin = ( r ) => {
+        if(localStorage.getItem('uid') !== r.user.uid){
+            localStorage.clear();
+            localStorage.setItem('uid', r.user.uid);
+            localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );
+        }
+        this.setState({ uid: r.user.uid, loggedIn: true });
+        window.location.href = window.location.origin + '/#/dash';
     }
     render() {
+        const s = this.state;
         return (
-        <Router basename={process.env.PUBLIC_URL} initialEntries={['/', '/dash', '/history']} initialIndex={0}>
+        <Router basename={process.env.PUBLIC_URL} >
             <Switch>
                 <Route exact strict path='/' render={() => <Login successfulLogin={ this.successfulLogin }/> }/>
                 <Route strict path='/:page' render={() => 
@@ -63,41 +55,20 @@ class App extends Component {
                                 onClick={() => this.toggle('user')}
                             />
                             <Route exact path='/dash' render={() => 
-                                <Dashboard 
-                                    userId={this.state.userId} 
-                                    accessToken={this.state.accessToken}
-                                    metrics={this}
-                                    ref={this.update}
-                                />
+                                <Dashboard ref={this.update} />
                             }/>
                             <Route exact path='/history' render={() => 
-                                <History 
-                                    accessToken={ this.state.accessToken }
-                                    userId={this.state.userId}
-                                    ref={this.update}
-                                />
+                                <History ref={this.update} />
                             }/>
                         </div>
-                        <Add 
-                            open={this.state.add}
-                            accessToken={this.state.accessToken}
-                            userId={this.state.userId}
-                            close={() => this.toggle('add')}
-                        />
-                        <User
-                            open={this.state.user}
-                            accessToken={this.state.accessToken}
-                            userId={this.state.userId}
-                            close={() => this.toggle('user')}
-                        />
-                        <Navigation
-                            value={this.state.value}
-                            handleChange={this.handleChange}
-                            toggleAdd={() => this.toggle('add')}
-                        />
+
+                        <Add open={s.add} close={() => this.toggle('add')} />
+                        <User open={s.user} close={() => this.toggle('user')} />
+
+                        <Navigation value={s.value} handleChange={this.handleChange} toggleAdd={() => this.toggle('add')} />
                     </div>
                 } />
-                <Route render={() => <Login successfulLogin={ this.successfulLogin }/> }/>
+                <Route render={() => <Login successfulLogin = { this.successfulLogin }/> }/>
             </Switch>
         </Router>
         );

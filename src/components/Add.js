@@ -8,6 +8,7 @@ import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';
 import {withRouter} from 'react-router-dom';
 import stats from './calculateStatistics';
+import backend from './firebaseCalls';
 
 export class Add extends Component {
     state = {
@@ -36,7 +37,7 @@ export class Add extends Component {
         });   
     }
     /**
-     * @function saveDrink - called when the user submits drink information to be added.
+     * @function addDrink - called when the user submits drink information to be added.
      * Has 3 parts:
      *  1. Gets all the user filled out info
      *  2. Only required parameter is price and if not filled, throws error
@@ -45,7 +46,7 @@ export class Add extends Component {
      * TODO: better job of parsing the info and potentially add chips and autofill for
      * better data processing
      */
-    saveDrink = () => {
+    addDrink = () => {
         let data = {
             drink: {
                 name: document.getElementById('name-value').value,
@@ -57,6 +58,7 @@ export class Add extends Component {
                 description: document.getElementById('description-value').value
             }
         }
+        // validate price
         if(document.getElementById('price-value').value === '' || 
             isNaN(parseInt(document.getElementById('price-value').value)) ||
             parseInt(document.getElementById('price-value').value) === 0
@@ -64,21 +66,7 @@ export class Add extends Component {
             swal("Error!", `Please enter a price to add drink`, "error");
             return;
         }
-        fetch("https://api.boba.watch/drinks/" + this.props.accessToken, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data),
-        }).then(resp => {
-            if (!resp.ok) {
-                throw Error(resp.statusText);
-            }
-            return resp;
-        }).then((resp) => { this.update();
-        }).catch(err => {swal("Error!", `Couldn't update drinks. Error: ${err}`, "error");
-        });
+        backend.add(data, this.update);
     };
     render() {
         return (
@@ -104,7 +92,7 @@ export class Add extends Component {
                 </MuiPickersUtilsProvider>
                 <TextField id="description-value" className="add-input" label="Description"/>
                 <div className="add-button-holder">
-                    <Button onClick={this.saveDrink} className="add-button">ADD</Button>
+                    <Button onClick={this.addDrink} className="add-button">ADD</Button>
                 </div>
             </div>
         </Modal>

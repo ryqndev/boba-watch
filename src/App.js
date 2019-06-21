@@ -13,30 +13,31 @@ import './App.css';
 class App extends Component {
     constructor(props){
         super(props);
-
         backend.init();
         backend.login.check( this.successfulLogin );
-        
-        this.state = {
-            add: false,
-            user: false,
-            value: '',
-            metrics: stats.getDefaultMetrics(),
-        };
         this.update = React.createRef();
     }
+    state = {
+        add: false,
+        user: false,
+        value: '',
+        metrics: stats.getDefaultMetrics(),
+    };
+
     toggle = (item) => {
         this.setState(state => ({ [item]: !state[item] }));
         this.update.current.update();
     }
+
     handleChange = (event, value) => { this.setState({ value }) };
+
     successfulLogin = ( r ) => {
         if(localStorage.getItem('uid') !== r.user.uid){
             localStorage.clear();
             localStorage.setItem('uid', r.user.uid);
             localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );
         }
-        this.setState({ uid: r.user.uid, loggedIn: true });
+        this.setState({ uid: r.user.uid });
         window.location.href = window.location.origin + '/#/dash';
     }
     render() {
@@ -44,7 +45,7 @@ class App extends Component {
         return (
         <Router basename={process.env.PUBLIC_URL} >
             <Switch>
-                <Route exact strict path='/' render={() => <Login successfulLogin={ this.successfulLogin }/> }/>
+                <Route exact strict path='/' render={() => <Login successfulLogin = { this.successfulLogin }/> }/>
                 <Route strict path='/:page' render={() => 
                     <div>
                         <div className="page">
@@ -65,7 +66,7 @@ class App extends Component {
                         <Add open={s.add} close={() => this.toggle('add')} />
                         <User open={s.user} close={() => this.toggle('user')} />
 
-                        <Navigation value={s.value} handleChange={this.handleChange} toggleAdd={() => this.toggle('add')} />
+                        <Navigation value={s.value} handleChange = {this.handleChange} toggleAdd={() => this.toggle('add')} />
                     </div>
                 } />
                 <Route render={() => <Login successfulLogin = { this.successfulLogin }/> }/>

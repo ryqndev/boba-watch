@@ -27,6 +27,7 @@ export class Login extends Component {
             <Snackbar
                 open={this.state.isDesktop}
                 message={[desktopAlertString,  <a 
+                    key="help-link"
                     href="https://info.boba.watch/"
                     rel="noopener noreferrer"
                     target='_blank'

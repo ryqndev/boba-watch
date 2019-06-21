@@ -54,8 +54,37 @@ let checkLogin = ( callback ) => {
     });      
 }
 
+let logout = ( callback ) => {
+    firebase.auth().signOut().then(function() {
+        callback();
+    }).catch(function(error) {
+        swal("Error!", `Login Unsuccessful: ${error}`, "error");
+        console.log(error);
+    });
+}
+
 let getDrinks = ( callback ) => {
-    // fetch(`https://api.boba.watch/users/${userId}/${accessToken}`
+    db.collection(`users/${localStorage.getItem('uid')}/drinks`).get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            console.log(doc.id, " => ", doc.data());
+        });
+    });
+}
+
+let updateUser = ( userProperties ) => {
+    // const data = { 
+    //     "user": {
+    //         "public": this.state.userPublic
+    //     }
+    // };
+    // fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`, {
+    //     method: 'PUT',
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(data),
+    // }
     // ).then(resp => {
     //     if (!resp.ok) {
     //         throw Error(resp.statusText);
@@ -64,16 +93,11 @@ let getDrinks = ( callback ) => {
     // }).then(resp => {
     //     return resp.json();
     // }).then(resp => {
-    //     localStorage.setItem('userSpendMax', resp.budget);
-    //     localStorage.setItem('userDrinkMax', resp.maxDrinks);
-    //     localStorage.setItem('userPublic', resp.public);
-    //     this.props.history.push('./dash');
+    //     localStorage.setItem('userPublic', this.state.userPublic);
+    //     swal("Success!", "Your privacy settings have been changed", "success");
     // }).catch(err => {
-    //     swal("Error!", "I had trouble getting your drinks.", "error");
+    //     swal("Error!", "Error changing privacy setting", "error");
     // });
-}
-
-let updateUser = ( callback ) => {
     // fetch(`https://api.boba.watch/users/${userId}/${accessToken}`
     // ).then(resp => {
     //     if (!resp.ok) {
@@ -94,8 +118,9 @@ let updateUser = ( callback ) => {
 
 let addDrink = ( data, callback ) => {
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
-    .push( data )
+    .add( data )
     .then( ( resp ) => {
+        alert(resp);
         callback( resp );
     }).catch(function(error) {
         swal("Error!", `${error}`, "error");
@@ -113,6 +138,7 @@ export default {
         check: checkLogin,
         attempt: attemptLogin
     },
+    logout: logout,
     user: {
         update: updateUser
     },

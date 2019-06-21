@@ -7,16 +7,12 @@ import Utils from './textUtil.js';
 import './styles/history.css';
 
 export class DrinkPanel extends Component {
-    state =  {
-        open: false,
-        add: false
-    }
-    toggle = () => {
-        this.setState(state => ({ open: !state.open }));
-    }
-    toggleAdd = () => {
-        this.setState(state => ({ add: !state.add }));
-    }
+    state =  { open: false, add: false }
+
+    toggle = () => { this.setState(state => ({ open: !state.open })) }
+
+    toggleAdd = () => { this.setState(state => ({ add: !state.add })) }
+
     hasImage = () => {
         if(this.props.data.photo !== null && this.props.data.photo.trim() !== "" && this.props.data.photo !== "asdf" ){
             return  <img alt="drink" src={this.props.data.photo} />;
@@ -28,9 +24,7 @@ export class DrinkPanel extends Component {
         //     this.props.retrieveHistory();
         // }).catch(err => { swal('Error!', `Couldn't delete your drink. Try again later!`, 'error') });
     }
-    edit = () => {
-        this.toggleAdd(this.delete);
-    }
+    edit = () => { this.toggleAdd(this.delete) }
     /**
      * TODO: if implementing edit function ever again, uncomment below code
      */

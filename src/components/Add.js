@@ -7,34 +7,17 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';
 import {withRouter} from 'react-router-dom';
-import stats from './calculateStatistics';
 import backend from './firebaseCalls';
 
 export class Add extends Component {
-    state = {
-        selectedDate: new Date()
-    }
-    handleDateChange = (date) => {
-        this.setState({ selectedDate: date });
-    };
+    state = { selectedDate: new Date() }
+    handleDateChange = (date) => { this.setState({ selectedDate: date }) };
     /**
      * @function update
      * TODO: implement live reload instead of using recalculate metrics
      */
     update = () => {
-        fetch("https://api.boba.watch/drinks/user/" + this.props.userId,{
-        }).then(resp => {
-            if (!resp.ok) {
-                throw Error(resp.statusText);
-            }
-            return resp;
-        }).then((resp) => { return resp.json();
-        }).then((resp) => { 
-            stats.recalculateMetrics(resp);
-            swal("Done!", "Drink has been added", "success"); 
-            this.props.close();
-        }).catch(err => { swal("Error!", `Something Went Wrong: ${err}`, "error");
-        });   
+        this.props.close();
     }
     /**
      * @function addDrink - called when the user submits drink information to be added.
@@ -53,7 +36,6 @@ export class Add extends Component {
                 location: document.getElementById('location-value').value,
                 price: parseInt(document.getElementById('price-value').value * 100),
                 date: new Date(document.getElementById('date-value').value).toISOString(),
-                photo: "",
                 userId: parseInt(this.props.userId),
                 description: document.getElementById('description-value').value
             }
@@ -66,7 +48,7 @@ export class Add extends Component {
             swal("Error!", `Please enter a price to add drink`, "error");
             return;
         }
-        backend.add(data, this.update);
+        backend.drinks.add(data, this.update);
     };
     render() {
         return (

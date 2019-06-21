@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Typography, Card} from '@material-ui/core';
 import { XYPlot, XAxis, YAxis, HeatmapSeries, Sunburst } from 'react-vis';
 import Utils from './textUtil.js';
+import backend from './firebaseCalls';
 import './styles/dashboard.css';
 import 'react-vis/dist/style.css';
 
@@ -25,6 +26,7 @@ function getDailyData(metrics){
 export class Dashboard extends Component {
     constructor(props) {
         super(props);
+        backend.drinks.get();
         // let metrics = JSON.parse(localStorage.getItem('metrics'));
         // const drinkTotal = localStorage.getItem('userDrinkMax');
         // this.state = {

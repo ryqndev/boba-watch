@@ -53,3 +53,6 @@
     background-color: #FF5050 !important;
     color: white !important;
 }
+#copy-me{
+    white-space:nowrap;
+}

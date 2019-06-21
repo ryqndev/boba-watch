@@ -22,7 +22,7 @@ export class Navigation extends Component {
                     disableRipple={true}
                     onClick={this.props.toggleAdd}
                     onClose={this.refocus}
-                    icon={ <div className="center-fab"> < AddIcon style={{ fontSize: 50 }}/></div> }
+                    icon={<div className="center-fab">< AddIcon style={{ fontSize: 50 }}/></div>}
                 />
                 <BottomNavigationAction
                     label="Spending"
@@ -32,7 +32,7 @@ export class Navigation extends Component {
                     icon={<HistoryIcon />}
                 />
             </BottomNavigation>
-        )
+        );
     }
 }
 

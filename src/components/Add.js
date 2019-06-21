@@ -12,11 +12,13 @@ import backend from './firebaseCalls';
 export class Add extends Component {
     state = { selectedDate: new Date() }
     handleDateChange = (date) => { this.setState({ selectedDate: date }) };
+
     /**
      * @function update
      * TODO: implement live reload instead of using recalculate metrics
      */
-    update = () => {
+    update = ( resp ) => {
+        backend.drinks.get();
         this.props.close();
     }
     /**
@@ -36,7 +38,6 @@ export class Add extends Component {
                 location: document.getElementById('location-value').value,
                 price: parseInt(document.getElementById('price-value').value * 100),
                 date: new Date(document.getElementById('date-value').value).toISOString(),
-                userId: parseInt(this.props.userId),
                 description: document.getElementById('description-value').value
             }
         }

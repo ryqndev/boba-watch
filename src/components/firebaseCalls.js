@@ -12,6 +12,10 @@ import swal from 'sweetalert';
 let db;
 let provider;
 
+/**
+ * @function init
+ * @description initializes the firestore and fb auth 
+ */
 let init = () => {
     db = firebase.firestore();
     provider = new firebase.auth.FacebookAuthProvider();
@@ -43,7 +47,6 @@ let attemptLogin = ( callback ) => {
  * 
  * @description checks the firebase redirect login flow to see
  * if login has been successful
- * 
  */
 let checkLogin = ( callback ) => {
     firebase.auth().getRedirectResult().then((result) => {
@@ -54,6 +57,13 @@ let checkLogin = ( callback ) => {
     });      
 }
 
+/**
+ * @function logout
+ * @param {*} callback - callback function should trigger a redirect
+ * to the login page
+ * 
+ * @description logs user out.
+ */
 let logout = ( callback ) => {
     firebase.auth().signOut().then(function() {
         callback();
@@ -63,12 +73,26 @@ let logout = ( callback ) => {
     });
 }
 
+/**
+ * @function getDrinks
+ * @param {*} callback - function with 1 parameter that gets called
+ * on function success. callback should have parameter that gets 
+ * the returned data on successful login
+ * 
+ * @description Gets all the drinks listed under current user and 
+ * returns an array of all the drinks with data reformatted
+ */
 let getDrinks = ( callback ) => {
-    db.collection(`users/${localStorage.getItem('uid')}/drinks`).get().then(function(querySnapshot) {
+    let drinks = [];
+    db.collection(`users/${localStorage.getItem('uid')}/drinks`).orderBy("drink.date", "desc").limit(20).get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            console.log(doc.id, " => ", doc.data());
+            let drinkPropery = doc.data().drink;
+            drinkPropery['drinkid'] = doc.id;
+            drinks.push(drinkPropery);
         });
+        console.log(drinks);
     });
+
 }
 
 let updateUser = ( userProperties ) => {
@@ -120,7 +144,6 @@ let addDrink = ( data, callback ) => {
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
     .add( data )
     .then( ( resp ) => {
-        alert(resp);
         callback( resp );
     }).catch(function(error) {
         swal("Error!", `${error}`, "error");

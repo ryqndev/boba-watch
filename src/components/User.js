@@ -30,7 +30,7 @@ export class User extends Component {
     handleToggle = () => {
         this.setState(state => ({
             userPublic: !state.userPublic,
-        }), () => {this.makePublic()});
+        }), () => { this.makePublic()} );
     }
     close = () => { this.props.close() }
 

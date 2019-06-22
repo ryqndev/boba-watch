@@ -8,6 +8,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import stats from './calculateStatistics';
 import swal from 'sweetalert';
 
 let db;
@@ -19,7 +20,6 @@ let provider;
 let nothing = () => {
     return;   
 }
-
 /**
  * @function init
  * @description initializes the firestore and fb auth 
@@ -28,7 +28,6 @@ let init = () => {
     db = firebase.firestore();
     provider = new firebase.auth.FacebookAuthProvider();
 }
-
 /**
  * @function attemptLogin
  * @param {*} callback - function with 1 parameter that gets called
@@ -46,7 +45,6 @@ let attemptLogin = ( callback=nothing ) => {
         console.log(error);
     });
 }
-
 /**
  * @function checkLogin
  * @param {*} callback - function with 1 parameter that gets called
@@ -64,7 +62,6 @@ let checkLogin = ( callback ) => {
         console.log(error);
     });      
 }
-
 /**
  * @function logout
  * @param {*} callback - callback function should trigger a redirect
@@ -80,7 +77,6 @@ let logout = ( callback=nothing ) => {
         console.log(error);
     });
 }
-
 /**
  * @function getDrinks
  * @param {*} process - @see defaultProcess to see how this parameter
@@ -96,7 +92,7 @@ let logout = ( callback=nothing ) => {
  * 
  * TODO: funnction should be called when user attempts to refresh any page
  */
-let getDrinks = ( process=defaultProcess ) => {
+let getDrinks = ( callback=nothing, process=defaultProcess ) => {
     let collections = process.init();
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
         .orderBy('drink.date', 'desc')
@@ -109,10 +105,10 @@ let getDrinks = ( process=defaultProcess ) => {
                 });          
             });
             process.end(collections);
+            callback();
         }
     );
 }
-
 /**
  * @var defaultProcess - default process for extracting drinks from 
  * firebase and using the data ( stores all drink ids as list as well
@@ -134,13 +130,13 @@ let defaultProcess = {
             }
         ));
         return [
-            // {
-            //     key: 'drinks',
-            //     value: { 
-            //         ...properties.data().drink,
-            //         id: properties.id
-            //     }
-            // },
+            {
+                key: 'drinks',
+                value: { 
+                    ...properties.data().drink,
+                    id: properties.id
+                }
+            },
             {
                 key: 'drinkids',
                 value: properties.id
@@ -149,9 +145,9 @@ let defaultProcess = {
     },
     end: ( result ) => {
         localStorage.setItem('drinkids', JSON.stringify(result.drinkids));
+        stats.recalculateMetrics(result.drinks);
     }
 }
-
 /**
  * @function setupUser
  * 
@@ -161,7 +157,7 @@ let defaultProcess = {
  */
 let setupUser = ( callback=nothing ) => {
     const defaultProfile = {
-        'budget': 300,
+        'budget': 30000,
         'maxDrinks': 15,
         'public': false
     }
@@ -179,7 +175,6 @@ let setupUser = ( callback=nothing ) => {
         swal("Error!", `${error}`, "error");
     });
 }
-
 let updateUser = ( userProperties ) => {
     // const data = { 
     //     "user": {
@@ -224,7 +219,12 @@ let updateUser = ( userProperties ) => {
     //     swal("Error!", "I had trouble getting your drinks.", "error");
     // });
 }
-
+/**
+ * @function addDrink
+ *  
+ * @description Adds a drink to firebase and should return information
+ * regarding the added drink such as the generated id
+ */
 let addDrink = ( data, callback=nothing ) => {
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
     .add( data )
@@ -234,11 +234,8 @@ let addDrink = ( data, callback=nothing ) => {
         swal("Error!", `${error}`, "error");
     });
 }
-
 let deleteDrink = () => {
-
 }
-
 export default {
     init: init,
     login: {

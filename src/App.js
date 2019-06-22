@@ -26,7 +26,6 @@ class App extends Component {
         this.update.current.update();
     }
     handleChange = (event, value) => { this.setState({ value }) };
-
     /**
      * @function successfulLogin - handles a successful login
      * @param {*} r - firebase auth response
@@ -49,18 +48,18 @@ class App extends Component {
             localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );
             backend.drinks.get();
         }
-        backend.user.setup();
         if(r.additionalUserInfo.isNewUser){
             backend.user.setup(
                 () => {
-                    window.location.href = window.location.origin + '/#/dash';
+                    backend.drinks.get( () => {
+                        window.location.href = window.location.origin + '/#/dash';
+                    });
                 }
             );
         }else{
             window.location.href = window.location.origin + '/#/dash';
         }
     }
-
     render() {
         const s = this.state;
         return (

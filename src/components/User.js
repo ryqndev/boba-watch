@@ -35,9 +35,10 @@ export class User extends Component {
     close = () => { this.props.close() }
 
     render() { 
+        const s = this.state;
         return (
         <Modal open={this.props.open}>
-            <div className="user-modal" style={{height: this.state.userPublic ? 385 : 350}}>
+            <div className="user-modal" style={{height: s.userPublic ? 385 : 350}}>
                 <IconButton color="secondary" className="close-button" onClick={this.close}>
                     <CloseButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
@@ -49,7 +50,7 @@ export class User extends Component {
                     variant="outlined"
                     margin="normal"
                     onChange={this.handleChange('userSpendMax')}
-                    value={this.state.userSpendMax}
+                    value={s.userSpendMax}
                     label="Monthly Spending Limit"
                 />
                 <TextField
@@ -58,19 +59,19 @@ export class User extends Component {
                     margin="dense"
                     variant="outlined"
                     onChange={this.handleChange('userDrinkMax')}
-                    value={this.state.userDrinkMax}
+                    value={s.userDrinkMax}
                     label="Max of drinks / month"
                 />
                 <div className="user-share-profile">
                     Share Profile: 
                     <Switch
-                        checked={this.state.userPublic}
+                        checked={s.userPublic}
                         onClick={this.handleToggle}
                         label="Share Profile"
                         color="primary"
                     />
                 </div>
-                <Collapse in={this.state.userPublic}>
+                <Collapse in={s.userPublic}>
                     <TextClipboard text={`https://share.boba.watch/#/${localStorage.getItem('uid')}`}/>
                 </Collapse>
                 <div className="update-button-holder">
@@ -81,7 +82,7 @@ export class User extends Component {
                         style={logoutButton}>
                         LOGOUT
                     </Button>
-                    <Button className="update-button" onClick={this.updateUser}>UPDATE</Button>
+                    <Button className="update-button" onClick={ () => { backend.user.update(s) } }>UPDATE</Button>
                 </div>
             </div>
         </Modal>

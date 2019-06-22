@@ -7,10 +7,9 @@ import Utils from './textUtil.js';
 import './styles/history.css';
 
 export class DrinkPanel extends Component {
-    state =  { open: false, add: false }
 
+    state =  { open: false, add: false };
     toggle = () => { this.setState(state => ({ open: !state.open })) }
-
     toggleAdd = () => { this.setState(state => ({ add: !state.add })) }
 
     hasImage = () => {

@@ -85,7 +85,7 @@ export class User extends Component {
                 </div>
             </div>
         </Modal>
-        )
+        );
     }
 }
 

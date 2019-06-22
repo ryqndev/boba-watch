@@ -3,7 +3,6 @@ import {Typography} from '@material-ui/core';
 import DrinkPanel from './DrinkPanel';
 import Utils from './textUtil.js';
 import stats from './calculateStatistics';
-import swal from 'sweetalert';
 import './styles/history.css';
 
 export class History extends Component {
@@ -36,17 +35,17 @@ export class History extends Component {
         // });   
     }
     generate = () => {
-        // let drinks = JSON.parse(localStorage.getItem('drinksList'));
-        // drinks = drinks.map(id => JSON.parse(localStorage.getItem(id)) );
-        // let sum = 0;
-        // let newDrinks = drinks.map((e, i) => {
-        //     sum += e['price'];
-        //     return (<DrinkPanel key={e.id} data={e} retrieveHistory={this.retrieveHistory} accessToken={this.props.accessToken}/>);
-        // });
-        // this.setState({
-        //     drinks: newDrinks,
-        //     sum: sum
-        // });
+        let drinks = JSON.parse(localStorage.getItem('drinkids'));
+        drinks = drinks.map(id => JSON.parse(localStorage.getItem(id)) );
+        let sum = 0;
+        let newDrinks = drinks.map((e, i) => {
+            sum += e['price'];
+            return (<DrinkPanel key={e.id} data={e} retrieveHistory={this.retrieveHistory} />);
+        });
+        this.setState({
+            drinks: newDrinks,
+            sum: sum
+        });
     };
     
     render() {
@@ -56,7 +55,9 @@ export class History extends Component {
             <div id="history-spending">
                 {this.state.drinks}
             </div>
-            <Typography variant="h3" className="history-total"> <span>Monthly Total:</span> ${Utils.toMoney(this.state.sum)} </Typography>
+            <Typography variant="h3" className="history-total">
+                <span>Monthly Total:</span> ${Utils.toMoney(this.state.sum)}
+            </Typography>
         </div>
         )
     }

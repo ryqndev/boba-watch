@@ -79,20 +79,48 @@ let logout = ( callback ) => {
  * on function success. callback should have parameter that gets 
  * the returned data on successful login
  * 
+ * @returns array of drink objects through a callback function
+ * 
  * @description Gets all the drinks listed under current user and 
  * returns an array of all the drinks with data reformatted
  */
-let getDrinks = ( callback ) => {
-    let drinks = [];
-    db.collection(`users/${localStorage.getItem('uid')}/drinks`).orderBy("drink.date", "desc").limit(20).get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            let drinkPropery = doc.data().drink;
-            drinkPropery['drinkid'] = doc.id;
-            drinks.push(drinkPropery);
-        });
-        console.log(drinks);
-    });
+let getDrinks = ( process ) => {
+    let collections = process.init();
+    db.collection(`users/${localStorage.getItem('uid')}/drinks`)
+        .orderBy('drink.date', 'desc')
+        .limit(20)
+        .get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                process.each(doc).forEach( e => {
+                    collections[e.key].push(e.value);
+                });          
+            });
+            process.end(collections);
+        }
+    );
+}
 
+/**
+ * @function setupUser
+ * 
+ * @var defaultProfile - schema for user profile to follow
+ * 
+ * @description Called when user is brand new. Sets up their profile on firebase
+ */
+let setupUser = ( callback ) => {
+    const defaultProfile = {
+        'budget': 300,
+        'maxDrinks': 15,
+        'public': false
+    }
+    db.collection(`users/${localStorage.getItem('uid')}/profile`)
+    .set( defaultProfile )
+    .then( ( resp ) => {
+        callback( resp );
+    }).catch(function(error) {
+        swal("Error!", `${error}`, "error");
+    });
 }
 
 let updateUser = ( userProperties ) => {
@@ -154,7 +182,6 @@ let deleteDrink = () => {
 
 }
 
-
 export default {
     init: init,
     login: {
@@ -163,6 +190,7 @@ export default {
     },
     logout: logout,
     user: {
+        setup: setupUser,
         update: updateUser
     },
     drinks: {

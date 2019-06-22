@@ -6,26 +6,23 @@ import './styles/login.css';
 import stats from './calculateStatistics';
 import backend from './firebaseCalls';
 
-let isdesktop = () => { return window.innerHeight/window.innerWidth < 1.2 }
+let ar = () => { return window.innerHeight/window.innerWidth < 1.2 }
 
 const desktopAlertString = `Looks like you're using a desktop / landscape mode. Although we're working hard on designing an intuitive desktop mode, there isn't one at the moment. For the best experience, download our progressive web app on your phone! Find more info here:`;
 
 export class Login extends Component {
-    state = { isDesktop: isdesktop() }
-    componentDidMount = () => {
-        window.addEventListener( 'resize', () => this.setState({ isDesktop: isdesktop() } ) );
-    }
-    handleClose = () => { this.setState({ isDesktop: false }) }
-    loggedIn = ( r ) => {
-        this.props.successfulLogin( r );
-    };
+    state = { ar: ar() }
+    componentDidMount = () => { window.addEventListener( 'resize', () => this.setState({ ar: ar() } ) ) }
+    handleClose = () => { this.setState({ ar: false }) }
+    loggedIn = ( r ) => { this.props.successfulLogin( r ) };
+
     render() {
         return (
         <div className="login-page">
             <div className="login-logo"></div>
             <Typography variant="h1">boba watch</Typography>
             <Snackbar
-                open={this.state.isDesktop}
+                open={this.state.ar}
                 message={[desktopAlertString,  <a 
                     key="help-link"
                     href="https://info.boba.watch/"

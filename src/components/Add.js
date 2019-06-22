@@ -18,7 +18,7 @@ export class Add extends Component {
      * TODO: implement live reload instead of using recalculate metrics
      */
     update = ( resp ) => {
-        backend.drinks.get();
+        // backend.drinks.get();
         this.props.close();
     }
     /**

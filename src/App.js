@@ -31,15 +31,75 @@ class App extends Component {
 
     handleChange = (event, value) => { this.setState({ value }) };
 
+    /**
+     * @function successfulLogin - handles a successful login
+     * @param {*} r - firebase auth response
+     * 
+     * @description Login does multiple checks and then goes through
+     * login phase.
+     * 
+     * First check - if this is a new device or a new user on current device
+     * If true, it will clear the localstorage and fill it with the new user's
+     * information
+     * 
+     * Second check - if user is brand new, generate a defualt profile for them
+     * 
+     * After checks, should redirect to dashboard page
+     */
     successfulLogin = ( r ) => {
+        backend.drinks.get( this.processLogin );
         if(localStorage.getItem('uid') !== r.user.uid){
             localStorage.clear();
             localStorage.setItem('uid', r.user.uid);
             localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );
         }
-        this.setState({ uid: r.user.uid });
-        window.location.href = window.location.origin + '/#/dash';
+        if(r.additionalUserInfo.isNewUser){
+            backend.user.setup(
+                () => {
+                    window.location.href = window.location.origin + '/#/dash';
+                }
+            );
+        }else{
+            window.location.href = window.location.origin + '/#/dash';
+        }
     }
+    getEach = ( properties ) => {
+        localStorage.setItem(properties.id, properties);
+    }
+    processLogin = {
+        init: () => {
+            return {
+                drinks: [],
+                drinkids: []
+            }
+        },
+        each: ( properties ) => {
+            localStorage.setItem(properties.id, JSON.stringify(
+                {
+                    ...properties.data().drink,
+                    id: properties.id
+                }
+            ));
+            return [
+                {
+                    key: 'drinks',
+                    value: { 
+                        ...properties.data().drink,
+                        id: properties.id
+                    }
+                },
+                {
+                    key: 'drinkids',
+                    value: properties.id
+                }
+            ];
+        },
+        end: ( result ) => {
+            localStorage.setItem('drinkids', JSON.stringify(result.drinkids));
+        }
+
+    }
+
     render() {
         const s = this.state;
         return (

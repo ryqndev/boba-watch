@@ -75,16 +75,18 @@ let logout = ( callback ) => {
 
 /**
  * @function getDrinks
- * @param {*} callback - function with 1 parameter that gets called
- * on function success. callback should have parameter that gets 
- * the returned data on successful login
+ * @param {*} process - @see defaultProcess to see how this parameter
+ * should be formatted. Should be a JSON object with 3 keys:
+ * init() - should return an object with all properties to be formatted
+ * each() - gets called for each drink object
+ * end( result ) - result of process
  * 
  * @returns array of drink objects through a callback function
  * 
  * @description Gets all the drinks listed under current user and 
  * returns an array of all the drinks with data reformatted
  */
-let getDrinks = ( process ) => {
+let getDrinks = ( process = defaultProcess ) => {
     let collections = process.init();
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
         .orderBy('drink.date', 'desc')
@@ -99,6 +101,45 @@ let getDrinks = ( process ) => {
             process.end(collections);
         }
     );
+}
+
+/**
+ * @var defaultProcess - default process for extracting drinks from 
+ * firebase and using the data ( stores all drink ids as list as well
+ * as each drink's data individually )
+ * 
+ */
+let defaultProcess = {
+    init: () => {
+        return {
+            drinks: [],
+            drinkids: []
+        }
+    },
+    each: ( properties ) => {
+        localStorage.setItem(properties.id, JSON.stringify(
+            {
+                ...properties.data().drink,
+                id: properties.id
+            }
+        ));
+        return [
+            // {
+            //     key: 'drinks',
+            //     value: { 
+            //         ...properties.data().drink,
+            //         id: properties.id
+            //     }
+            // },
+            {
+                key: 'drinkids',
+                value: properties.id
+            }
+        ];
+    },
+    end: ( result ) => {
+        localStorage.setItem('drinkids', JSON.stringify(result.drinkids));
+    }
 }
 
 /**

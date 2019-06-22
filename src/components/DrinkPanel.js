@@ -23,10 +23,11 @@ export class DrinkPanel extends Component {
         //     this.props.retrieveHistory();
         // }).catch(err => { swal('Error!', `Couldn't delete your drink. Try again later!`, 'error') });
     }
-    edit = () => { this.toggleAdd(this.delete) }
+    
     /**
      * TODO: if implementing edit function ever again, uncomment below code
      */
+    // edit = () => { this.toggleAdd(this.delete) }
     render() {
         let dDate = new Date(this.props.data.date);
         return (

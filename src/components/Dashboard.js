@@ -28,7 +28,7 @@ export class Dashboard extends Component {
         super(props);
         // let metrics = JSON.parse(localStorage.getItem('metrics'));
         // const drinkTotal = localStorage.getItem('userDrinkMax');
-        // this.state = {
+        this.state = {
         //     totalCost: metrics.totalCost,
         //     totalDrinks: metrics.totalDrinks,
         //     drinkPercentage: parseInt((metrics.totalDrinks/drinkTotal) * 100),
@@ -58,7 +58,7 @@ export class Dashboard extends Component {
         //             }
         //         ]
         //     }
-        // };
+        };
     }
     update = () => {
         // let metrics = JSON.parse(localStorage.getItem('metrics'));

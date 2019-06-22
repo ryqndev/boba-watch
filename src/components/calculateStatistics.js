@@ -21,7 +21,7 @@ function getDefaultMetrics(){
     for(let i = 0; i < 7; i++){
         metrics.drinks[i] = Array(24).fill(0);
     }
-    return metrics
+    return metrics;
 }
 
 /**

@@ -5,7 +5,6 @@ import Add from './components/Add';
 import User from './components/User';
 import History from './components/History';
 import Login from './components/Login';
-import stats from './components/calculateStatistics.js';
 import Navigation from './Navigation';
 import backend from './components/firebaseCalls';
 import './App.css';
@@ -21,14 +20,11 @@ class App extends Component {
         add: false,
         user: false,
         value: '',
-        metrics: stats.getDefaultMetrics(),
     };
-
     toggle = (item) => {
         this.setState(state => ({ [item]: !state[item] }));
         this.update.current.update();
     }
-
     handleChange = (event, value) => { this.setState({ value }) };
 
     /**
@@ -62,42 +58,6 @@ class App extends Component {
         }else{
             window.location.href = window.location.origin + '/#/dash';
         }
-    }
-    getEach = ( properties ) => {
-        localStorage.setItem(properties.id, properties);
-    }
-    processLogin = {
-        init: () => {
-            return {
-                drinks: [],
-                drinkids: []
-            }
-        },
-        each: ( properties ) => {
-            localStorage.setItem(properties.id, JSON.stringify(
-                {
-                    ...properties.data().drink,
-                    id: properties.id
-                }
-            ));
-            return [
-                {
-                    key: 'drinks',
-                    value: { 
-                        ...properties.data().drink,
-                        id: properties.id
-                    }
-                },
-                {
-                    key: 'drinkids',
-                    value: properties.id
-                }
-            ];
-        },
-        end: ( result ) => {
-            localStorage.setItem('drinkids', JSON.stringify(result.drinkids));
-        }
-
     }
 
     render() {

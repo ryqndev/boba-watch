@@ -43,12 +43,13 @@ class App extends Component {
      * After checks, should redirect to dashboard page
      */
     successfulLogin = ( r ) => {
-        backend.drinks.get( this.processLogin );
         if(localStorage.getItem('uid') !== r.user.uid){
             localStorage.clear();
             localStorage.setItem('uid', r.user.uid);
             localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );
+            backend.drinks.get();
         }
+        backend.user.setup();
         if(r.additionalUserInfo.isNewUser){
             backend.user.setup(
                 () => {

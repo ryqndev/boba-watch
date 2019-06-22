@@ -4,6 +4,7 @@
  * @summary - A set of functions to help organize all the server calls
  * in one place
  */
+
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -11,6 +12,13 @@ import swal from 'sweetalert';
 
 let db;
 let provider;
+
+/**
+ * if callback does nothing
+ */
+let nothing = () => {
+    return;   
+}
 
 /**
  * @function init
@@ -30,7 +38,7 @@ let init = () => {
  * @description triggers the firebase redirect login flow
  * 
  */
-let attemptLogin = ( callback ) => {
+let attemptLogin = ( callback=nothing ) => {
     firebase.auth().signInWithPopup(provider).then((result) => {
         callback(result);
     }).catch((error) =>  {
@@ -64,7 +72,7 @@ let checkLogin = ( callback ) => {
  * 
  * @description logs user out.
  */
-let logout = ( callback ) => {
+let logout = ( callback=nothing ) => {
     firebase.auth().signOut().then(function() {
         callback();
     }).catch(function(error) {
@@ -77,16 +85,18 @@ let logout = ( callback ) => {
  * @function getDrinks
  * @param {*} process - @see defaultProcess to see how this parameter
  * should be formatted. Should be a JSON object with 3 keys:
- * init() - should return an object with all properties to be formatted
- * each() - gets called for each drink object
- * end( result ) - result of process
+ * 1. init() - should return an object with all properties to be formatted
+ * 2. each() - gets called for each drink object
+ * 3. end( result ) - result of process
  * 
  * @returns array of drink objects through a callback function
  * 
  * @description Gets all the drinks listed under current user and 
  * returns an array of all the drinks with data reformatted
+ * 
+ * TODO: funnction should be called when user attempts to refresh any page
  */
-let getDrinks = ( process = defaultProcess ) => {
+let getDrinks = ( process=defaultProcess ) => {
     let collections = process.init();
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
         .orderBy('drink.date', 'desc')
@@ -149,15 +159,21 @@ let defaultProcess = {
  * 
  * @description Called when user is brand new. Sets up their profile on firebase
  */
-let setupUser = ( callback ) => {
+let setupUser = ( callback=nothing ) => {
     const defaultProfile = {
         'budget': 300,
         'maxDrinks': 15,
         'public': false
     }
-    db.collection(`users/${localStorage.getItem('uid')}/profile`)
+    db.collection('users')
+    .doc(localStorage.getItem('uid'))
+    .collection('user')
+    .doc('profile')
     .set( defaultProfile )
     .then( ( resp ) => {
+        localStorage.setItem('userSpendMax', defaultProfile.budget);
+        localStorage.setItem('userDrinkMax', defaultProfile.maxDrinks);
+        localStorage.setItem('userPublic', defaultProfile.public);
         callback( resp );
     }).catch(function(error) {
         swal("Error!", `${error}`, "error");
@@ -209,7 +225,7 @@ let updateUser = ( userProperties ) => {
     // });
 }
 
-let addDrink = ( data, callback ) => {
+let addDrink = ( data, callback=nothing ) => {
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
     .add( data )
     .then( ( resp ) => {

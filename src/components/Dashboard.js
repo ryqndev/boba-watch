@@ -3,6 +3,7 @@ import {Typography, Card} from '@material-ui/core';
 import { XYPlot, XAxis, YAxis, HeatmapSeries, Sunburst } from 'react-vis';
 import Utils from './textUtil.js';
 import backend from './firebaseCalls';
+import stats from './calculateStatistics';
 import './styles/dashboard.css';
 import 'react-vis/dist/style.css';
 
@@ -27,73 +28,74 @@ export class Dashboard extends Component {
     constructor(props) {
         super(props);
         // let metrics = JSON.parse(localStorage.getItem('metrics'));
-        // const drinkTotal = localStorage.getItem('userDrinkMax');
+        let metrics = stats.getDefaultMetrics();
+        const drinkTotal = localStorage.getItem('userDrinkMax');
         this.state = {
-        //     totalCost: metrics.totalCost,
-        //     totalDrinks: metrics.totalDrinks,
-        //     drinkPercentage: parseInt((metrics.totalDrinks/drinkTotal) * 100),
-        //     userDrinkMax: drinkTotal,
-        //     userSpendMax: localStorage.getItem('userSpendMax'),
-        //     time: getDailyData(metrics),
-        //     sunburstData : {
-        //         size: 0,
-        //         color: "#FFFFFF",
-        //         children: [
-        //             {
-        //                 title: "Progress",
-        //                 size: metrics.totalCost,
-        //                 color: "#32de44",
-        //                 children:[
-        //                     {
-        //                         title: "Padding",
-        //                         size: 0,
-        //                         color: "#FFFFFF",
-        //                     }
-        //                 ]
-        //             },
-        //             {
-        //                 title: "Until Limit",
-        //                 size: localStorage.getItem('userSpendMax') - metrics.totalCost,
-        //                 color: "#F4F4F4",
-        //             }
-        //         ]
-        //     }
+            totalCost: metrics.totalCost,
+            totalDrinks: metrics.totalDrinks,
+            drinkPercentage: parseInt((metrics.totalDrinks/drinkTotal) * 100),
+            userDrinkMax: drinkTotal,
+            userSpendMax: localStorage.getItem('userSpendMax'),
+            time: getDailyData(metrics),
+            sunburstData : {
+                size: 0,
+                color: "#FFFFFF",
+                children: [
+                    {
+                        title: "Progress",
+                        size: metrics.totalCost,
+                        color: "#32de44",
+                        children:[
+                            {
+                                title: "Padding",
+                                size: 0,
+                                color: "#FFFFFF",
+                            }
+                        ]
+                    },
+                    {
+                        title: "Until Limit",
+                        size: localStorage.getItem('userSpendMax') - metrics.totalCost,
+                        color: "#F4F4F4",
+                    }
+                ]
+            }
         };
     }
     update = () => {
-        // let metrics = JSON.parse(localStorage.getItem('metrics'));
-        // const drinkTotal = localStorage.getItem('userDrinkMax');
-        // this.setState({
-        //     totalCost: metrics.totalCost,
-        //     totalDrinks: metrics.totalDrinks,
-        //     drinkPercentage: parseInt((metrics.totalDrinks/drinkTotal) * 100),
-        //     userDrinkMax: drinkTotal,
-        //     userSpendMax: localStorage.getItem('userSpendMax'),
-        //     time: getDailyData(metrics),
-        //     sunburstData : {
-        //         size: 0,
-        //         color: "#FFFFFF",
-        //         children: [
-        //             {
-        //                 title: "Progress",
-        //                 size: metrics.totalCost,
-        //                 color: "#32de44",
-        //                 children:[
-        //                     {
-        //                         title: "Padding",
-        //                         size: 0,
-        //                         color: "#FFFFFF",
-        //                     }
-        //                 ]
-        //             },
-        //             {
-        //                 title: "Until Limit",
-        //                 size: localStorage.getItem('userSpendMax') - metrics.totalCost,
-        //                 color: "#F4F4F4",
-        //             }
-        //         ]
-        //     }
-        // });
+        let metrics = JSON.parse(localStorage.getItem('metrics'));
+        const drinkTotal = localStorage.getItem('userDrinkMax');
+        this.setState({
+            totalCost: metrics.totalCost,
+            totalDrinks: metrics.totalDrinks,
+            drinkPercentage: parseInt((metrics.totalDrinks/drinkTotal) * 100),
+            userDrinkMax: drinkTotal,
+            userSpendMax: localStorage.getItem('userSpendMax'),
+            time: getDailyData(metrics),
+            sunburstData : {
+                size: 0,
+                color: "#FFFFFF",
+                children: [
+                    {
+                        title: "Progress",
+                        size: metrics.totalCost,
+                        color: "#32de44",
+                        children:[
+                            {
+                                title: "Padding",
+                                size: 0,
+                                color: "#FFFFFF",
+                            }
+                        ]
+                    },
+                    {
+                        title: "Until Limit",
+                        size: localStorage.getItem('userSpendMax') - metrics.totalCost,
+                        color: "#F4F4F4",
+                    }
+                ]
+            }
+        });
     }
     render() {
         let width = window.innerWidth - 40;
@@ -102,31 +104,31 @@ export class Dashboard extends Component {
             <Typography variant="h4" className="dashboard-page--title">Monthly Spending</Typography>
             <Card className="chart-holder">
                 <div className="chard-holder-description">
-                    {/* MONTHLY LIMIT: ${Utils.toMoney(this.state.userSpendMax, this.state.userSpendMax/10000 > 1)} */}
+                    MONTHLY LIMIT: ${Utils.toMoney(this.state.userSpendMax, this.state.userSpendMax/10000 > 1)}
                     <br />
-                    {/* <span>${Utils.toMoney(this.state.totalCost, this.state.totalCost/10000 > 1)}</span> */}
+                    <span>${Utils.toMoney(this.state.totalCost, this.state.totalCost/10000 > 1)}</span>
                     <br />
-                    {/* REMAINING: ${Utils.toMoney(this.state.userSpendMax - this.state.totalCost)} */}
+                    REMAINING: ${Utils.toMoney(this.state.userSpendMax - this.state.totalCost)}
                 </div>
-                {/* <Sunburst height={width-45} width={width-45} data={this.state.sunburstData} padAngle={0.06} animation colorType={'literal'} /> */}
+                <Sunburst height={width-45} width={width-45} data={this.state.sunburstData} padAngle={0.06} animation colorType={'literal'} />
             </Card>
             <Card className="month-total-money">
                 <p>This is how much you’ve spent on boba this month:</p>
-                {/* <Typography variant="h2">${Utils.toMoney(this.state.totalCost, this.state.totalCost/10000 > 1)}</Typography> */}
+                <Typography variant="h2">${Utils.toMoney(this.state.totalCost, this.state.totalCost/10000 > 1)}</Typography>
             </Card>
-            {/* <Card className="month-drink-limit" style={{backgroundPositionY: (100 - this.state.drinkPercentage) * 2.7}}> */}
-                {/* <Typography variant="h3">{this.state.drinkPercentage}%</Typography> */}
+            <Card className="month-drink-limit" style={{backgroundPositionY: (100 - this.state.drinkPercentage) * 2.7}}>
+                <Typography variant="h3">{this.state.drinkPercentage}%</Typography>
                 <p>to your max number of drinks this month</p>
-            {/* </Card> */}
+            </Card>
             <Card className="month-total-drinks">
-                {/* <Typography variant="h2">{this.state.totalDrinks}</Typography> */}
+                <Typography variant="h2">{this.state.totalDrinks}</Typography>
                 <p>drinks this month</p>
             </Card>
             <Card className="daily-chart">
                 <XYPlot xType="ordinal" yType="ordinal" margin={60} width={width} height={1.8*width}>
                 <XAxis orientation="top" />
                 <YAxis />
-                {/* <HeatmapSeries
+                <HeatmapSeries
                     colorType="literal"
                     style={{
                         stroke: 'white',
@@ -137,7 +139,7 @@ export class Dashboard extends Component {
                         }
                     }}
                     data={this.state.time}
-                    /> */}
+                    />
                 </XYPlot>
             </Card>
         </div>

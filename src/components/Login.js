@@ -3,7 +3,6 @@ import {Typography, Snackbar, IconButton} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { withRouter } from 'react-router-dom';
 import './styles/login.css';
-import stats from './calculateStatistics';
 import backend from './firebaseCalls';
 
 let ar = () => { return window.innerHeight/window.innerWidth < 1.2 }

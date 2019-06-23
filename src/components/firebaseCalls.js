@@ -38,7 +38,7 @@ let init = () => {
  * 
  */
 let attemptLogin = ( callback=nothing ) => {
-    firebase.auth().signInWithPopup(provider).then((result) => {
+    firebase.auth().signInWithRedirect(provider).then((result) => {
         callback(result);
     }).catch((error) =>  {
         swal("Error!", `Login Unsuccessful: ${error}`, "error");
@@ -175,49 +175,32 @@ let setupUser = ( callback=nothing ) => {
         swal("Error!", `${error}`, "error");
     });
 }
-let updateUser = ( userProperties ) => {
-    // const data = { 
-    //     "user": {
-    //         "public": this.state.userPublic
-    //     }
-    // };
-    // fetch(`https://api.boba.watch/users/${this.props.userId}/${this.props.accessToken}`, {
-    //     method: 'PUT',
-    //     headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(data),
-    // }
-    // ).then(resp => {
-    //     if (!resp.ok) {
-    //         throw Error(resp.statusText);
-    //     }
-    //     return resp;
-    // }).then(resp => {
-    //     return resp.json();
-    // }).then(resp => {
-    //     localStorage.setItem('userPublic', this.state.userPublic);
-    //     swal("Success!", "Your privacy settings have been changed", "success");
-    // }).catch(err => {
-    //     swal("Error!", "Error changing privacy setting", "error");
-    // });
-    // fetch(`https://api.boba.watch/users/${userId}/${accessToken}`
-    // ).then(resp => {
-    //     if (!resp.ok) {
-    //         throw Error(resp.statusText);
-    //     }
-    //     return resp;
-    // }).then(resp => {
-    //     return resp.json();
-    // }).then(resp => {
-    //     localStorage.setItem('userSpendMax', resp.budget);
-    //     localStorage.setItem('userDrinkMax', resp.maxDrinks);
-    //     localStorage.setItem('userPublic', resp.public);
-    //     this.props.history.push('./dash');
-    // }).catch(err => {
-    //     swal("Error!", "I had trouble getting your drinks.", "error");
-    // });
+let updateUser = ( userProperties, callback=nothing ) => {
+    let data = {
+        public: userProperties.userPublic,
+        budget: parseFloat(userProperties.userSpendMax) * 100,
+        limit: parseInt(userProperties.userDrinkMax)
+    };
+    if(isNaN(data.budget) || isNaN(data.limit)){
+        swal("Error!", "Please enter valid numbers", "error");
+        return;
+    }
+    db.collection( 'users' )
+    .doc(localStorage.getItem('uid'))
+    .collection( 'user' )
+    .doc( 'profile' )
+    .set( data )
+    .then( ( resp ) => {
+        localStorage.setItem('userSpendMax', data.budget);
+        localStorage.setItem('userDrinkMax', data.limit);
+        localStorage.setItem('userPublic', data.public);
+        swal("Success!", "Your settings have been updated", "success")
+        .then((value) => {
+            callback( value, resp );
+        });
+    }).catch(function(error) {
+        swal("Error!", `${error}`, "error");
+    });
 }
 /**
  * @function addDrink
@@ -229,6 +212,7 @@ let addDrink = ( data, callback=nothing ) => {
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
     .add( data )
     .then( ( resp ) => {
+        swal("Done!", "Drink has been added", "success"); 
         callback( resp );
     }).catch(function(error) {
         swal("Error!", `${error}`, "error");

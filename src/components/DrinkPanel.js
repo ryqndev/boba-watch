@@ -8,13 +8,12 @@ import backend from './firebaseCalls';
 import './styles/history.css';
 
 export class DrinkPanel extends Component {
-
     state =  { open: false, add: false };
     toggle = () => { this.setState(state => ({ open: !state.open })) }
     toggleAdd = () => { this.setState(state => ({ add: !state.add })) }
 
     hasImage = () => {
-        if(this.props.data.photo !== null && this.props.data.photo.trim() !== "" && this.props.data.photo !== "asdf" ){
+        if(this.props.data.photo !== null && this.props.data.photo.trim() !== "" ){
             return  <img alt="drink" src={this.props.data.photo} />;
         }
     }

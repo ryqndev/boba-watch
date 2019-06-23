@@ -42,23 +42,23 @@ class App extends Component {
      * After checks, should redirect to dashboard page
      */
     successfulLogin = ( r ) => {
+        localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );
         if(localStorage.getItem('uid') !== r.user.uid){
             localStorage.clear();
             localStorage.setItem('uid', r.user.uid);
-            localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );
-            backend.drinks.get();
+            if(r.additionalUserInfo.isNewUser){
+                backend.user.setup(this.getDrinksAndRedirect);
+                return;
+            }
+            this.getDrinksAndRedirect();
+            return;
         }
-        if(r.additionalUserInfo.isNewUser){
-            backend.user.setup(
-                () => {
-                    backend.drinks.get( () => {
-                        window.location.href = window.location.origin + '/#/dash';
-                    });
-                }
-            );
-        }else{
+        window.location.href = window.location.origin + '/#/dash';
+    }
+    getDrinksAndRedirect = () => {
+        backend.drinks.get( () => {
             window.location.href = window.location.origin + '/#/dash';
-        }
+        });
     }
     render() {
         const s = this.state;

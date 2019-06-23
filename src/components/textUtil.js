@@ -6,7 +6,8 @@ function toMoney(money, short = false){
     if(short){
         return parseInt(money/100);
     }
-    return parseInt(money/100) + '.' + (money % 100 < 10 ? "0" + money % 100 : money % 100);
+    return Number(money/100).toFixed(2);
+
 }
 export default {
     toMoney: toMoney

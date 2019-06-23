@@ -15,7 +15,7 @@ let logoutButton = {
 
 export class User extends Component {
     state = {
-        userSpendMax: Utils.toMoney(localStorage.getItem('userSpendMax'), localStorage.getItem('userSpendMax') % 100 === 0),
+        userSpendMax: localStorage.getItem('userSpendMax')/100,
         userDrinkMax: localStorage.getItem('userDrinkMax'),
         userPublic: localStorage.getItem('userPublic') === 'true' ? true : false,
     };
@@ -30,16 +30,17 @@ export class User extends Component {
     handleToggle = () => {
         this.setState(state => ({
             userPublic: !state.userPublic,
-        }), () => { this.makePublic()} );
+        }), () => {backend.user.update(this.state, this.close)} );
     }
-    close = () => { this.props.close() }
+    
+    close = (value=true) => { if(value === true) this.props.close() }
 
     render() { 
         const s = this.state;
         return (
         <Modal open={this.props.open}>
             <div className="user-modal" style={{height: s.userPublic ? 385 : 350}}>
-                <IconButton color="secondary" className="close-button" onClick={this.close}>
+                <IconButton color="secondary" className="close-button" onClick={ () => {this.close(true) }}>
                     <CloseButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
                 <img src={localStorage.getItem('avatar')} className="user-avatar" alt="user"/>
@@ -82,7 +83,7 @@ export class User extends Component {
                         style={logoutButton}>
                         LOGOUT
                     </Button>
-                    <Button className="update-button" onClick={ () => { backend.user.update(s) } }>UPDATE</Button>
+                    <Button className="update-button" onClick={ () => { backend.user.update(s, this.close) } }>UPDATE</Button>
                 </div>
             </div>
         </Modal>

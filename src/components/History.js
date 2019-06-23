@@ -13,12 +13,9 @@ export class History extends Component {
         };
     }
     componentDidMount(){
-        this.generate();
+        this.update();
     }
     update = () => {
-        this.generate();
-    }
-    generate = () => {
         let drinks = JSON.parse(localStorage.getItem('drinkids'));
         if(!Array.isArray(drinks) || !drinks.length) return;
         drinks = drinks.map(id => JSON.parse(localStorage.getItem(id)) );

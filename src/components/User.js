@@ -21,7 +21,10 @@ export class User extends Component {
     };
     logout = () => {
         backend.logout(
-            () => { window.location = window.location.origin }
+            () => { 
+                localStorage.clear();
+                window.location = window.location.origin;
+            }
         );
     }
     handleChange = name => event => {

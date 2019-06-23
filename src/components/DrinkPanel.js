@@ -24,11 +24,8 @@ export class DrinkPanel extends Component {
         backend.drinks.delete(
             this.props.data.id,
             () => {
-                backend.drinks.get( 
-                    () => {
-                        this.props.update();
-                    }
-                );
+                localStorage.removeItem(this.props.data.id);
+                backend.drinks.get( () => { this.props.update() } );
             }
         );
     }

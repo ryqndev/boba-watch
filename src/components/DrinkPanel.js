@@ -18,6 +18,9 @@ export class DrinkPanel extends Component {
             return  <img alt="drink" src={this.props.data.photo} />;
         }
     }
+    /**
+     * TODO : please fix this abomination
+     */
     delete = () => {
         backend.drinks.delete(
             this.props.data.id,

@@ -229,7 +229,6 @@ let addDrink = ( data, callback=nothing ) => {
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
     .add( data )
     .then( ( resp ) => {
-        swal("Done!", "Drink has been deleted", "success"); 
         callback( resp );
     }).catch(function(error) {
         swal("Error!", `${error}`, "error");
@@ -240,6 +239,7 @@ let deleteDrink = ( drinkid, callback=nothing ) => {
     .doc( drinkid )
     .delete()
     .then(function() {
+        swal("Done!", "Drink has been deleted", "success"); 
         callback();
     }).catch(function(error) {
         swal('Error!', `Couldn't delete your drink. Try again later!`, 'error');

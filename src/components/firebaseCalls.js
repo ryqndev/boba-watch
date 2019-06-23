@@ -229,12 +229,21 @@ let addDrink = ( data, callback=nothing ) => {
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
     .add( data )
     .then( ( resp ) => {
+        swal("Done!", "Drink has been deleted", "success"); 
         callback( resp );
     }).catch(function(error) {
         swal("Error!", `${error}`, "error");
     });
 }
-let deleteDrink = () => {
+let deleteDrink = ( drinkid, callback=nothing ) => {
+    db.collection(`users/${localStorage.getItem('uid')}/drinks`)
+    .doc( drinkid )
+    .delete()
+    .then(function() {
+        callback();
+    }).catch(function(error) {
+        swal('Error!', `Couldn't delete your drink. Try again later!`, 'error');
+    });
 }
 export default {
     init: init,

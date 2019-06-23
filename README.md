@@ -20,3 +20,11 @@ I learned some math.
 
 ## What's next for Boba Watch
 We'd love to add a community aspect to the app, providing a way for friends to view each other's drink purchase histories and implement a type of leaderboard feature (or rather, a loserboard in regards to money). We would also add geotagging as a feature so that orders would be able to be pinned to a specific location on a map in addition to a map that would display all boba locations surrounding a user.
+
+
+## Current todo list
+
+ - Add loading screen for when network requests are in transit
+ - enable scrolling over the date display
+ - work on share.boba.watch
+ - reduce number of network requets. (adding drink first adds then calls get all drinks)

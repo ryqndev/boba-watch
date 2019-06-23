@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Typography, TextField, Button, IconButton, Switch, Collapse, Modal} from '@material-ui/core';
-import Utils from './textUtil';
 import CloseButton from '@material-ui/icons/Close';
 import TextClipboard from './TextClipboard';
 import backend from './firebaseCalls';

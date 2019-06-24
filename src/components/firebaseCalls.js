@@ -56,6 +56,7 @@ let attemptLogin = ( callback=nothing ) => {
  */
 let checkLogin = ( callback ) => {
     firebase.auth().getRedirectResult().then((result) => {
+        console.log('fiinshed req');
         if (result.credential) callback(result);
     }).catch(function(error) {
         swal("Error!", `Login Unsuccessful: ${error}`, "error");
@@ -202,6 +203,23 @@ let updateUser = ( userProperties, callback=nothing ) => {
         swal("Error!", `${error}`, "error");
     });
 }
+let getUser = ( callback=nothing ) => {
+    db.collection( 'users' )
+    .doc(localStorage.getItem('uid'))
+    .collection( 'user' )
+    .doc( 'profile' )
+    .get()
+    .then( ( resp ) => {
+        let data = resp.data();
+        localStorage.setItem('userSpendMax', data.budget);
+        localStorage.setItem('userDrinkMax', data.limit);
+        localStorage.setItem('userPublic', data.public);
+        callback(resp);
+    }).catch(function(error) {
+        swal("Error!", `${error}`, "error");
+        console.log(error);
+    });
+}
 /**
  * @function addDrink
  *  
@@ -238,6 +256,7 @@ export default {
     logout: logout,
     user: {
         setup: setupUser,
+        get: getUser,
         update: updateUser
     },
     drinks: {

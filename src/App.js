@@ -42,23 +42,18 @@ class App extends Component {
      * After checks, should redirect to dashboard page
      */
     successfulLogin = ( r ) => {
+        localStorage.clear();
         localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );
-        if(localStorage.getItem('uid') !== r.user.uid){
-            localStorage.clear();
-            localStorage.setItem('uid', r.user.uid);
-            if(r.additionalUserInfo.isNewUser){
-                backend.user.setup(this.getDrinksAndRedirect);
-                return;
-            }
-            this.getDrinksAndRedirect();
+        localStorage.setItem( 'uid', r.user.uid );
+        if(r.additionalUserInfo.isNewUser){
+            backend.user.setup(this.getDrinksAndRedirect);
             return;
         }
-        window.location.href = window.location.origin + '/#/dash';
+        backend.user.get(this.getDrinksAndRedirect);
     }
     getDrinksAndRedirect = () => {
-        backend.drinks.get( () => {
-            window.location.href = window.location.origin + '/#/dash';
-        });
+        let wl = window.location;
+        backend.drinks.get( () => { wl.href = wl.origin + '/#/dash' });
     }
     render() {
         const s = this.state;

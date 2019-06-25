@@ -54,10 +54,10 @@ let attemptLogin = ( callback=nothing ) => {
  * @description checks the firebase redirect login flow to see
  * if login has been successful
  */
-let checkLogin = ( callback ) => {
+let checkLogin = ( approved=nothing, notapproved=nothing ) => {
     firebase.auth().getRedirectResult().then((result) => {
-        console.log('fiinshed req');
-        if (result.credential) callback(result);
+        notapproved()
+        if (result.credential) approved(result);
     }).catch(function(error) {
         swal("Error!", `Login Unsuccessful: ${error}`, "error");
         console.log(error);

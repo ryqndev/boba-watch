@@ -70,12 +70,8 @@ class App extends Component {
                                 className="avatar-button"
                                 onClick={() => this.toggle('user')}
                             />
-                            <Route exact path='/dash' render={() => 
-                                <Dashboard ref={this.update} />
-                            }/>
-                            <Route exact path='/history' render={() => 
-                                <History ref={this.update} />
-                            }/>
+                            <Route exact path='/dash' render={() => <Dashboard ref={this.update} /> }/>
+                            <Route exact path='/history' render={() => <History ref={this.update} /> }/>
                         </div>
 
                         <Add open={s.add} close={() => this.toggle('add')} />

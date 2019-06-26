@@ -41,6 +41,12 @@ class App extends Component {
      * 
      * After checks, should redirect to dashboard page
      */
+    loading = (e) => {
+        let fullscreenImage = document.createElement('div');
+        fullscreenImage.className = "loading-background";
+        fullscreenImage.insertAdjacentHTML('beforeend', `<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>`);
+        document.body.appendChild(fullscreenImage);
+    };
     successfulLogin = ( r ) => {
         localStorage.clear();
         localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );

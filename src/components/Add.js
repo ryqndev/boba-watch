@@ -43,10 +43,7 @@ export class Add extends Component {
             }
         }
         // validate price
-        if(document.getElementById('price-value').value === '' || 
-            isNaN(parseInt(document.getElementById('price-value').value)) ||
-            parseInt(document.getElementById('price-value').value) === 0
-        ){
+        if( isNaN(data.drink.price) ){
             swal("Error!", `Please enter a price to add drink`, "error");
             return;
         }
@@ -61,7 +58,7 @@ export class Add extends Component {
                 </IconButton>
                 <Typography variant="h5" style={{textAlign: "center"}}>Add a purchase</Typography>
                 <TextField id="location-value" className="add-input" label="Location"/>
-                <TextField id="name-value" className="add-input" margin="dense" label="Drink name"/>
+                <TextField id="name-value"  className="add-input" margin="dense" label="Drink name"/>
                 <TextField id="price-value" className="add-input" margin="dense" label="Price" />
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <DateTimePicker

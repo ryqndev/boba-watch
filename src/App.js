@@ -13,7 +13,8 @@ class App extends Component {
     constructor(props){
         super(props);
         backend.init();
-        backend.login.check( this.successfulLogin );
+        this.load = this.loading();
+        backend.login.check( this.successfulLogin, this.failedLogin );
         this.update = React.createRef();
     }
     state = {
@@ -41,12 +42,16 @@ class App extends Component {
      * 
      * After checks, should redirect to dashboard page
      */
-    loading = (e) => {
+    loading = () => {
         let fullscreenImage = document.createElement('div');
         fullscreenImage.className = "loading-background";
         fullscreenImage.insertAdjacentHTML('beforeend', `<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>`);
         document.body.appendChild(fullscreenImage);
-    };
+        return fullscreenImage;
+    }
+    failedLogin = () => {
+        document.body.removeChild(this.load);
+    }
     successfulLogin = ( r ) => {
         localStorage.clear();
         localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );
@@ -56,6 +61,7 @@ class App extends Component {
             return;
         }
         backend.user.get(this.getDrinksAndRedirect);
+        document.body.removeChild(this.load);
     }
     getDrinksAndRedirect = () => {
         let wl = window.location;

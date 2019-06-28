@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {HashRouter as Router, Route, Switch} from 'react-router-dom';
+import { Route, Switch} from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Add from './components/Add';
 import User from './components/User';
@@ -70,7 +70,6 @@ class App extends Component {
     render() {
         const s = this.state;
         return (
-        <Router basename={process.env.PUBLIC_URL} >
             <Switch>
                 <Route exact strict path='/' render={() => <Login successfulLogin = { this.successfulLogin }/> }/>
                 <Route strict path='/:page' render={() => 
@@ -94,7 +93,6 @@ class App extends Component {
                 } />
                 <Route render={() => <Login successfulLogin = { this.successfulLogin }/> }/>
             </Switch>
-        </Router>
         );
     }
 }

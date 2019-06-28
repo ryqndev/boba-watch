@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import {HashRouter as Router} from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import App from './App';
 import theme from './theme';
@@ -20,7 +21,9 @@ firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render( 
     <MuiThemeProvider theme={theme}>
-        <App />
+        <Router basename={process.env.PUBLIC_URL} >
+            <App />
+        </Router>
     </MuiThemeProvider>
 , document.getElementById('root'));
 /**

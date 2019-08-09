@@ -5,13 +5,10 @@ import Utils from './textUtil.js';
 import './styles/history.css';
 
 export class History extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            drinks: [<Typography variant="h3" key={1}>No Drinks</Typography>],
-            sum: 0
-        };
-    }
+    state = {
+        drinks: [<Typography variant="h3" key={1}>No drinks to display :(</Typography>],
+        sum: 0
+    };
     componentDidMount(){
         this.update();
     }
@@ -22,7 +19,7 @@ export class History extends Component {
         let sum = 0;
         let newDrinks = drinks.map((e, i) => {
             sum += e['price'];
-            return (<DrinkPanel key={e.id} data={e} update={this.generate} />);
+            return (<DrinkPanel key={e.id} data={e} update={this.update} />);
         });
         this.setState({
             drinks: newDrinks,

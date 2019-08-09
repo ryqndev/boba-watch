@@ -26,6 +26,7 @@ let nothing = () => {
  */
 let init = () => {
     db = firebase.firestore();
+    db.enablePersistence();
     provider = new firebase.auth.FacebookAuthProvider();
 }
 /**
@@ -42,7 +43,6 @@ let attemptLogin = ( callback=nothing ) => {
         callback(result);
     }).catch((error) =>  {
         swal("Error!", `Login Unsuccessful: ${error}`, "error");
-        console.log(error);
     });
 }
 /**
@@ -59,7 +59,6 @@ let checkLogin = ( approved=nothing, notapproved=nothing ) => {
         result.credential ? approved(result) : notapproved();
     }).catch(function(error) {
         swal("Error!", `Login Unsuccessful: ${error}`, "error");
-        console.log(error);
     });      
 }
 /**
@@ -74,7 +73,6 @@ let logout = ( callback=nothing ) => {
         callback();
     }).catch(function(error) {
         swal("Error!", `Login Unsuccessful: ${error}`, "error");
-        console.log(error);
     });
 }
 /**
@@ -220,6 +218,7 @@ let updateStats = ( userStats, callback=nothing ) => {
         callback( resp );
     }).catch(function(error) {
         swal("Error!", `${error}`, "error");
+        callback( error );
     });
 }
 let getUser = ( callback=nothing ) => {
@@ -236,7 +235,6 @@ let getUser = ( callback=nothing ) => {
         callback(resp);
     }).catch(function(error) {
         swal("Error!", `${error}`, "error");
-        console.log(error);
     });
 }
 /**

@@ -35,10 +35,14 @@ export class Add extends Component {
     /**
      * @function update
      * TODO: implement live reload instead of using recalculate metrics
+     * also need to do user input sanitation for reading the metrics and storing legit data
      */
     update = (resp) => {
         backend.drinks.get(() => {
-            this.props.close();
+            let stats = JSON.parse(localStorage.getItem('metrics'));
+            stats.d = [];
+            stats.fn = localStorage.getItem('fname');
+            backend.user.updateStats(stats, this.props.close);
         });
     }
     /**

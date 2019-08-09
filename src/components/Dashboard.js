@@ -17,7 +17,8 @@ import './styles/dashboard.css';
 import 'react-vis/dist/style.css';
 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const times = ["1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 AM",
+const times = [
+    "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 AM",
     "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 PM"
 ];
 
@@ -25,11 +26,11 @@ const times = ["1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "
 function getDailyData(metrics) {
     let dailyGraph = [];
     let maxes = [];
-    metrics.drinks.forEach(day => {
+    metrics.d.forEach(day => {
         maxes.push(Math.max.apply(null, day))
     });
     let max = Math.max.apply(null, maxes);
-    metrics.drinks.forEach((day, i) => {
+    metrics.d.forEach((day, i) => {
         day.forEach((time, j) => {
             dailyGraph.push({
                 x: days[i],
@@ -46,9 +47,9 @@ export class Dashboard extends Component {
         let metrics = JSON.parse(localStorage.getItem('metrics'));
         const drinkTotal = localStorage.getItem('userDrinkMax');
         this.state = {
-            totalCost: metrics.totalCost,
-            totalDrinks: metrics.totalDrinks,
-            drinkPercentage: parseInt((metrics.totalDrinks / drinkTotal) * 100),
+            totalCost: metrics.tc,
+            totalDrinks: metrics.td,
+            drinkPercentage: parseInt((metrics.td / drinkTotal) * 100),
             userDrinkMax: drinkTotal,
             userSpendMax: localStorage.getItem('userSpendMax'),
             time: getDailyData(metrics),
@@ -57,7 +58,7 @@ export class Dashboard extends Component {
                 color: "#FFFFFF",
                 children: [{
                         title: "Progress",
-                        size: metrics.totalCost,
+                        size: metrics.tc,
                         color: "#32de44",
                         children: [{
                             title: "Padding",
@@ -67,7 +68,7 @@ export class Dashboard extends Component {
                     },
                     {
                         title: "Until Limit",
-                        size: localStorage.getItem('userSpendMax') - metrics.totalCost,
+                        size: localStorage.getItem('userSpendMax') - metrics.tc,
                         color: "#F4F4F4",
                     }
                 ]
@@ -78,9 +79,9 @@ export class Dashboard extends Component {
         let metrics = JSON.parse(localStorage.getItem('metrics'));
         const drinkTotal = localStorage.getItem('userDrinkMax');
         this.setState({
-            totalCost: metrics.totalCost,
-            totalDrinks: metrics.totalDrinks,
-            drinkPercentage: parseInt((metrics.totalDrinks / drinkTotal) * 100),
+            totalCost: metrics.tc,
+            totalDrinks: metrics.td,
+            drinkPercentage: parseInt((metrics.td / drinkTotal) * 100),
             userDrinkMax: drinkTotal,
             userSpendMax: localStorage.getItem('userSpendMax'),
             time: getDailyData(metrics),
@@ -89,7 +90,7 @@ export class Dashboard extends Component {
                 color: "#FFFFFF",
                 children: [{
                         title: "Progress",
-                        size: metrics.totalCost,
+                        size: metrics.tc,
                         color: "#32de44",
                         children: [{
                             title: "Padding",
@@ -99,7 +100,7 @@ export class Dashboard extends Component {
                     },
                     {
                         title: "Until Limit",
-                        size: localStorage.getItem('userSpendMax') - metrics.totalCost,
+                        size: localStorage.getItem('userSpendMax') - metrics.tc,
                         color: "#F4F4F4",
                     }
                 ]

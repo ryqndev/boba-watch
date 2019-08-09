@@ -55,6 +55,7 @@ class App extends Component {
     successfulLogin = ( r ) => {
         localStorage.clear();
         localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );
+        localStorage.setItem( 'fname', r.additionalUserInfo.profile.first_name );
         localStorage.setItem( 'uid', r.user.uid );
         if(r.additionalUserInfo.isNewUser){
             backend.user.setup(this.getDrinksAndRedirect);

@@ -12,6 +12,7 @@
 .chart-holder{
     z-index: 0;
     border: 2px solid #FFDCDC;
+    touch-action: pan-y;
     grid-column: 1/4;
     grid-row: 2/3;
 }
@@ -53,7 +54,7 @@
     grid-row: 4/5;
 }
 .daily-chart{
-    touch-action: none;
+    touch-action: pan-y;
     grid-column: 1/4;
 }
 .month-total-drinks > p {

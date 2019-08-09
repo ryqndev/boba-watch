@@ -11,14 +11,14 @@
  * Array(7).fill(Array(24).fill(0)) creates 7 references to the same array and therefore
  * will not work as intended
  */
-function getDefaultMetrics(){
+function getDefaultMetrics() {
     let metrics = {
         'totalDrinks': 0,
         'totalCost': 0,
         'drinkAvg': 0,
         'drinks': Array(7),
     }
-    for(let i = 0; i < 7; i++){
+    for (let i = 0; i < 7; i++) {
         metrics.drinks[i] = Array(24).fill(0);
     }
     return metrics;
@@ -30,7 +30,7 @@ function getDefaultMetrics(){
  * is stored, should call liveReload function instead
  * @param {*} drinkObjects 
  */
-function recalculateMetrics(drinkObjects){
+function recalculateMetrics(drinkObjects) {
     let metrics = getDefaultMetrics();
     drinkObjects.forEach(drink => {
         updateMetrics(drink, metrics);
@@ -46,7 +46,7 @@ function recalculateMetrics(drinkObjects){
  * @param {*} drinkObject - single drink object to be included in calculations
  * @param {*} metrics - metrics object to be updated
  */
-function updateMetrics(drinkObject, metrics){
+function updateMetrics(drinkObject, metrics) {
     metrics.totalDrinks += 1;
     metrics.totalCost += drinkObject.price;
     metrics.drinkAvg = metrics.totalCost / metrics.totalDrinks;
@@ -59,10 +59,10 @@ function updateMetrics(drinkObject, metrics){
  * those objects
  * @param {*} drinkObjects 
  */
-function liveReload(drinkObjects, metrics){
+function liveReload(drinkObjects, metrics) {
     let drinksList = [];
     drinkObjects.forEach(drink => {
-        if(!localStorage.hasOwnProperty(drink.id)){
+        if (!localStorage.hasOwnProperty(drink.id)) {
             updateMetrics(drink, metrics);
             drinksList.push(drink.id);
             localStorage.setItem(drink.id, JSON.stringify(drink));

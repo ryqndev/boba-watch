@@ -171,10 +171,11 @@ let setupUser = ( callback=nothing ) => {
         localStorage.setItem('userDrinkMax', defaultProfile.maxDrinks);
         localStorage.setItem('userPublic', defaultProfile.public);
         callback( resp );
-    }).catch(function(error) {
+    }).catch((error) => {
         swal("Error!", `${error}`, "error");
     });
 }
+
 let updateUser = ( userProperties, callback=nothing ) => {
     let data = {
         public: userProperties.userPublic,
@@ -198,6 +199,25 @@ let updateUser = ( userProperties, callback=nothing ) => {
         .then((value) => {
             callback( value, resp );
         });
+    }).catch(function(error) {
+        swal("Error!", `${error}`, "error");
+    });
+}
+/**
+ * @function updateStats
+ * @param {*} userStats - User stats to publish onto firebase
+ * 
+ * @description Update all the user stats
+ * 
+ */
+let updateStats = ( userStats, callback=nothing ) => {
+    db.collection( 'users' )
+    .doc(localStorage.getItem('uid'))
+    .collection( 'user' )
+    .doc( 'stats' )
+    .set( userStats )
+    .then( ( resp ) => {
+        callback( resp );
     }).catch(function(error) {
         swal("Error!", `${error}`, "error");
     });
@@ -256,7 +276,8 @@ export default {
     user: {
         setup: setupUser,
         get: getUser,
-        update: updateUser
+        update: updateUser,
+        updateStats: updateStats,
     },
     drinks: {
         get: getDrinks,

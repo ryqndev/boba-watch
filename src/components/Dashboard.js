@@ -1,26 +1,44 @@
-import React, { Component } from 'react';
-import {Typography, Card} from '@material-ui/core';
-import { XYPlot, XAxis, YAxis, HeatmapSeries, Sunburst } from 'react-vis';
+import React, {
+    Component
+} from 'react';
+import {
+    Typography,
+    Card
+} from '@material-ui/core';
+import {
+    XYPlot,
+    XAxis,
+    YAxis,
+    HeatmapSeries,
+    Sunburst
+} from 'react-vis';
 import Utils from './textUtil.js';
 import './styles/dashboard.css';
 import 'react-vis/dist/style.css';
 
-const days = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ];
-const times = [ "1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 AM" ,
-                "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 PM" ];
+const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const times = ["1 AM", "2 AM", "3 AM", "4 AM", "5 AM", "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 AM",
+    "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 PM"
+];
 
 
-function getDailyData(metrics){
+function getDailyData(metrics) {
     let dailyGraph = [];
     let maxes = [];
-    metrics.drinks.forEach(day => {maxes.push(Math.max.apply(null, day))});
+    metrics.drinks.forEach(day => {
+        maxes.push(Math.max.apply(null, day))
+    });
     let max = Math.max.apply(null, maxes);
     metrics.drinks.forEach((day, i) => {
         day.forEach((time, j) => {
-            dailyGraph.push({ x: days[i], y: times[j], color: `rgba(246, 128, 128, ${time === 0 ? 0.1 : (time)/max})`});
+            dailyGraph.push({
+                x: days[i],
+                y: times[j],
+                color: `rgba(246, 128, 128, ${time === 0 ? 0.1 : (time)/max})`
+            });
         });
     });
-    return dailyGraph;  
+    return dailyGraph;
 }
 export class Dashboard extends Component {
     constructor(props) {
@@ -30,25 +48,22 @@ export class Dashboard extends Component {
         this.state = {
             totalCost: metrics.totalCost,
             totalDrinks: metrics.totalDrinks,
-            drinkPercentage: parseInt((metrics.totalDrinks/drinkTotal) * 100),
+            drinkPercentage: parseInt((metrics.totalDrinks / drinkTotal) * 100),
             userDrinkMax: drinkTotal,
             userSpendMax: localStorage.getItem('userSpendMax'),
             time: getDailyData(metrics),
-            sunburstData : {
+            sunburstData: {
                 size: 0,
                 color: "#FFFFFF",
-                children: [
-                    {
+                children: [{
                         title: "Progress",
                         size: metrics.totalCost,
                         color: "#32de44",
-                        children:[
-                            {
-                                title: "Padding",
-                                size: 0,
-                                color: "#FFFFFF",
-                            }
-                        ]
+                        children: [{
+                            title: "Padding",
+                            size: 0,
+                            color: "#FFFFFF",
+                        }]
                     },
                     {
                         title: "Until Limit",
@@ -65,25 +80,22 @@ export class Dashboard extends Component {
         this.setState({
             totalCost: metrics.totalCost,
             totalDrinks: metrics.totalDrinks,
-            drinkPercentage: parseInt((metrics.totalDrinks/drinkTotal) * 100),
+            drinkPercentage: parseInt((metrics.totalDrinks / drinkTotal) * 100),
             userDrinkMax: drinkTotal,
             userSpendMax: localStorage.getItem('userSpendMax'),
             time: getDailyData(metrics),
-            sunburstData : {
+            sunburstData: {
                 size: 0,
                 color: "#FFFFFF",
-                children: [
-                    {
+                children: [{
                         title: "Progress",
                         size: metrics.totalCost,
                         color: "#32de44",
-                        children:[
-                            {
-                                title: "Padding",
-                                size: 0,
-                                color: "#FFFFFF",
-                            }
-                        ]
+                        children: [{
+                            title: "Padding",
+                            size: 0,
+                            color: "#FFFFFF",
+                        }]
                     },
                     {
                         title: "Until Limit",

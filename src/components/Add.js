@@ -1,23 +1,42 @@
-import React, { Component } from 'react';
+import React, {
+    Component
+} from 'react';
 import 'date-fns';
 import swal from 'sweetalert';
 import './styles/add.css';
-import {Typography, TextField, Button, IconButton, Modal} from '@material-ui/core';
+import {
+    Typography,
+    TextField,
+    Button,
+    IconButton,
+    Modal
+} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
+import {
+    MuiPickersUtilsProvider,
+    DateTimePicker
+} from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';
-import {withRouter} from 'react-router-dom';
+import {
+    withRouter
+} from 'react-router-dom';
 import backend from './firebaseCalls';
 
 export class Add extends Component {
-    state = { selectedDate: new Date() }
-    handleDateChange = (date) => { this.setState({ selectedDate: date }) };
+    state = {
+        selectedDate: new Date()
+    }
+    handleDateChange = (date) => {
+        this.setState({
+            selectedDate: date
+        })
+    };
 
     /**
      * @function update
      * TODO: implement live reload instead of using recalculate metrics
      */
-    update = ( resp ) => {
+    update = (resp) => {
         backend.drinks.get(() => {
             this.props.close();
         });
@@ -43,7 +62,7 @@ export class Add extends Component {
             }
         }
         // validate price
-        if( isNaN(data.drink.price) ){
+        if (isNaN(data.drink.price)) {
             swal("Error!", `Please enter a price to add drink`, "error");
             return;
         }

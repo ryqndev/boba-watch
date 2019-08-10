@@ -94,7 +94,7 @@ let getDrinks = ( callback=nothing, process=defaultProcess ) => {
     let collections = process.init();
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
         .orderBy('drink.date', 'desc')
-        .limit(20)
+        // .limit(20)
         .get()
         .then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {

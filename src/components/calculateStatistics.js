@@ -31,13 +31,24 @@ function getDefaultMetrics() {
  * @param {*} drinkObjects 
  */
 function recalculateMetrics(drinkObjects) {
-    let metrics = getDefaultMetrics();
+    let mmetrics = getDefaultMetrics(),
+        cmetrics = getDefaultMetrics(),
+        today = new Date(),
+        todayMonth = today.getMonth(),
+        todayYear = today.getFullYear();
     drinkObjects.forEach(drink => {
-        updateMetrics(drink, metrics);
-        localStorage.setItem(drink.id, JSON.stringify(drink));
+        let drinkDate = new Date(drink.date);
+        if(
+            drinkDate.getMonth() === todayMonth &&
+            drinkDate.getFullYear() === todayYear
+        ){
+            updateMetrics(drink, mmetrics);
+        }
+        updateMetrics(drink, cmetrics);
     });
-    localStorage.setItem('metrics', JSON.stringify(metrics));
-    return metrics;
+    localStorage.setItem('metrics', JSON.stringify(mmetrics));
+    localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
+    return mmetrics;
 }
 
 /**

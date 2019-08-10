@@ -77,3 +77,44 @@
     font-size: 40px;
     line-height: 40px;
 }
+@media (min-aspect-ratio: 2/3){
+    .dashboard-page{
+        grid-template-columns: 85vh calc(75vw - 85vh - 110px) 25vw;
+        grid-template-rows: 40px 20vh 20vh calc(45vh - 100px);
+        row-gap: 15px;
+        column-gap: 15px;
+    }
+    .chart-holder{
+        grid-column: 1/2;
+        grid-row: 2/5;
+    }
+    .chard-holder-description{
+        position: absolute;
+        text-align: center;
+        margin-top: calc(50vh - 130px);
+        z-index: 100;
+        width: 40vw;
+        font-size: 11px;
+    }
+    .month-total-drinks{
+        grid-column: 2/3;
+        grid-row: 3/4;
+    }
+    .month-total-money{
+        grid-column: 2/3;
+        grid-row: 2/3;
+    }
+    .month-drink-limit{
+        grid-column: 2/3;
+        grid-row: 4/5;
+        padding: 5vh 3px 0 3px;
+    }
+    .dashboard-page--title{
+        grid-column: 1/3;
+        grid-row: 1/2;
+    }
+    .daily-chart{
+        grid-column: 3/4;
+        grid-row: 2/5;
+    }
+}

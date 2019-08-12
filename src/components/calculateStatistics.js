@@ -29,6 +29,7 @@ function getDefaultMetrics() {
  * Should only be called during testing and first time loads on a new device. If old data
  * is stored, should call liveReload function instead
  * @param {*} drinkObjects 
+ * TODO can make this better since chronological order is a given, just duplicate the mmetrics at certain point
  */
 function recalculateMetrics(drinkObjects) {
     let mmetrics = getDefaultMetrics(),
@@ -50,42 +51,43 @@ function recalculateMetrics(drinkObjects) {
     localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
     return mmetrics;
 }
-
+function deleteDrink( id ){
+    let mmetrics = JSON.parse(localStorage.getItem('metrics'));
+    let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
+    let drinks = JSON.parse(localStorage.getItem('drinkids'));
+    let deletedDrink = JSON.parse(localStorage.getItem(id)),
+        today = new Date(),
+        todayMonth = today.getMonth(),
+        todayYear = today.getFullYear();
+    let drinkDate = new Date(deleteDrink.date);
+    if(
+        drinkDate.getMonth() === todayMonth &&
+        drinkDate.getFullYear() === todayYear
+    ){
+        updateMetrics(deleteDrink, mmetrics, false);
+    }
+    updateMetrics(deletedDrink, cmetrics, false);
+    localStorage.removeItem( id );
+    localStorage.setItem('metrics', JSON.stringify(mmetrics));
+    localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
+}
 /**
  * @function updateMetrics - Updates the current metric object given a new drink
  * Should be called when 
  * @param {*} drinkObject - single drink object to be included in calculations
  * @param {*} metrics - metrics object to be updated
  */
-function updateMetrics(drinkObject, metrics) {
-    metrics.td += 1;
-    metrics.tc += drinkObject.price;
+function updateMetrics(drinkObject, metrics, add=true) {
+    metrics.td += add ? 1 : -1;
+    metrics.tc += add ? drinkObject.price : (drinkObject.price * -1);
     metrics.ad = metrics.tc / metrics.td;
     let date = new Date(drinkObject.date);
-    metrics.d[date.getDay()][date.getHours() - 1] += 1;
-}
-
-/**
- * @function liveReload = Checks which drinks have been added that are new and only updates 
- * those objects
- * @param {*} drinkObjects 
- */
-function liveReload(drinkObjects, metrics) {
-    let drinksList = [];
-    drinkObjects.forEach(drink => {
-        if (!localStorage.hasOwnProperty(drink.id)) {
-            updateMetrics(drink, metrics);
-            drinksList.push(drink.id);
-            localStorage.setItem(drink.id, JSON.stringify(drink));
-        }
-    });
-    localStorage.setItem('drinksList', JSON.stringify(drinksList));
-    return metrics;
+    metrics.d[date.getDay()][date.getHours() - 1] += add ? 1 : -1;
 }
 
 export default {
     'getDefaultMetrics': getDefaultMetrics,
-    'liveReload': liveReload,
     'recalculateMetrics': recalculateMetrics,
-    'updateMetrics': updateMetrics
+    'updateMetrics': updateMetrics,
+    'deleteDrink': deleteDrink
 }

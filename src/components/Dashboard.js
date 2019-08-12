@@ -42,7 +42,7 @@ function getDailyData(metrics) {
     return dailyGraph;
 }
 export class Dashboard extends Component {
-    constructor(props) {
+    constructor(props){
         super(props);
         let metrics = JSON.parse(localStorage.getItem('metrics'));
         const drinkTotal = localStorage.getItem('userDrinkMax');
@@ -72,8 +72,9 @@ export class Dashboard extends Component {
                         color: "#F4F4F4",
                     }
                 ]
-            }
-        };
+            },
+            screenWidth: window.innerWidth - 40
+        }
     }
     update = () => {
         let metrics = JSON.parse(localStorage.getItem('metrics'));
@@ -104,34 +105,39 @@ export class Dashboard extends Component {
                         color: "#F4F4F4",
                     }
                 ]
-            }
+            },
+            screenWidth: window.innerWidth - 40
         });
     }
+    componentDidMount = () => { window.addEventListener( 'resize', () => {
+        this.setState({screenWidth: window.innerWidth - 40});
+    } )}
     render() {
-        let width = window.innerWidth - 40;
+        let s = this.state;
+        let width = s.screenWidth;
         return (
         <div className="dashboard-page">
             <Typography variant="h4" className="dashboard-page--title">Monthly Spending</Typography>
-            <Card className="chart-holder">
+            <Card id="chart-holder">
                 <div className="chard-holder-description">
-                    MONTHLY LIMIT: ${Utils.toMoney(this.state.userSpendMax, this.state.userSpendMax/10000 > 1)}
+                    MONTHLY LIMIT: ${Utils.toMoney(s.userSpendMax, s.userSpendMax/10000 > 1)}
                     <br />
-                    <span>${Utils.toMoney(this.state.totalCost, this.state.totalCost/10000 > 1)}</span>
+                    <span>${Utils.toMoney(s.totalCost, s.totalCost/10000 > 1)}</span>
                     <br />
-                    REMAINING: ${Utils.toMoney(this.state.userSpendMax - this.state.totalCost)}
+                    REMAINING: ${Utils.toMoney(s.userSpendMax - s.totalCost)}
                 </div>
-                <Sunburst height={width-45} width={width-45} data={this.state.sunburstData} padAngle={0.06} animation colorType={'literal'} />
+                <Sunburst height={width-45} width={width-45} data={s.sunburstData} padAngle={0.06} animation colorType={'literal'} />
             </Card>
             <Card className="month-total-money">
                 <p>This is how much you’ve spent on boba this month:</p>
-                <Typography variant="h2">${Utils.toMoney(this.state.totalCost, this.state.totalCost/10000 > 1)}</Typography>
+                <Typography variant="h2">${Utils.toMoney(s.totalCost, s.totalCost/10000 > 1)}</Typography>
             </Card>
-            <Card className="month-drink-limit" style={{backgroundPositionY: (100 - this.state.drinkPercentage) * 2.7}}>
-                <Typography variant="h3">{this.state.drinkPercentage}%</Typography>
+            <Card className="month-drink-limit" style={{backgroundPositionY: (100 - s.drinkPercentage) * 2.7}}>
+                <Typography variant="h3">{s.drinkPercentage}%</Typography>
                 <p>to your max number of drinks this month</p>
             </Card>
             <Card className="month-total-drinks">
-                <Typography variant="h2">{this.state.totalDrinks}</Typography>
+                <Typography variant="h2">{s.totalDrinks}</Typography>
                 <p>drinks this month</p>
             </Card>
             <Card className="daily-chart">
@@ -148,7 +154,7 @@ export class Dashboard extends Component {
                             ry: 10
                         }
                     }}
-                    data={this.state.time}
+                    data={s.time}
                     />
                 </XYPlot>
             </Card>

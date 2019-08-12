@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch} from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import Add from './components/Add';
 import User from './components/User';
@@ -14,7 +14,13 @@ class App extends Component {
         super(props);
         backend.init();
         this.load = this.loading();
-        backend.login.check( this.successfulLogin, this.failedLogin );
+        backend.login.isLoggedIn((e) => {
+            if(e && localStorage.getItem('uid')){
+                this.redirect(e);
+            }else{
+                backend.login.check( this.successfulLogin, this.finishLoad );
+            }
+        })
         this.update = React.createRef();
     }
     state = {
@@ -49,7 +55,7 @@ class App extends Component {
         document.body.appendChild(fullscreenImage);
         return fullscreenImage;
     }
-    failedLogin = () => {
+    finishLoad = () => {
         document.body.removeChild(this.load);
     }
     successfulLogin = ( r ) => {
@@ -62,11 +68,15 @@ class App extends Component {
             return;
         }
         backend.user.get(this.getDrinksAndRedirect);
-        document.body.removeChild(this.load);
     }
     getDrinksAndRedirect = () => {
-        let wl = window.location;
-        backend.drinks.get( () => { wl.href = wl.origin + '/#/dash' });
+        backend.drinks.get( () => { 
+            this.redirect();
+        });
+    }
+    redirect = () => {
+        this.props.history.push('dash');
+        this.finishLoad();
     }
     render() {
         const s = this.state;
@@ -98,4 +108,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withRouter(App);

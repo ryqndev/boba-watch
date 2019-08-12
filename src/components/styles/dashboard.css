@@ -9,7 +9,7 @@
     background-size: 100vw 190px;
     background-repeat: no-repeat;
 }
-.chart-holder{
+#chart-holder{
     z-index: 0;
     border: 2px solid #FFDCDC;
     touch-action: pan-y;
@@ -79,12 +79,12 @@
 }
 @media (min-aspect-ratio: 2/3){
     .dashboard-page{
-        grid-template-columns: 85vh calc(75vw - 85vh - 110px) 25vw;
+        /* grid-template-columns: 85vh calc(75vw - 85vh - 110px) 25vw;
         grid-template-rows: 40px 20vh 20vh calc(45vh - 100px);
         row-gap: 15px;
-        column-gap: 15px;
+        column-gap: 15px; */
     }
-    .chart-holder{
+    /* .chart-holder{
         grid-column: 1/2;
         grid-row: 2/5;
     }
@@ -116,5 +116,5 @@
     .daily-chart{
         grid-column: 3/4;
         grid-row: 2/5;
-    }
+    } */
 }

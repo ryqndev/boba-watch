@@ -3,11 +3,11 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=0" />
     <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
-    <meta name="theme-color" content="#FFAFA4" />
+    <meta name="theme-color" content="#FC8A8A" />
     <meta charset="UTF-8" />
     <meta author="Ryan Yang, Alex Chen, Callista Wu" />
     <meta name="description" content="Finance your Boba addiction and compare with friends with this progressive web app. Sign in with your Facebook account to get started." />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#FFAFA4">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FC8A8A">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta property="og:url" content="https://boba.watch" />
@@ -29,9 +29,19 @@
     <link rel="apple-touch-startup-image" href="https://boba.watch/splash.png">
     <link rel="shortcut icon" href="%PUBLIC_URL%/logo-no-bg.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145440096-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-145440096-1');
+    </script>
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    
     <div id="root"></div>
   </body>
 </html>

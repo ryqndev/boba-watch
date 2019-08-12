@@ -39,8 +39,13 @@ export class Add extends Component {
      */
     update = (resp) => {
         backend.drinks.get(() => {
-            let stats = JSON.parse(localStorage.getItem('metrics'));
-            stats.d = [];
+            let stats = JSON.parse(localStorage.getItem('metrics')),
+                cstats = JSON.parse(localStorage.getItem('completeMetrics'));
+            delete stats.d;
+            delete cstats.d;
+            stats['ctd'] = cstats.td;
+            stats['ctc'] = cstats.tc;
+            stats['cad'] = cstats.ad;
             stats.fn = localStorage.getItem('fname');
             backend.user.updateStats(stats, this.props.close);
         });

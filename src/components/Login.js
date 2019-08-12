@@ -7,7 +7,7 @@ import backend from './firebaseCalls';
 
 let ar = () => { return window.innerHeight/window.innerWidth < 1.2 }
 
-const desktopAlertString = `Looks like you're using a desktop / landscape mode. Although we're working hard on designing an intuitive desktop mode, there isn't one at the moment. For the best experience, download our progressive web app on your phone! Find more info here:`;
+const desktopAlertString = `Looks like you're using a desktop / landscape mode. Although we're working hard on designing an intuitive desktop mode, there isn't one at the moment. For the best experience, download our progressive web app on your phone! Find more info here: `;
 
 export class Login extends Component {
     state = { ar: ar() }

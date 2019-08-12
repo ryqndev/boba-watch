@@ -5,6 +5,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Utils from './textUtil.js';
 import backend from './firebaseCalls';
+import stats from './calculateStatistics';
 import './styles/history.css';
 
 export class DrinkPanel extends Component {
@@ -23,13 +24,18 @@ export class DrinkPanel extends Component {
     delete = () => {
         backend.drinks.delete(
             this.props.data.id,
-            () => {
-                localStorage.removeItem(this.props.data.id);
-                backend.drinks.get( () => { this.props.update() } );
-            }
+            this.removeLocally
         );
     }
-    
+    /**
+     * @function removeLocally
+     * TODO create a function in calculate statistics that deals with recalculating metrics
+     * from deleting something
+     */
+    removeLocally = () => {
+        stats.deleteDrink(this.props.data.id);
+        this.props.update();
+    }
     /**
      * TODO: if implementing edit function ever again, uncomment below code
      */

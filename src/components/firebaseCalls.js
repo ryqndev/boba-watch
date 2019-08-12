@@ -25,9 +25,25 @@ let nothing = () => {
  * @description initializes the firestore and fb auth 
  */
 let init = () => {
-    db = firebase.firestore();
+    db = firebase.firestore(); 
     db.enablePersistence();
     provider = new firebase.auth.FacebookAuthProvider();
+}
+/**
+ * @function isLoggedIn
+ * @param {*} 
+ * 
+ * @description Checks if user is already logged in. 
+ * 
+ * @note checkLogin() checks if the user has successfully authenticated,
+ * as opposed to this function that checks if it has logged in before
+ * 
+ */
+let isLoggedIn = ( callback ) => {
+    firebase.auth().onAuthStateChanged( user => {
+        callback(user ? true : false);
+    });
+      
 }
 /**
  * @function attemptLogin
@@ -41,7 +57,7 @@ let init = () => {
 let attemptLogin = ( callback=nothing ) => {
     firebase.auth().signInWithRedirect(provider).then((result) => {
         callback(result);
-    }).catch((error) =>  {
+    }).catch( error =>  {
         swal("Error!", `Login Unsuccessful: ${error}`, "error");
     });
 }
@@ -57,7 +73,7 @@ let attemptLogin = ( callback=nothing ) => {
 let checkLogin = ( approved=nothing, notapproved=nothing ) => {
     firebase.auth().getRedirectResult().then((result) => {
         result.credential ? approved(result) : notapproved();
-    }).catch(function(error) {
+    }).catch( error => {
         swal("Error!", `Login Unsuccessful: ${error}`, "error");
     });      
 }
@@ -71,7 +87,7 @@ let checkLogin = ( approved=nothing, notapproved=nothing ) => {
 let logout = ( callback=nothing ) => {
     firebase.auth().signOut().then(function() {
         callback();
-    }).catch(function(error) {
+    }).catch( error => {
         swal("Error!", `Login Unsuccessful: ${error}`, "error");
     });
 }
@@ -94,9 +110,8 @@ let getDrinks = ( callback=nothing, process=defaultProcess ) => {
     let collections = process.init();
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
         .orderBy('drink.date', 'desc')
-        // .limit(20)
         .get()
-        .then(function(querySnapshot) {
+        .then( querySnapshot => {
             querySnapshot.forEach(function(doc) {
                 process.each(doc).forEach( e => {
                     collections[e.key].push(e.value);
@@ -169,7 +184,7 @@ let setupUser = ( callback=nothing ) => {
         localStorage.setItem('userDrinkMax', defaultProfile.maxDrinks);
         localStorage.setItem('userPublic', defaultProfile.public);
         callback( resp );
-    }).catch((error) => {
+    }).catch( error => {
         swal("Error!", `${error}`, "error");
     });
 }
@@ -197,7 +212,7 @@ let updateUser = ( userProperties, callback=nothing ) => {
         .then((value) => {
             callback( value, resp );
         });
-    }).catch(function(error) {
+    }).catch( error => {
         swal("Error!", `${error}`, "error");
     });
 }
@@ -216,14 +231,14 @@ let updateStats = ( userStats, callback=nothing ) => {
     .set( userStats )
     .then( ( resp ) => {
         callback( resp );
-    }).catch(function(error) {
+    }).catch( error => {
         swal("Error!", `${error}`, "error");
         callback( error );
     });
 }
 let getUser = ( callback=nothing ) => {
     db.collection( 'users' )
-    .doc(localStorage.getItem('uid'))
+    .doc( localStorage.getItem('uid') )
     .collection( 'user' )
     .doc( 'profile' )
     .get()
@@ -233,7 +248,7 @@ let getUser = ( callback=nothing ) => {
         localStorage.setItem('userDrinkMax', data.limit);
         localStorage.setItem('userPublic', data.public);
         callback(resp);
-    }).catch(function(error) {
+    }).catch( error => {
         swal("Error!", `${error}`, "error");
     });
 }
@@ -249,7 +264,7 @@ let addDrink = ( data, callback=nothing ) => {
     .then( ( resp ) => {
         swal("Done!", "Drink has been added", "success"); 
         callback( resp );
-    }).catch(function(error) {
+    }).catch( error => {
         swal("Error!", `${error}`, "error");
     });
 }
@@ -257,18 +272,21 @@ let deleteDrink = ( drinkid, callback=nothing ) => {
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
     .doc( drinkid )
     .delete()
-    .then(function() {
+    .then((resp) => {
+        console.log(resp);
         swal("Done!", "Drink has been deleted", "success"); 
         callback();
-    }).catch(function(error) {
-        swal('Error!', `Couldn't delete your drink. Try again later!`, 'error');
+    }).catch( error => {
+        console.log(error);
+        swal('Error!', `Couldn't delete your drink. Try again later!$`, 'error');
     });
 }
 export default {
     init: init,
     login: {
+        isLoggedIn: isLoggedIn,
+        attempt: attemptLogin,
         check: checkLogin,
-        attempt: attemptLogin
     },
     logout: logout,
     user: {

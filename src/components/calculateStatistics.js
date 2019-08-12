@@ -59,17 +59,20 @@ function deleteDrink( id ){
         today = new Date(),
         todayMonth = today.getMonth(),
         todayYear = today.getFullYear();
-    let drinkDate = new Date(deleteDrink.date);
+    let drinkDate = new Date(deletedDrink.date);
     if(
         drinkDate.getMonth() === todayMonth &&
         drinkDate.getFullYear() === todayYear
     ){
-        updateMetrics(deleteDrink, mmetrics, false);
+        updateMetrics(deletedDrink, mmetrics, false);
     }
     updateMetrics(deletedDrink, cmetrics, false);
+    var i = drinks.indexOf(id);
+    if (i > -1) drinks.splice(i, 1);
     localStorage.removeItem( id );
     localStorage.setItem('metrics', JSON.stringify(mmetrics));
     localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
+    localStorage.setItem('drinkids', JSON.stringify(drinks));
 }
 /**
  * @function updateMetrics - Updates the current metric object given a new drink

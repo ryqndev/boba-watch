@@ -278,7 +278,7 @@ let deleteDrink = ( drinkid, callback=nothing ) => {
         callback();
     }).catch( error => {
         console.log(error);
-        swal('Error!', `Couldn't delete your drink. Try again later!$`, 'error');
+        swal('Error!', `Couldn't delete your drink. Try again later!`, 'error');
     });
 }
 export default {

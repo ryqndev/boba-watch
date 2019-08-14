@@ -45,6 +45,7 @@ export class Dashboard extends Component {
     constructor(props){
         super(props);
         let metrics = JSON.parse(localStorage.getItem('metrics'));
+        let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
         const drinkTotal = localStorage.getItem('userDrinkMax');
         this.state = {
             totalCost: metrics.tc,
@@ -52,7 +53,7 @@ export class Dashboard extends Component {
             drinkPercentage: parseInt((metrics.td / drinkTotal) * 100),
             userDrinkMax: drinkTotal,
             userSpendMax: localStorage.getItem('userSpendMax'),
-            time: getDailyData(metrics),
+            time: getDailyData(cmetrics),
             sunburstData: {
                 size: 0,
                 color: "#FFFFFF",
@@ -78,6 +79,7 @@ export class Dashboard extends Component {
     }
     update = () => {
         let metrics = JSON.parse(localStorage.getItem('metrics'));
+        let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
         const drinkTotal = localStorage.getItem('userDrinkMax');
         this.setState({
             totalCost: metrics.tc,
@@ -85,7 +87,7 @@ export class Dashboard extends Component {
             drinkPercentage: parseInt((metrics.td / drinkTotal) * 100),
             userDrinkMax: drinkTotal,
             userSpendMax: localStorage.getItem('userSpendMax'),
-            time: getDailyData(metrics),
+            time: getDailyData(cmetrics),
             sunburstData: {
                 size: 0,
                 color: "#FFFFFF",

@@ -220,10 +220,10 @@ let updateStatsFromLocalStorage = (callback=nothing) => {
     let stats = JSON.parse(localStorage.getItem('metrics')),
         cstats = JSON.parse(localStorage.getItem('completeMetrics'));
     delete stats.d;
-    delete cstats.d;
     stats['ctd'] = cstats.td;
     stats['ctc'] = cstats.tc;
     stats['cad'] = cstats.ad;
+    stats['d'] = JSON.stringify(cstats.d);
     stats.fn = localStorage.getItem('fname');
     updateStats(stats, callback);
 }

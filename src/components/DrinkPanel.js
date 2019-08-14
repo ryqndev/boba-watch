@@ -35,6 +35,7 @@ export class DrinkPanel extends Component {
     removeLocally = () => {
         stats.deleteDrink(this.props.data.id);
         this.props.update();
+        backend.user.updateStats();
     }
     /**
      * TODO: if implementing edit function ever again, uncomment below code

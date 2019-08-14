@@ -22,7 +22,6 @@ const times = [
     "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 PM"
 ];
 
-
 function getDailyData(metrics) {
     let dailyGraph = [];
     let maxes = [];

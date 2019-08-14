@@ -216,6 +216,17 @@ let updateUser = ( userProperties, callback=nothing ) => {
         swal("Error!", `${error}`, "error");
     });
 }
+let updateStatsFromLocalStorage = (callback=nothing) => {
+    let stats = JSON.parse(localStorage.getItem('metrics')),
+        cstats = JSON.parse(localStorage.getItem('completeMetrics'));
+    delete stats.d;
+    delete cstats.d;
+    stats['ctd'] = cstats.td;
+    stats['ctc'] = cstats.tc;
+    stats['cad'] = cstats.ad;
+    stats.fn = localStorage.getItem('fname');
+    updateStats(stats, callback);
+}
 /**
  * @function updateStats
  * @param {*} userStats - User stats to publish onto firebase
@@ -273,7 +284,6 @@ let deleteDrink = ( drinkid, callback=nothing ) => {
     .doc( drinkid )
     .delete()
     .then((resp) => {
-        console.log(resp);
         swal("Done!", "Drink has been deleted", "success"); 
         callback();
     }).catch( error => {
@@ -293,7 +303,7 @@ export default {
         setup: setupUser,
         get: getUser,
         update: updateUser,
-        updateStats: updateStats,
+        updateStats: updateStatsFromLocalStorage,
     },
     drinks: {
         get: getDrinks,

@@ -37,18 +37,8 @@ export class Add extends Component {
      * TODO: implement live reload instead of using recalculate metrics
      * also need to do user input sanitation for reading the metrics and storing legit data
      */
-    update = (resp) => {
-        backend.drinks.get(() => {
-            let stats = JSON.parse(localStorage.getItem('metrics')),
-                cstats = JSON.parse(localStorage.getItem('completeMetrics'));
-            delete stats.d;
-            delete cstats.d;
-            stats['ctd'] = cstats.td;
-            stats['ctc'] = cstats.tc;
-            stats['cad'] = cstats.ad;
-            stats.fn = localStorage.getItem('fname');
-            backend.user.updateStats(stats, this.props.close);
-        });
+    update = ( resp ) => {
+        backend.drinks.get( () => { backend.user.updateStats(this.props.close) } );
     }
     /**
      * @function addDrink - called when the user submits drink information to be added.
@@ -85,9 +75,9 @@ export class Add extends Component {
                     <CloseButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
                 <Typography variant="h5" style={{textAlign: "center"}}>Add a purchase</Typography>
-                <TextField id="location-value" className="add-input" label="Location"/>
-                <TextField id="name-value"  className="add-input" margin="dense" label="Drink name"/>
-                <TextField id="price-value" className="add-input" margin="dense" label="Price" />
+                <TextField id="location-value" className="add-input" label="Location" inputProps={{ maxLength: 250 }}/>
+                <TextField id="name-value"  className="add-input" margin="dense" label="Drink name" inputProps={{ maxLength: 80 }}/>
+                <TextField id="price-value" className="add-input" margin="dense" label="Price" inputProps={{ maxLength: 30 }}/>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <DateTimePicker
                         id="date-value"
@@ -97,9 +87,10 @@ export class Add extends Component {
                         label="Date picker"
                         value={this.state.selectedDate}
                         onChange={this.handleDateChange}
+                        inputProps={{ maxLength: 100 }}
                     />
                 </MuiPickersUtilsProvider>
-                <TextField id="description-value" className="add-input" label="Description"/>
+                <TextField id="description-value" className="add-input" label="Description" inputProps={{ maxLength: 1000 }}/>
                 <div className="add-button-holder">
                     <Button onClick={this.addDrink} className="add-button">ADD</Button>
                 </div>

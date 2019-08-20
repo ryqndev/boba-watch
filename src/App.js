@@ -78,6 +78,14 @@ class App extends Component {
         this.props.history.push('dash');
         this.finishLoad();
     }
+    componentDidCatch = ( ) => {
+        backend.logout(
+            () => { 
+                localStorage.clear();
+                window.location = window.location.origin;
+            }
+        );
+    }
     render() {
         const s = this.state;
         return (

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Typography, TextField, Button, IconButton, Switch, Collapse, Modal} from '@material-ui/core';
 import CloseButton from '@material-ui/icons/Close';
+import HelpButton from '@material-ui/icons/Help';
 import TextClipboard from './TextClipboard';
 import backend from './firebaseCalls';
 import './styles/user.css';
@@ -13,11 +14,15 @@ let logoutButton = {
 };
 
 export class User extends Component {
-    state = {
-        userSpendMax: localStorage.getItem('userSpendMax')/100,
-        userDrinkMax: localStorage.getItem('userDrinkMax'),
-        userPublic: localStorage.getItem('userPublic') === 'true' ? true : false,
-    };
+    defaultState = () => {
+        return {
+            userSpendMax: localStorage.getItem('userSpendMax')/100,
+            userDrinkMax: localStorage.getItem('userDrinkMax'),
+            userPublic: localStorage.getItem('userPublic') === 'true' ? true : false,
+        };
+    }
+    state = this.defaultState();
+
     logout = () => {
         backend.logout(
             () => { 
@@ -34,21 +39,30 @@ export class User extends Component {
             userPublic: !state.userPublic,
         }), () => {backend.user.update(this.state, this.close)} );
     }
-    
-    close = (value=true) => { if(value === true) this.props.close() }
-
+    close = () => { 
+        this.props.close();
+        this.setState(this.defaultState());
+    }
+    getHelp = () => {
+        window.open('https://info.boba.watch/');
+    }
     render() { 
         const s = this.state;
         return (
         <Modal open={this.props.open}>
             <div className="user-modal" style={{height: s.userPublic ? 385 : 350}}>
-                <IconButton color="secondary" className="close-button" onClick={ () => {this.close(true) }}>
+                <IconButton color="secondary" className="modal-small--button close-button" onClick={ () => {this.close() }}>
                     <CloseButton color="secondary" style={{ fontSize: 14 }}/>
+                </IconButton>
+                <IconButton className="modal-small--button help-button" onClick={ () => {this.getHelp() }}>
+                    <HelpButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
                 <img src={localStorage.getItem('avatar')} className="user-avatar" alt="user"/>
                 <Typography variant="h5" style={{textAlign: "center"}}>User settings</Typography>
                 <TextField
                     id="monthly-spending-input"
+                    type='tel'
+                    pattern="^-?[0-9]\d*\.?\d*$"
                     className="user-input"
                     variant="outlined"
                     margin="normal"
@@ -58,6 +72,8 @@ export class User extends Component {
                 />
                 <TextField
                     id="monthly-drinking-limit"
+                    type='tel'
+                    pattern="^-?[0-9]\d*\.?\d*$"
                     className="user-input"
                     margin="dense"
                     variant="outlined"

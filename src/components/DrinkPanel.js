@@ -18,9 +18,6 @@ export class DrinkPanel extends Component {
             return  <img alt="drink" src={this.props.data.photo} />;
         }
     }
-    /**
-     * TODO : please fix this abomination
-     */
     delete = () => {
         backend.drinks.delete(
             this.props.data.id,
@@ -52,9 +49,7 @@ export class DrinkPanel extends Component {
             </Modal> */}
             <div className="history-drink-label" onClick={this.toggle}>
                 <p className="drink-place">
-                    {this.props.data.location.length > 13
-                        ? this.props.data.location.substr(0, 10) + "..."
-                        : this.props.data.location }
+                    {this.props.data.location}
                 </p>
                 <p className="drink-price">
                     ${Utils.toMoney(this.props.data.price)}
@@ -63,9 +58,7 @@ export class DrinkPanel extends Component {
                     {this.state.open ? <ExpandLessIcon /> : <ExpandMoreIcon/>}
                 </div>
                 <p className="drink-name">
-                    {this.props.data.name.length > 13
-                        ? this.props.data.name.substr(0, 10) + "..."
-                        : this.props.data.name }
+                        {this.props.data.name}
                 </p>
                 <p className="drink-time">
                     {(new Date(this.props.data.date)).toDateString().substr(4)}

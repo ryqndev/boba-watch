@@ -18,7 +18,7 @@ class App extends Component {
             if(e && localStorage.getItem('uid')){
                 this.redirect(e);
             }else{
-                backend.login.check( this.successfulLogin, this.finishLoad );
+                backend.login.check(this.successfulLogin, () => { props.history.push('/'); this.finishLoad(); });
             }
         })
         this.update = React.createRef();
@@ -79,12 +79,8 @@ class App extends Component {
         this.finishLoad();
     }
     componentDidCatch = ( ) => {
-        backend.logout(
-            () => { 
-                localStorage.clear();
-                window.location = window.location.origin;
-            }
-        );
+        localStorage.clear();
+        window.location = window.location.origin;
     }
     render() {
         const s = this.state;
@@ -92,7 +88,7 @@ class App extends Component {
             <Switch>
                 <Route exact strict path='/' render={() => <Login successfulLogin = { this.successfulLogin }/> }/>
                 <Route strict path='/:page' render={() => 
-                    <div>
+                    <div className="app">
                         <div className="page">
                             <img 
                                 src={localStorage.getItem('avatar')}

@@ -75,6 +75,47 @@ function deleteDrink( id ){
     localStorage.setItem('drinkids', JSON.stringify(drinks));
 }
 /**
+ * @function insertDrinkSorted - a modified binary search to insert 
+ * the newly created drink at correctly sorted time. 
+ * Couldn't find a way to retrieve the local data
+ * @param {*} id 
+ * @param {*} toInsertDate 
+ * @param {*} drinks 
+ * @param {*} lo 
+ * @param {*} hi 
+ */
+function insertDrinkSorted( id, toInsertDate, drinks, lo, hi ){
+    if( hi <= lo ) {
+        return drinks.splice( toInsertDate < new Date(JSON.parse(localStorage.getItem(drinks[lo])).date) ? lo + 1 : lo, 0, id );
+    }
+    let mid = parseInt( (hi - lo) / 2 + lo );
+    let midDate = new Date(JSON.parse(localStorage.getItem(drinks[mid])).date);
+    if(toInsertDate.getTime() === midDate.getTime()){
+        return drinks.splice(mid + 1, 0, id);
+    }
+    if(toInsertDate < midDate){
+        return insertDrinkSorted( id, toInsertDate, drinks, mid + 1, hi ); 
+    }
+    return insertDrinkSorted( id, toInsertDate, drinks, lo, mid - 1 ); 
+}
+function addDrink( drinkData, id ){
+    let mmetrics = JSON.parse(localStorage.getItem('metrics'));
+    let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
+    let drinks = JSON.parse(localStorage.getItem('drinkids'));
+    drinkData.drink.id = id;
+    if(drinks.length){
+        insertDrinkSorted( id, new Date(drinkData.drink.date), drinks, 0, drinks.length - 1 );
+    }else{
+        drinks.push(id);
+    }
+    updateMetrics(drinkData.drink, mmetrics);
+    updateMetrics(drinkData.drink, cmetrics);
+    localStorage.setItem(id, JSON.stringify(drinkData.drink));
+    localStorage.setItem('metrics', JSON.stringify(mmetrics));
+    localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
+    localStorage.setItem('drinkids', JSON.stringify(drinks));
+}
+/**
  * @function updateMetrics - Updates the current metric object given a new drink
  * Should be called when 
  * @param {*} drinkObject - single drink object to be included in calculations
@@ -82,8 +123,8 @@ function deleteDrink( id ){
  */
 function updateMetrics(drinkObject, metrics, add=true) {
     metrics.td += add ? 1 : -1;
-    metrics.tc += add ? drinkObject.price : (drinkObject.price * -1);
-    metrics.ad = metrics.tc / metrics.td;
+    metrics.tc += add ? parseFloat(drinkObject.price) : (parseFloat(drinkObject.price) * -1);
+    metrics.ad = parseFloat(metrics.tc) / parseFloat(metrics.td);
     let date = new Date(drinkObject.date);
     metrics.d[date.getDay()][date.getHours() - 1] += add ? 1 : -1;
 }
@@ -92,5 +133,6 @@ export default {
     'getDefaultMetrics': getDefaultMetrics,
     'recalculateMetrics': recalculateMetrics,
     'updateMetrics': updateMetrics,
+    'addDrink': addDrink,
     'deleteDrink': deleteDrink
 }

@@ -7,17 +7,15 @@ import './styles/history.css';
 export class History extends Component {
     state = {
         monthly: {
-            drinks: [<Typography variant="h3" key={1}>No drinks to display :(</Typography>],
+            drinks: [<Typography variant="h3" key={1}>No drinks this month :(</Typography>],
             sum: 0
         },
         complete: {
-            drinks: [<Typography variant="h3" key={1}>No drinks to display :(</Typography>],
+            drinks: [<Typography variant="h3" key={1}>Add a drink to start!</Typography>],
             sum: 0
         },
-        display: {
-            monthly: 5,
-            complete: 10
-        }
+        monthlyDisplay: 10,
+        completeDisplay: 5
     };
     componentDidMount(){
         this.update();
@@ -32,20 +30,44 @@ export class History extends Component {
             totalSum = 0,
             today = new Date(),
             todayMonth = today.getMonth(),
-            todayYear = today.getFullYear();
+            todayYear = today.getFullYear(),
+            displayedMonthly = this.state.monthlyDisplay,
+            displayedOverall = this.state.completeDisplay;
         
-        drinks.forEach( e => {
+        drinks.forEach( ( e, i ) => {
             let drinkDate = new Date(e.date);
-            if(
-                drinkDate.getMonth() === todayMonth &&
-                drinkDate.getFullYear() === todayYear
-            ){
-                monthlyDrinks.push((<DrinkPanel key={e.id} data={e} update={this.update} />));
-                monthlySum += e.price;
+            if(drinkDate.getMonth() === todayMonth && drinkDate.getFullYear() === todayYear){
+                if(displayedMonthly > 0 ){
+                    monthlyDrinks.push((<DrinkPanel key={e.id} data={e} update={this.update} />));
+                    displayedMonthly = displayedMonthly - 1;
+                }
+                monthlySum += parseFloat(e.price);
+            }else{
+                if(displayedOverall > 0 ){
+                    totalDrinks.push((<DrinkPanel key={e.id} data={e} update={this.update} />));
+                    displayedOverall = displayedOverall - 1;
+                }
             }
-            totalDrinks.push((<DrinkPanel key={e.id} data={e} update={this.update} />));
-            totalSum += e.price;
+            totalSum += parseFloat(e.price);
         });
+        if( displayedMonthly <= 0 ){
+            monthlyDrinks.push(
+                <div className="thaman-color">
+                <div className="history-load-more" onClick={this.displayMoreMonthly}>
+                    • • •
+                </div>
+            </div>
+            );
+        }
+        if( displayedOverall <= 0 ){
+            totalDrinks.push(
+                <div className="thaman-color">
+                <div className="history-load-more" onClick={this.displayMoreOverall}>
+                    • • •
+                </div>
+            </div>
+            );
+        }
         this.setState({
             monthly: {
                 drinks: monthlyDrinks,
@@ -57,7 +79,12 @@ export class History extends Component {
             }
         });
     };
-    
+    displayMoreMonthly = () => {
+        this.setState(state => ({monthlyDisplay: state.monthlyDisplay + 10 }), this.update)
+    }
+    displayMoreOverall = () => {
+        this.setState(state => ({completeDisplay: state.completeDisplay + 10 }), this.update)
+    }
     render() {
         return (
         <div className="history-page">

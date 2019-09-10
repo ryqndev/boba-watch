@@ -34,7 +34,7 @@
 .month-drink-limit{
     background: linear-gradient(180deg, #FFDCDC 0%, #FFDCDC 50%) no-repeat;
     background-position-y: 300px;
-    background-size: 100% 100%;
+    background-size: 100% 1000%;
     text-align: center;
     padding: 80px 3px 0 3px;
     border: 2px solid #FFDCDC;
@@ -63,7 +63,7 @@
 .month-total-drinks > h2 {
     color: #FC8A8A;
 }
-.chard-holder-description{
+.chart-holder-description{
     font-family: 'Poppins';
     position: absolute;
     text-align: center;
@@ -72,33 +72,34 @@
     width: calc(100vw - 84px);
     font-size: 11px;
 }
-.chard-holder-description span{
+.chart-holder-description span{
     font-weight: bold;
     font-size: 40px;
     line-height: 40px;
 }
-@media (min-aspect-ratio: 2/3){
+@media (min-aspect-ratio: 13/8) and (min-width: 1200px) and (min-height: 700px){
     .dashboard-page{
-        /* grid-template-columns: 85vh calc(75vw - 85vh - 110px) 25vw;
+        grid-template-columns: 85vh calc(75vw - 85vh - 110px) 25vw;
         grid-template-rows: 40px 20vh 20vh calc(45vh - 100px);
         row-gap: 15px;
-        column-gap: 15px; */
+        column-gap: 15px;
     }
-    /* .chart-holder{
+    #chart-holder{
         grid-column: 1/2;
         grid-row: 2/5;
     }
-    .chard-holder-description{
+    .chart-holder-description{
         position: absolute;
         text-align: center;
         margin-top: calc(50vh - 130px);
         z-index: 100;
-        width: 40vw;
-        font-size: 11px;
+        width: 85vh;
+        font-size: 18px;
     }
     .month-total-drinks{
         grid-column: 2/3;
         grid-row: 3/4;
+        font-size: 24px;
     }
     .month-total-money{
         grid-column: 2/3;
@@ -109,6 +110,12 @@
         grid-row: 4/5;
         padding: 5vh 3px 0 3px;
     }
+    .month-drink-limit > h3 {
+        font-size: 40px;
+    }
+    .month-drink-limit > p {
+        font-size: 18px;
+    }
     .dashboard-page--title{
         grid-column: 1/3;
         grid-row: 1/2;
@@ -116,5 +123,5 @@
     .daily-chart{
         grid-column: 3/4;
         grid-row: 2/5;
-    } */
-}
+    }
+} 

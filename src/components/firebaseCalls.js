@@ -43,7 +43,6 @@ let isLoggedIn = ( callback ) => {
     firebase.auth().onAuthStateChanged( user => {
         callback(user ? true : false);
     });
-      
 }
 /**
  * @function attemptLogin
@@ -170,7 +169,7 @@ let defaultProcess = {
  */
 let setupUser = ( callback=nothing ) => {
     const defaultProfile = {
-        'budget': 30000,
+        'budget': 10000,
         'maxDrinks': 15,
         'public': false
     }
@@ -185,7 +184,7 @@ let setupUser = ( callback=nothing ) => {
         localStorage.setItem('userPublic', defaultProfile.public);
         callback( resp );
     }).catch( error => {
-        swal("Error!", `${error}`, "error");
+        swal("Error!", `Error setting up your account: ${error}`, "error");
     });
 }
 
@@ -255,8 +254,8 @@ let getUser = ( callback=nothing ) => {
     .get()
     .then( ( resp ) => {
         let data = resp.data();
-        localStorage.setItem('userSpendMax', data.budget);
-        localStorage.setItem('userDrinkMax', data.limit);
+        localStorage.setItem('userSpendMax', parseInt(data.budget));
+        localStorage.setItem('userDrinkMax', parseInt(data.limit));
         localStorage.setItem('userPublic', data.public);
         callback(resp);
     }).catch( error => {

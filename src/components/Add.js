@@ -1,25 +1,13 @@
-import React, {
-    Component
-} from 'react';
+import React, { Component } from 'react';
 import 'date-fns';
 import swal from 'sweetalert';
 import './styles/add.css';
-import {
-    Typography,
-    TextField,
-    Button,
-    IconButton,
-    Modal
-} from '@material-ui/core';
+import { Typography, TextField, Button, IconButton, Modal } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    DateTimePicker
-} from 'material-ui-pickers';
+import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';
-import {
-    withRouter
-} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import stats from './calculateStatistics';
 import backend from './firebaseCalls';
 
 export class Add extends Component {
@@ -31,14 +19,24 @@ export class Add extends Component {
             selectedDate: date
         })
     };
-
     /**
      * @function update
      * TODO: implement live reload instead of using recalculate metrics
      * also need to do user input sanitation for reading the metrics and storing legit data
      */
     update = ( resp ) => {
-        backend.drinks.get( () => { backend.user.updateStats(this.props.close) } );
+        document.getElementById('add-drink--button').disabled = false;
+        resp.get().then(r => {
+            this.addLocally(r.data(), r.id);
+        })
+    }
+    addLocally = (data, id) => {
+        stats.addDrink(data, id);
+        backend.user.updateStats();
+        this.props.close();
+                this.setState({
+            selectedDate: new Date()
+        });
     }
     /**
      * @function addDrink - called when the user submits drink information to be added.
@@ -51,18 +49,20 @@ export class Add extends Component {
      * better data processing
      */
     addDrink = () => {
+        document.getElementById('add-drink--button').disabled = true;
         let data = {
             drink: {
                 name: document.getElementById('name-value').value,
                 location: document.getElementById('location-value').value,
-                price: parseInt(document.getElementById('price-value').value * 100),
+                price: parseInt(parseFloat(document.getElementById('price-value').value) * 100),
                 date: new Date(document.getElementById('date-value').value).toISOString(),
                 description: document.getElementById('description-value').value
             }
         }
         // validate price
         if (isNaN(data.drink.price)) {
-            swal("Error!", `Please enter a price to add drink`, "error");
+            swal("Error!", `Please enter a valid price to add drink`, "error");
+            document.getElementById('add-drink--button').disabled = false;
             return;
         }
         backend.drinks.add(data, this.update);
@@ -77,7 +77,10 @@ export class Add extends Component {
                 <Typography variant="h5" style={{textAlign: "center"}}>Add a purchase</Typography>
                 <TextField id="location-value" className="add-input" label="Location" inputProps={{ maxLength: 250 }}/>
                 <TextField id="name-value"  className="add-input" margin="dense" label="Drink name" inputProps={{ maxLength: 80 }}/>
-                <TextField id="price-value" className="add-input" margin="dense" label="Price" inputProps={{ maxLength: 30 }}/>
+                <TextField id="price-value" className="add-input" margin="dense" label="Price" inputProps={{ maxLength: 30 }}
+                    type='number'
+                    pattern="^-?[0-9]\d*\.?\d*$"
+                />
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <DateTimePicker
                         id="date-value"
@@ -92,7 +95,7 @@ export class Add extends Component {
                 </MuiPickersUtilsProvider>
                 <TextField id="description-value" className="add-input" label="Description" inputProps={{ maxLength: 1000 }}/>
                 <div className="add-button-holder">
-                    <Button onClick={this.addDrink} className="add-button">ADD</Button>
+                    <Button id="add-drink--button" onClick={this.addDrink} className="add-button">ADD</Button>
                 </div>
             </div>
         </Modal>

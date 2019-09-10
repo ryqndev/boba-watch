@@ -3,6 +3,9 @@
     position: fixed;
     bottom: 0;
 }
+.app{
+    height: 100%;
+}
 .center-fab{
     height: 100px;
     width: 100px;
@@ -104,6 +107,6 @@
         font-size: 20px !important;
     }
     h4 {
-      font-size: 20px !important;
+        font-size: 20px !important;
     }
-  }
+}

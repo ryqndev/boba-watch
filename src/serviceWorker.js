@@ -7,6 +7,30 @@ const isLocalhost = Boolean(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
 );
+window.isUpdateAvailable = new Promise(function(resolve, reject) {
+	if ('serviceWorker' in navigator) {
+		navigator.serviceWorker.register('service-worker.js')
+        .then(reg => {
+            reg.onupdatefound = () => {
+                const installingWorker = reg.installing;
+                installingWorker.onstatechange = () => {
+                    switch (installingWorker.state) {
+                        case 'installed':
+                            if (navigator.serviceWorker.controller) {
+                                resolve(true);
+                            } else {
+                                resolve(false);
+                            }
+                            break;
+                        default: 
+                            break;
+                    }
+                };
+            };
+        })
+        .catch(err => console.error('[SW ERROR]', err));
+	}
+});
 
 export function register(config) {
   if ('serviceWorker' in navigator) {

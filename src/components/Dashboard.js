@@ -83,6 +83,7 @@ export class Dashboard extends Component {
                 <p>drinks this month</p>
             </Card>
             <DailyHeatMap data={s.cmetrics.d} width={this.isLandscape()  ? (width / 4 + 20 )  : width}/>
+            <div style={{color: 'grey', textAlign: 'center'}}>v1.0.1</div>
         </div>
         )
     }

@@ -102,7 +102,6 @@ class App extends Component {
 
                         <Add open={s.add} close={() => this.toggle('add')} />
                         <User open={s.user} close={() => this.toggle('user')} />
-
                         <Navigation value={s.value} handleChange = {this.handleChange} toggleAdd={() => this.toggle('add')} />
                     </div>
                 } />

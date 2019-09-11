@@ -84,7 +84,6 @@ let checkLogin = ( approved=nothing, notapproved=nothing ) => {
  * @description logs user out.
  */
 let logout = ( callback=nothing ) => {
-    
     firebase.auth().signOut().then(function() {
         callback();
     }).catch( error => {

@@ -73,7 +73,7 @@ let checkLogin = ( approved=nothing, notapproved=nothing ) => {
     firebase.auth().getRedirectResult().then((result) => {
         result.credential ? approved(result) : notapproved();
     }).catch( error => {
-        swal("Error!", `Login Unsuccessful: ${error}`, "error");
+        notapproved();
     });      
 }
 /**
@@ -84,10 +84,11 @@ let checkLogin = ( approved=nothing, notapproved=nothing ) => {
  * @description logs user out.
  */
 let logout = ( callback=nothing ) => {
+    
     firebase.auth().signOut().then(function() {
         callback();
     }).catch( error => {
-        swal("Error!", `Login Unsuccessful: ${error}`, "error");
+        swal("Error!", `Logout Unsuccessful: ${error}`, "error");
     });
 }
 /**

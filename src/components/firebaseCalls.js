@@ -170,7 +170,7 @@ let defaultProcess = {
 let setupUser = ( callback=nothing ) => {
     const defaultProfile = {
         'budget': 10000,
-        'maxDrinks': 15,
+        'limit': 15,
         'public': false
     }
     db.collection('users')

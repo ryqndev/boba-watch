@@ -23,6 +23,7 @@
     height: calc(100vh - 56px);
     box-sizing: border-box;
     width: 100vw;
+    -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
     overflow-x: hidden;
     padding-bottom: 40px;

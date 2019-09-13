@@ -87,7 +87,7 @@ export class Add extends Component {
                         className="add-input"
                         margin="dense"
                         format="M/d/yyyy h:mm a"
-                        label="Date picker"
+                        label="Date"
                         value={this.state.selectedDate}
                         onChange={this.handleDateChange}
                         inputProps={{ maxLength: 100 }}

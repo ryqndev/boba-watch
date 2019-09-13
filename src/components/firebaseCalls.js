@@ -180,7 +180,7 @@ let setupUser = ( callback=nothing ) => {
     .set( defaultProfile )
     .then( ( resp ) => {
         localStorage.setItem('userSpendMax', defaultProfile.budget);
-        localStorage.setItem('userDrinkMax', defaultProfile.maxDrinks);
+        localStorage.setItem('userDrinkMax', defaultProfile.limit);
         localStorage.setItem('userPublic', defaultProfile.public);
         callback( resp );
     }).catch( error => {
@@ -204,8 +204,8 @@ let updateUser = ( userProperties, callback=nothing ) => {
     .doc( 'profile' )
     .set( data )
     .then( ( resp ) => {
-        localStorage.setItem('userSpendMax', data.budget);
-        localStorage.setItem('userDrinkMax', data.limit);
+        localStorage.setItem('userSpendMax', parseInt(data.budget));
+        localStorage.setItem('userDrinkMax', parseInt(data.limit));
         localStorage.setItem('userPublic', data.public);
         swal("Success!", "Your settings have been updated", "success")
         .then((value) => {

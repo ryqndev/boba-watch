@@ -7,11 +7,11 @@ import './styles/history.css';
 export class History extends Component {
     state = {
         monthly: {
-            drinks: [<Typography variant="h3" key={1}>No drinks this month :(</Typography>],
+            drinks: [<div className="thaman-color"><Typography variant="h3" key={1}>No drinks this month :(</Typography></div>],
             sum: 0
         },
         complete: {
-            drinks: [<Typography variant="h3" key={1}>Add a drink to start!</Typography>],
+            drinks: [<div className="thaman-color"><Typography variant="h3" key={1}>Add a drink to start!</Typography></div>],
             sum: 0
         },
         monthlyDisplay: 10,

@@ -1,7 +1,7 @@
 .dashboard-page{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 50px calc(100vw - 84px) 150px 120px;
+    grid-template-rows: 50px calc(100vw - 84px) 150px 120px auto auto;
     row-gap: 15px;
     column-gap: 15px;
     padding: 40px 40px 40px 40px;

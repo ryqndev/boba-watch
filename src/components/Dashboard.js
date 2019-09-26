@@ -4,7 +4,8 @@ import { Sunburst } from 'react-vis';
 import Utils from './textUtil.js';
 import './styles/dashboard.css';
 import 'react-vis/dist/style.css';
-import DailyHeatMap from './DailyHeatMap.js';
+import DailyHeatMap from './graphs/DailyHeatMap';
+import TimeBarGraphs from './graphs/TimeBarGraphs';
 
 export class Dashboard extends Component {
     constructor(props){
@@ -83,6 +84,7 @@ export class Dashboard extends Component {
                 <p>drinks this month</p>
             </Card>
             <DailyHeatMap data={s.cmetrics.d} width={this.isLandscape()  ? (width / 4 + 20 )  : width}/>
+            <TimeBarGraphs width={width} data={s.cmetrics.d}/>
         </div>
         )
     }

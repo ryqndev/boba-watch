@@ -76,7 +76,7 @@ function deleteDrink( id ){
 }
 /**
  * @function insertDrinkSorted - a modified binary search to insert 
- * the newly created drink at correctly sorted time. 
+ * the newly created drink at correctly sorted time recursively. 
  * Couldn't find a way to retrieve the local data
  * @param {*} id 
  * @param {*} toInsertDate 

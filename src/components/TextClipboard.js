@@ -12,7 +12,18 @@ export class TextClipboard extends Component{
         this.setState({ copiedNotification: false });
     };
     copy = () => {
-        this.setState({ copiedNotification: true });
+        if (navigator.share) {
+            navigator.share({
+                title: 'My Boba Watch Profile',
+                text: 'Check out my boba spending!',
+                url: this.props.text,
+            }).catch((error) => {
+                this.setState({ copiedNotification: true });
+            })
+        }else{
+            this.setState({ copiedNotification: true });
+        }
+          
     }
     render() {
         return (
@@ -31,7 +42,7 @@ export class TextClipboard extends Component{
                     horizontal: 'center',
                 }}
                 open={this.state.copiedNotification}
-                autoHideDuration={6000}
+                autoHideDuration={4000}
                 onClose={this.closeSnackbar}
                 message={<span>Link Copied!</span>}
             />

@@ -34,7 +34,7 @@ export class Add extends Component {
         stats.addDrink(data, id);
         backend.user.updateStats();
         this.props.close();
-                this.setState({
+        this.setState({
             selectedDate: new Date()
         });
     }

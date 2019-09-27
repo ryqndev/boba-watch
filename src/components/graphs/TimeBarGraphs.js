@@ -1,33 +1,59 @@
 import React, { Component } from 'react';
 import {Card} from '@material-ui/core';
-import { XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalGridLines, VerticalBarSeries } from 'react-vis';
+import { XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalGridLines, VerticalBarSeries, DiscreteColorLegend } from 'react-vis';
 import 'react-vis/dist/style.css';
 import './styles/timebargraphs.css'
 
-let morningDailyData = [{x: 2, y: 10}, {x: 4, y: 5}, {x: 5, y: 15}]
-let afternoonDailyData = [{x: 2, y: 10}, {x: 4, y: 5}, {x: 5, y: 15}]
+let shortName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export class TimeBarGraphs extends Component {
     constructor(props){
         super(props);
-        this.parse(this.props.data);
+        this.state = this.parse(this.props.data);
     }
     parse = (data) => {
-        data.forEach(day => {
-
-        })
+        let bd = { morn: [], noon: [] }
+        data.forEach((day, i) => {
+            let morn = 0, noon = 0;
+            day.forEach((quantityAtTime, j) => {
+                j >= 11 ? noon += quantityAtTime : morn += quantityAtTime ;
+            });
+            bd.morn.push({x: shortName[i], y: morn});
+            bd.noon.push({x: shortName[i], y: noon});
+            
+        });
+        return bd;
     }
     render() {
+        const s = this.state;
         return (
             <Card className="time-bar-graph--holder">
-                <XYPlot width={this.props.width - 40} height={300} stackBy="y">
+                <XYPlot width={this.props.width - 40} height={300} stackBy="y" xType="ordinal">
                 <VerticalGridLines />
                 <HorizontalGridLines />
                 <XAxis />
-                <YAxis />
-                <VerticalBarSeries color={'#FFACAC'} data={morningDailyData} />
-                <VerticalBarSeries color={'#FFDCDC'} data={afternoonDailyData} />
+                <YAxis title={'# of purchases'}/>
+                <VerticalBarSeries color={'#FFACAC'} data={s.morn} />
+                <VerticalBarSeries color={'#FFDCDC'} data={s.noon} />
                 </XYPlot>
+                <DiscreteColorLegend
+                    style={{ textAlign:'center'}}
+                    orientation="horizontal"
+                    items={
+                        [
+                            {
+                                title: 'Morning Purchases',
+                                color: '#FFACAC',
+                                strokeWidth: '5px'
+                            },
+                            {
+                                title: 'Afternoon Purchases',
+                                color: '#FFDCDC',
+                                strokeWidth: '5px'
+                            }
+                        ]
+                    }
+                />
             </Card>
         )
     }

@@ -16,7 +16,7 @@ export class TimeBarGraphs extends Component {
         data.forEach((day, i) => {
             let morn = 0, noon = 0;
             day.forEach((quantityAtTime, j) => {
-                j >= 11 ? noon += quantityAtTime : morn += quantityAtTime ;
+                j >= 11 ? noon += quantityAtTime : morn += quantityAtTime;
             });
             bd.morn.push({x: shortName[i], y: morn});
             bd.noon.push({x: shortName[i], y: noon});
@@ -55,7 +55,7 @@ export class TimeBarGraphs extends Component {
                     }
                 />
             </Card>
-        )
+        );
     }
 }
 

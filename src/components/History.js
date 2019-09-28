@@ -14,7 +14,7 @@ export class History extends Component {
             drinks: [<div className="thaman-color"><Typography variant="h3" key={1}>Add a drink to start!</Typography></div>],
             sum: 0
         },
-        monthlyDisplay: 10,
+        monthlyDisplay: 7,
         completeDisplay: 5
     };
     componentDidMount(){
@@ -80,10 +80,10 @@ export class History extends Component {
         });
     };
     displayMoreMonthly = () => {
-        this.setState(state => ({monthlyDisplay: state.monthlyDisplay + 10 }), this.update)
+        this.setState(state => ({monthlyDisplay: state.monthlyDisplay + 8 }), this.update)
     }
     displayMoreOverall = () => {
-        this.setState(state => ({completeDisplay: state.completeDisplay + 10 }), this.update)
+        this.setState(state => ({completeDisplay: state.completeDisplay + 8 }), this.update)
     }
     render() {
         return (

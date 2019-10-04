@@ -22,7 +22,6 @@ export class User extends Component {
         };
     }
     state = this.defaultState();
-
     logout = () => {
         backend.logout(
             () => { 
@@ -31,6 +30,7 @@ export class User extends Component {
             }
         );
     }
+    
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
     }

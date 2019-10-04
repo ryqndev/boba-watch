@@ -98,6 +98,27 @@ function insertDrinkSorted( id, toInsertDate, drinks, lo, hi ){
     }
     return insertDrinkSorted( id, toInsertDate, drinks, lo, mid - 1 ); 
 }
+function resetMonthly(){
+    let mmetrics = getDefaultMetrics(),
+        today = new Date(),
+        todayMonth = today.getMonth(),
+        todayYear = today.getFullYear(),
+        drinkids = JSON.parse(localStorage.getItem('drinkids'));
+    drinkids.forEach(drinkid => {
+        let drink = JSON.parse(localStorage.getItem(drinkid));
+        let drinkDate = new Date(drink.date);
+        if(
+            drinkDate.getMonth() !== todayMonth ||
+            drinkDate.getFullYear() !== todayYear
+        ){
+            localStorage.setItem('metrics', JSON.stringify(mmetrics));
+            return mmetrics;
+        }
+        updateMetrics(drink, mmetrics);
+    });
+    localStorage.setItem('metrics', JSON.stringify(mmetrics));
+    return mmetrics;
+}
 function addDrink( drinkData, id ){
     let mmetrics = JSON.parse(localStorage.getItem('metrics'));
     let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
@@ -134,5 +155,6 @@ export default {
     'recalculateMetrics': recalculateMetrics,
     'updateMetrics': updateMetrics,
     'addDrink': addDrink,
-    'deleteDrink': deleteDrink
+    'deleteDrink': deleteDrink,
+    'resetMonthly': resetMonthly
 }

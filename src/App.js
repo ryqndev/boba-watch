@@ -33,6 +33,16 @@ class App extends Component {
         this.update.current.update();
     }
     handleChange = (event, value) => { this.setState({ value }) };
+    loading = () => {
+        let fullscreenImage = document.createElement('div');
+        fullscreenImage.className = "loading-background";
+        fullscreenImage.insertAdjacentHTML('beforeend', `<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>`);
+        document.body.appendChild(fullscreenImage);
+        return fullscreenImage;
+    }
+    finishLoad = () => {
+        document.body.removeChild(this.load);
+    }
     /**
      * @function successfulLogin - handles a successful login
      * @param {*} r - firebase auth response
@@ -48,16 +58,6 @@ class App extends Component {
      * 
      * After checks, should redirect to dashboard page
      */
-    loading = () => {
-        let fullscreenImage = document.createElement('div');
-        fullscreenImage.className = "loading-background";
-        fullscreenImage.insertAdjacentHTML('beforeend', `<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>`);
-        document.body.appendChild(fullscreenImage);
-        return fullscreenImage;
-    }
-    finishLoad = () => {
-        document.body.removeChild(this.load);
-    }
     successfulLogin = ( r ) => {
         localStorage.clear();
         localStorage.setItem( 'avatar', r.additionalUserInfo.profile.picture.data.url );

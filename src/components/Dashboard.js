@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { Typography, Card } from '@material-ui/core';
 import { Sunburst } from 'react-vis';
 import Utils from './textUtil.js';
-import './styles/dashboard.css';
-import 'react-vis/dist/style.css';
 import DailyHeatMap from './graphs/DailyHeatMap';
 import TimeBarGraphs from './graphs/TimeBarGraphs';
+import stats from './calculateStatistics';
+import './styles/dashboard.css';
+import 'react-vis/dist/style.css';
 
 export class Dashboard extends Component {
     constructor(props){
         super(props);
+        stats.resetMonthly();
         this.state = this.getState();
     }
     getState = () => {

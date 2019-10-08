@@ -26,3 +26,6 @@
     padding: 3px !important;
     background-color: #FFAFA4 !important;
 }
+div.MuiDialogActions-root button > span {
+    color: white;
+}

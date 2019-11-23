@@ -22,3 +22,24 @@ We'd love to add a community aspect to the app, providing a way for friends to v
 
 # Regrets
 I'm adding this section to talk about some of the design/implementation regrets that I have while developing this application. Some of these 'problems' were implemented in the early stages of development and have evolved into some structural issues within the app.
+
+### CSS
+- Not using css variables for default theme styles to be able to easily implement a dark/light mode. (Using this would also allow us to implement seasonal touches such as christmas/halloween themed styling on holidays)
+    * I do believe that MUITheme does this well but I would rather use my own theme framework since I don't want to delve too deep into Material-UI. I'm currently trying to stray away from using out-of-the-box ready css libraries. It's good to use when you want to develop an app quick/bad at design but I think I'm experienced enough that neither of those things are really important to me as I can set up my own css framework pretty quick and I work with actual designers instead now.
+- Not using SASS
+- Using material theme somewhat inappropriately
+- Using px instead of emn/rem on font sizing
+
+### HTML
+- Not using semantic html - Although the app does rely heavily on Material-UI (and thus, has some semantic html I assume), there should not have been such an overreliance on divs
+- ARIA and other accessibility problems. 
+    * I never considered developing with visually-impaired/blind users in mind and it was due to my own ignorance in considering how other people use applications. There are several places where I use a font size of 11px and other places where I don't have ARIA labels/etc.
+    * Luckily, the majority of our users are within the 16-24 y.o. age range which statistically makes visual-impairment users a much smaller portion of our audience but I could have done more.
+
+> Note: Boba Watch is still one of the first production apps I've built and thus far, have learned a lot and hope to apply the lessons I've learned into my future projects - as well as correct the ones I have made already
+
+### React
+- Not using hooks. There's a lot of weird work arounds due to the higher component architectural structure of pre-hook react and using hooks would have largely resolved these issues. Furthermore, hooks would have reduced code size by ~30% and was a mistake not to use it. 
+    * This is extremely prevalent in the extensive use of localStorage to handle much of the state management since using Redux was already overkill for a small application and although localStorage isn't reliable, it was a decision to pick the lesser of two evils (BUT HOOKS EXISTED AND I DID NOT KNOW).
+- Hooks. I wish I knew about hooks before I developed this. HOOKS HOOKS HOOKS PLEASE USE HOOKS OH MY LORD IT MAKES EVERYTHING SO MUCH BETTER
+- HOOKS!

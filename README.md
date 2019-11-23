@@ -19,3 +19,6 @@ We'd love to add a community aspect to the app, providing a way for friends to v
 - #F68080
 - #FFC9C2
 - #FF5050
+
+# Regrets
+I'm adding this section to talk about some of the design/implementation regrets that I have while developing this application. Some of these 'problems' were implemented in the early stages of development and have evolved into some structural issues within the app.

@@ -1,3 +1,8 @@
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge&color=blueviolet)](https://lbesson.mit-license.org/) 
+![GitHub top language](https://img.shields.io/github/languages/top/ryqndev/boba-watch?style=for-the-badge) ![GitHub repo size](https://img.shields.io/github/repo-size/ryqndev/boba-watch?style=for-the-badge&color=success)
+
+
+
 ## Inspiration
 **Subtle Asian Traits** is one of the largest existing Facebook groups, comprised of 1.2 million members (late-March 2019 figures) who share relatable posts, subtle or not, about the first or second-generation Asian experience across the globe—ranging from posts about cultural clashes to widely shared joys such as boba milk tea. We were inspired by recent posts of members sharing logs of their boba purchases, most of which have taken the form of a Google spreadsheet or iPhone note. These posts garnered a lot of attention, as a love for boba and the resulting negative consequences on our wallets is not an uncommon experience amongst members of the group. We wanted to create an all-encompassing, minimally designed app that would be both relevant to and loved by this community.
 

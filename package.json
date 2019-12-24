@@ -39,5 +39,7 @@
     "not op_mini all"
   ],
   "homepage": "http://boba.watch",
-  "devDependencies": {}
+  "devDependencies": {
+    "serialize-javascript": ">=2.1.1"
+  }
 }

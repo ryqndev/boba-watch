@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'date-fns';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import './styles/add.css';
 import { Typography, TextField, Button, IconButton, Modal } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
@@ -61,7 +61,11 @@ export class Add extends Component {
         }
         // validate price
         if (isNaN(data.drink.price)) {
-            swal("Error!", `Please enter a valid price to add drink`, "error");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter a valid price to add drink'
+              })
             document.getElementById('add-drink--button').disabled = false;
             return;
         }

@@ -5,15 +5,26 @@
  * in one place
  */
 
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import firebase from 'firebase';
 import stats from './calculateStatistics';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
+
+let firebaseConfig = {
+    apiKey: "AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ",
+    authDomain: "boba-watch-firebase.firebaseapp.com",
+    databaseURL: "https://boba-watch-firebase.firebaseio.com",
+    projectId: "boba-watch-firebase",
+    storageBucket: "",
+    messagingSenderId: "674375234614",
+    appId: "1:674375234614:web:fdaf98c291204b9c"
+};
+firebase.initializeApp(firebaseConfig);
+
 
 let db;
-let provider;
-
+const currentUser = {
+    user: JSON.parse(localStorage.getItem('user')),
+}
 /**
  * if callback does nothing
  */
@@ -26,38 +37,14 @@ let nothing = () => {
  */
 let init = () => {
     db = firebase.firestore(); 
-    db.enablePersistence();
-    provider = new firebase.auth.FacebookAuthProvider();
-}
-/**
- * @function isLoggedIn
- * @param {*} 
- * 
- * @description Checks if user is already logged in. 
- * 
- * @note checkLogin() checks if the user has successfully authenticated,
- * as opposed to this function that checks if it has logged in before
- * 
- */
-let isLoggedIn = ( callback ) => {
-    firebase.auth().onAuthStateChanged( user => {
-        callback(user ? true : false);
-    });
-}
-/**
- * @function attemptLogin
- * @param {*} callback - function with 1 parameter that gets called
- * on function success. callback should have parameter that gets 
- * the returned data on successful login
- * 
- * @description triggers the firebase redirect login flow
- * 
- */
-let attemptLogin = ( callback=nothing ) => {
-    firebase.auth().signInWithRedirect(provider).then((result) => {
-        callback(result);
-    }).catch( error =>  {
-        swal("Error!", `Login Unsuccessful: ${error}`, "error");
+    db.enablePersistence().catch( err => {
+        if (err.code === 'failed-precondition') {
+            // Multiple tabs open, persistence can only be enabled
+            // in one tab at a a time.
+        } else if (err.code === 'unimplemented') {
+            // The current browser does not support all of the
+            // features required to enable persistence
+        }
     });
 }
 /**
@@ -69,26 +56,41 @@ let attemptLogin = ( callback=nothing ) => {
  * @description checks the firebase redirect login flow to see
  * if login has been successful
  */
-let checkLogin = ( approved=nothing, notapproved=nothing ) => {
-    firebase.auth().getRedirectResult().then((result) => {
-        result.credential ? approved(result) : notapproved();
-    }).catch( error => {
-        notapproved();
-    });      
+let checkLogin = ( callback=nothing ) => {
+    firebase.auth().onAuthStateChanged( user => {
+        if(user){
+            if(user?.metadata?.creationTime === user?.metadata?.lastSignInTime){
+                setupUser(setUserData.bind(null, user));
+            }else{
+                getUser(setUserData.bind(null, user));
+            }
+        }
+        callback(user);
+    });   
 }
-/**
- * @function logout
- * @param {*} callback - callback function should trigger a redirect
- * to the login page
- * 
- * @description logs user out.
- */
-let logout = ( callback=nothing ) => {
+const setUserData = (user) => {
+    
+    let userData = {
+        name: user.displayName,
+        email: user.email,
+        emailverified: user.emailVerified,
+        anon: user.isAnonymous,
+        id: user.uid,
+        avatar: user.photoURL
+    };
+    localStorage.setItem('user', JSON.stringify(userData));
+    currentUser.user = userData;
+    return userData;
+}
+const logout = (cb, err=nothing) => {
     firebase.auth().signOut().then(function() {
-        callback();
-    }).catch( error => {
-        swal("Error!", `Logout Unsuccessful: ${error}`, "error");
-    });
+        // let theme = localStorage.getItem('theme');
+        localStorage.clear();
+        // localStorage.setItem('theme', theme);
+        window.location.reload();
+    }).catch(function(error) {
+        err(error);
+    });      
 }
 /**
  * @function getDrinks
@@ -178,13 +180,17 @@ let setupUser = ( callback=nothing ) => {
     .collection('user')
     .doc('profile')
     .set( defaultProfile )
-    .then( ( resp ) => {
+    .then( resp => {
         localStorage.setItem('userSpendMax', defaultProfile.budget);
         localStorage.setItem('userDrinkMax', defaultProfile.limit);
         localStorage.setItem('userPublic', defaultProfile.public);
         callback( resp );
     }).catch( error => {
-        swal("Error!", `Error setting up your account: ${error}`, "error");
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `Error setting up your account: ${error}`
+        });
     });
 }
 
@@ -195,7 +201,11 @@ let updateUser = ( userProperties, callback=nothing ) => {
         limit: parseInt(userProperties.userDrinkMax)
     };
     if(isNaN(data.budget) || isNaN(data.limit)){
-        swal("Error!", "Please enter valid numbers", "error");
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text:"Please enter valid numbers"
+        });
         return;
     }
     db.collection( 'users' )
@@ -207,12 +217,13 @@ let updateUser = ( userProperties, callback=nothing ) => {
         localStorage.setItem('userSpendMax', parseInt(data.budget));
         localStorage.setItem('userDrinkMax', parseInt(data.limit));
         localStorage.setItem('userPublic', data.public);
-        swal("Success!", "Your settings have been updated", "success")
+        Swal.fire("Success!", "Your settings have been updated", "success")
+        
         .then((value) => {
             callback( value, resp );
         });
     }).catch( error => {
-        swal("Error!", `${error}`, "error");
+        Swal.fire("Error!", `${error}`, "error");
     });
 }
 let updateStatsFromLocalStorage = (callback=nothing) => {
@@ -242,7 +253,7 @@ let updateStats = ( userStats, callback=nothing ) => {
     .then( ( resp ) => {
         callback( resp );
     }).catch( error => {
-        swal("Error!", `${error}`, "error");
+        Swal.fire("Error!", `${error}`, "error");
         callback( error );
     });
 }
@@ -259,7 +270,7 @@ let getUser = ( callback=nothing ) => {
         localStorage.setItem('userPublic', data.public);
         callback(resp);
     }).catch( error => {
-        swal("Error!", `${error}`, "error");
+        Swal.fire("Error!", `${error}`, "error");
     });
 }
 /**
@@ -272,10 +283,10 @@ let addDrink = ( data, callback=nothing ) => {
     db.collection(`users/${localStorage.getItem('uid')}/drinks`)
     .add( data )
     .then( ( resp ) => {
-        swal("Done!", "Drink has been added", "success"); 
+        Swal.fire("Done!", "Drink has been added", "success"); 
         callback( resp );
     }).catch( error => {
-        swal("Error!", `${error}`, "error");
+        Swal.fire("Error!", `${error}`, "error");
     });
 }
 let deleteDrink = ( drinkid, callback=nothing ) => {
@@ -283,18 +294,16 @@ let deleteDrink = ( drinkid, callback=nothing ) => {
     .doc( drinkid )
     .delete()
     .then((resp) => {
-        swal("Done!", "Drink has been deleted", "success"); 
+        Swal.fire("Done!", "Drink has been deleted", "success"); 
         callback();
     }).catch( error => {
         console.log(error);
-        swal('Error!', `Couldn't delete your drink. Try again later!`, 'error');
+        Swal.fire('Error!', `Couldn't delete your drink. Try again later!`, 'error');
     });
 }
 export default {
     init: init,
     login: {
-        isLoggedIn: isLoggedIn,
-        attempt: attemptLogin,
         check: checkLogin,
     },
     logout: logout,

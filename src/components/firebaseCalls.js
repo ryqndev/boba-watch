@@ -58,18 +58,18 @@ let init = () => {
  */
 let checkLogin = ( callback=nothing ) => {
     firebase.auth().onAuthStateChanged( user => {
-        if(user){
-            if(user?.metadata?.creationTime === user?.metadata?.lastSignInTime){
-                setupUser(setUserData.bind(null, user));
-            }else{
-                getUser(setUserData.bind(null, user));
-            }
+        if(!user) return callback(user);
+        setUserData(user);
+        let account = user?.metadata;
+        if(account?.creationTime === account?.lastSignInTime){
+            setupUser(callback);
+        }else{
+            getUser(callback);
         }
-        callback(user);
+        getDrinks(() => {callback(user)});
     });   
 }
 const setUserData = (user) => {
-    
     let userData = {
         name: user.displayName,
         email: user.email,
@@ -81,6 +81,22 @@ const setUserData = (user) => {
     localStorage.setItem('user', JSON.stringify(userData));
     currentUser.user = userData;
     return userData;
+}
+const getUserData = (property=null) => {
+    if(property === null)
+        return currentUser.user;
+
+    if(currentUser.user !== null && currentUser.user[property] !== null)
+        return currentUser.user[property];
+
+    switch(property){
+        case 'avatar':
+            return "";
+        case 'email':
+            return "";
+        default:
+            return null;
+    }
 }
 const logout = (cb, err=nothing) => {
     firebase.auth().signOut().then(function() {
@@ -109,7 +125,7 @@ const logout = (cb, err=nothing) => {
  */
 let getDrinks = ( callback=nothing, process=defaultProcess ) => {
     let collections = process.init();
-    db.collection(`users/${localStorage.getItem('uid')}/drinks`)
+    db.collection(`users/${currentUser.user.id}/drinks`)
         .orderBy('drink.date', 'desc')
         .get()
         .then( querySnapshot => {
@@ -176,7 +192,7 @@ let setupUser = ( callback=nothing ) => {
         'public': false
     }
     db.collection('users')
-    .doc(localStorage.getItem('uid'))
+    .doc(currentUser.user.id)
     .collection('user')
     .doc('profile')
     .set( defaultProfile )
@@ -193,6 +209,29 @@ let setupUser = ( callback=nothing ) => {
         });
     });
 }
+let getUser = ( callback=nothing ) => {
+    db.collection( 'users' )
+    .doc(currentUser.user.id)
+    .collection( 'user' )
+    .doc( 'profile' )
+    .get()
+    .then( ( resp ) => {
+        let data = resp.data();
+        if(
+            data?.budget === undefined
+            || data?.limit === undefined
+            || data?.public === undefined
+        ){
+            return setupUser(callback);
+        }
+        localStorage.setItem('userSpendMax', parseInt(data.budget));
+        localStorage.setItem('userDrinkMax', parseInt(data.limit));
+        localStorage.setItem('userPublic', data.public);
+        callback(resp);
+    }).catch( error => {
+        Swal.fire("Error!", `${error}`, "error");
+    });
+}
 
 let updateUser = ( userProperties, callback=nothing ) => {
     let data = {
@@ -201,15 +240,14 @@ let updateUser = ( userProperties, callback=nothing ) => {
         limit: parseInt(userProperties.userDrinkMax)
     };
     if(isNaN(data.budget) || isNaN(data.limit)){
-        Swal.fire({
+        return Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text:"Please enter valid numbers"
         });
-        return;
     }
     db.collection( 'users' )
-    .doc(localStorage.getItem('uid'))
+    .doc(currentUser.user.id)
     .collection( 'user' )
     .doc( 'profile' )
     .set( data )
@@ -246,7 +284,7 @@ let updateStatsFromLocalStorage = (callback=nothing) => {
  */
 let updateStats = ( userStats, callback=nothing ) => {
     db.collection( 'users' )
-    .doc(localStorage.getItem('uid'))
+    .doc(currentUser.user.id)
     .collection( 'user' )
     .doc( 'stats' )
     .set( userStats )
@@ -257,22 +295,7 @@ let updateStats = ( userStats, callback=nothing ) => {
         callback( error );
     });
 }
-let getUser = ( callback=nothing ) => {
-    db.collection( 'users' )
-    .doc( localStorage.getItem('uid') )
-    .collection( 'user' )
-    .doc( 'profile' )
-    .get()
-    .then( ( resp ) => {
-        let data = resp.data();
-        localStorage.setItem('userSpendMax', parseInt(data.budget));
-        localStorage.setItem('userDrinkMax', parseInt(data.limit));
-        localStorage.setItem('userPublic', data.public);
-        callback(resp);
-    }).catch( error => {
-        Swal.fire("Error!", `${error}`, "error");
-    });
-}
+
 /**
  * @function addDrink
  *  
@@ -280,7 +303,7 @@ let getUser = ( callback=nothing ) => {
  * regarding the added drink such as the generated id
  */
 let addDrink = ( data, callback=nothing ) => {
-    db.collection(`users/${localStorage.getItem('uid')}/drinks`)
+    db.collection(`users/${currentUser.user.id}/drinks`)
     .add( data )
     .then( ( resp ) => {
         Swal.fire("Done!", "Drink has been added", "success"); 
@@ -290,7 +313,7 @@ let addDrink = ( data, callback=nothing ) => {
     });
 }
 let deleteDrink = ( drinkid, callback=nothing ) => {
-    db.collection(`users/${localStorage.getItem('uid')}/drinks`)
+    db.collection(`users/${currentUser.user.id}/drinks`)
     .doc( drinkid )
     .delete()
     .then((resp) => {
@@ -312,6 +335,9 @@ export default {
         get: getUser,
         update: updateUser,
         updateStats: updateStatsFromLocalStorage,
+    },
+    get: {
+        user: getUserData
     },
     drinks: {
         get: getDrinks,

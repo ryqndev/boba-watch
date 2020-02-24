@@ -1,26 +1,24 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Typography} from '@material-ui/core';
 import DrinkPanel from './DrinkPanel';
 import Utils from './textUtil.js';
 import './styles/history.css';
 
-export class History extends Component {
-    state = {
-        monthly: {
-            drinks: [<div className="thaman-color"><Typography variant="h3" key={1}>No drinks this month :(</Typography></div>],
-            sum: 0
-        },
-        complete: {
-            drinks: [<div className="thaman-color"><Typography variant="h3" key={1}>Add a drink to start!</Typography></div>],
-            sum: 0
-        },
-        monthlyDisplay: 7,
-        completeDisplay: 5
-    };
-    componentDidMount(){
-        this.update();
-    }
-    update = () => {
+const History = () => {
+    const [monthly, setMonthly] = useState({
+        drinks: [(<div className="thaman-color" key={1}><Typography variant="h3">No drinks this month :(</Typography></div>)],
+        sum: 0
+    });
+    const [complete, setComplete] = useState({
+        drinks: [<div className="thaman-color" key={1}><Typography variant="h3">Add a drink to start!</Typography></div>],
+        sum: 0
+    });
+    const [monthlyDisplay, setMonthlyDisplay] = useState(7);
+    const [completeDisplay, setCompleteDisplay] = useState(5);
+    useEffect(() => {
+        update();
+    }, [monthlyDisplay, completeDisplay]);
+    const update = () => {
         let drinks = JSON.parse(localStorage.getItem('drinkids'));
         if(!Array.isArray(drinks) || !drinks.length) return;
         drinks = drinks.map(id => JSON.parse(localStorage.getItem(id)) );
@@ -31,20 +29,20 @@ export class History extends Component {
             today = new Date(),
             todayMonth = today.getMonth(),
             todayYear = today.getFullYear(),
-            displayedMonthly = this.state.monthlyDisplay,
-            displayedOverall = this.state.completeDisplay;
+            displayedMonthly = monthlyDisplay,
+            displayedOverall = completeDisplay;
         
         drinks.forEach( ( e, i ) => {
             let drinkDate = new Date(e.date);
             if(drinkDate.getMonth() === todayMonth && drinkDate.getFullYear() === todayYear){
                 if(displayedMonthly > 0 ){
-                    monthlyDrinks.push((<DrinkPanel key={e.id} data={e} update={this.update} />));
+                    monthlyDrinks.push((<DrinkPanel key={e.id} data={e} update={update} />));
                     displayedMonthly = displayedMonthly - 1;
                 }
                 monthlySum += parseFloat(e.price);
             }else{
                 if(displayedOverall > 0 ){
-                    totalDrinks.push((<DrinkPanel key={e.id} data={e} update={this.update} />));
+                    totalDrinks.push((<DrinkPanel key={e.id} data={e} update={update} />));
                     displayedOverall = displayedOverall - 1;
                 }
             }
@@ -53,7 +51,7 @@ export class History extends Component {
         if( displayedMonthly <= 0 ){
             monthlyDrinks.push(
                 <div className="thaman-color">
-                <div className="history-load-more" onClick={this.displayMoreMonthly}>
+                <div className="history-load-more" onClick={displayMoreMonthly}>
                     • • •
                 </div>
             </div>
@@ -62,51 +60,47 @@ export class History extends Component {
         if( displayedOverall <= 0 ){
             totalDrinks.push(
                 <div className="thaman-color">
-                <div className="history-load-more" onClick={this.displayMoreOverall}>
+                <div className="history-load-more" onClick={displayMoreOverall}>
                     • • •
                 </div>
             </div>
             );
         }
-        this.setState({
-            monthly: {
-                drinks: monthlyDrinks,
-                sum: monthlySum
-            },
-            complete: {
-                drinks: totalDrinks,
-                sum: totalSum
-            }
+        setMonthly({
+            drinks: monthlyDrinks,
+            sum: monthlySum
+        });
+        setComplete({
+            drinks: totalDrinks,
+            sum: totalSum
         });
     };
-    displayMoreMonthly = () => {
-        this.setState(state => ({monthlyDisplay: state.monthlyDisplay + 8 }), this.update)
+    const displayMoreMonthly = () => {
+        setMonthlyDisplay(monthlyDisplay + 8);
     }
-    displayMoreOverall = () => {
-        this.setState(state => ({completeDisplay: state.completeDisplay + 8 }), this.update)
+    const displayMoreOverall = () => {
+        setCompleteDisplay(completeDisplay + 8);
     }
-    render() {
-        return (
+    return (
         <div className="history-page">
             <Typography variant="h3"> Monthly Spending</Typography>
             <div className="history-spending">
-                {this.state.monthly.drinks}
+                {monthly.drinks}
             </div>
             <Typography variant="h3" className="history-total">
-                <span>Monthly Total:</span> ${Utils.toMoney(this.state.monthly.sum)}
+                <span>Monthly Total:</span> ${Utils.toMoney(monthly.sum)}
             </Typography>
             <br />
             <br />
             <Typography variant="h3"> Overall Spending</Typography>
             <div className="history-spending">
-                {this.state.complete.drinks}
+                {complete.drinks}
             </div>
             <Typography variant="h3" className="history-total">
-                <span>Complete Total:</span> ${Utils.toMoney(this.state.complete.sum)}
+                <span>Complete Total:</span> ${Utils.toMoney(complete.sum)}
             </Typography>
         </div>
-        )
-    }
+    );
 }
 
 export default History;

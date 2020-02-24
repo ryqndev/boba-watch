@@ -3,7 +3,7 @@ import {Typography, TextField, Button, IconButton, Switch, Collapse, Modal} from
 import CloseButton from '@material-ui/icons/Close';
 import HelpButton from '@material-ui/icons/Help';
 import TextClipboard from './TextClipboard';
-import backend from './firebaseCalls';
+import FirebaseUser from './firebaseCalls';
 import './styles/user.css';
 
 let logoutButton = {
@@ -23,21 +23,20 @@ export class User extends Component {
     }
     state = this.defaultState();
     logout = () => {
-        backend.logout(
+        FirebaseUser.logout(
             () => { 
                 localStorage.clear();
                 window.location = window.location.origin;
             }
         );
     }
-    
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
     }
     handleToggle = () => {
         this.setState(state => ({
             userPublic: !state.userPublic,
-        }), () => {backend.user.update(this.state, this.close)} );
+        }), () => {FirebaseUser.user.update(this.state, this.close)} );
     }
     close = () => { 
         this.props.close();
@@ -51,13 +50,13 @@ export class User extends Component {
         return (
         <Modal open={this.props.open}>
             <div className="user-modal" style={{height: s.userPublic ? 385 : 350}}>
-                <IconButton color="secondary" className="modal-small--button close-button" onClick={ () => {this.close() }}>
+                <IconButton color="secondary" className="modal-small--button close-button" onClick={ () => {this.close()}}>
                     <CloseButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
                 <IconButton className="modal-small--button help-button" onClick={ () => {this.getHelp() }}>
                     <HelpButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
-                <img src={localStorage.getItem('avatar')} className="user-avatar" alt="user"/>
+                <img src={FirebaseUser.get.user('avatar')} className="user-avatar" alt="user"/>
                 <Typography variant="h5" style={{textAlign: "center"}}>User settings</Typography>
                 <TextField
                     id="monthly-spending-input"
@@ -101,7 +100,7 @@ export class User extends Component {
                         style={logoutButton}>
                         LOGOUT
                     </Button>
-                    <Button className="update-button" onClick={ () => { backend.user.update(s, this.close) } }>UPDATE</Button>
+                    <Button className="update-button" onClick={ () => { FirebaseUser.user.update(s, this.close) } }>UPDATE</Button>
                 </div>
             </div>
         </Modal>

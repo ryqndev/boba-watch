@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import 'date-fns';
 import Swal from 'sweetalert2';
 import './styles/add.css';
@@ -10,45 +10,23 @@ import { withRouter } from 'react-router-dom';
 import stats from './calculateStatistics';
 import backend from './firebaseCalls';
 
-export class Add extends Component {
-    state = {
-        selectedDate: new Date()
-    }
-    handleDateChange = (date) => {
-        this.setState({
-            selectedDate: date
-        })
-    };
-    /**
-     * @function update
-     * TODO: implement live reload instead of using recalculate metrics
-     * also need to do user input sanitation for reading the metrics and storing legit data
-     */
-    update = ( resp ) => {
+const Add = ({open, close}) => {
+    const [date, setDate] = useState(new Date());
+    const handleDateChange = (date) => {setDate(date)}
+    const closeAddModal = () => {close(!open)}
+    const update = ( resp ) => {
         document.getElementById('add-drink--button').disabled = false;
         resp.get().then(r => {
-            this.addLocally(r.data(), r.id);
+            addLocally(r.data(), r.id);
         })
     }
-    addLocally = (data, id) => {
+    const addLocally = (data, id) => {
         stats.addDrink(data, id);
         backend.user.updateStats();
-        this.props.close();
-        this.setState({
-            selectedDate: new Date()
-        });
+        closeAddModal();
+        setDate(new Date());
     }
-    /**
-     * @function addDrink - called when the user submits drink information to be added.
-     * Has 3 parts:
-     *  1. Gets all the user filled out info
-     *  2. Only required parameter is price and if not filled, throws error
-     *  3. Makes api call to server to add the drink with info
-     * 
-     * TODO: better job of parsing the info and potentially add chips and autofill for
-     * better data processing
-     */
-    addDrink = () => {
+    const addDrink = () => {
         document.getElementById('add-drink--button').disabled = true;
         let data = {
             drink: {
@@ -66,16 +44,14 @@ export class Add extends Component {
                 title: 'Oops...',
                 text: 'Please enter a valid price to add drink'
               })
-            document.getElementById('add-drink--button').disabled = false;
-            return;
+            return document.getElementById('add-drink--button').disabled = false;
         }
-        backend.drinks.add(data, this.update);
+        backend.drinks.add(data, update);
     };
-    render() {
-        return (
-        <Modal open={this.props.open}>
+    return (
+        <Modal open={open}>
             <div className="add-modal">
-                <IconButton color="secondary" className="close-button" onClick={this.props.close}>
+                <IconButton color="secondary" className="close-button" onClick={closeAddModal}>
                     <CloseButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
                 <Typography variant="h5" style={{textAlign: "center"}}>Add a purchase</Typography>
@@ -92,19 +68,18 @@ export class Add extends Component {
                         margin="dense"
                         format="M/d/yyyy h:mm a"
                         label="Date"
-                        value={this.state.selectedDate}
-                        onChange={this.handleDateChange}
+                        value={date}
+                        onChange={handleDateChange}
                         inputProps={{ maxLength: 100 }}
                     />
                 </MuiPickersUtilsProvider>
                 <TextField id="description-value" className="add-input" label="Description" inputProps={{ maxLength: 1000 }}/>
                 <div className="add-button-holder">
-                    <Button id="add-drink--button" onClick={this.addDrink} className="add-button">ADD</Button>
+                    <Button id="add-drink--button" onClick={addDrink} className="add-button">ADD</Button>
                 </div>
             </div>
         </Modal>
-        )
-    }
+    );
 }
 
 export default withRouter(Add);

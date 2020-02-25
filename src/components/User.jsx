@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {Typography, TextField, Button, IconButton, Switch, Collapse, Modal} from '@material-ui/core';
 import CloseButton from '@material-ui/icons/Close';
 import HelpButton from '@material-ui/icons/Help';
@@ -13,47 +13,49 @@ let logoutButton = {
     backgroundColor: '#FFFFFF'
 };
 
-export class User extends Component {
-    defaultState = () => {
-        return {
-            userSpendMax: localStorage.getItem('userSpendMax')/100,
-            userDrinkMax: localStorage.getItem('userDrinkMax'),
-            userPublic: localStorage.getItem('userPublic') === 'true' ? true : false,
-        };
+/**
+ * @NOTE previous bad choice of naming for using 'public' as a state key which has to now
+ * be changed to sharing because public is a js keyword. Might be a little bit dangerous to
+ * try and convert a singular value on the firebase so I'm going to keep the database value
+ * different from stored value.
+ */
+const User = ({open, setOpen}) => {
+    const [budget, setBudget] = useState(localStorage.getItem('budget')/100);
+    const [limit, setLimit] = useState(localStorage.getItem('limit'));
+    const [sharing, setSharing] = useState(!!localStorage.getItem('public') === 'true');
+
+    const handleChange = setUserInfo => event => {
+        setUserInfo(event.target.value);
     }
-    state = this.defaultState();
-    logout = () => {
-        FirebaseUser.logout(
-            () => { 
-                localStorage.clear();
-                window.location = window.location.origin;
-            }
-        );
+    const updateFirebase = () => {
+        FirebaseUser.user.update({
+            budget: budget,
+            limit: limit,
+            public: sharing
+        }, () => {
+            setOpen(false);
+        });
     }
-    handleChange = name => event => {
-        this.setState({ [name]: event.target.value });
+    const handleToggle = () => {
+        setSharing(!sharing);
+        updateFirebase();
     }
-    handleToggle = () => {
-        this.setState(state => ({
-            userPublic: !state.userPublic,
-        }), () => {FirebaseUser.user.update(this.state, this.close)} );
+    const close = () => { 
+        setOpen(false);
+        setBudget(localStorage.getItem('budget')/100);
+        setLimit(localStorage.getItem('limit'));
+        setSharing(!!localStorage.getItem('public') === 'true');
     }
-    close = () => { 
-        this.props.close();
-        this.setState(this.defaultState());
-    }
-    getHelp = () => {
+    const getHelp = () => {
         window.open('https://info.boba.watch/');
     }
-    render() { 
-        const s = this.state;
-        return (
-        <Modal open={this.props.open}>
-            <div className="user-modal" style={{height: s.userPublic ? 385 : 350}}>
-                <IconButton color="secondary" className="modal-small--button close-button" onClick={ () => {this.close()}}>
+    return (
+        <Modal open={open}>
+            <div className="user-modal" style={{height: sharing ? 385 : 350}}>
+                <IconButton color="secondary" className="modal-small--button close-button" onClick={close}>
                     <CloseButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
-                <IconButton className="modal-small--button help-button" onClick={ () => {this.getHelp() }}>
+                <IconButton className="modal-small--button help-button" onClick={getHelp}>
                     <HelpButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
                 <img src={FirebaseUser.get.user('avatar')} className="user-avatar" alt="user"/>
@@ -65,8 +67,8 @@ export class User extends Component {
                     className="user-input"
                     variant="outlined"
                     margin="normal"
-                    onChange={this.handleChange('userSpendMax')}
-                    value={s.userSpendMax}
+                    onChange={handleChange(setBudget)}
+                    value={budget}
                     label="Monthly Spending Limit"
                 />
                 <TextField
@@ -76,36 +78,35 @@ export class User extends Component {
                     className="user-input"
                     margin="dense"
                     variant="outlined"
-                    onChange={this.handleChange('userDrinkMax')}
-                    value={s.userDrinkMax}
+                    onChange={handleChange(setLimit)}
+                    value={limit}
                     label="Max of drinks / month"
                 />
                 <div className="user-share-profile">
                     Share Profile: 
                     <Switch
-                        checked={s.userPublic}
-                        onClick={this.handleToggle}
+                        checked={sharing}
+                        onClick={handleToggle}
                         label="Share Profile"
                         color="primary"
                     />
                 </div>
-                <Collapse in={s.userPublic}>
-                    <TextClipboard text={`https://share.boba.watch/#/${localStorage.getItem('uid')}`}/>
+                <Collapse in={sharing}>
+                    <TextClipboard text={`https://share.boba.watch/#/${FirebaseUser.get.user('id')}`}/>
                 </Collapse>
                 <div className="update-button-holder">
                     <Button 
                         className="logout-button"
                         variant="text"
-                        onClick={this.logout}
+                        onClick={FirebaseUser.logout}
                         style={logoutButton}>
                         LOGOUT
                     </Button>
-                    <Button className="update-button" onClick={ () => { FirebaseUser.user.update(s, this.close) } }>UPDATE</Button>
+                    <Button className="update-button" onClick={updateFirebase}>UPDATE</Button>
                 </div>
             </div>
         </Modal>
-        );
-    }
+    );
 }
 
 export default User;

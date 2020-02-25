@@ -10,10 +10,10 @@ import { withRouter } from 'react-router-dom';
 import stats from './calculateStatistics';
 import backend from './firebaseCalls';
 
-const Add = ({open, close}) => {
+const Add = ({open, setOpen}) => {
     const [date, setDate] = useState(new Date());
     const handleDateChange = (date) => {setDate(date)}
-    const closeAddModal = () => {close(!open)}
+    const closeAddModal = () => {setOpen(!open)}
     const update = ( resp ) => {
         document.getElementById('add-drink--button').disabled = false;
         resp.get().then(r => {

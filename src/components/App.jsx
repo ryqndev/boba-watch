@@ -12,9 +12,8 @@ import './App.css';
 const Start = ({history}) => {
     useEffect(() => {
 		// Theme(SavedTheme());
-        FirebaseUser.init();
-		FirebaseUser.login.check( currentUser => {
-			history.push( currentUser ? '/app' : '/login');
+        FirebaseUser.init( user => {
+			history.push(user ? '/app' : '/login');
 		});
 		console.log("v2.0.0");
     }, [history]);
@@ -34,9 +33,9 @@ const Start = ({history}) => {
 
 const App = () => {
     const [add, setAdd] = useState(false);
-    const [user, setUser] = useState(false);
+    const [user, setUser] = useState(false), openUser = setUser.bind(null, true);
     const [value, setValue] = useState('');
-    const handleChange = (event, value) => { setValue(value); };
+    const handleChange = (e, value) => { setValue(value); };
 
     return (
         <Router initialEntries={['/dash', '/history']} initialIndex={0}>
@@ -44,7 +43,7 @@ const App = () => {
                 src={FirebaseUser.get.user('avatar')}
                 alt="user-settings"
                 className="avatar-button"
-                onClick={() => {setUser(!user)}}
+                onClick={openUser}
             />
             <Switch>
                 <Route exact path='/dash' >
@@ -54,8 +53,8 @@ const App = () => {
                     <History />
                 </Route>
             </Switch>
-            <Add open={add} close={setAdd} />
-            <User open={user} close={() => setUser(!user)} />
+            <Add open={add} setOpen={setAdd} />
+            <User open={user} setOpen={setUser} />
             <Navigation value={value} handleChange={handleChange} toggleAdd={() => {setAdd(!add); }} />
         </Router>
     );

@@ -35,39 +35,21 @@ let nothing = () => {
  * @function init
  * @description initializes the firestore and fb auth 
  */
-let init = () => {
+let init = (callback) => {
     db = firebase.firestore(); 
     db.enablePersistence().catch( err => {
-        if (err.code === 'failed-precondition') {
-            // Multiple tabs open, persistence can only be enabled
-            // in one tab at a a time.
-        } else if (err.code === 'unimplemented') {
-            // The current browser does not support all of the
-            // features required to enable persistence
-        }
+        console.error(err);
     });
-}
-/**
- * @function checkLogin
- * @param {*} callback - function with 1 parameter that gets called
- * on function success. callback should have parameter that gets 
- * the returned data on successful login
- * 
- * @description checks the firebase redirect login flow to see
- * if login has been successful
- */
-let checkLogin = ( callback=nothing ) => {
     firebase.auth().onAuthStateChanged( user => {
         if(!user) return callback(user);
+
         setUserData(user);
-        let account = user?.metadata;
-        if(account?.creationTime === account?.lastSignInTime){
-            setupUser(callback);
-        }else{
-            getUser(callback);
-        }
-        getDrinks(() => {callback(user)});
-    });   
+
+        let acc = user?.metadata;
+        (acc?.creationTime === acc?.lastSignInTime) ? setUser(callback) : getUser(callback);
+
+        getDrinks();
+    });
 }
 const setUserData = (user) => {
     let userData = {
@@ -179,13 +161,13 @@ let defaultProcess = {
     }
 }
 /**
- * @function setupUser
+ * @function setUser
  * 
  * @var defaultProfile - schema for user profile to follow
  * 
  * @description Called when user is brand new. Sets up their profile on firebase
  */
-let setupUser = ( callback=nothing ) => {
+let setUser = ( callback=nothing ) => {
     const defaultProfile = {
         'budget': 10000,
         'limit': 15,
@@ -197,9 +179,9 @@ let setupUser = ( callback=nothing ) => {
     .doc('profile')
     .set( defaultProfile )
     .then( resp => {
-        localStorage.setItem('userSpendMax', defaultProfile.budget);
-        localStorage.setItem('userDrinkMax', defaultProfile.limit);
-        localStorage.setItem('userPublic', defaultProfile.public);
+        localStorage.setItem('budget', defaultProfile.budget);
+        localStorage.setItem('limit', defaultProfile.limit);
+        localStorage.setItem('public', defaultProfile.public);
         callback( resp );
     }).catch( error => {
         Swal.fire({
@@ -222,11 +204,11 @@ let getUser = ( callback=nothing ) => {
             || data?.limit === undefined
             || data?.public === undefined
         ){
-            return setupUser(callback);
+            return setUser(callback);
         }
-        localStorage.setItem('userSpendMax', parseInt(data.budget));
-        localStorage.setItem('userDrinkMax', parseInt(data.limit));
-        localStorage.setItem('userPublic', data.public);
+        localStorage.setItem('budget', parseInt(data.budget));
+        localStorage.setItem('limit', parseInt(data.limit));
+        localStorage.setItem('public', data.public);
         callback(resp);
     }).catch( error => {
         Swal.fire("Error!", `${error}`, "error");
@@ -235,9 +217,9 @@ let getUser = ( callback=nothing ) => {
 
 let updateUser = ( userProperties, callback=nothing ) => {
     let data = {
-        public: userProperties.userPublic,
-        budget: parseFloat(userProperties.userSpendMax) * 100,
-        limit: parseInt(userProperties.userDrinkMax)
+        public: userProperties.public,
+        budget: parseFloat(userProperties.budget) * 100,
+        limit: parseInt(userProperties.limit)
     };
     if(isNaN(data.budget) || isNaN(data.limit)){
         return Swal.fire({
@@ -252,14 +234,11 @@ let updateUser = ( userProperties, callback=nothing ) => {
     .doc( 'profile' )
     .set( data )
     .then( ( resp ) => {
-        localStorage.setItem('userSpendMax', parseInt(data.budget));
-        localStorage.setItem('userDrinkMax', parseInt(data.limit));
-        localStorage.setItem('userPublic', data.public);
-        Swal.fire("Success!", "Your settings have been updated", "success")
-        
-        .then((value) => {
-            callback( value, resp );
-        });
+        localStorage.setItem('budget', parseInt(data.budget));
+        localStorage.setItem('limit', parseInt(data.limit));
+        localStorage.setItem('public', data.public);
+        Swal.fire("Success!", "Your settings have been updated", "success");
+        callback();
     }).catch( error => {
         Swal.fire("Error!", `${error}`, "error");
     });
@@ -326,12 +305,8 @@ let deleteDrink = ( drinkid, callback=nothing ) => {
 }
 export default {
     init: init,
-    login: {
-        check: checkLogin,
-    },
     logout: logout,
     user: {
-        setup: setupUser,
         get: getUser,
         update: updateUser,
         updateStats: updateStatsFromLocalStorage,

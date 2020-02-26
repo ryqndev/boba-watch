@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {Typography} from '@material-ui/core';
 import DrinkPanel from './DrinkPanel';
-import Utils from './textUtil.js';
-import './styles/history.css';
+import Utils from '../textUtil.js';
+import './History.css';
 
 const History = () => {
     const [monthly, setMonthly] = useState({

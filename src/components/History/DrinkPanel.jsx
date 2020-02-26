@@ -3,10 +3,10 @@ import {Button} from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import Utils from './textUtil.js';
-import backend from './firebaseCalls';
-import stats from './calculateStatistics';
-import './styles/history.css';
+import Utils from '../textUtil.js';
+import backend from '../firebaseCalls';
+import stats from '../calculateStatistics';
+import './History.css';
 
 export class DrinkPanel extends Component {
     state =  { open: false, add: false };

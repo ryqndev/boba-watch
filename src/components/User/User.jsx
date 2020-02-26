@@ -1,17 +1,11 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState } from 'react';
 import {Typography, TextField, Button, IconButton, Switch, Collapse, Modal} from '@material-ui/core';
 import CloseButton from '@material-ui/icons/Close';
 import HelpButton from '@material-ui/icons/Help';
-import TextClipboard from './TextClipboard';
-import FirebaseUser from './firebaseCalls';
-import './styles/user.css';
-
-let logoutButton = {
-    color: '#FF0000',
-    border: '1px solid red',
-    boxShadow: 'none',
-    backgroundColor: '#FFFFFF'
-};
+import TextClipboard from '../TextClipboard';
+import FirebaseUser from '../firebaseCalls';
+import './User.scss';
+import '../globals/globals.scss';
 
 /**
  * @NOTE previous bad choice of naming for using 'public' as a state key which has to now
@@ -58,13 +52,13 @@ const User = ({open, setOpen}) => {
                 <IconButton className="modal-small--button help-button" onClick={getHelp}>
                     <HelpButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
-                <img src={FirebaseUser.get.user('avatar')} className="user-avatar" alt="user"/>
+                <img src={FirebaseUser.get.user('avatar')} className="avatar" alt="user"/>
                 <Typography variant="h5" style={{textAlign: "center"}}>User settings</Typography>
                 <TextField
                     id="monthly-spending-input"
                     type='tel'
                     pattern="^-?[0-9]\d*\.?\d*$"
-                    className="user-input"
+                    className="input"
                     variant="outlined"
                     margin="normal"
                     onChange={handleChange(setBudget)}
@@ -75,7 +69,7 @@ const User = ({open, setOpen}) => {
                     id="monthly-drinking-limit"
                     type='tel'
                     pattern="^-?[0-9]\d*\.?\d*$"
-                    className="user-input"
+                    className="input"
                     margin="dense"
                     variant="outlined"
                     onChange={handleChange(setLimit)}
@@ -94,15 +88,13 @@ const User = ({open, setOpen}) => {
                 <Collapse in={sharing}>
                     <TextClipboard text={`https://share.boba.watch/#/${FirebaseUser.get.user('id')}`}/>
                 </Collapse>
-                <div className="update-button-holder">
-                    <Button 
-                        className="logout-button"
-                        variant="text"
-                        onClick={FirebaseUser.logout}
-                        style={logoutButton}>
+                <div className="button-holder">
+                    <button 
+                        className="logout text"
+                        onClick={FirebaseUser.logout}>
                         LOGOUT
-                    </Button>
-                    <Button className="update-button" onClick={updateFirebase}>UPDATE</Button>
+                    </button>
+                    <Button className="update" onClick={updateFirebase}>UPDATE</Button>
                 </div>
             </div>
         </Modal>

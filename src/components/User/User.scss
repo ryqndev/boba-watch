@@ -11,29 +11,38 @@
     box-sizing: border-box;
     padding: 60px 40px 40px 40px;
     transition: all 320ms;
+    &:focus{
+        outline: none;
+    }
+    & .input{
+        width: 100%;
+    }
+    & .avatar{
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        top: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        border: 4px solid #FFDCDC;
+    }
 }
-.user-modal:focus{
-    outline: none;
-}
-.user-input{
-    width: 100%;
-}
-.update-button-holder{
+.button-holder{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     text-align: center;
     width: 100%;
-}
-.user-avatar{
-    border-radius: 50%;
-    height: 100px;
-    width: 100px;
-    position: absolute;
-    top: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    border: 4px solid #FFDCDC;
+    & .logout{
+        color: #FF0000;
+        border: 1px solid red;
+        background-color: #ffffff;
+        &:hover{
+            background-color: #FF5050;
+            color: white;
+        }
+    }
 }
 .modal-small--button{
     position: absolute !important;
@@ -51,13 +60,6 @@
 .user-share-profile{
     padding-left: 20px;
     text-align: center;
-}
-.logout-button{
-    transition: all 320ms !important;
-}
-.logout-button:hover{
-    background-color: #FF5050 !important;
-    color: white !important;
 }
 #copy-me{
     white-space:nowrap;

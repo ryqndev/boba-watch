@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Typography, Card } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { Sunburst } from 'react-vis';
-import Utils from './textUtil.js';
-import DailyHeatMap from './graphs/DailyHeatMap';
-import TimeBarGraphs from './graphs/TimeBarGraphs';
-import stats from './calculateStatistics';
-import './styles/dashboard.css';
+import Utils from '../textUtil.js';
+import DailyHeatMap from '../graphs/DailyHeatMap';
+import TimeBarGraphs from '../graphs/TimeBarGraphs';
+import stats from '../calculateStatistics';
+import './Dashboard.scss';
+import '../globals/globals.scss';
 import 'react-vis/dist/style.css';
 
 export class Dashboard extends Component {
@@ -17,11 +18,11 @@ export class Dashboard extends Component {
     getState = () => {
         let metrics = JSON.parse(localStorage.getItem('metrics'));
         let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
-        let drinkTotal = localStorage.getItem('userDrinkMax');
+        let drinkTotal = localStorage.getItem('limit');
         return {
             drinkPercentage: parseInt((metrics.td / drinkTotal) * 100),
-            userDrinkMax: drinkTotal,
-            userSpendMax: localStorage.getItem('userSpendMax'),
+            limit: drinkTotal,
+            budget: localStorage.getItem('budget'),
             sunburstData: {
                 size: 0,
                 color: "#FFFFFF",
@@ -37,7 +38,7 @@ export class Dashboard extends Component {
                     },
                     {
                         title: "Until Limit",
-                        size: localStorage.getItem('userSpendMax') - metrics.tc,
+                        size: localStorage.getItem('budget') - metrics.tc,
                         color: "#F4F4F4",
                     }
                 ]
@@ -62,29 +63,29 @@ export class Dashboard extends Component {
         let sunburstSize =  this.isLandscape() ? (window.innerHeight * 0.9) : width;
         return (
         <div className="dashboard-page">
-            <Typography variant="h4" className="dashboard-page--title">Monthly Spending</Typography>
-            <Card id="chart-holder">
-                <div className="chart-holder-description">
-                    MONTHLY LIMIT: ${Utils.toMoney(s.userSpendMax, s.userSpendMax/10000 > 1)}
+            <Typography variant="h4" className="title">Monthly Spending</Typography>
+            <div className="card" id="chart-holder">
+                <div className="description">
+                    MONTHLY LIMIT: ${Utils.toMoney(s.budget, s.budget/10000 > 1)}
                     <br />
                     <span>${Utils.toMoney(s.metrics.tc, s.metrics.tc/10000 > 1)}</span>
                     <br />
-                    REMAINING: ${Utils.toMoney(s.userSpendMax - s.metrics.tc)}
+                    REMAINING: ${Utils.toMoney(s.budget - s.metrics.tc)}
                 </div>
                 <Sunburst height={sunburstSize - (this.isLandscape() ? 105 : 45)} width={sunburstSize-45} data={s.sunburstData} padAngle={0.06} animation colorType={'literal'} />
-            </Card>
-            <Card className="month-total-money">
+            </div>
+            <div className="card budget">
                 <p>This is how much you’ve spent on drinks so far:</p>
-                <Typography variant="h2">${Utils.toMoney(s.cmetrics.tc, s.cmetrics.tc/10000 > 1)}</Typography>
-            </Card>
-            <Card className="month-drink-limit" style={{backgroundPositionY: (100 - s.drinkPercentage) * 2.7}}>
+                <h2>${Utils.toMoney(s.cmetrics.tc, s.cmetrics.tc/10000 > 1)}</h2>
+            </div>
+            <div className="card limit" style={{backgroundPositionY: (100 - s.drinkPercentage) * 2.7}}>
                 <Typography variant="h3">{s.drinkPercentage}%</Typography>
                 <p>to your max number of drinks this month</p>
-            </Card>
-            <Card className="month-total-drinks">
-                <Typography variant="h2">{s.metrics.td}</Typography>
+            </div>
+            <div className="card total">
+                <h2>{s.metrics.td}</h2>
                 <p>drinks this month</p>
-            </Card>
+            </div>
             <DailyHeatMap data={s.cmetrics.d} width={this.isLandscape()  ? (width / 4 + 20 )  : width}/>
             {this.isLandscape() ? ' ' : <TimeBarGraphs width={width} data={s.cmetrics.d} />}
         </div>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { MemoryRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
-import Dashboard from './Dashboard';
-import Add from './Add';
-import User from './User';
-import History from './History';
+import Dashboard from './Dashboard/Dashboard';
+import Add from './Add/Add';
+import User from './User/User';
+import History from './History/History';
 import Login from './Login';
 import Navigation from './Navigation/Navigation';
 import FirebaseUser from './firebaseCalls';

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import 'date-fns';
+import 'date-fns'; 
 import Swal from 'sweetalert2';
-import './styles/add.css';
 import { Typography, TextField, Button, IconButton, Modal } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';
 import { withRouter } from 'react-router-dom';
-import stats from './calculateStatistics';
-import backend from './firebaseCalls';
+import stats from '../calculateStatistics';
+import backend from '../firebaseCalls';
+import './Add.css';
 
 const Add = ({open, setOpen}) => {
     const [date, setDate] = useState(new Date());

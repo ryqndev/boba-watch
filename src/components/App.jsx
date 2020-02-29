@@ -34,8 +34,6 @@ const Start = ({history}) => {
 const App = () => {
     const [add, setAdd] = useState(false);
     const [user, setUser] = useState(false), openUser = setUser.bind(null, true);
-    const [value, setValue] = useState('');
-    const handleChange = (e, value) => { setValue(value); };
 
     return (
         <Router initialEntries={['/dash', '/history']} initialIndex={0}>
@@ -55,7 +53,7 @@ const App = () => {
             </Switch>
             <Add open={add} setOpen={setAdd} />
             <User open={user} setOpen={setUser} />
-            <Navigation value={value} handleChange={handleChange} toggleAdd={() => {setAdd(!add); }} />
+            <Navigation toggleAdd={() => {setAdd(!add); }} />
         </Router>
     );
 }

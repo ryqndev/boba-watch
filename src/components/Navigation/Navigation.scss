@@ -1,0 +1,29 @@
+nav{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: 56px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #FFAFA4;
+    & .center-fab{
+        height: 100px;
+        width: 100px;
+        box-sizing: border-box;
+        margin: -22px auto;
+        padding-top: 17px;
+        text-align: center;
+        border: 6px solid #FFAFA4;
+        border-radius: 50%;
+        color: #FFAFA4;
+        background-color: white;
+        z-index: 1000;
+    }
+    & .icon{
+        padding-top: 15px;
+        text-align: center;
+        & svg{
+            fill: white;
+        }
+    }
+}

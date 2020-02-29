@@ -228,12 +228,12 @@ let updateUser = ( userProperties, callback=nothing ) => {
             text:"Please enter valid numbers"
         });
     }
-    db.collection( 'users' )
+    db.collection('users')
     .doc(currentUser.user.id)
-    .collection( 'user' )
-    .doc( 'profile' )
-    .set( data )
-    .then( ( resp ) => {
+    .collection('user')
+    .doc('profile')
+    .set(data)
+    .then((resp) => {
         localStorage.setItem('budget', parseInt(data.budget));
         localStorage.setItem('limit', parseInt(data.limit));
         localStorage.setItem('public', data.public);

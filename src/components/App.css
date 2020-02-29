@@ -1,23 +1,5 @@
-.bottom-nav{
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-}
 .app{
     height: 100%;
-}
-.center-fab{
-    height: 100px;
-    width: 100px;
-    box-sizing: border-box;
-    padding-top: 17px;
-    margin-top: -35px;
-    text-align: center;
-    border: 5px solid #FFAFA4;
-    border-radius: 50%;
-    color: #FFAFA4;
-    background-color: white;
-    z-index: 1000;
 }
 .page{
     height: calc(100vh - 56px);

@@ -53,7 +53,7 @@ const App = () => {
             </Switch>
             <Add open={add} setOpen={setAdd} />
             <User open={user} setOpen={setUser} />
-            <Navigation toggleAdd={() => {setAdd(!add); }} />
+            <Navigation add={add} toggleAdd={() => {setAdd(!add); }} />
         </Router>
     );
 }

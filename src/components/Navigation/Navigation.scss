@@ -6,7 +6,7 @@ nav{
     position: fixed;
     bottom: 0;
     background-color: #FFAFA4;
-    & .center-fab{
+    & .add-icon{
         height: 100px;
         width: 100px;
         box-sizing: border-box;
@@ -18,10 +18,30 @@ nav{
         color: #FFAFA4;
         background-color: white;
         z-index: 1000;
+        transition: transform 350ms;
+        &.selected{
+            transform: translateY(-5px);
+        }
     }
     & .icon{
         padding-top: 15px;
         text-align: center;
+        transition: padding-top 350ms;
+        &.selected{
+            padding-top: 10px;
+            & p.label{
+                height: 1.5rem;
+            }
+        }
+        & p.label{
+            transform: translateY(-7px);
+            font-size: 0.9rem;
+            overflow: hidden;
+            height: 0;
+            transition: height 350ms;
+            color: white;
+            text-decoration: none;
+        }
         & svg{
             fill: white;
         }

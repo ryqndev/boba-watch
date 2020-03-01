@@ -26,6 +26,10 @@ button{
 }
 a{
     text-decoration: none;
+    &:active, &:focus{
+        outline: 0;
+        border: none;
+    }
 }
 
 .card{

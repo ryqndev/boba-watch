@@ -11,6 +11,7 @@
     box-sizing: border-box;
     padding: 60px 40px 40px 40px;
     transition: all 320ms;
+    z-index: 1050;
     &:focus{
         outline: none;
     }

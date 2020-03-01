@@ -6,6 +6,7 @@ nav{
     position: fixed;
     bottom: 0;
     background-color: #FFAFA4;
+    -webkit-appearance: none;
     & .add-icon{
         height: 100px;
         width: 100px;
@@ -27,6 +28,7 @@ nav{
         padding-top: 15px;
         text-align: center;
         transition: padding-top 350ms;
+        -webkit-appearance: none;
         &.selected{
             padding-top: 10px;
             & p.label{

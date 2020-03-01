@@ -5,6 +5,7 @@ import Utils from '../textUtil.js';
 import DailyHeatMap from '../graphs/DailyHeatMap';
 import TimeBarGraphs from '../graphs/TimeBarGraphs';
 import stats from '../calculateStatistics';
+import FirebaseUser from '../firebaseCalls.js';
 import './Dashboard.scss';
 import '../globals/globals.scss';
 import 'react-vis/dist/style.css';
@@ -18,11 +19,11 @@ export class Dashboard extends Component {
     getState = () => {
         let metrics = JSON.parse(localStorage.getItem('metrics'));
         let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
-        let drinkTotal = localStorage.getItem('limit');
+        let drinkTotal = FirebaseUser.get.current.profile.limit;
         return {
             drinkPercentage: parseInt((metrics.td / drinkTotal) * 100),
             limit: drinkTotal,
-            budget: localStorage.getItem('budget'),
+            budget: FirebaseUser.get.current.profile.budget,
             sunburstData: {
                 size: 0,
                 color: "#FFFFFF",
@@ -38,7 +39,7 @@ export class Dashboard extends Component {
                     },
                     {
                         title: "Until Limit",
-                        size: localStorage.getItem('budget') - metrics.tc,
+                        size: FirebaseUser.get.current.profile.budget - metrics.tc,
                         color: "#F4F4F4",
                     }
                 ]

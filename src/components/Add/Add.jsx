@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import 'date-fns'; 
 import Swal from 'sweetalert2';
-import { IconButton, Modal } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';
 import stats from '../calculateStatistics.js';
 import FirebaseUser from '../firebaseCalls.js';
 import TextInput from '../globals/TextInput';
+import Modal from '../globals/Modal';
 import './Add.scss';
 
 const Add = ({open, setOpen, edit}) => {

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import {Typography, TextField, Button, IconButton, Switch, Collapse, Modal} from '@material-ui/core';
+import {Typography, Button, IconButton, Switch, Collapse, Modal} from '@material-ui/core';
 import CloseButton from '@material-ui/icons/Close';
 import HelpButton from '@material-ui/icons/Help';
 import TextClipboard from '../TextClipboard';
 import FirebaseUser from '../firebaseCalls';
+import TextField from '../globals/TextInput';
 import './User.scss';
 import '../globals/globals.scss';
 
@@ -14,32 +15,38 @@ import '../globals/globals.scss';
  * different from stored value.
  */
 const User = ({open, setOpen}) => {
-    const profile = localStorage.getItem('profile');
+    const profile = FirebaseUser.get.current.profile;
     const [budget, setBudget] = useState(profile.budget / 100);
     const [limit, setLimit] = useState(profile.limit);
-    const [sharing, setSharing] = useState(!!(profile.public === 'true'));
+    const [sharing, setSharing] = useState(profile.public);
 
     const handleChange = setUserInfo => event => {
         setUserInfo(event.target.value);
     }
     const updateFirebase = () => {
         FirebaseUser.user.update({
-            budget: budget,
-            limit: limit,
-            public: sharing
+            budget: parseFloat(budget) * 100,
+            limit: parseInt(limit),
+            sharing: sharing
         }, () => {
-            setOpen(false);
+            close();
         });
     }
     const handleToggle = () => {
-        setSharing(!sharing);
-        updateFirebase();
+        FirebaseUser.user.update({
+            budget: parseFloat(budget) * 100,
+            limit: parseInt(limit),
+            sharing: !sharing
+        }, () => {
+            setSharing(FirebaseUser.get.current.profile.public);
+        });
     }
     const close = () => { 
         setOpen(false);
-        setBudget(localStorage.getItem('budget')/100);
-        setLimit(localStorage.getItem('limit'));
-        setSharing(!!localStorage.getItem('public') === 'true');
+        let currentProfile = FirebaseUser.get.current.profile;
+        setBudget(currentProfile.budget / 100);
+        setLimit(currentProfile.limit);
+        setSharing(currentProfile.public);
     }
     const getHelp = () => {
         window.open('https://info.boba.watch/');
@@ -53,7 +60,7 @@ const User = ({open, setOpen}) => {
                 <IconButton className="modal-small--button help-button" onClick={getHelp}>
                     <HelpButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
-                <img src={FirebaseUser.get.user('avatar')} className="avatar" alt="user"/>
+                <img src={FirebaseUser.get.current.user.avatar} className="avatar" alt="user"/>
                 <Typography variant="h5" style={{textAlign: "center"}}>User settings</Typography>
                 <TextField
                     id="monthly-spending-input"
@@ -87,7 +94,7 @@ const User = ({open, setOpen}) => {
                     />
                 </div>
                 <Collapse in={sharing}>
-                    <TextClipboard text={`https://share.boba.watch/#/${FirebaseUser.get.user('id')}`}/>
+                    <TextClipboard text={`https://share.boba.watch/#/${FirebaseUser.get.current.user.id}`}/>
                 </Collapse>
                 <div className="button-holder">
                     <button 

@@ -10,20 +10,20 @@ import stats from './calculateStatistics';
 import Swal from 'sweetalert2';
 
 let firebaseConfig = {
-    apiKey: "AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ",
-    authDomain: "boba-watch-firebase.firebaseapp.com",
-    databaseURL: "https://boba-watch-firebase.firebaseio.com",
-    projectId: "boba-watch-firebase",
-    storageBucket: "",
-    messagingSenderId: "674375234614",
-    appId: "1:674375234614:web:fdaf98c291204b9c"
+    apiKey: 'AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ',
+    authDomain: 'boba-watch-firebase.firebaseapp.com',
+    databaseURL: 'https://boba-watch-firebase.firebaseio.com',
+    projectId: 'boba-watch-firebase',
+    storageBucket: '',
+    messagingSenderId: '674375234614',
+    appId: '1:674375234614:web:fdaf98c291204b9c'
 };
 firebase.initializeApp(firebaseConfig);
 
 let db;
-const currentUser = { user: JSON.parse(localStorage.getItem('user')) }
+const currentUser = {profile: JSON.parse(localStorage.getItem('profile'))};
 const nothing = () => { return; }
-const defaultError = (err) => { Swal.fire("Error!", `${err}`, "error") }
+const defaultError = err => { Swal.fire('Error!', err + '', 'error') }
 
 /**
  * @function init
@@ -31,10 +31,10 @@ const defaultError = (err) => { Swal.fire("Error!", `${err}`, "error") }
  */
 let init = (callback) => {
     db = firebase.firestore(); 
-    db.enablePersistence().catch( err => {
+    db.enablePersistence().catch(err => {
         console.error(err);
     });
-    firebase.auth().onAuthStateChanged( user => {
+    firebase.auth().onAuthStateChanged(user => {
         if(!user) return callback(user);
         currentUser.user = {
             name: user.displayName,
@@ -51,23 +51,7 @@ let init = (callback) => {
         getDrinks();
     });
 }
-const getUserData = (property=null) => {
-    if(property === null)
-        return currentUser.user;
-
-    if(currentUser.user !== null && currentUser.user[property] !== null)
-        return currentUser.user[property];
-
-    switch(property){
-        case 'avatar':
-            return "";
-        case 'email':
-            return "";
-        default:
-            return null;
-    }
-}
-const logout = (cb, err=nothing) => {
+const logout = () => {
     firebase.auth().signOut().then(function() {
         // let theme = localStorage.getItem('theme');
         localStorage.clear();
@@ -82,9 +66,7 @@ const logout = (cb, err=nothing) => {
  * 1. init() - should return an object with all properties to be formatted
  * 2. each() - gets called for each drink object
  * 3. end( result ) - result of process
- * 
  * @returns array of drink objects through a callback function
- * 
  * @description Gets all the drinks listed under current user and 
  * returns an array of all the drinks with data reformatted
  * 
@@ -95,7 +77,7 @@ let getDrinks = ( callback=nothing, process=defaultProcess ) => {
     db.collection(`users/${currentUser.user.id}/drinks`)
         .orderBy('drink.date', 'desc')
         .get()
-        .then( querySnapshot => {
+        .then(querySnapshot => {
             querySnapshot.forEach(function(doc) {
                 process.each(doc).forEach( e => {
                     collections[e.key].push(e.value);
@@ -110,7 +92,6 @@ let getDrinks = ( callback=nothing, process=defaultProcess ) => {
  * @var defaultProcess - default process for extracting drinks from 
  * firebase and using the data ( stores all drink ids as list as well
  * as each drink's data individually )
- * 
  */
 let defaultProcess = {
     init: () => {
@@ -161,15 +142,13 @@ let setUser = (profile=defaultProfile, callback=nothing) => {
     .collection('user')
     .doc('profile')
     .set(profile)
-    .then( resp => {
+    .then(res => {
+        console.log(profile);
         localStorage.setItem('profile', JSON.stringify(profile));
-        callback( resp );
-    }).catch( error => {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: `Error setting up your account: ${error}`
-        });
+        currentUser.profile = profile;
+        callback(res);
+    }).catch(err => {
+        Swal.fire('Oops...', `Error setting up your account: ${err}`, 'error');
     });
 }
 let getUser = (callback=nothing) => {
@@ -197,17 +176,17 @@ let getUser = (callback=nothing) => {
     .catch(defaultError);
 }
 
-let updateUser = ( userProperties, callback=nothing ) => {
+let updateUser = ({sharing, budget, limit}, callback=nothing) => {
     let data = {
-        public: userProperties.public,
-        budget: parseFloat(userProperties.budget) * 100,
-        limit: parseInt(userProperties.limit)
+        public: sharing,
+        budget: budget,
+        limit: limit
     };
     if(isNaN(data.budget) || isNaN(data.limit)){
-        return Swal.fire("Oops...", `Please enter valid numbers`, "error");
+        return Swal.fire('Oops...', `Please enter valid numbers`, 'error');
     }
     setUser(data, () => {
-        Swal.fire("Success!", "Your settings have been updated", "success");
+        Swal.fire('Success!', 'Your settings have been updated', 'success');
         callback();
     });
 }
@@ -238,7 +217,7 @@ let updateStats = ( userStats, callback=nothing ) => {
     .then(res => {
         callback(res);
     }).catch(err => {
-        Swal.fire("Error!", `${err}`, "error");
+        Swal.fire('Error!', `${err}`, 'error');
         callback(err);
     });
 }
@@ -249,19 +228,19 @@ let updateStats = ( userStats, callback=nothing ) => {
  */
 const addDrink = ( data, callback=nothing ) => {
     db.collection(`users/${currentUser.user.id}/drinks`)
-    .add( data )
-    .then( ( resp ) => {
-        Swal.fire("Done!", "Drink added", "success"); 
-        callback( resp );
+    .add(data)
+    .then(res => {
+        Swal.fire('Done!', 'Drink added', 'success'); 
+        callback(res);
     }).catch(defaultError);
 }
 const updateDrink = (data, id, callback=nothing) => {
     db.collection(`users/${currentUser.user.id}/drinks`)
     .doc(id)
     .set(data)
-    .then( ( resp ) => {
-        Swal.fire("Done!", "Drink updated", "success"); 
-        callback( resp );
+    .then(res => {
+        Swal.fire('Done!', 'Drink updated', 'success'); 
+        callback(res);
     }).catch(defaultError);
 }
 const deleteDrink = (id, callback=nothing) => {
@@ -269,13 +248,12 @@ const deleteDrink = (id, callback=nothing) => {
     .doc(id)
     .delete()
     .then(() => {
-        Swal.fire("Done!", "Drink has been deleted", "success"); 
+        Swal.fire('Done!', 'Drink has been deleted', 'success'); 
         callback();
-    }).catch( error => {
+    }).catch(err => {
         Swal.fire('Error!', `Couldn't delete your drink. Try again later!`, 'error');
     });
 }
-
 
 export default {
     init: init,
@@ -286,7 +264,7 @@ export default {
         updateStats: updateStatsFromLocalStorage,
     },
     get: {
-        user: getUserData
+        current: currentUser
     },
     drinks: {
         get: getDrinks,

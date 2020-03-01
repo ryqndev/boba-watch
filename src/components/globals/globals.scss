@@ -9,11 +9,19 @@ button{
     font-weight: 700;
     border-radius: 4px;
     margin: 20px;
-    transition: all 320ms;
-    & .text{
+    padding: 5px 30px;
+    border: none;
+    color: white;
+    background-color: #F68080;
+    transition: background-color 350ms, color 350ms, transform 250ms;
+    &:hover, &:active, &:focus{
+        background-color: rgb(255, 162, 162);
+        transform: translateY(1px);
+    }
+    &.text{
         height: 30px;
         width: auto;
-        box-shadow: 0 3px 5px 2px #ff69874d;
+        box-shadow: 0 1px 5px 3px #ff89896d;
     }
 }
 a{

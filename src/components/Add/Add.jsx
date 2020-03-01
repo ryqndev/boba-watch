@@ -1,17 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'date-fns'; 
 import Swal from 'sweetalert2';
-import { Typography, TextField, Button, IconButton, Modal } from '@material-ui/core';
+import { IconButton, Modal } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';
-import { withRouter } from 'react-router-dom';
-import stats from '../calculateStatistics';
-import backend from '../firebaseCalls';
-import './Add.css';
+import stats from '../calculateStatistics.js';
+import FirebaseUser from '../firebaseCalls.js';
+import TextInput from '../globals/TextInput';
+import './Add.scss';
 
-const Add = ({open, setOpen}) => {
+const Add = ({open, setOpen, edit}) => {
+    const [id, setId] = useState(null);
+    const [name, setName] = useState('');
+    const [location, setLocation] = useState('');
+    const [price, setPrice] = useState('');
     const [date, setDate] = useState(new Date());
+    const [description, setDescription] = useState('');
+
+    const handleTextChange = setInput => e => {
+        e.preventDefault();
+        if(e.target.value.length >= 80) return;
+        setInput(e.target.value);
+    }
+    const handlePriceChange = e => {
+        if((e.target.value).match(/^-?\d*\.?\d*$/))
+            setPrice(e.target.value)
+    }
     const handleDateChange = (date) => {setDate(date)}
     const closeAddModal = () => {setOpen(!open)}
     const update = ( resp ) => {
@@ -22,7 +37,7 @@ const Add = ({open, setOpen}) => {
     }
     const addLocally = (data, id) => {
         stats.addDrink(data, id);
-        backend.user.updateStats();
+        FirebaseUser.user.updateStats();
         closeAddModal();
         setDate(new Date());
     }
@@ -30,11 +45,11 @@ const Add = ({open, setOpen}) => {
         document.getElementById('add-drink--button').disabled = true;
         let data = {
             drink: {
-                name: document.getElementById('name-value').value,
-                location: document.getElementById('location-value').value,
-                price: parseInt(parseFloat(document.getElementById('price-value').value) * 100),
-                date: new Date(document.getElementById('date-value').value).toISOString(),
-                description: document.getElementById('description-value').value
+                name: name,
+                location: location,
+                price: parseInt(parseFloat(price) * 100),
+                date: new Date(date).toISOString(),
+                description: description
             }
         }
         // validate price
@@ -43,24 +58,36 @@ const Add = ({open, setOpen}) => {
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Please enter a valid price to add drink'
-              })
+            });
             return document.getElementById('add-drink--button').disabled = false;
         }
-        backend.drinks.add(data, update);
+        if(id === null){
+            return FirebaseUser.drinks.add(data, update);
+        }
+        FirebaseUser.drinks.update(data, id, update);
     };
+
+    useEffect(() => {
+        if(edit !== null){
+            setId(edit.id);
+            setLocation(edit.location);
+            setName(edit.name);
+            setPrice(edit.price);
+            setDate(edit.date);
+            setDescription(edit.description);
+        }
+    }, [open, edit]);
+
     return (
         <Modal open={open}>
             <div className="add-modal">
                 <IconButton color="secondary" className="close-button" onClick={closeAddModal}>
-                    <CloseButton color="secondary" style={{ fontSize: 14 }}/>
+                    <CloseButton color="secondary"/>
                 </IconButton>
-                <Typography variant="h5" style={{textAlign: "center"}}>Add a purchase</Typography>
-                <TextField id="location-value" className="add-input" label="Location" inputProps={{ maxLength: 250 }}/>
-                <TextField id="name-value"  className="add-input" margin="dense" label="Drink name" inputProps={{ maxLength: 80 }}/>
-                <TextField id="price-value" className="add-input" margin="dense" label="Price" inputProps={{ maxLength: 30 }}
-                    type='number'
-                    pattern="^-?[0-9]\d*\.?\d*$"
-                />
+                <h5>Add a purchase</h5>
+                <TextInput value={location} onChange={handleTextChange(setLocation)} label="Location" id="location-input"/>
+                <TextInput value={name} onChange={handleTextChange(setName)} label="Drink Name" id="name-input"/>
+                <TextInput value={price} onChange={handlePriceChange} label="Price" id="name-input" type="tel"/>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <DateTimePicker
                         id="date-value"
@@ -73,13 +100,13 @@ const Add = ({open, setOpen}) => {
                         inputProps={{ maxLength: 100 }}
                     />
                 </MuiPickersUtilsProvider>
-                <TextField id="description-value" className="add-input" label="Description" inputProps={{ maxLength: 1000 }}/>
+                <TextInput value={description} onChange={handleTextChange(setDescription)} label="Description" id="description-input"/>
                 <div className="add-button-holder">
-                    <Button id="add-drink--button" onClick={addDrink} className="add-button">ADD</Button>
+                    <button id="add-drink--button" onClick={addDrink} className="text">ADD</button>
                 </div>
             </div>
         </Modal>
     );
 }
 
-export default withRouter(Add);
+export default Add;

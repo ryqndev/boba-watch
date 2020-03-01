@@ -1,91 +1,65 @@
-import React, { Component } from 'react';
-import {Button} from '@material-ui/core';
-import Collapse from '@material-ui/core/Collapse';
+import React, { useState } from 'react';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Utils from '../textUtil.js';
 import backend from '../firebaseCalls';
 import stats from '../calculateStatistics';
-import './History.css';
+import './DrinkPanel.scss';
 
-export class DrinkPanel extends Component {
-    state =  { open: false, add: false };
-    toggle = () => { this.setState(state => ({ open: !state.open })) }
-    toggleAdd = () => { this.setState(state => ({ add: !state.add })) }
-
-    hasImage = () => {
-        if(this.props.data.photo !== null && this.props.data.photo.trim() !== "" ){
-            return  <img alt="drink" src={this.props.data.photo} />;
-        }
-    }
-    delete = () => {
-        backend.drinks.delete(
-            this.props.data.id,
-            this.removeLocally
-        );
-    }
-    /**
-     * @function removeLocally
-     * TODO create a function in calculate statistics that deals with recalculating metrics
-     * from deleting something
-     */
-    removeLocally = () => {
-        stats.deleteDrink(this.props.data.id);
-        this.props.update();
+const DrinkPanel = ({setEditDetails, data, update}) => {
+    const [expanded, setExpanded] = useState(false);
+    const remove = () => { backend.drinks.delete(data.id, removeLocally) }
+    const removeLocally = () => {
+        stats.deleteDrink(data.id);
+        update();
         backend.user.updateStats();
     }
-    /**
-     * TODO: if implementing edit function ever again, uncomment below code
-     */
-    // edit = () => { this.toggleAdd(this.delete) }
-    render() {
-        let dDate = new Date(this.props.data.date);
-        return (
-        <div className="thaman-color">
-            {/* <Modal open={this.state.add} onBackdropClick={this.toggleAdd} >
-                <div>
-                    <Add toggleSelf={this.edit}/>
-                </div>
-            </Modal> */}
-            <div className="history-drink-label" onClick={this.toggle}>
-                <p className="drink-place">
-                    {this.props.data.location}
+    const edit = () => {
+        setEditDetails({
+            ...data
+        });
+    }
+    const drinkDate = new Date(data.date);
+    return (
+        <div className="drink-panel">
+            <div className="info" onClick={() => {setExpanded(!expanded)}}>
+                <p className="place">
+                    {data.location}
                 </p>
-                <p className="drink-price">
-                    ${Utils.toMoney(this.props.data.price)}
+                <p className="price">
+                    ${Utils.toMoney(data.price)}
                 </p>
                 <div className="expand-icon">
-                    {this.state.open ? <ExpandLessIcon /> : <ExpandMoreIcon/>}
+                    {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                 </div>
-                <p className="drink-name">
-                        {this.props.data.name}
+                <p className="name">
+                        {data.name}
                 </p>
-                <p className="drink-time">
-                    {(new Date(this.props.data.date)).toDateString().substr(4)}
+                <p className="time">
+                    {drinkDate.toDateString().substr(4)}
                 </p>
             </div>
-            <Collapse in={this.state.open} className="drink-collapse">
-                {/* {this.hasImage()} */}
-                <p className="drink-label">
-                    {this.props.data.name} 
+            <div className={'collapsed-info' + (expanded ? ' expanded' : '')}>
+                <p className="label">
+                    {data.name} 
                     <br />
-                    <span>@{this.props.data.location}</span>
+                    <span>@{data.location}</span>
                 </p>
-                <p className="drink-description">
-                    {this.props.data.description}
+                <p className="description">
+                    {data.description}
                 </p>
-                <p className="drink-date">
-                    <span>on</span> {dDate.toDateString()}
+                <p className="date">
+                    <span>on</span> {drinkDate.toDateString()}
                 </p>
 
-                <div className="drink-options">
-                    {/* <Button onClick={this.edit}>EDIT</Button> */}
-                    <Button onClick={this.delete}>DELETE</Button>
+                <div className="options">
+                    <button className="text" onClick={edit}>EDIT</button>
+                    <button className="text" onClick={remove}>DELETE</button>
                 </div>
-            </Collapse>
+            </div>
         </div>
-        )
-    }
+    );
+
 }
 
 export default DrinkPanel;

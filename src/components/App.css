@@ -1,81 +1,29 @@
-.app{
-    height: 100%;
-}
-.page{
-    height: calc(100vh - 56px);
-    box-sizing: border-box;
-    width: 100vw;
-    -webkit-overflow-scrolling: touch;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    padding-bottom: 40px;
-    position: relative;
-}
 .avatar-button{
     height: 37px;
     width: 37px;
     border-radius: 50%;
     position: absolute;
-    right: -36px;
-    top: 5px;
+    right: 40px;
+    top: 36px;
+    border: 2px solid white;
 }
-.loading-background{
+.login-page{
     height: 100vh;
     width: 100vw;
-    position: fixed; 
-    top: 0;
-    left: 0;
-    background-color: rgba( 0, 0, 0, 0.5 );
-}
-.lds-ellipsis {
-    display: inline-block;
-    position: relative;
-    width: 64px;
-    height: 64px;
-}
-.loading-background{
-    height: 100vh;
-    width: 100vw;
-    padding-top: 50vh;
     text-align: center;
+    background: linear-gradient(180deg, #FC8A8A 0%, #FFD3B3 100%);
 }
-.lds-ellipsis div {
-    position: absolute;
-    top: 27px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: #fcf;
-    animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-.lds-ellipsis div:nth-child(1) {
-    left: 6px;
-    animation: lds-ellipsis1 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(2) {
-    left: 6px;
-    animation: lds-ellipsis2 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(3) {
-    left: 26px;
-    animation: lds-ellipsis2 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(4) {
-    left: 45px;
-    animation: lds-ellipsis3 0.6s infinite;
-}
-@keyframes lds-ellipsis1 {
-    0% { transform: scale(0); }
-    100% { transform: scale(1); }
-}
-@keyframes lds-ellipsis3 {
-    0% { transform: scale(1); }
-    100% { transform: scale(0); }
-}
-
-@keyframes lds-ellipsis2 {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(19px, 0); }
+.login-logo{
+    height: 100vw;
+    max-height: 50vh;
+    width: 100vw;
+    max-width: 50vh;
+    margin: 0 auto;
+    padding-top: 20vh;
+    background-image: url('../assets/logo-shadow.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }
 @-moz-document url-prefix() {
     .center-fab{

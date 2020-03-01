@@ -14,9 +14,10 @@ import '../globals/globals.scss';
  * different from stored value.
  */
 const User = ({open, setOpen}) => {
-    const [budget, setBudget] = useState(localStorage.getItem('budget')/100);
-    const [limit, setLimit] = useState(localStorage.getItem('limit'));
-    const [sharing, setSharing] = useState(!!localStorage.getItem('public') === 'true');
+    const profile = localStorage.getItem('profile');
+    const [budget, setBudget] = useState(profile.budget / 100);
+    const [limit, setLimit] = useState(profile.limit);
+    const [sharing, setSharing] = useState(!!(profile.public === 'true'));
 
     const handleChange = setUserInfo => event => {
         setUserInfo(event.target.value);
@@ -45,7 +46,7 @@ const User = ({open, setOpen}) => {
     }
     return (
         <Modal open={open}>
-            <div className="user-modal" style={{height: sharing ? 385 : 350}}>
+            <div className="user-modal">
                 <IconButton color="secondary" className="modal-small--button close-button" onClick={close}>
                     <CloseButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>

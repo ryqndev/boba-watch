@@ -1,0 +1,75 @@
+.drink-panel{
+    border-bottom: 2px solid #F68080;
+    margin-bottom: 10px;
+    & .info{
+        display: grid;
+        grid-template-columns: 2fr 1fr 40px;
+        grid-template-rows: 25px 35px;
+        & .place{
+            color: #F68080;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        & .time{
+            text-align: right;
+            color: grey;
+            font-size: 12px;
+            padding-top: 8px;
+            white-space: nowrap;
+        }
+        & .price{
+            font-size: 24px;
+            text-align: right;
+        }
+        & .name{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        & .expand-icon{
+            margin-top: 10px;
+            color: #F68080;
+        }
+    }
+    & .collapsed-info{
+        text-align: center;
+        max-height: 0px;
+        transition: max-height 350ms cubic-bezier(0, 1, 0, 1);
+        overflow: hidden;
+        &.expanded{
+            transition: max-height 1s ease-in-out;            
+            max-height: 3000px;
+        }
+        & .description{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        & .options{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: auto;
+            column-gap: 10px;
+            margin-bottom: 5px;
+            & button{
+                margin: 15px 0px 20px 0px;
+            }
+        }
+        & .label{
+            font-weight: bold;
+            text-align: center;
+        }
+        & .label span{
+            color: #8888FF;
+            text-align: center;
+        }
+        & .date{
+            text-align: center;
+        }
+        & .date span{
+            color: #8888FF;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    }
+}

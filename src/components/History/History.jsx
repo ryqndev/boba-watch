@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Typography} from '@material-ui/core';
 import DrinkPanel from './DrinkPanel';
 import Utils from '../textUtil.js';
+import Add from '../Add/Add';
 import './History.css';
 
 const History = () => {
@@ -15,6 +16,12 @@ const History = () => {
     });
     const [monthlyDisplay, setMonthlyDisplay] = useState(7);
     const [completeDisplay, setCompleteDisplay] = useState(5);
+    const [editDrinkDetails, setEditDrinkDetails] = useState(null);
+    const [edit, setEdit] = useState(false);
+    useEffect(() => {
+        if(editDrinkDetails === null) return;
+        setEdit(true);
+    }, [editDrinkDetails, setEdit])
     useEffect(() => {
         update();
     }, [monthlyDisplay, completeDisplay]);
@@ -36,13 +43,13 @@ const History = () => {
             let drinkDate = new Date(e.date);
             if(drinkDate.getMonth() === todayMonth && drinkDate.getFullYear() === todayYear){
                 if(displayedMonthly > 0 ){
-                    monthlyDrinks.push((<DrinkPanel key={e.id} data={e} update={update} />));
+                    monthlyDrinks.push((<DrinkPanel key={e.id} data={e} update={update} setEditDetails={setEditDrinkDetails} />));
                     displayedMonthly = displayedMonthly - 1;
                 }
                 monthlySum += parseFloat(e.price);
             }else{
                 if(displayedOverall > 0 ){
-                    totalDrinks.push((<DrinkPanel key={e.id} data={e} update={update} />));
+                    totalDrinks.push((<DrinkPanel key={e.id} data={e} update={update} setEditDetails={setEditDrinkDetails} />));
                     displayedOverall = displayedOverall - 1;
                 }
             }
@@ -99,6 +106,7 @@ const History = () => {
             <Typography variant="h3" className="history-total">
                 <span>Complete Total:</span> ${Utils.toMoney(complete.sum)}
             </Typography>
+            <Add open={edit} setOpen={setEdit} edit={editDrinkDetails}/>
         </div>
     );
 }

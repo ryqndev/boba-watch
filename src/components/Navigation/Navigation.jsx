@@ -12,9 +12,7 @@ const Navigation = ({add, toggleAdd, history}) => {
         setTab(history.location.pathname);
     }, [history.location.pathname]);
 
-    const isTab = (path) => {
-        return path === tab ? ' selected' : '';
-    }
+    const isTab = (path) => path === tab ? ' selected' : '';
 
     return (
         <nav>
@@ -38,28 +36,5 @@ const Navigation = ({add, toggleAdd, history}) => {
         </nav>
     );
 }
-/* <BottomNavigation value={value} onChange={handleChange} className="bottom-nav">
-<BottomNavigationAction
-    label="Dashboard"
-    value="dash"
-    component={Link}
-    to="/dash"
-    icon={<DashboardIcon />}
-/>
-<BottomNavigationAction
-    value="add"
-    disableRipple={true}
-    onClick={toggleAdd}
-    // onClose={this.refocus}
-    icon={<div className="center-fab">< AddIcon style={{ fontSize: 50 }}/></div>}
-/>
-<BottomNavigationAction
-    label="Spending"
-    value="history"
-    component={Link}
-    to="/history"
-    icon={<HistoryIcon />}
-/>
-</BottomNavigation> */
 
 export default withRouter(Navigation);

@@ -1,6 +1,6 @@
 /**
  * @file firebaseCalls.js
- * @copyright Ryan Yang 2019
+ * @author ryqndev - ryan yang
  * @summary - A set of functions to help organize all the server calls
  * in one place
  */
@@ -20,17 +20,11 @@ let firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-
 let db;
-const currentUser = {
-    user: JSON.parse(localStorage.getItem('user')),
-}
-/**
- * if callback does nothing
- */
-let nothing = () => {
-    return;   
-}
+const currentUser = { user: JSON.parse(localStorage.getItem('user')) }
+const nothing = () => { return; }
+const defaultError = (err) => { Swal.fire("Error!", `${err}`, "error") }
+
 /**
  * @function init
  * @description initializes the firestore and fb auth 
@@ -42,27 +36,20 @@ let init = (callback) => {
     });
     firebase.auth().onAuthStateChanged( user => {
         if(!user) return callback(user);
+        currentUser.user = {
+            name: user.displayName,
+            email: user.email,
+            emailverified: user.emailVerified,
+            anon: user.isAnonymous,
+            id: user.uid,
+            avatar: user.photoURL
+        };
 
-        setUserData(user);
-
+        localStorage.setItem('user', JSON.stringify(currentUser.user));
         let acc = user?.metadata;
         (acc?.creationTime === acc?.lastSignInTime) ? setUser(callback) : getUser(callback);
-
         getDrinks();
     });
-}
-const setUserData = (user) => {
-    let userData = {
-        name: user.displayName,
-        email: user.email,
-        emailverified: user.emailVerified,
-        anon: user.isAnonymous,
-        id: user.uid,
-        avatar: user.photoURL
-    };
-    localStorage.setItem('user', JSON.stringify(userData));
-    currentUser.user = userData;
-    return userData;
 }
 const getUserData = (property=null) => {
     if(property === null)
@@ -86,9 +73,7 @@ const logout = (cb, err=nothing) => {
         localStorage.clear();
         // localStorage.setItem('theme', theme);
         window.location.reload();
-    }).catch(function(error) {
-        err(error);
-    });      
+    }).catch(defaultError);      
 }
 /**
  * @function getDrinks
@@ -155,33 +140,29 @@ let defaultProcess = {
             }
         ];
     },
-    end: ( result ) => {
+    end: (result) => {
         localStorage.setItem('drinkids', JSON.stringify(result.drinkids));
         stats.recalculateMetrics(result.drinks);
     }
 }
 /**
  * @function setUser
- * 
  * @var defaultProfile - schema for user profile to follow
- * 
  * @description Called when user is brand new. Sets up their profile on firebase
  */
-let setUser = ( callback=nothing ) => {
-    const defaultProfile = {
-        'budget': 10000,
-        'limit': 15,
-        'public': false
-    }
+const defaultProfile = {
+    'budget': 10000,
+    'limit': 15,
+    'public': false
+}
+let setUser = (profile=defaultProfile, callback=nothing) => {
     db.collection('users')
     .doc(currentUser.user.id)
     .collection('user')
     .doc('profile')
-    .set( defaultProfile )
+    .set(profile)
     .then( resp => {
-        localStorage.setItem('budget', defaultProfile.budget);
-        localStorage.setItem('limit', defaultProfile.limit);
-        localStorage.setItem('public', defaultProfile.public);
+        localStorage.setItem('profile', JSON.stringify(profile));
         callback( resp );
     }).catch( error => {
         Swal.fire({
@@ -191,28 +172,29 @@ let setUser = ( callback=nothing ) => {
         });
     });
 }
-let getUser = ( callback=nothing ) => {
-    db.collection( 'users' )
+let getUser = (callback=nothing) => {
+    db.collection('users')
     .doc(currentUser.user.id)
-    .collection( 'user' )
-    .doc( 'profile' )
+    .collection('user')
+    .doc('profile')
     .get()
-    .then( ( resp ) => {
-        let data = resp.data();
+    .then(res => {
+        let profile = res.data();
         if(
-            data?.budget === undefined
-            || data?.limit === undefined
-            || data?.public === undefined
+            profile?.budget === undefined
+            || profile?.limit === undefined
+            || profile?.public === undefined
         ){
             return setUser(callback);
         }
-        localStorage.setItem('budget', parseInt(data.budget));
-        localStorage.setItem('limit', parseInt(data.limit));
-        localStorage.setItem('public', data.public);
-        callback(resp);
-    }).catch( error => {
-        Swal.fire("Error!", `${error}`, "error");
-    });
+        localStorage.setItem('profile', JSON.stringify({
+            budget: parseInt(profile.budget),
+            limit:  parseInt(profile.limit),
+            public: profile.public
+        }));
+        callback(res);
+    })
+    .catch(defaultError);
 }
 
 let updateUser = ( userProperties, callback=nothing ) => {
@@ -222,25 +204,11 @@ let updateUser = ( userProperties, callback=nothing ) => {
         limit: parseInt(userProperties.limit)
     };
     if(isNaN(data.budget) || isNaN(data.limit)){
-        return Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text:"Please enter valid numbers"
-        });
+        return Swal.fire("Oops...", `Please enter valid numbers`, "error");
     }
-    db.collection('users')
-    .doc(currentUser.user.id)
-    .collection('user')
-    .doc('profile')
-    .set(data)
-    .then((resp) => {
-        localStorage.setItem('budget', parseInt(data.budget));
-        localStorage.setItem('limit', parseInt(data.limit));
-        localStorage.setItem('public', data.public);
+    setUser(data, () => {
         Swal.fire("Success!", "Your settings have been updated", "success");
         callback();
-    }).catch( error => {
-        Swal.fire("Error!", `${error}`, "error");
     });
 }
 let updateStatsFromLocalStorage = (callback=nothing) => {
@@ -262,47 +230,53 @@ let updateStatsFromLocalStorage = (callback=nothing) => {
  * 
  */
 let updateStats = ( userStats, callback=nothing ) => {
-    db.collection( 'users' )
+    db.collection('users')
     .doc(currentUser.user.id)
-    .collection( 'user' )
-    .doc( 'stats' )
-    .set( userStats )
-    .then( ( resp ) => {
-        callback( resp );
-    }).catch( error => {
-        Swal.fire("Error!", `${error}`, "error");
-        callback( error );
+    .collection('user')
+    .doc('stats')
+    .set(userStats)
+    .then(res => {
+        callback(res);
+    }).catch(err => {
+        Swal.fire("Error!", `${err}`, "error");
+        callback(err);
     });
 }
 
 /**
- * @function addDrink
- *  
- * @description Adds a drink to firebase and should return information
- * regarding the added drink such as the generated id
+ * @function Drink methods
+ * These methods either add, update, or delete a singular drink object.
  */
-let addDrink = ( data, callback=nothing ) => {
+const addDrink = ( data, callback=nothing ) => {
     db.collection(`users/${currentUser.user.id}/drinks`)
     .add( data )
     .then( ( resp ) => {
-        Swal.fire("Done!", "Drink has been added", "success"); 
+        Swal.fire("Done!", "Drink added", "success"); 
         callback( resp );
-    }).catch( error => {
-        Swal.fire("Error!", `${error}`, "error");
-    });
+    }).catch(defaultError);
 }
-let deleteDrink = ( drinkid, callback=nothing ) => {
+const updateDrink = (data, id, callback=nothing) => {
     db.collection(`users/${currentUser.user.id}/drinks`)
-    .doc( drinkid )
+    .doc(id)
+    .set(data)
+    .then( ( resp ) => {
+        Swal.fire("Done!", "Drink updated", "success"); 
+        callback( resp );
+    }).catch(defaultError);
+}
+const deleteDrink = (id, callback=nothing) => {
+    db.collection(`users/${currentUser.user.id}/drinks`)
+    .doc(id)
     .delete()
-    .then((resp) => {
+    .then(() => {
         Swal.fire("Done!", "Drink has been deleted", "success"); 
         callback();
     }).catch( error => {
-        console.log(error);
         Swal.fire('Error!', `Couldn't delete your drink. Try again later!`, 'error');
     });
 }
+
+
 export default {
     init: init,
     logout: logout,
@@ -317,6 +291,7 @@ export default {
     drinks: {
         get: getDrinks,
         add: addDrink,
+        update: updateDrink,
         delete: deleteDrink
     }
 }

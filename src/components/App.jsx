@@ -15,7 +15,7 @@ const Start = ({history}) => {
         FirebaseUser.init( user => {
 			history.push(user ? '/app' : '/login');
 		});
-		console.log("v2.0.0");
+		console.log("v2.0.1");
     }, [history]);
     return (
         <Switch>
@@ -51,7 +51,7 @@ const App = () => {
                     <History />
                 </Route>
             </Switch>
-            <Add open={add} setOpen={setAdd} />
+            <Add open={add} setOpen={setAdd} edit={null}/>
             <User open={user} setOpen={setUser} />
             <Navigation add={add} toggleAdd={() => {setAdd(!add); }} />
         </Router>

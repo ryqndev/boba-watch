@@ -1,11 +1,6 @@
 .history-page{
     padding: 40px 40px 40px 40px;
 }
-.history-drink-label{
-    display: grid;
-    grid-template-columns: 2fr 1fr 40px;
-    grid-template-rows: 25px 35px;
-}
 .history-load-more{
     text-align: center;
     height: 50px;
@@ -16,74 +11,10 @@ p{
     margin: 0 !important;
     font-family: Poppins;
 }
-.drink-place{
-    color: #F68080;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.drink-time{
-    text-align: right;
-    color: grey;
-    font-size: 12px;
-    padding-top: 8px;
-    white-space: nowrap;
-}
-.drink-price{
-    font-size: 24px;
-    text-align: right;
-}
-.drink-description{
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-img{
-    width: 60vw;
-    background-color: #FFC9C2;
-    margin: 30px calc(50% - 30vw) 0 calc(50% - 30vw);
-}
-.thaman-color{
-    border-bottom: 2px solid #F68080;
-    margin-bottom: 10px;
-}
 h3 span{
     color: black;
 }
 .history-total{
     margin-top: 25px !important;
     text-align: right;
-}
-.expand-icon{
-    margin-top: 10px;
-    color: #F68080;
-}
-.drink-options{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 60px;
-    margin-bottom: 5px;
-}
-.drink-label{
-    font-weight: bold;
-    text-align: center;
-}
-.drink-label span{
-    color: #8888FF;
-    text-align: center;
-}
-.drink-date{
-    text-align: center;
-}
-.drink-date span{
-    color: #8888FF;
-    font-weight: bold;
-    font-size: 14px;
-}
-.drink-name{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.drink-collapse{
-    text-align: center;
 }

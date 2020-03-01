@@ -1,0 +1,44 @@
+.add-modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100vw - 60px);
+    max-width: 430px;
+    background-color: white;
+    border: 2px solid #FFDCDC;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 20px 27px 0 27px;
+    & h5{
+        margin: 0 0 15px 0;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+        @media screen and (min-width: 400px){
+            font-size: 1.4rem;
+        }
+    }
+    & button.close-button{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 3px;
+        background-color: #FFAFA4;
+        @media screen and (min-width: 400px){
+            top: 28px;
+            right: 28px;
+        }
+        & svg{
+            font-size: 14px; 
+        }
+    }
+}
+.add-button-holder{
+    text-align: center;
+    width: 100%;
+}
+
+div.MuiDialogActions-root button > span {
+    color: white;
+}

@@ -1,9 +1,15 @@
 import React, { useEffect } from 'react';
-import {Typography} from '@material-ui/core';
 import * as firebaseui from 'firebaseui';
 import firebase from 'firebase';
-import './styles/login.css';
 import 'firebaseui/dist/firebaseui.css';
+
+const loginHeaderStyle = {
+    fontFamily: 'Poppins',
+    fontWeight: 700,
+    color: 'white',
+    fontSize: 44,
+    marginBottom: 20
+}
 
 const Login = () => {
     useEffect(() => {
@@ -19,7 +25,7 @@ const Login = () => {
     return (
         <div className="login-page">
             <div className="login-logo"></div>
-            <Typography variant="h1">boba watch</Typography>
+            <h1 style={loginHeaderStyle}>boba watch</h1>
             <div id="auth-container"></div>
         </div>
     );

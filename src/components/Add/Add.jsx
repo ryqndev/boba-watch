@@ -29,8 +29,16 @@ const Add = ({open, setOpen, edit}) => {
             setPrice(e.target.value)
     }
     const handleDateChange = (date) => {setDate(date)}
-    const closeAddModal = () => {setOpen(!open)}
-    const update = ( resp ) => {
+    const closeAddModal = () => {
+        setOpen(!open);
+        setName('');
+        setLocation('');
+        setPrice('');
+        setDate(new Date());
+        setDescription('');
+        setId(null);
+    }
+    const finishAdd = (resp) => {
         document.getElementById('add-drink--button').disabled = false;
         resp.get().then(r => {
             addLocally(r.data(), r.id);
@@ -40,7 +48,19 @@ const Add = ({open, setOpen, edit}) => {
         stats.addDrink(data, id);
         FirebaseUser.user.updateStats();
         closeAddModal();
-        setDate(new Date());
+    }
+    const finishUpdate = () => {
+        document.getElementById('add-drink--button').disabled = false;
+        stats.deleteDrink(id);
+        stats.addDrink({drink: {
+            name: name,
+            location: location,
+            price: parseInt(parseFloat(price) * 100),
+            date: new Date(date).toISOString(),
+            description: description
+        }}, id);
+        FirebaseUser.user.updateStats();
+        closeAddModal();
     }
     const addDrink = () => {
         document.getElementById('add-drink--button').disabled = true;
@@ -63,9 +83,11 @@ const Add = ({open, setOpen, edit}) => {
             return document.getElementById('add-drink--button').disabled = false;
         }
         if(id === null){
-            return FirebaseUser.drinks.add(data, update);
+            console.log("This is an add operation");
+            return FirebaseUser.drinks.add(data, finishAdd);
         }
-        FirebaseUser.drinks.update(data, id, update);
+        console.log("This is an update operation")
+        FirebaseUser.drinks.update(data, id, finishUpdate);
     };
 
     useEffect(() => {

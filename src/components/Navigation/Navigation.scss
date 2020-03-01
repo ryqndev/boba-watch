@@ -1,12 +1,13 @@
 nav{
+    position: fixed;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     height: 56px;
     width: 100%;
-    position: fixed;
     bottom: 0;
     background-color: #FFAFA4;
     -webkit-appearance: none;
+    z-index: 950;
     & .add-icon{
         height: 100px;
         width: 100px;

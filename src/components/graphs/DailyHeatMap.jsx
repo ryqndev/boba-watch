@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import {Card} from '@material-ui/core';
+import React from 'react';
 import { XYPlot, XAxis, YAxis, HeatmapSeries } from 'react-vis';
 import 'react-vis/dist/style.css';
 
@@ -9,15 +8,8 @@ const times = [
     "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 PM"
 ];
 
-export class DailyHeatMap extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            time: props.data,
-            width: props.width
-        };
-    };
-    parseTimeData(weeklyTimeData) {
+const DailyHeatMap = ({data, width}) => {
+    const parseTimeData = (weeklyTimeData) => {
         let dailyGraph = [];
         let maxes = [];
         weeklyTimeData.forEach(day => {
@@ -35,11 +27,10 @@ export class DailyHeatMap extends Component {
         });
         return dailyGraph;
     }
-    render() {
-        let width = this.props.width
-        return (
-            <Card className="daily-chart">
-                <XYPlot xType="ordinal" yType="ordinal" margin={60} width={width} height={1.8*width}>
+
+    return (
+        <div className="card daily-chart">
+            <XYPlot xType="ordinal" yType="ordinal" margin={60} width={width} height={1.8*width}>
                 <XAxis orientation="top" />
                 <YAxis />
                 <HeatmapSeries
@@ -52,12 +43,11 @@ export class DailyHeatMap extends Component {
                             ry: 0
                         }
                     }}
-                    data={this.parseTimeData(this.props.data)}
-                    />
-                </XYPlot>
-            </Card>
-        )
-    }
+                    data={parseTimeData(data)}
+                />
+            </XYPlot>
+        </div>
+    )
 }
 
 export default DailyHeatMap;

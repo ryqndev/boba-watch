@@ -3,7 +3,7 @@
     margin-bottom: 10px;
     & .info{
         display: grid;
-        grid-template-columns: 2fr 1fr 40px;
+        grid-template-columns: 2fr 1fr auto;
         grid-template-rows: 25px 35px;
         & .place{
             color: #F68080;

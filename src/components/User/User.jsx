@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import {Typography, Button, IconButton, Switch, Collapse, Modal} from '@material-ui/core';
+import {Typography, Button, IconButton, Switch, Collapse} from '@material-ui/core';
 import CloseButton from '@material-ui/icons/Close';
 import HelpButton from '@material-ui/icons/Help';
 import TextClipboard from '../TextClipboard';
 import FirebaseUser from '../firebaseCalls';
 import TextField from '../globals/TextInput';
+import Modal from '../globals/Modal';
 import './User.scss';
 import '../globals/globals.scss';
 
@@ -61,7 +62,7 @@ const User = ({open, setOpen}) => {
                     <HelpButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
                 <img src={FirebaseUser.get.current.user.avatar} className="avatar" alt="user"/>
-                <Typography variant="h5" style={{textAlign: "center"}}>User settings</Typography>
+                <h1>User settings</h1>
                 <TextField
                     id="monthly-spending-input"
                     type='tel'

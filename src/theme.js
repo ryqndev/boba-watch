@@ -56,13 +56,6 @@ const theme = createMuiTheme({
     },
     typography: {
         useNextVariants: true,
-        h1: {
-            fontFamily: 'Poppins',
-            fontWeight: 700,
-            color: '#FFFFFF',
-            fontSize: 44,
-            marginBottom: 20
-        },
         h2: {
             fontFamily: 'Poppins',
             fontWeight: 700,

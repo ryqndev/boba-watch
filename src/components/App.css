@@ -25,11 +25,6 @@
     background-position: center;
     background-size: contain;
 }
-@-moz-document url-prefix() {
-    .center-fab{
-        margin-top: -5px;
-    }
-}
 @media only screen and (max-width: 350px) {
     h2 {
         font-size: 30px !important;

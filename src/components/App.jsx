@@ -34,7 +34,7 @@ const Start = ({history}) => {
 const App = () => {
     const [add, setAdd] = useState(false);
     const [user, setUser] = useState(false), openUser = setUser.bind(null, true);
-
+    const [drinks, setDrinks] = useState(JSON.parse(localStorage.getItem('drinkids')));
     return (
         <Router initialEntries={['/dash', '/history']} initialIndex={0}>
             <img 
@@ -48,7 +48,7 @@ const App = () => {
                     <Dashboard /> 
                 </Route>
                 <Route exact path='/history'>
-                    <History />
+                    <History drinks={drinks}/>
                 </Route>
             </Switch>
             <Add open={add} setOpen={setAdd} edit={null}/>

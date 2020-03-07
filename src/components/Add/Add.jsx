@@ -60,6 +60,7 @@ const Add = ({open, setOpen, edit}) => {
             description: description
         }}, id);
         FirebaseUser.user.updateStats();
+        edit.update();
         closeAddModal();
     }
     const addDrink = () => {
@@ -93,7 +94,7 @@ const Add = ({open, setOpen, edit}) => {
             setId(edit.id);
             setLocation(edit.location);
             setName(edit.name);
-            setPrice(edit.price);
+            setPrice(edit.price/100);
             setDate(edit.date);
             setDescription(edit.description);
         }
@@ -123,7 +124,7 @@ const Add = ({open, setOpen, edit}) => {
                 </MuiPickersUtilsProvider>
                 <TextInput value={description} onChange={handleTextChange(setDescription)} label="Description" id="description-input"/>
                 <div className="add-button-holder">
-                    <button id="add-drink--button" onClick={addDrink} className="text">ADD</button>
+                    <button id="add-drink--button" onClick={addDrink} className="text">{id === null ? 'ADD' : 'EDIT'}</button>
                 </div>
             </div>
         </Modal>

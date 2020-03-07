@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
-import { Sunburst } from 'react-vis';
+import React from 'react';
+import {Sunburst} from 'react-vis';
 
-const UserSunburst = ({metrics, budget}) => {
-    const [size, setSize] = useState(window.innerWidth - 95);
-    const [sunburstData, setSunburstData] = useState({
+const UserSunburst = ({spent, budget, width}) => {
+    const size = width - 45;
+    const data = {
         size: 0,
         color: "#FFFFFF",
-        children: [{
+        children: [
+            {
                 title: "Progress",
-                size: metrics.tc,
+                size: spent,
                 color: "#32de44",
                 children: [{
                     title: "Padding",
@@ -18,17 +19,17 @@ const UserSunburst = ({metrics, budget}) => {
             },
             {
                 title: "Until Limit",
-                size: budget - metrics.tc,
+                size: budget - spent,
                 color: "#F4F4F4",
             }
         ]
-    });
+    };
     return (
         <div>
             <Sunburst
                 height={size}
                 width={size}
-                data={sunburstData}
+                data={data}
                 padAngle={0.06}
                 animation
                 colorType={'literal'}

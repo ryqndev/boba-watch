@@ -1,5 +1,6 @@
 import React from 'react';
 import { XYPlot, XAxis, YAxis, HeatmapSeries } from 'react-vis';
+import Card from '../styles/Card';
 import 'react-vis/dist/style.css';
 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -29,7 +30,7 @@ const DailyHeatMap = ({data, width}) => {
     }
 
     return (
-        <div className="card daily-chart">
+        <Card className="daily-chart">
             <XYPlot xType="ordinal" yType="ordinal" margin={60} width={width} height={1.8*width}>
                 <XAxis orientation="top" />
                 <YAxis />
@@ -46,7 +47,7 @@ const DailyHeatMap = ({data, width}) => {
                     data={parseTimeData(data)}
                 />
             </XYPlot>
-        </div>
+        </Card>
     )
 }
 

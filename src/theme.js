@@ -54,40 +54,6 @@ const theme = createMuiTheme({
             contrastText: '#F68080',
         },
     },
-    typography: {
-        useNextVariants: true,
-        h2: {
-            fontFamily: 'Poppins',
-            fontWeight: 700,
-            color: '#FFFFFF',
-            fontSize: 48,
-            margin: 0
-        },
-        h3: {
-            fontFamily: 'Poppins',
-            fontWeight: 700,
-            color: '#F68080',
-            fontSize: 24,
-            marginBottom: '16px'
-        },
-        h4: {
-            fontFamily: 'Poppins',
-            fontWeight: 700,
-            color: '#FFFFFF',
-            fontSize: 24,
-        },
-        h5: {
-            fontFamily: 'Poppins',
-            fontWeight: 700,
-            color: '#000000',
-            fontSize: 18,
-        },
-        h6: {
-            fontFamily: 'Poppins',
-            color: '#F68080',
-            fontSize: 12,
-        }
-    },
 });
 
 export default theme;

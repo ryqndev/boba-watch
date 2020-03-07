@@ -83,10 +83,8 @@ const Add = ({open, setOpen, edit}) => {
             return document.getElementById('add-drink--button').disabled = false;
         }
         if(id === null){
-            console.log("This is an add operation");
             return FirebaseUser.drinks.add(data, finishAdd);
         }
-        console.log("This is an update operation")
         FirebaseUser.drinks.update(data, id, finishUpdate);
     };
 

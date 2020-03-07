@@ -1,11 +1,11 @@
 nav{
-    position: fixed;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    position: fixed;
     height: 56px;
     width: 100%;
     bottom: 0;
-    background-color: #FFAFA4;
+    background-color: var(--nav-bg);
     -webkit-appearance: none;
     z-index: 950;
     & .add-icon{
@@ -15,10 +15,10 @@ nav{
         margin: -22px auto;
         padding-top: 17px;
         text-align: center;
-        border: 6px solid #FFAFA4;
+        border: 6px solid var(--nav-bg);
         border-radius: 50%;
-        color: #FFAFA4;
-        background-color: white;
+        color: var(--nav-bg);
+        background-color: var(--nav-text);
         z-index: 1000;
         transition: transform 350ms;
         &.selected{
@@ -31,22 +31,22 @@ nav{
         transition: padding-top 350ms;
         -webkit-appearance: none;
         &.selected{
-            padding-top: 10px;
+            padding-top: 8px;
             & p.label{
                 height: 1.5rem;
             }
         }
         & p.label{
-            transform: translateY(-7px);
+            transform: translateY(-13px);
             font-size: 0.9rem;
             overflow: hidden;
             height: 0;
             transition: height 350ms;
-            color: white;
+            color: var(--nav-text);
             text-decoration: none;
         }
         & svg{
-            fill: white;
+            fill: var(--nav-text);
         }
     }
 }

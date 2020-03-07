@@ -12,7 +12,7 @@ const Navigation = ({add, toggleAdd, history}) => {
         setTab(history.location.pathname);
     }, [history.location.pathname]);
 
-    const isTab = (path) => path === tab ? ' selected' : '';
+    const isTab = path => (path === tab ? ' selected' : '');
 
     return (
         <nav>

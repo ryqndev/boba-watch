@@ -1,97 +1,52 @@
-import React, { Component } from 'react';
-import { Typography } from '@material-ui/core';
-import { Sunburst } from 'react-vis';
+import React, {useState, useEffect} from 'react';
 import Utils from '../textUtil.js';
 import DailyHeatMap from '../graphs/DailyHeatMap';
 import TimeBarGraphs from '../graphs/TimeBarGraphs';
+import UserSunburst from '../graphs/UserSunburst';
 import stats from '../calculateStatistics';
 import FirebaseUser from '../firebaseCalls.js';
 import './Dashboard.scss';
 import '../globals/globals.scss';
 import 'react-vis/dist/style.css';
 
-export class Dashboard extends Component {
-    constructor(props){
-        super(props);
+const Dashboard = () => {
+    const [metrics, setMetrics] = useState(JSON.parse(localStorage.getItem('metrics')));
+    const [cmetrics, setCmetrics] = useState(JSON.parse(localStorage.getItem('completeMetrics')));
+    const [drinkPercent, setdrinkPercent] = useState(parseInt((metrics.td / FirebaseUser.get.current.profile.limit) * 100));
+    const [width, setWidth] = useState(window.innerWidth - 40);
+    const budget = FirebaseUser.get.current.profile.budget;
+    useEffect(() => {
         stats.resetMonthly();
-        this.state = this.getState();
-    }
-    getState = () => {
-        let metrics = JSON.parse(localStorage.getItem('metrics'));
-        let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
-        let drinkTotal = FirebaseUser.get.current.profile.limit;
-        return {
-            drinkPercentage: parseInt((metrics.td / drinkTotal) * 100),
-            limit: drinkTotal,
-            budget: FirebaseUser.get.current.profile.budget,
-            sunburstData: {
-                size: 0,
-                color: "#FFFFFF",
-                children: [{
-                        title: "Progress",
-                        size: metrics.tc,
-                        color: "#32de44",
-                        children: [{
-                            title: "Padding",
-                            size: 0,
-                            color: "#FFFFFF",
-                        }]
-                    },
-                    {
-                        title: "Until Limit",
-                        size: FirebaseUser.get.current.profile.budget - metrics.tc,
-                        color: "#F4F4F4",
-                    }
-                ]
-            },
-            metrics: metrics,
-            cmetrics: cmetrics,
-            screenWidth: window.innerWidth - 40
-        };
-    }
-    update = () => {
-        this.setState(this.getState());
-    }
-    componentDidMount = () => { window.addEventListener( 'resize', () => {
-        this.setState({screenWidth: window.innerWidth - 40});
-    })}
-    isLandscape = () => {
-        return (window.innerWidth / window.innerHeight) > ( 1.625 ) && window.innerHeight > 700 && window.innerWidth > 1200;
-    }
-    render() {
-        let s = this.state;
-        let width = s.screenWidth;
-        let sunburstSize =  this.isLandscape() ? (window.innerHeight * 0.9) : width;
-        return (
+    }, []);
+    return (
         <div className="dashboard-page">
-            <Typography variant="h4" className="title">Monthly Spending</Typography>
+            <h4 className="title">Monthly Spending</h4>
             <div className="card" id="chart-holder">
                 <div className="description">
-                    MONTHLY LIMIT: ${Utils.toMoney(s.budget, s.budget/10000 > 1)}
+                    MONTHLY LIMIT: ${Utils.toMoney(budget, budget/10000 > 1)}
                     <br />
-                    <span>${Utils.toMoney(s.metrics.tc, s.metrics.tc/10000 > 1)}</span>
+                    <span>${Utils.toMoney(metrics.tc, metrics.tc/10000 > 1)}</span>
                     <br />
-                    REMAINING: ${Utils.toMoney(s.budget - s.metrics.tc)}
+                    REMAINING: ${Utils.toMoney(budget - metrics.tc)}
                 </div>
-                <Sunburst height={sunburstSize - (this.isLandscape() ? 105 : 45)} width={sunburstSize-45} data={s.sunburstData} padAngle={0.06} animation colorType={'literal'} />
+                <UserSunburst budget={budget} metrics={metrics}/>
             </div>
             <div className="card budget">
                 <p>This is how much you’ve spent on drinks so far:</p>
-                <h2>${Utils.toMoney(s.cmetrics.tc, s.cmetrics.tc/10000 > 1)}</h2>
+                <h2>${Utils.toMoney(cmetrics.tc, cmetrics.tc/10000 > 1)}</h2>
             </div>
-            <div className="card limit" style={{backgroundPositionY: (100 - s.drinkPercentage) * 2.7}}>
-                <Typography variant="h3">{s.drinkPercentage}%</Typography>
+            <div className="card limit" style={{backgroundPositionY: (100 - drinkPercent) * 2.7}}>
+                <h3>{drinkPercent}%</h3>
                 <p>to your max number of drinks this month</p>
             </div>
             <div className="card total">
-                <h2>{s.metrics.td}</h2>
+                <h2>{metrics.td}</h2>
                 <p>drinks this month</p>
             </div>
-            <DailyHeatMap data={s.cmetrics.d} width={this.isLandscape()  ? (width / 4 + 20 )  : width}/>
-            {this.isLandscape() ? ' ' : <TimeBarGraphs width={width} data={s.cmetrics.d} />}
+            <DailyHeatMap data={cmetrics.d} width={width}/>
+            <TimeBarGraphs width={width} data={cmetrics.d} />
         </div>
-        )
-    }
+    );
 }
 
 export default Dashboard;

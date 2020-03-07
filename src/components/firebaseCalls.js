@@ -72,7 +72,7 @@ const logout = () => {
  * 
  * TODO: funnction should be called when user attempts to refresh any page
  */
-let getDrinks = ( callback=nothing, process=defaultProcess ) => {
+let getDrinks = (callback=nothing, process=defaultProcess) => {
     let collections = process.init();
     db.collection(`users/${currentUser.user.id}/drinks`)
         .orderBy('drink.date', 'desc')

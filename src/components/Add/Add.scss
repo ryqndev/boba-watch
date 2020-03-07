@@ -1,15 +1,16 @@
 .add-modal{
+    box-sizing: border-box;
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     width: calc(100vw - 60px);
     max-width: 430px;
-    background-color: white;
-    border: 2px solid #FFDCDC;
-    border-radius: 10px;
-    box-sizing: border-box;
     padding: 20px 27px 0 27px;
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--bg-border);
+    transition: background-color 350ms, border-color 350ms;
     & h5{
         margin: 0 0 15px 0;
         text-align: center;

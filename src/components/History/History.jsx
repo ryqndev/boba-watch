@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {Typography} from '@material-ui/core';
 import DrinkPanel from './DrinkPanel';
 import Utils from '../textUtil.js';
 import Add from '../Add/Add';
@@ -7,11 +6,11 @@ import './History.css';
 
 const History = () => {
     const [monthly, setMonthly] = useState({
-        drinks: [(<div className="thaman-color" key={1}><Typography variant="h3">No drinks this month :(</Typography></div>)],
+        drinks: [(<div className="thaman-color" key={1}><h3>No drinks this month :(</h3></div>)],
         sum: 0
     });
     const [complete, setComplete] = useState({
-        drinks: [<div className="thaman-color" key={1}><Typography variant="h3">Add a drink to start!</Typography></div>],
+        drinks: [<div className="thaman-color" key={1}><h3>Add a drink to start!</h3></div>],
         sum: 0
     });
     const [monthlyDisplay, setMonthlyDisplay] = useState(7);
@@ -90,22 +89,22 @@ const History = () => {
     }
     return (
         <div className="history-page">
-            <Typography variant="h3"> Monthly Spending</Typography>
+            <h3> Monthly Spending</h3>
             <div className="history-spending">
                 {monthly.drinks}
             </div>
-            <Typography variant="h3" className="history-total">
+            <h3 className="history-total">
                 <span>Monthly Total:</span> ${Utils.toMoney(monthly.sum)}
-            </Typography>
+            </h3>
             <br />
             <br />
-            <Typography variant="h3"> Overall Spending</Typography>
+            <h3> Overall Spending</h3>
             <div className="history-spending">
                 {complete.drinks}
             </div>
-            <Typography variant="h3" className="history-total">
+            <h3 className="history-total">
                 <span>Complete Total:</span> ${Utils.toMoney(complete.sum)}
-            </Typography>
+            </h3>
             <Add open={edit} setOpen={setEdit} edit={editDrinkDetails}/>
         </div>
     );

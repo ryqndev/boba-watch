@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Typography, Button, IconButton, Switch, Collapse} from '@material-ui/core';
+import {Button, IconButton, Switch, Collapse} from '@material-ui/core';
 import CloseButton from '@material-ui/icons/Close';
 import HelpButton from '@material-ui/icons/Help';
 import TextClipboard from '../TextClipboard';

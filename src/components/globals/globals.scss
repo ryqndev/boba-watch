@@ -1,6 +1,16 @@
 :root{
     --bg-primary: white;
+    --bg-secondary: white;
+    --bg-border: #FFDCDC;
+    --bg-blend: linear-gradient(180deg, #FC8A8A 0%, #FFD3B3 100%);
+    --avatar-border: white;
     --text-primary: white;
+    --text-secondary: black;
+    --text-accent: #F68080;
+    --btn-bg: #F68080;
+    --btn-text: white;
+    --nav-bg: #FFAFA4;
+    --nav-text: white;
 }
 
 button{
@@ -11,8 +21,8 @@ button{
     margin: 20px;
     padding: 5px 30px;
     border: none;
-    color: white;
-    background-color: #F68080;
+    color: var(--btn-text);
+    background-color: var(--btn-bg);
     transition: background-color 350ms, color 350ms, transform 250ms;
     &:hover, &:active, &:focus{
         background-color: rgb(255, 162, 162);
@@ -31,7 +41,6 @@ a{
         border: none;
     }
 }
-
 .card{
     overflow: hidden;
     border-radius: 4px;
@@ -42,11 +51,33 @@ a{
         0px 1px 3px #0000001f;
     transition: color 350ms, background-color 350ms;
 }
-h2{
-    font-family: 'Poppins';
+h2, h3, h4, h5, h6{
+    transition: color 350ms;
+}
+h2, h3, h4, h5{
     font-weight: 700;
+}
+h2, h4, h5, h6{
+    margin: 0px;
+}
+h2{
     color: var(--text-primary);
     font-size: 48px;
-    margin: 0;
-    transition: color 350ms;
+}
+h3{
+    color: var(--text-accent);
+    font-size: 24px;
+    margin: 0 0 16px 0;
+}
+h4{
+    color: var(--text-primary);
+    font-size: 24px;
+}
+h5{
+    color: var(--text-secondary);
+    font-size: 18px;
+}
+h6{
+    color: var(--text-accent);
+    font-size: 12px;
 }

@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import FirebaseUser from '../firebaseCalls.js';
 import { Sunburst } from 'react-vis';
 
-const UserSunburst = ({metrics}) => {
-    const [size, setSize] = useState(window.innerWidth - 40);
+const UserSunburst = ({metrics, budget}) => {
+    const [size, setSize] = useState(window.innerWidth - 95);
     const [sunburstData, setSunburstData] = useState({
         size: 0,
         color: "#FFFFFF",
@@ -19,14 +18,21 @@ const UserSunburst = ({metrics}) => {
             },
             {
                 title: "Until Limit",
-                size: FirebaseUser.get.current.profile.budget - metrics.tc,
+                size: budget - metrics.tc,
                 color: "#F4F4F4",
             }
         ]
     });
     return (
         <div>
-            <Sunburst height={size-45} width={size-45} data={sunburstData} padAngle={0.06} animation colorType={'literal'} />
+            <Sunburst
+                height={size}
+                width={size}
+                data={sunburstData}
+                padAngle={0.06}
+                animation
+                colorType={'literal'}
+            />
         </div>
     );
 }

@@ -21,7 +21,7 @@ let firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 let db;
-const currentUser = {profile: JSON.parse(localStorage.getItem('profile'))};
+const currentUser = {};
 const nothing = () => { return; }
 const defaultError = err => { Swal.fire('Error!', err + '', 'error') }
 
@@ -29,7 +29,7 @@ const defaultError = err => { Swal.fire('Error!', err + '', 'error') }
  * @function init
  * @description initializes the firestore and fb auth 
  */
-let init = (callback) => {
+let init = (callback, setProfile) => {
     db = firebase.firestore(); 
     db.enablePersistence().catch(err => {
         console.error(err);
@@ -47,7 +47,9 @@ let init = (callback) => {
 
         localStorage.setItem('user', JSON.stringify(currentUser.user));
         let acc = user?.metadata;
-        (acc?.creationTime === acc?.lastSignInTime) ? setUser(callback) : getUser(callback);
+        (acc?.creationTime === acc?.lastSignInTime)
+            ? setUser(defaultProfile, callback, setProfile)
+            : getUser(callback, setProfile);
         getDrinks();
     });
 }
@@ -136,22 +138,22 @@ const defaultProfile = {
     'limit': 15,
     'public': false
 }
-let setUser = (profile=defaultProfile, callback=nothing) => {
+let setUser = (profile=defaultProfile, callback=nothing, setProfile) => {
     db.collection('users')
     .doc(currentUser.user.id)
     .collection('user')
     .doc('profile')
     .set(profile)
     .then(res => {
-        console.log(profile);
         localStorage.setItem('profile', JSON.stringify(profile));
         currentUser.profile = profile;
+        setProfile(profile);
         callback(res);
     }).catch(err => {
         Swal.fire('Oops...', `Error setting up your account: ${err}`, 'error');
     });
 }
-let getUser = (callback=nothing) => {
+let getUser = (callback=nothing, setProfile) => {
     db.collection('users')
     .doc(currentUser.user.id)
     .collection('user')
@@ -159,6 +161,7 @@ let getUser = (callback=nothing) => {
     .get()
     .then(res => {
         let profile = res.data();
+        setProfile(profile);
         if(
             profile?.budget === undefined
             || profile?.limit === undefined

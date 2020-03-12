@@ -1,6 +1,7 @@
 .drink-panel{
     border-bottom: 2px solid #F68080;
     margin-bottom: 10px;
+    cursor: pointer;
     & .info{
         display: grid;
         grid-template-columns: 2fr 1fr auto;

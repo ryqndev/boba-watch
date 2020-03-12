@@ -10,11 +10,12 @@ import FirebaseUser from './firebaseCalls';
 import './App.css';
 
 const Start = ({history}) => {
+    const [profile, setProfile] = useState(localStorage.getItem('profile'));
     useEffect(() => {
 		// Theme(SavedTheme());
-        FirebaseUser.init( user => {
+        FirebaseUser.init(user => {
 			history.push(user ? '/app' : '/login');
-		});
+		}, setProfile);
 		console.log("v2.0.1");
     }, [history]);
     return (
@@ -25,16 +26,16 @@ const Start = ({history}) => {
 				<Login />
 			</Route>
 			<Route path='/app'>
-                <App />
+                <App profile={profile}/>
 			</Route>
 		</Switch>
     );
 }
 
-const App = () => {
+const App = ({profile}) => {
     const [add, setAdd] = useState(false);
     const [user, setUser] = useState(false), openUser = setUser.bind(null, true);
-
+    const [drinks, setDrinks] = useState(JSON.parse(localStorage.getItem('drinkids')));
     return (
         <Router initialEntries={['/dash', '/history']} initialIndex={0}>
             <img 
@@ -48,12 +49,12 @@ const App = () => {
                     <Dashboard /> 
                 </Route>
                 <Route exact path='/history'>
-                    <History />
+                    <History drinks={drinks}/>
                 </Route>
             </Switch>
             <Add open={add} setOpen={setAdd} edit={null}/>
-            <User open={user} setOpen={setUser} />
-            <Navigation add={add} toggleAdd={() => {setAdd(!add); }} />
+            <User profile={profile} open={user} setOpen={setUser} />
+            <Navigation add={add} toggleAdd={() => {setAdd(!add)}} />
         </Router>
     );
 }

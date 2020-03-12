@@ -3,16 +3,20 @@
     --bg-secondary: white;
     --bg-border: #FFDCDC;
     --bg-blend: linear-gradient(180deg, #FC8A8A 0%, #FFD3B3 100%);
+    --dash-blend: #FFD3B3;
     --avatar-border: white;
     --text-primary: white;
     --text-secondary: black;
+    --text-light: #FFC9C2;
     --text-accent: #F68080;
     --btn-bg: #F68080;
     --btn-text: white;
     --nav-bg: #FFAFA4;
     --nav-text: white;
 }
-
+p{
+    color: var(--text-secondary);
+}
 button{
     font-size: 14px;
     font-family: Poppins;
@@ -41,43 +45,36 @@ a{
         border: none;
     }
 }
-.card{
-    overflow: hidden;
-    border-radius: 4px;
-    background-color: var(--bg-primary);
-    box-shadow: 
-        0px 2px 1px -1px #00000033,
-        0px 1px 1px #00000024,
-        0px 1px 3px #0000001f;
-    transition: color 350ms, background-color 350ms;
-}
-h2, h3, h4, h5, h6{
+p{
     transition: color 350ms;
 }
-h2, h3, h4, h5{
+h2.bw, h3.bw, h4.bw, h5.bw, h6.bw{
+    transition: color 350ms;
+}
+h2.bw, h3.bw, h4.bw, h5.bw{
     font-weight: 700;
 }
-h2, h4, h5, h6{
+h2.bw, h4.bw, h5.bw, h6.bw{
     margin: 0px;
 }
-h2{
+h2.bw{
     color: var(--text-primary);
     font-size: 48px;
 }
-h3{
+h3.bw{
     color: var(--text-accent);
     font-size: 24px;
     margin: 0 0 16px 0;
 }
-h4{
+h4.bw{
     color: var(--text-primary);
     font-size: 24px;
 }
-h5{
+h5.bw{
     color: var(--text-secondary);
     font-size: 18px;
 }
-h6{
+h6.bw{
     color: var(--text-accent);
     font-size: 12px;
 }

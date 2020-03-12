@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalGridLines, VerticalBarSeries, DiscreteColorLegend } from 'react-vis';
+import Card from '../styles/Card';
 import 'react-vis/dist/style.css';
 import './styles/timebargraphs.css'
 
@@ -25,7 +26,7 @@ const TimeBarGraphs = ({width, data}) => {
     }, [data, setMorning, setNoon]);
 
     return (
-        <div className="card time-bar-graph--holder">
+        <Card className="time-bar-graph--holder">
             <XYPlot width={width - 40} height={300} stackBy="y" xType="ordinal">
             <VerticalGridLines />
             <HorizontalGridLines />
@@ -50,7 +51,7 @@ const TimeBarGraphs = ({width, data}) => {
                     }]
                 }
             />
-        </div>
+        </Card>
     );
 }
 

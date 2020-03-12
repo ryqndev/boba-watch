@@ -14,11 +14,7 @@ const DrinkPanel = ({setEditDetails, data, update}) => {
         update();
         backend.user.updateStats();
     }
-    const edit = () => {
-        setEditDetails({
-            ...data
-        });
-    }
+    const edit = () => {setEditDetails({...data, update: update})}
     const drinkDate = new Date(data.date);
     return (
         <div className="drink-panel">
@@ -33,7 +29,7 @@ const DrinkPanel = ({setEditDetails, data, update}) => {
                     {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                 </div>
                 <p className="name">
-                        {data.name}
+                    {data.name}
                 </p>
                 <p className="time">
                     {drinkDate.toDateString().substr(4)}

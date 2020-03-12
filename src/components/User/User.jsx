@@ -15,11 +15,10 @@ import '../globals/globals.scss';
  * try and convert a singular value on the firebase so I'm going to keep the database value
  * different from stored value.
  */
-const User = ({open, setOpen}) => {
-    const profile = FirebaseUser.get.current.profile;
-    const [budget, setBudget] = useState(profile.budget / 100);
-    const [limit, setLimit] = useState(profile.limit);
-    const [sharing, setSharing] = useState(profile.public);
+const User = ({profile, open, setOpen}) => {
+    const [budget, setBudget] = useState((profile.budget ?? 100) / 100);
+    const [limit, setLimit] = useState(profile.limit ?? 1);
+    const [sharing, setSharing] = useState(profile.public ?? false);
 
     const handleChange = setUserInfo => event => {
         setUserInfo(event.target.value);
@@ -39,15 +38,14 @@ const User = ({open, setOpen}) => {
             limit: parseInt(limit),
             sharing: !sharing
         }, () => {
-            setSharing(FirebaseUser.get.current.profile.public);
+            setSharing(profile.public);
         });
     }
     const close = () => { 
         setOpen(false);
-        let currentProfile = FirebaseUser.get.current.profile;
-        setBudget(currentProfile.budget / 100);
-        setLimit(currentProfile.limit);
-        setSharing(currentProfile.public);
+        setBudget(profile.budget / 100);
+        setLimit(profile.limit);
+        setSharing(profile.public);
     }
     const getHelp = () => {
         window.open('https://info.boba.watch/');

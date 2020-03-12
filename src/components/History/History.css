@@ -1,5 +1,5 @@
 .history-page{
-    padding: 40px 40px 40px 40px;
+    padding: 40px 40px 80px 40px;
 }
 .history-load-more{
     text-align: center;
@@ -15,6 +15,6 @@ h3 span{
     color: black;
 }
 .history-total{
-    margin-top: 25px !important;
+    margin-top: 25px;
     text-align: right;
 }

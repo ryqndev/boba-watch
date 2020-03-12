@@ -18,3 +18,9 @@ body {
     -webkit-user-select: none; /* Chrome, Safari, and Opera */
     -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
 }
+.firebaseui-container{
+    padding: 0 20px;
+}
+.firebaseui-container.firebaseui-id-page-callback{
+    background-color: transparent;
+}

@@ -5,11 +5,15 @@
  * in one place
  */
 
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
 import stats from './calculateStatistics';
 import Swal from 'sweetalert2';
 
-let firebaseConfig = {
+let db;
+
+const firebaseConfig = {
     apiKey: 'AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ',
     authDomain: 'boba-watch-firebase.firebaseapp.com',
     databaseURL: 'https://boba-watch-firebase.firebaseio.com',
@@ -18,41 +22,72 @@ let firebaseConfig = {
     messagingSenderId: '674375234614',
     appId: '1:674375234614:web:fdaf98c291204b9c'
 };
-firebase.initializeApp(firebaseConfig);
-
-let db;
-const currentUser = {};
+const defaultProfile = {
+    'budget': 10000,
+    'limit': 15,
+    'public': false
+}
+const currentUser = {
+    user: undefined,        // metadata - (name, email, photo, etc.)
+    profile: undefined,     // stats    - (budget, limit, public)
+    drinklist: undefined,      // drinks   - [{id: ..., price:...}, ...]
+    drinkids: undefined     // drinkids - [id1, id2, id3,...] date desc order
+};
 const nothing = () => { return; }
-const defaultError = err => { Swal.fire('Error!', err + '', 'error') }
+const defaultError = err => {Swal.fire('Error!', err+'', 'error')}
 
-/**
- * @function init
- * @description initializes the firestore and fb auth 
- */
-let init = (callback, setProfile) => {
+let init = (callback) => {
+    firebase.initializeApp(firebaseConfig);
     db = firebase.firestore(); 
-    db.enablePersistence().catch(err => {
-        console.error(err);
-    });
+    db.enablePersistence().catch(err => {console.error(err)});
     firebase.auth().onAuthStateChanged(user => {
-        if(!user) return callback(user);
-        currentUser.user = {
-            name: user.displayName,
-            email: user.email,
-            emailverified: user.emailVerified,
-            anon: user.isAnonymous,
-            id: user.uid,
-            avatar: user.photoURL
-        };
-
+        if(!user) return callback(user);    // if not logged in user
+        currentUser.user = {...user};
         localStorage.setItem('user', JSON.stringify(currentUser.user));
-        let acc = user?.metadata;
-        (acc?.creationTime === acc?.lastSignInTime)
-            ? setUser(defaultProfile, callback, setProfile)
-            : getUser(callback, setProfile);
-        getDrinks();
+        let setup = [
+            db.collection(`users/${currentUser.user.uid}/drinks`).orderBy('drink.date', 'desc').get(),
+            (user?.metadata?.creationTime === user?.metadata?.lastSignInTime)
+                ? setUser(defaultProfile)
+                : getUser()
+        ];
+        Promise.all(setup).then(([drinks, profile]) => {
+            saveDrinksLocally(drinks);
+            saveUserLocally(profile);
+            callback(user);
+        }).catch(defaultError);
     });
 }
+
+const saveDrinksLocally = (entries) => {
+    currentUser.drinkids = [];
+    currentUser.drinklist = [];
+    entries.forEach(entry => {
+        let data = {id: entry.id, ...entry.data().drink}
+        localStorage.setItem(entry.id, JSON.stringify(data));
+        currentUser.drinkids.push(entry.id);
+        currentUser.drinklist.push(data);
+    });
+    localStorage.setItem('drinkids', JSON.stringify(currentUser.drinkids));
+    stats.recalculateMetrics(currentUser.drinklist);
+}
+
+const saveUserLocally = (user) => {
+    let profile = user?.data();
+    if(
+        profile?.budget === undefined
+        || profile?.limit === undefined
+        || profile?.public === undefined
+    ){
+        profile = defaultProfile;
+    }
+    currentUser.profile = profile;
+    localStorage.setItem('profile', JSON.stringify({
+        budget: parseInt(profile.budget),
+        limit:  parseInt(profile.limit),
+        public: profile.public
+    }));
+};
+
 const logout = () => {
     firebase.auth().signOut().then(function() {
         // let theme = localStorage.getItem('theme');
@@ -61,125 +96,22 @@ const logout = () => {
         window.location.reload();
     }).catch(defaultError);      
 }
-/**
- * @function getDrinks
- * @param {*} process - @see defaultProcess to see how this parameter
- * should be formatted. Should be a JSON object with 3 keys:
- * 1. init() - should return an object with all properties to be formatted
- * 2. each() - gets called for each drink object
- * 3. end( result ) - result of process
- * @returns array of drink objects through a callback function
- * @description Gets all the drinks listed under current user and 
- * returns an array of all the drinks with data reformatted
- * 
- * TODO: funnction should be called when user attempts to refresh any page
- */
-let getDrinks = (callback=nothing, process=defaultProcess) => {
-    let collections = process.init();
-    db.collection(`users/${currentUser.user.id}/drinks`)
-        .orderBy('drink.date', 'desc')
-        .get()
-        .then(querySnapshot => {
-            querySnapshot.forEach(function(doc) {
-                process.each(doc).forEach( e => {
-                    collections[e.key].push(e.value);
-                });          
-            });
-            process.end(collections);
-            callback();
-        }
-    );
-}
-/**
- * @var defaultProcess - default process for extracting drinks from 
- * firebase and using the data ( stores all drink ids as list as well
- * as each drink's data individually )
- */
-let defaultProcess = {
-    init: () => {
-        return {
-            drinks: [],
-            drinkids: []
-        }
-    },
-    each: ( properties ) => {
-        localStorage.setItem(properties.id, JSON.stringify(
-            {
-                ...properties.data().drink,
-                id: properties.id
-            }
-        ));
-        return [
-            {
-                key: 'drinks',
-                value: { 
-                    ...properties.data().drink,
-                    id: properties.id
-                }
-            },
-            {
-                key: 'drinkids',
-                value: properties.id
-            }
-        ];
-    },
-    end: (result) => {
-        localStorage.setItem('drinkids', JSON.stringify(result.drinkids));
-        stats.recalculateMetrics(result.drinks);
-    }
-}
-/**
- * @function setUser
- * @var defaultProfile - schema for user profile to follow
- * @description Called when user is brand new. Sets up their profile on firebase
- */
-const defaultProfile = {
-    'budget': 10000,
-    'limit': 15,
-    'public': false
-}
-let setUser = (profile=defaultProfile, callback=nothing, setProfile) => {
-    db.collection('users')
-    .doc(currentUser.user.id)
-    .collection('user')
-    .doc('profile')
-    .set(profile)
-    .then(res => {
-        localStorage.setItem('profile', JSON.stringify(profile));
-        currentUser.profile = profile;
-        setProfile(profile);
-        callback(res);
-    }).catch(err => {
-        Swal.fire('Oops...', `Error setting up your account: ${err}`, 'error');
-    });
-}
-let getUser = (callback=nothing, setProfile) => {
-    db.collection('users')
-    .doc(currentUser.user.id)
-    .collection('user')
-    .doc('profile')
-    .get()
-    .then(res => {
-        let profile = res.data();
-        setProfile(profile);
-        if(
-            profile?.budget === undefined
-            || profile?.limit === undefined
-            || profile?.public === undefined
-        ){
-            return setUser(callback);
-        }
-        localStorage.setItem('profile', JSON.stringify({
-            budget: parseInt(profile.budget),
-            limit:  parseInt(profile.limit),
-            public: profile.public
-        }));
-        callback(res);
-    })
-    .catch(defaultError);
-}
 
-let updateUser = ({sharing, budget, limit}, callback=nothing) => {
+const setUser = async(profile=defaultProfile) => {
+    return db.collection('users')
+        .doc(currentUser.user.uid)
+        .collection('user')
+        .doc('profile')
+        .set(profile);
+}
+const getUser = async() => {
+    db.collection('users')
+        .doc(currentUser.user.id)
+        .collection('user')
+        .doc('profile')
+        .get();
+}
+const updateUser = ({sharing, budget, limit}, callback=nothing) => {
     let data = {
         public: sharing,
         budget: budget,
@@ -193,7 +125,8 @@ let updateUser = ({sharing, budget, limit}, callback=nothing) => {
         callback();
     });
 }
-let updateStatsFromLocalStorage = (callback=nothing) => {
+
+const updateStatsFromLocalStorage = (callback=nothing) => {
     let stats = JSON.parse(localStorage.getItem('metrics')),
         cstats = JSON.parse(localStorage.getItem('completeMetrics'));
     delete stats.d;
@@ -211,9 +144,9 @@ let updateStatsFromLocalStorage = (callback=nothing) => {
  * @description Update all the user stats
  * 
  */
-let updateStats = ( userStats, callback=nothing ) => {
+const updateStats = (userStats, callback=nothing ) => {
     db.collection('users')
-    .doc(currentUser.user.id)
+    .doc(currentUser.user.uid)
     .collection('user')
     .doc('stats')
     .set(userStats)
@@ -229,8 +162,8 @@ let updateStats = ( userStats, callback=nothing ) => {
  * @function Drink methods
  * These methods either add, update, or delete a singular drink object.
  */
-const addDrink = ( data, callback=nothing ) => {
-    db.collection(`users/${currentUser.user.id}/drinks`)
+const addDrink = (data, callback=nothing) => {
+    db.collection(`users/${currentUser.user.uid}/drinks`)
     .add(data)
     .then(res => {
         Swal.fire('Done!', 'Drink added', 'success'); 
@@ -238,7 +171,7 @@ const addDrink = ( data, callback=nothing ) => {
     }).catch(defaultError);
 }
 const updateDrink = (data, id, callback=nothing) => {
-    db.collection(`users/${currentUser.user.id}/drinks`)
+    db.collection(`users/${currentUser.user.uid}/drinks`)
     .doc(id)
     .set(data)
     .then(res => {
@@ -247,7 +180,7 @@ const updateDrink = (data, id, callback=nothing) => {
     }).catch(defaultError);
 }
 const deleteDrink = (id, callback=nothing) => {
-    db.collection(`users/${currentUser.user.id}/drinks`)
+    db.collection(`users/${currentUser.user.uid}/drinks`)
     .doc(id)
     .delete()
     .then(() => {
@@ -266,11 +199,8 @@ export default {
         update: updateUser,
         updateStats: updateStatsFromLocalStorage,
     },
-    get: {
-        current: currentUser
-    },
+    get: currentUser,
     drinks: {
-        get: getDrinks,
         add: addDrink,
         update: updateDrink,
         delete: deleteDrink

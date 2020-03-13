@@ -1,0 +1,145 @@
+:root{
+    --bg-primary: white;
+    --bg-secondary: white;
+    --bg-border: #FFDCDC;
+    --bg-blend: linear-gradient(180deg, #FC8A8A 0%, #FFD3B3 100%);
+    --dash-blend: #FFD3B3;
+    --avatar-border: white;
+    --text-primary: white;
+    --text-secondary: black;
+    --text-light: #FFC9C2;
+    --text-accent: #F68080;
+    --btn-bg: #F68080;
+    --btn-text: white;
+    --nav-bg: #FFAFA4;
+    --nav-text: white;
+}
+html, body {
+    overscroll-behavior: none;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-primary);
+    /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif; */
+    font-family: "Poppins";
+    font-display: fallback;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer */
+    -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+    -webkit-user-select: none; /* Chrome, Safari, and Opera */
+    -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+}
+.firebaseui-container{
+    padding: 0 20px;
+}
+.firebaseui-container.firebaseui-id-page-callback{
+    background-color: transparent;
+}
+p{
+    color: var(--text-secondary);
+}
+button{
+    font-size: 14px;
+    font-family: Poppins;
+    font-weight: 700;
+    border-radius: 4px;
+    margin: 20px;
+    padding: 5px 30px;
+    border: none;
+    color: var(--btn-text);
+    background-color: var(--btn-bg);
+    transition: background-color 350ms, color 350ms, transform 250ms;
+    &:hover, &:active, &:focus{
+        background-color: rgb(255, 162, 162);
+        transform: translateY(1px);
+    }
+    &.text{
+        height: 30px;
+        width: auto;
+        box-shadow: 0 1px 5px 3px #ff89896d;
+    }
+}
+a{
+    text-decoration: none;
+    &:active, &:focus{
+        outline: 0;
+        border: none;
+    }
+}
+p{
+    transition: color 350ms;
+}
+h2.bw, h3.bw, h4.bw, h5.bw, h6.bw{
+    transition: color 350ms;
+}
+h2.bw, h3.bw, h4.bw, h5.bw{
+    font-weight: 700;
+}
+h2.bw, h4.bw, h5.bw, h6.bw{
+    margin: 0px;
+}
+h2.bw{
+    color: var(--text-primary);
+    font-size: 48px;
+}
+h3.bw{
+    color: var(--text-accent);
+    font-size: 24px;
+    margin: 0 0 16px 0;
+}
+h4.bw{
+    color: var(--text-primary);
+    font-size: 24px;
+}
+h5.bw{
+    color: var(--text-secondary);
+    font-size: 18px;
+}
+h6.bw{
+    color: var(--text-accent);
+    font-size: 12px;
+}
+.avatar-button{
+    height: 37px;
+    width: 37px;
+    border-radius: 50%;
+    position: absolute;
+    right: 40px;
+    top: 36px;
+    border: 2px solid var(--avatar-border);
+    transition: border-color 350ms;
+}
+.login-page{
+    height: 100vh;
+    width: 100vw;
+    text-align: center;
+    background: var(--bg-blend);
+}
+.login-logo{
+    height: 100vw;
+    max-height: 50vh;
+    width: 100vw;
+    max-width: 50vh;
+    margin: 0 auto;
+    padding-top: 20vh;
+    background-image: url('../../../assets/logo-shadow.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+@media only screen and (max-width: 350px) {
+    h2 {
+        font-size: 30px !important;
+    }
+    h3 {
+        font-size: 20px !important;
+    }
+    h4 {
+        font-size: 20px !important;
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "translation": {
+        "$": "¥",
+
+        "MONTHLY LIMIT": "每月限额",
+        "REMAINING": "剩余的",
+        "Monthly Spending": "每月消费",
+        "This is how much you’ve spent on drinks so far": "这是你到目前为止花了多少钱在饮料上",
+        "to your max number of drinks this month": "这个月你最多喝酒次数",
+        "drinks this month": "这个月的饮料",
+
+        "Morning Purchases": "早上购买",
+        "Afternoon Purchases": "下午购买",
+        "# of purchases": "购买金额",
+
+        "User Settings": "用户设置",
+        "Monthly Spending Limit": "每月消费限额",
+        "Max of drinks / month": "饮料最多/月",
+        "Share Profile": "分享个人资料",
+        "LOGOUT": "注销",
+        "UPDATE": "更新",
+
+        "Add a purchase": "添加购买",
+        "Location": "场所",
+        "Drink Name": "Drink Name",
+        "Price": "Price",
+        "Date": "Date",
+        "Description": "Description",
+        "ADD": "ADD",
+        "EDIT": "EDIT",
+        "Please enter a valid price to add drink": "Please enter a valid price to add drink",
+
+        "No drinks this month": "No drinks this month :(",
+        "Add a drink to start!": "Add a drink to start!",
+        "Monthly Total": "Monthly Total",
+        "Overall Spending": "Overall Spending",
+        "Complete Total": "Complete Total",
+        "on": "on",
+        "DELETE": "DELETE"
+    }
+}

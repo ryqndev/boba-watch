@@ -65,8 +65,9 @@
     background-color: grey !important;
 }
 .user-share-profile{
-    padding-left: 20px;
-    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    // margin-bottom: 15px;
 }
 #copy-me{
     white-space:nowrap;

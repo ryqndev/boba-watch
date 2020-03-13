@@ -51,10 +51,9 @@ function recalculateMetrics(drinkObjects) {
     localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
     return mmetrics;
 }
-function deleteDrink( id ){
+function deleteDrink(id, drinkids){
     let mmetrics = JSON.parse(localStorage.getItem('metrics'));
     let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
-    let drinks = JSON.parse(localStorage.getItem('drinkids'));
     let deletedDrink = JSON.parse(localStorage.getItem(id)),
         today = new Date(),
         todayMonth = today.getMonth(),
@@ -67,12 +66,11 @@ function deleteDrink( id ){
         updateMetrics(deletedDrink, mmetrics, false);
     }
     updateMetrics(deletedDrink, cmetrics, false);
-    var i = drinks.indexOf(id);
-    if (i > -1) drinks.splice(i, 1);
+    var i = drinkids.indexOf(id);
+    if (i > -1) drinkids.splice(i, 1);
     localStorage.removeItem( id );
     localStorage.setItem('metrics', JSON.stringify(mmetrics));
     localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
-    localStorage.setItem('drinkids', JSON.stringify(drinks));
 }
 /**
  * @function insertDrinkSorted - a modified binary search to insert 
@@ -98,12 +96,12 @@ function insertDrinkSorted( id, toInsertDate, drinks, lo, hi ){
     }
     return insertDrinkSorted( id, toInsertDate, drinks, lo, mid - 1 ); 
 }
-function resetMonthly(){
+function resetMonthly(drinkids){
     let mmetrics = getDefaultMetrics(),
         today = new Date(),
         todayMonth = today.getMonth(),
-        todayYear = today.getFullYear(),
-        drinkids = JSON.parse(localStorage.getItem('drinkids'));
+        todayYear = today.getFullYear();
+        
     drinkids.forEach(drinkid => {
         let drink = JSON.parse(localStorage.getItem(drinkid));
         let drinkDate = new Date(drink.date);
@@ -134,7 +132,6 @@ function addDrink( drinkData, id ){
     localStorage.setItem(id, JSON.stringify(drinkData.drink));
     localStorage.setItem('metrics', JSON.stringify(mmetrics));
     localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
-    localStorage.setItem('drinkids', JSON.stringify(drinks));
 }
 /**
  * @function updateMetrics - Updates the current metric object given a new drink

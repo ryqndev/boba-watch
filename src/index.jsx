@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import {MemoryRouter as Router} from 'react-router-dom';
-import { MuiThemeProvider } from '@material-ui/core/styles';
 import App from './components/App';
-import theme from './theme';
 import * as serviceWorker from './serviceWorker';
 import FirebaseUser from './components/firebaseCalls';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from './theme';
+import './i18n';
+import './index.css';
+
 
 // try{
     ReactDOM.render( 

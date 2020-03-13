@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import 'date-fns'; 
 import Swal from 'sweetalert2';
 import { IconButton } from '@material-ui/core';
@@ -12,6 +13,7 @@ import Modal from '../globals/Modal';
 import './Add.scss';
 
 const Add = ({open, setOpen, edit}) => {
+    const { t, i18n } = useTranslation();
     const [id, setId] = useState(null);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
@@ -80,7 +82,7 @@ const Add = ({open, setOpen, edit}) => {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Please enter a valid price to add drink'
+                text: t('Please enter a valid price to add drink')
             });
             return document.getElementById('add-drink--button').disabled = false;
         }
@@ -107,25 +109,25 @@ const Add = ({open, setOpen, edit}) => {
                 <IconButton color="secondary" className="close-button" onClick={closeAddModal}>
                     <CloseButton color="secondary"/>
                 </IconButton>
-                <h5>Add a purchase</h5>
-                <TextInput value={location} onChange={handleTextChange(setLocation)} label="Location" id="location-input"/>
-                <TextInput value={name} onChange={handleTextChange(setName)} label="Drink Name" id="name-input"/>
-                <TextInput value={price} onChange={handlePriceChange} label="Price" id="name-input" type="tel"/>
+                <h5>{t('Add a purchase')}</h5>
+                <TextInput value={location} onChange={handleTextChange(setLocation)} label={t("Location")} id="location-input"/>
+                <TextInput value={name} onChange={handleTextChange(setName)} label={t("Drink Name")} id="name-input"/>
+                <TextInput value={price} onChange={handlePriceChange} label={t("Price")} id="name-input" type="tel"/>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <DateTimePicker
                         id="date-value"
                         className="add-input"
                         margin="dense"
                         format="M/d/yyyy h:mm a"
-                        label="Date"
+                        label={t("Date")}
                         value={date}
                         onChange={handleDateChange}
                         inputProps={{ maxLength: 100 }}
                     />
                 </MuiPickersUtilsProvider>
-                <TextInput value={description} onChange={handleTextChange(setDescription)} label="Description" id="description-input"/>
+                <TextInput value={description} onChange={handleTextChange(setDescription)} label={t("Description")} id="description-input"/>
                 <div className="add-button-holder">
-                    <button id="add-drink--button" onClick={addDrink} className="text">{id === null ? 'ADD' : 'EDIT'}</button>
+                    <button id="add-drink--button" onClick={addDrink} className="text">{id === null ? t('ADD') : t('EDIT')}</button>
                 </div>
             </div>
         </Modal>

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import DrinkPanel from './DrinkPanel';
 import Utils from '../textUtil.js';
 import Add from '../Add/Add';
+import {useTranslation} from 'react-i18next';
 import './History.css';
 
 const LoadMore = ({click}) => {
@@ -14,16 +15,18 @@ const LoadMore = ({click}) => {
     );
 }
 const NoDrinksLabel = ({label}) => {
+    const {t} = useTranslation();
     return (
         <div className="thaman-color">
             <h3 className="bw">
-                {label}
+                {t(label)}
             </h3>
         </div>
     );
 }
 
 const History = ({drinks}) => {
+    const {t} = useTranslation();
     const [monthly, setMonthly] = useState({drinks: [<NoDrinksLabel key={1} label="No drinks this month :(" />], sum: 0});
     const [complete, setComplete] = useState({drinks: [<NoDrinksLabel key={1} label="Add a drink to start!" />], sum: 0});
     const [monthlyDisplay, setMonthlyDisplay] = useState(7);
@@ -83,19 +86,19 @@ const History = ({drinks}) => {
 
     return (
         <div className="history-page">
-            <h3 className="bw"> Monthly Spending</h3>
+            <h3 className="bw">{t('Monthly Spending')}</h3>
             <div className="history-spending">
                 {monthly.drinks}
             </div>
             <h3 className="bw history-total">
-                <span>Monthly Total:</span> ${Utils.toMoney(monthly.sum)}
+                <span>{t('Monthly Total')}:</span> {t('$')}{Utils.toMoney(monthly.sum)}
             </h3>
-            <h3 className="bw"> Overall Spending</h3>
+            <h3 className="bw">{t('Overall Spending')}</h3>
             <div className="history-spending">
                 {complete.drinks}
             </div>
             <h3 className="bw history-total">
-                <span>Complete Total:</span> ${Utils.toMoney(complete.sum)}
+                <span>{t('Complete Total')}:</span> {t('$')}{Utils.toMoney(complete.sum)}
             </h3>
             <Add open={edit} setOpen={setEdit} edit={editDrinkDetails}/>
         </div>

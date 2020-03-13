@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
+import {useTranslation} from 'react-i18next';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Utils from '../textUtil.js';
-import backend from '../firebaseCalls';
+import FirebaseUser from '../firebaseCalls';
 import stats from '../calculateStatistics';
 import './DrinkPanel.scss';
 
 const DrinkPanel = ({setEditDetails, data, update}) => {
+    const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
-    const remove = () => { backend.drinks.delete(data.id, removeLocally) }
+    const remove = () => { FirebaseUser.drinks.delete(data.id, removeLocally) }
     const removeLocally = () => {
-        stats.deleteDrink(data.id);
+        stats.deleteDrink(data.id, FirebaseUser.get.drinkids);
         update();
-        backend.user.updateStats();
+        FirebaseUser.user.updateStats();
     }
     const edit = () => {setEditDetails({...data, update: update})}
     const drinkDate = new Date(data.date);
@@ -23,7 +25,7 @@ const DrinkPanel = ({setEditDetails, data, update}) => {
                     {data.location}
                 </p>
                 <p className="price">
-                    ${Utils.toMoney(data.price)}
+                    {t('$')}{Utils.toMoney(data.price)}
                 </p>
                 <div className="expand-icon">
                     {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
@@ -45,12 +47,12 @@ const DrinkPanel = ({setEditDetails, data, update}) => {
                     {data.description}
                 </p>
                 <p className="date">
-                    <span>on</span> {drinkDate.toDateString()}
+                    <span>{t('on')}</span> {drinkDate.toDateString()}
                 </p>
 
                 <div className="options">
-                    <button className="text" onClick={edit}>EDIT</button>
-                    <button className="text" onClick={remove}>DELETE</button>
+                    <button className="text" onClick={edit}>{t('EDIT')}</button>
+                    <button className="text" onClick={remove}>{t('DELETE')}</button>
                 </div>
             </div>
         </div>

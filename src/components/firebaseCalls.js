@@ -11,8 +11,6 @@ import 'firebase/auth';
 import stats from './calculateStatistics';
 import Swal from 'sweetalert2';
 
-let db;
-
 const firebaseConfig = {
     apiKey: 'AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ',
     authDomain: 'boba-watch-firebase.firebaseapp.com',
@@ -22,28 +20,42 @@ const firebaseConfig = {
     messagingSenderId: '674375234614',
     appId: '1:674375234614:web:fdaf98c291204b9c'
 };
+firebase.initializeApp(firebaseConfig);
+
+let db;
 const defaultProfile = {
     'budget': 10000,
     'limit': 15,
-    'public': false
+    'sharing': false
 }
-const currentUser = {
+let currentUser = {
     user: undefined,        // metadata - (name, email, photo, etc.)
-    profile: undefined,     // stats    - (budget, limit, public)
+    profile: undefined,     // stats    - (budget, limit, sharing)
     drinklist: undefined,      // drinks   - [{id: ..., price:...}, ...]
     drinkids: undefined     // drinkids - [id1, id2, id3,...] date desc order
 };
+window.userstuff = currentUser;
 const nothing = () => { return; }
 const defaultError = err => {Swal.fire('Error!', err+'', 'error')}
 
 let init = (callback) => {
-    firebase.initializeApp(firebaseConfig);
     db = firebase.firestore(); 
     db.enablePersistence().catch(err => {console.error(err)});
     firebase.auth().onAuthStateChanged(user => {
         if(!user) return callback(user);    // if not logged in user
-        currentUser.user = {...user};
-        localStorage.setItem('user', JSON.stringify(currentUser.user));
+        let savedUserData = JSON.parse(localStorage.getItem('user'));
+        if(currentUser.user.uid === savedUserData.user.uid){
+            currentUser = savedUserData;
+            return callback(user);
+        }
+        currentUser.user = {
+            name: user.displayName,
+            uid: user.uid,
+            photoURL: user.photoURL,
+            isAnonymous: user.isAnonymous,
+            email: user.email,
+            emailVerified: user.emailVerified
+        };
         let setup = [
             db.collection(`users/${currentUser.user.uid}/drinks`).orderBy('drink.date', 'desc').get(),
             (user?.metadata?.creationTime === user?.metadata?.lastSignInTime)
@@ -53,22 +65,24 @@ let init = (callback) => {
         Promise.all(setup).then(([drinks, profile]) => {
             saveDrinksLocally(drinks);
             saveUserLocally(profile);
+            localStorage.setItem('user', JSON.stringify(currentUser));
             callback(user);
         }).catch(defaultError);
     });
 }
 
 const saveDrinksLocally = (entries) => {
-    currentUser.drinkids = [];
-    currentUser.drinklist = [];
+    let drinkids = [], drinklist = [];
     entries.forEach(entry => {
         let data = {id: entry.id, ...entry.data().drink}
         localStorage.setItem(entry.id, JSON.stringify(data));
-        currentUser.drinkids.push(entry.id);
-        currentUser.drinklist.push(data);
+        drinkids.push(entry.id);
+        drinklist.push(data);
     });
-    localStorage.setItem('drinkids', JSON.stringify(currentUser.drinkids));
-    stats.recalculateMetrics(currentUser.drinklist);
+    currentUser.drinklist = drinklist;
+    currentUser.drinkids = drinkids;
+    // localStorage.setItem('drinkids', JSON.stringify(drinkids));
+    stats.recalculateMetrics(drinklist);
 }
 
 const saveUserLocally = (user) => {
@@ -76,16 +90,16 @@ const saveUserLocally = (user) => {
     if(
         profile?.budget === undefined
         || profile?.limit === undefined
-        || profile?.public === undefined
+        || profile?.sharing === undefined
     ){
         profile = defaultProfile;
     }
     currentUser.profile = profile;
-    localStorage.setItem('profile', JSON.stringify({
-        budget: parseInt(profile.budget),
-        limit:  parseInt(profile.limit),
-        public: profile.public
-    }));
+    // localStorage.setItem('profile', JSON.stringify({
+    //     budget: parseInt(profile.budget),
+    //     limit:  parseInt(profile.limit),
+    //     sharing: profile.sharing
+    // }));
 };
 
 const logout = () => {
@@ -106,23 +120,23 @@ const setUser = async(profile=defaultProfile) => {
 }
 const getUser = async() => {
     db.collection('users')
-        .doc(currentUser.user.id)
+        .doc(currentUser.user.uid)
         .collection('user')
         .doc('profile')
         .get();
 }
 const updateUser = ({sharing, budget, limit}, callback=nothing) => {
     let data = {
-        public: sharing,
+        sharing: sharing,
         budget: budget,
         limit: limit
     };
     if(isNaN(data.budget) || isNaN(data.limit)){
         return Swal.fire('Oops...', `Please enter valid numbers`, 'error');
     }
-    setUser(data, () => {
+    setUser(data).then(() => {
         Swal.fire('Success!', 'Your settings have been updated', 'success');
-        callback();
+        callback(data);
     });
 }
 
@@ -134,7 +148,7 @@ const updateStatsFromLocalStorage = (callback=nothing) => {
     stats['ctc'] = cstats.tc;
     stats['cad'] = cstats.ad;
     stats['d'] = JSON.stringify(cstats.d);
-    stats.fn = localStorage.getItem('fname');
+    stats.fn = currentUser.user.displayName;
     updateStats(stats, callback);
 }
 /**

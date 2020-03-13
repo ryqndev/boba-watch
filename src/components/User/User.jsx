@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import {Button, IconButton, Switch, Collapse} from '@material-ui/core';
+import Toggle from 'react-toggle';
+import {Button, IconButton, Collapse} from '@material-ui/core';
 import CloseButton from '@material-ui/icons/Close';
+import {useTranslation} from 'react-i18next';
 import HelpButton from '@material-ui/icons/Help';
 import TextClipboard from '../TextClipboard';
 import FirebaseUser from '../firebaseCalls';
 import TextField from '../globals/TextInput';
 import Modal from '../globals/Modal';
 import './User.scss';
+import 'react-toggle/style.css';
 import '../globals/globals.scss';
 
 /**
@@ -15,37 +18,42 @@ import '../globals/globals.scss';
  * try and convert a singular value on the firebase so I'm going to keep the database value
  * different from stored value.
  */
-const User = ({profile, open, setOpen}) => {
-    const [budget, setBudget] = useState((profile.budget ?? 100) / 100);
-    const [limit, setLimit] = useState(profile.limit ?? 1);
-    const [sharing, setSharing] = useState(profile.public ?? false);
+const User = ({open, setOpen}) => {
+    const {t} = useTranslation();
+    const [budget, setBudget] = useState((FirebaseUser.get.profile.budget ?? 10000) / 100);
+    const [limit, setLimit] = useState(FirebaseUser.get.profile.limit ?? 15);
+    const [sharing, setSharing] = useState(FirebaseUser.get.profile.sharing ?? false);
 
     const handleChange = setUserInfo => event => {
         setUserInfo(event.target.value);
     }
     const updateFirebase = () => {
-        FirebaseUser.user.update({
+        let data = {
             budget: parseFloat(budget) * 100,
             limit: parseInt(limit),
             sharing: sharing
-        }, () => {
+        };
+        FirebaseUser.user.update(data, () => {
+            FirebaseUser.get.profile = data;
             close();
         });
     }
     const handleToggle = () => {
-        FirebaseUser.user.update({
+        let data = {
             budget: parseFloat(budget) * 100,
             limit: parseInt(limit),
             sharing: !sharing
-        }, () => {
-            setSharing(profile.public);
+        };
+        FirebaseUser.user.update(data, () => {
+            FirebaseUser.get.profile = data;
+            setSharing(FirebaseUser.get.profile.sharing);
         });
     }
     const close = () => { 
         setOpen(false);
-        setBudget(profile.budget / 100);
-        setLimit(profile.limit);
-        setSharing(profile.public);
+        setBudget(FirebaseUser.get.profile.budget / 100);
+        setLimit(FirebaseUser.get.profile.limit);
+        setSharing(FirebaseUser.get.profile.sharing);
     }
     const getHelp = () => {
         window.open('https://info.boba.watch/');
@@ -59,8 +67,8 @@ const User = ({profile, open, setOpen}) => {
                 <IconButton className="modal-small--button help-button" onClick={getHelp}>
                     <HelpButton color="secondary" style={{ fontSize: 14 }}/>
                 </IconButton>
-                <img src={FirebaseUser.get.current.user.avatar} className="avatar" alt="user"/>
-                <h1>User settings</h1>
+                <img src={FirebaseUser.get.user.photoURL} className="avatar" alt="user"/>
+                <h1>{t('User Settings')}</h1>
                 <TextField
                     id="monthly-spending-input"
                     type='tel'
@@ -70,7 +78,7 @@ const User = ({profile, open, setOpen}) => {
                     margin="normal"
                     onChange={handleChange(setBudget)}
                     value={budget}
-                    label="Monthly Spending Limit"
+                    label={t("Monthly Spending Limit")}
                 />
                 <TextField
                     id="monthly-drinking-limit"
@@ -81,27 +89,26 @@ const User = ({profile, open, setOpen}) => {
                     variant="outlined"
                     onChange={handleChange(setLimit)}
                     value={limit}
-                    label="Max of drinks / month"
+                    label={t("Max of drinks / month")}
                 />
                 <div className="user-share-profile">
-                    Share Profile: 
-                    <Switch
-                        checked={sharing}
+                    {t('Share Profile')}: 
+                    <Toggle
+                        defaultChecked={sharing}
                         onClick={handleToggle}
-                        label="Share Profile"
-                        color="primary"
+                        label={t("Share Profile")}
                     />
                 </div>
                 <Collapse in={sharing}>
-                    <TextClipboard text={`https://share.boba.watch/#/${FirebaseUser.get.current.user.id}`}/>
+                    <TextClipboard text={`https://share.boba.watch/#/${FirebaseUser.get.user.uid}`}/>
                 </Collapse>
                 <div className="button-holder">
                     <button 
                         className="logout text"
                         onClick={FirebaseUser.logout}>
-                        LOGOUT
+                        {t('LOGOUT')}
                     </button>
-                    <Button className="update" onClick={updateFirebase}>UPDATE</Button>
+                    <Button className="update" onClick={updateFirebase}>{t('UPDATE')}</Button>
                 </div>
             </div>
         </Modal>

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalGridLines, VerticalBarSeries, DiscreteColorLegend } from 'react-vis';
+import {useTranslation} from 'react-i18next';
 import Card from '../styles/Card';
 import 'react-vis/dist/style.css';
 import './styles/timebargraphs.css'
@@ -7,6 +8,7 @@ import './styles/timebargraphs.css'
 let shortName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const TimeBarGraphs = ({width, data}) => {
+    const {t} = useTranslation();
     const [morning, setMorning] = useState([]);
     const [noon, setNoon] = useState([]);
 
@@ -31,7 +33,7 @@ const TimeBarGraphs = ({width, data}) => {
             <VerticalGridLines />
             <HorizontalGridLines />
             <XAxis />
-            <YAxis title={'# of purchases'}/>
+            <YAxis title={t('# of purchases')}/>
             <VerticalBarSeries color={'#FFACAC'} data={morning} />
             <VerticalBarSeries color={'#FFDCDC'} data={noon} />
             </XYPlot>
@@ -40,12 +42,12 @@ const TimeBarGraphs = ({width, data}) => {
                 orientation="horizontal"
                 items={
                     [{
-                        title: 'Morning Purchases',
+                        title: t('Morning Purchases'),
                         color: '#FFACAC',
                         strokeWidth: 5
                     },
                     {
-                        title: 'Afternoon Purchases',
+                        title: t('Afternoon Purchases'),
                         color: '#FFDCDC',
                         strokeWidth: 5
                     }]

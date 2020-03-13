@@ -37,7 +37,7 @@ const App = ({profile}) => {
     return (
         <Router initialEntries={['/dash', '/history']} initialIndex={0}>
             <img 
-                src={FirebaseUser.get.photoURL}
+                src={FirebaseUser.get.user.photoURL}
                 alt="user-settings"
                 className="avatar-button"
                 onClick={openUser}

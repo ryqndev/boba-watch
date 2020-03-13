@@ -15,15 +15,13 @@ const loginHeaderStyle = {
 const Login = () => {
     useEffect(() => {
         let ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
-        if (ui.isPendingRedirect()) {
-            ui.start('#auth-container', {
-                signInOptions: [
-                    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-                ],
-                // tosUrl: '<your-tos-url>',
-            });
-        }
+        ui.start('#auth-container', {
+            signInOptions: [
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+            ],
+            // tosUrl: '<your-tos-url>',
+        });
     })
     return (
         <div className="login-page">

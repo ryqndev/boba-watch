@@ -9,15 +9,15 @@
         "to your max number of drinks this month": "达到您本月饮料的最大数量",
         "drinks this month": "本月饮料",
 
-        "Morning Purchases": "早上购买",
+        "Morning Purchases": "上午购买",
         "Afternoon Purchases": "下午购买",
         "# of purchases": "购买数量",
 
         "User Settings": "用户设置",
         "Monthly Spending Limit": "每月消费限额",
-        "Max of drinks / month": "饮料最多/月",
+        "Max of drinks / month": "饮料限量/月",
         "Share Profile": "分享个人资料",
-        "LOGOUT": "登出",
+        "LOGOUT": "退出",
         "UPDATE": "更新",
 
         "Add a purchase": "添加购买",
@@ -30,8 +30,8 @@
         "EDIT": "编辑",
         "Please enter a valid price to add drink": "请输入有效价格以添加饮料",
 
-        "No drinks this month": "这个月没有饮料",
-        "Add a drink to start!": "添加饮料开始!",
+        "No drinks this month": "本月没有饮料",
+        "Add a drink to start!": "开始添加饮料!",
         "Monthly Total": "每月总计",
         "Overall Spending": "总支出",
         "Complete Total": "完成总数",

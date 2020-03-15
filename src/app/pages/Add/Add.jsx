@@ -6,8 +6,7 @@ import { IconButton } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';
-import stats from '../../controller/calculateStatistics.js';
-import FirebaseUser from '../../controller/backend.js';
+import {add} from '../../controller';
 import {TextInput, Modal} from '../../components';
 import './Add.scss';
 
@@ -18,16 +17,14 @@ const Add = ({open, setOpen, setDrinkids}) => {
     const [price, setPrice] = useState('');
     const [date, setDate] = useState(new Date());
     const [description, setDescription] = useState('');
+    const [canAdd, setCanAdd] = useState(true);
 
     const handleTextChange = setInput => e => {
         e.preventDefault();
         if(e.target.value.length >= 80) return;
         setInput(e.target.value);
     }
-    const handlePriceChange = e => {
-        if((e.target.value).match(/^-?\d*\.?\d*$/))
-            setPrice(e.target.value)
-    }
+    const handlePriceChange = e => {if((e.target.value).match(/^-?\d*\.?\d*$/)) setPrice(e.target.value)}
     const handleDateChange = (date) => {setDate(date)}
     const closeAddModal = () => {
         setOpen(!open);
@@ -37,39 +34,24 @@ const Add = ({open, setOpen, setDrinkids}) => {
         setDate(new Date());
         setDescription('');
     }
-    const finishAdd = (resp) => {
-        document.getElementById('add-drink--button').disabled = false;
-        resp.get().then(r => {
-            addLocally(r.data(), r.id);
-        })
-    }
-    const addLocally = (data, id) => {
-        stats.addDrink(data, id, FirebaseUser.get.currentUser.drinkids);
-        FirebaseUser.user.updateStats();
-        setDrinkids(FirebaseUser.get.currentUser.drinkids);
-        closeAddModal();
-    }
-    const addDrink = () => {
-        document.getElementById('add-drink--button').disabled = true;
-        let data = {
-            drink: {
-                name: name,
-                location: location,
-                price: parseInt(parseFloat(price) * 100),
-                date: new Date(date).toISOString(),
-                description: description
-            }
-        }
-        // validate price
-        if (isNaN(data.drink.price)) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: t('Please enter a valid price to add drink')
-            });
-            return document.getElementById('add-drink--button').disabled = false;
-        }
-        return FirebaseUser.drinks.add(data, finishAdd);
+    const addDrink = async() => {
+        // setCanAdd(false);
+        // let data = {drink: {
+        //     name: name,
+        //     location: location,
+        //     price: parseInt(parseFloat(price) * 100),
+        //     date: new Date(date).toISOString(),
+        //     description: description
+        // }}
+        // if (isNaN(data.drink.price)){
+        //     Swal.fire('Oops...', t('Please enter a valid price to add drink'), 'error');
+        //     setCanAdd(true);
+        //     return;
+        // }
+        // await add(data, setDrinkids);
+        setDrinkids([]);
+        setCanAdd(true);
+        // closeAddModal();
     };
     return (
         <Modal open={open}>
@@ -95,7 +77,7 @@ const Add = ({open, setOpen, setDrinkids}) => {
                 </MuiPickersUtilsProvider>
                 <TextInput value={description} onChange={handleTextChange(setDescription)} label={t("Description")} id="description-input"/>
                 <div className="add-button-holder">
-                    <button id="add-drink--button" onClick={addDrink} className="text">{t('ADD')}</button>
+                    <button disabled={!canAdd} id="add-drink--button" onClick={addDrink} className="text">{t('ADD')}</button>
                 </div>
             </div>
         </Modal>

@@ -28,16 +28,17 @@ function getDefaultMetrics() {
  * @function recalculateMetrics - Completely recalculates all the data for all the drinks.
  * Should only be called during testing and first time loads on a new device. If old data
  * is stored, should call liveReload function instead
- * @param {*} drinkObjects 
+ * @param {*} drinkids 
  * TODO can make this better since chronological order is a given, just duplicate the mmetrics at certain point
  */
-function recalculateMetrics(drinkObjects) {
+function recalculateMetrics(drinkids) {
     let mmetrics = getDefaultMetrics(),
         cmetrics = getDefaultMetrics(),
         today = new Date(),
         todayMonth = today.getMonth(),
         todayYear = today.getFullYear();
-    drinkObjects.forEach(drink => {
+    drinkids.forEach(drinkid => {
+        let drink = JSON.parse(localStorage.getItem(drinkid));
         let drinkDate = new Date(drink.date);
         if(
             drinkDate.getMonth() === todayMonth &&
@@ -68,7 +69,7 @@ function deleteDrink(id, drinkids){
     updateMetrics(deletedDrink, cmetrics, false);
     var i = drinkids.indexOf(id);
     if (i > -1) drinkids.splice(i, 1);
-    localStorage.removeItem( id );
+    localStorage.removeItem(id);
     localStorage.setItem('metrics', JSON.stringify(mmetrics));
     localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
 }
@@ -76,11 +77,6 @@ function deleteDrink(id, drinkids){
  * @function insertDrinkSorted - a modified binary search to insert 
  * the newly created drink at correctly sorted time recursively. 
  * Couldn't find a way to retrieve the local data
- * @param {*} id 
- * @param {*} toInsertDate 
- * @param {*} drinks 
- * @param {*} lo 
- * @param {*} hi 
  */
 function insertDrinkSorted( id, toInsertDate, drinks, lo, hi ){
     if( hi <= lo ) {
@@ -117,18 +113,17 @@ function resetMonthly(drinkids){
     localStorage.setItem('metrics', JSON.stringify(mmetrics));
     return mmetrics;
 }
-function addDrink(drinkData, id, drinkids){
+function addDrink(data, drinkids){
     let mmetrics = JSON.parse(localStorage.getItem('metrics'));
     let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
-    drinkData.drink.id = id;
     if(drinkids.length){
-        insertDrinkSorted( id, new Date(drinkData.drink.date), drinkids, 0, drinkids.length - 1 );
+        insertDrinkSorted(data.id, new Date(data.date), drinkids, 0, drinkids.length - 1 );
     }else{
-        drinkids.push(id);
+        drinkids.push(data.id);
     }
-    updateMetrics(drinkData.drink, mmetrics);
-    updateMetrics(drinkData.drink, cmetrics);
-    localStorage.setItem(id, JSON.stringify(drinkData.drink));
+    updateMetrics(data, mmetrics);
+    updateMetrics(data, cmetrics);
+    localStorage.setItem(data.id, JSON.stringify(data));
     localStorage.setItem('metrics', JSON.stringify(mmetrics));
     localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
 }

@@ -32,7 +32,6 @@ const store = {
     currentUser:{
         user: undefined,        // metadata - (name, email, photo, etc.)
         profile: undefined,     // stats    - (budget, limit, sharing)
-        drinklist: undefined,   // drinks   - [{id: ..., price:...}, ...]
         drinkids: undefined,    // drinkids - [id1, id2, id3,...] date desc order
         theme: undefined        // theme
     }
@@ -76,16 +75,14 @@ let init = (callback) => {
 }
 
 const saveDrinksLocally = (entries) => {
-    let drinkids = [], drinklist = [];
+    let drinkids = [];
     entries.forEach(entry => {
         let data = {id: entry.id, ...entry.data().drink}
         localStorage.setItem(entry.id, JSON.stringify(data));
         drinkids.push(entry.id);
-        drinklist.push(data);
     });
-    store.currentUser.drinklist = drinklist;
     store.currentUser.drinkids = drinkids;
-    stats.recalculateMetrics(drinklist);
+    stats.recalculateMetrics(drinkids);
 }
 
 const saveUserLocally = (user) => {
@@ -167,13 +164,8 @@ const updateStats = (userStats, callback=nothing ) => {
  * @function Drink methods
  * These methods either add, update, or delete a singular drink object.
  */
-const addDrink = (data, callback=nothing) => {
-    db.collection(`users/${store.currentUser.user.uid}/drinks`)
-    .add(data)
-    .then(res => {
-        Swal.fire('Done!', 'Drink added', 'success'); 
-        callback(res);
-    }).catch(defaultError);
+const addDrink = async(data) => {
+    return db.collection(`users/${store.currentUser.user.uid}/drinks`).add(data);
 }
 const updateDrink = (data, id, callback=nothing) => {
     db.collection(`users/${store.currentUser.user.uid}/drinks`)

@@ -34,6 +34,9 @@ const App = () => {
     const [add, setAdd] = useState(false);
     const [user, setUser] = useState(false), openUser = setUser.bind(null, true);
     const [drinkids, setDrinkids] = useState(FirebaseUser.get.currentUser.drinkids);
+    useEffect(() => {
+        console.log(drinkids);
+    }, [drinkids]);
     return (
         <Router initialEntries={['/dash', '/history']} initialIndex={0}>
             <img 

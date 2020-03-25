@@ -35,23 +35,23 @@ const Add = ({open, setOpen, setDrinkids}) => {
         setDescription('');
     }
     const addDrink = async() => {
-        // setCanAdd(false);
-        // let data = {drink: {
-        //     name: name,
-        //     location: location,
-        //     price: parseInt(parseFloat(price) * 100),
-        //     date: new Date(date).toISOString(),
-        //     description: description
-        // }}
-        // if (isNaN(data.drink.price)){
-        //     Swal.fire('Oops...', t('Please enter a valid price to add drink'), 'error');
-        //     setCanAdd(true);
-        //     return;
-        // }
-        // await add(data, setDrinkids);
-        setDrinkids([]);
+        setCanAdd(false);
+        let data = {drink: {
+            name: name,
+            location: location,
+            price: parseInt(parseFloat(price) * 100),
+            date: new Date(date).toISOString(),
+            description: description
+        }}
+        if (isNaN(data.drink.price)){
+            Swal.fire('Oops...', t('Please enter a valid price to add drink'), 'error');
+            setCanAdd(true);
+            return;
+        }
+        await add(data, setDrinkids);
+        // setDrinkids([]);
         setCanAdd(true);
-        // closeAddModal();
+        closeAddModal();
     };
     return (
         <Modal open={open}>

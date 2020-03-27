@@ -24,6 +24,23 @@ const add = async(data, setDrinkids) => {
     }
 }
 
+const edit = async(data, id, setDrinkids) => {
+    try{
+        await backend.drinks.update(data, id);                                 //updates drink on firebase
+        stats.deleteDrink(id, backend.get.currentUser.drinkids);
+        stats.addDrink(data, id, backend.get.currentUser.drinkids);
+        backend.user.updateStats();
+        localStorage.setItem('user', JSON.stringify(backend.get.currentUser));      //save new drinksid
+        Swal.fire(i18next.t('Done!'), i18next.t('Drink updated'), 'success');       //let user know 
+        return true;
+    }catch(err){
+        Swal.fire(i18next.t('Oops...!'), i18next.t('Something went wrong'), 'error');     //let user know 
+        console.error(err);
+        return false;
+    }
+}
+
 export {
     add,
+    edit
 }

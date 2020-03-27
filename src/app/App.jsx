@@ -14,7 +14,7 @@ const Start = ({history}) => {
         FirebaseUser.init(user => {
             history.push(user ? '/app' : '/login');
 		});
-		console.log("v2.0.1");
+		console.log("v2.0.2");
     }, [history]);
     return (
         <Switch>
@@ -32,7 +32,7 @@ const Start = ({history}) => {
 
 const App = () => {
     const [add, setAdd] = useState(false);
-    const [user, setUser] = useState(false), openUser = setUser.bind(null, true);
+    const [user, setUser] = useState(false);
     const [drinkids, setDrinkids] = useState(FirebaseUser.get.currentUser.drinkids);
     useEffect(() => {
         console.log(drinkids);
@@ -43,7 +43,7 @@ const App = () => {
                 src={FirebaseUser.get.currentUser.user.photoURL}
                 alt="user-settings"
                 className="avatar-button"
-                onClick={openUser}
+                onClick={setUser.bind(null, true)}
             />
             <Switch>
                 <Route exact path='/dash' >
@@ -54,7 +54,7 @@ const App = () => {
                 </Route>
             </Switch>
             <Add open={add} setOpen={setAdd} setDrinkids={setDrinkids}/>
-            <User profile={FirebaseUser.get.currentUser.profile} open={user} setOpen={setUser} />
+            <User open={user} setOpen={setUser} />
             <Navigation add={add} toggleAdd={() => {setAdd(!add)}} />
         </Router>
     );

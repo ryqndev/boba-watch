@@ -7,7 +7,7 @@ import FirebaseUser from '../../controller/backend.js';
 import stats from '../../controller/calculateStatistics';
 import './DrinkPanel.scss';
 
-const DrinkPanel = ({setEditDetails, data, update}) => {
+const DrinkPanel = ({setEditDetails, data, setDrinkids}) => {
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
     const remove = () => {FirebaseUser.drinks.delete(data.id, removeLocally)}
@@ -15,10 +15,10 @@ const DrinkPanel = ({setEditDetails, data, update}) => {
         stats.deleteDrink(data.id, FirebaseUser.get.currentUser.drinkids);
         localStorage.setItem('user', JSON.stringify(FirebaseUser.get.currentUser));
         console.log("remove called", FirebaseUser.get.currentUser.drinkids);
-        update(FirebaseUser.get.currentUser.drinkids);
+        setDrinkids(FirebaseUser.get.currentUser.drinkids);
         FirebaseUser.user.updateStats();
     }
-    const edit = () => {setEditDetails({...data, update: update})}
+    const edit = () => {setEditDetails({...data, update: setDrinkids})}
     const drinkDate = (new Date(data.date)).toDateString();
     return (
         <div className="drink-panel">

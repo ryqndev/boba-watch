@@ -53,7 +53,8 @@ const History = ({drinkids, setDrinkids}) => {
             year = today.getFullYear(),
             displayedMonthly = monthlyDisplay,
             displayedOverall = completeDisplay;
-        drinkids.forEach(drinkid => {
+        drinkids.forEach((drinkid, i) => {
+            console.log("drink", i, drinkid);
             let drink = JSON.parse(localStorage.getItem(drinkid));
             let ddate = new Date(drink.date);
             if(ddate.getMonth() === month && ddate.getFullYear() === year && displayedMonthly > 0){
@@ -62,27 +63,31 @@ const History = ({drinkids, setDrinkids}) => {
                 total.push(drink);
             }
         });
+        console.log("drinkids shouldve changed", drinkids);
         setMonthly(monthly);
         setComplete(total);
     }, [drinkids, completeDisplay, monthlyDisplay]);
 
+    useEffect(() => {
+        console.log("on monthly _+ complete", monthly, complete);
+    }, [monthly, complete]);
     return (
         <div className="history-page">
             <h3 className="bw">{t('Monthly Spending')}</h3>
             <div className="history-spending">
-                {monthly.map(e => <DrinkPanel key={e.id} data={e} update={setDrinkids} setEditDetails={setEditDrinkDetails} />)}
+                {monthly.map(e => <DrinkPanel key={e.id} data={e} setDrinkids={setDrinkids} setEditDetails={setEditDrinkDetails} />)}
             </div>
             <h3 className="bw history-total">
                 <span>{t('Monthly Total')}:</span> {t('$')}{Utils.toMoney(monthSum)}
             </h3>
             <h3 className="bw">{t('Overall Spending')}</h3>
             <div className="history-spending">
-                {complete.map(e => <DrinkPanel key={e.id} data={e} update={setDrinkids} setEditDetails={setEditDrinkDetails} />)}
+                {complete.map(e => <DrinkPanel key={e.id} data={e} setDrinkids={setDrinkids} setEditDetails={setEditDrinkDetails} />)}
             </div>
             <h3 className="bw history-total">
                 <span>{t('Complete Total')}:</span> {t('$')}{Utils.toMoney(totalSum)}
             </h3>
-            <Edit open={edit} setOpen={setEdit} edit={editDrinkDetails} setDrinkids={setDrinkids}/>
+            <Edit open={edit} setOpen={setEdit} drinkData={editDrinkDetails} setDrinkids={setDrinkids}/>
         </div>
     );
 }

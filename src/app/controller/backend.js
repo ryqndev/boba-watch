@@ -135,6 +135,10 @@ const updateUser = ({sharing, budget, limit}, callback=nothing) => {
     });
 }
 
+/**
+ * @function updateStatsFromLocalStorage - uploads localStorage 'metrics'
+ * and 'completeMetrics' values to firebase
+ */
 const updateStatsFromLocalStorage = (callback=nothing) => {
     let stats = JSON.parse(localStorage.getItem('metrics')),
         cstats = JSON.parse(localStorage.getItem('completeMetrics'));
@@ -167,14 +171,8 @@ const updateStats = (userStats, callback=nothing ) => {
 const addDrink = async(data) => {
     return db.collection(`users/${store.currentUser.user.uid}/drinks`).add(data);
 }
-const updateDrink = (data, id, callback=nothing) => {
-    db.collection(`users/${store.currentUser.user.uid}/drinks`)
-    .doc(id)
-    .set(data)
-    .then(res => {
-        Swal.fire('Done!', 'Drink updated', 'success'); 
-        callback(res);
-    }).catch(defaultError);
+const updateDrink = (data, id) => {
+    return db.collection(`users/${store.currentUser.user.uid}/drinks`).doc(id).set(data);
 }
 const deleteDrink = (id, callback=nothing) => {
     db.collection(`users/${store.currentUser.user.uid}/drinks`)

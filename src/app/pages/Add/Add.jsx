@@ -42,14 +42,13 @@ const Add = ({open, setOpen, setDrinkids}) => {
             price: parseInt(parseFloat(price) * 100),
             date: new Date(date).toISOString(),
             description: description
-        }}
+        }} 
         if (isNaN(data.drink.price)){
             Swal.fire('Oops...', t('Please enter a valid price to add drink'), 'error');
             setCanAdd(true);
             return;
         }
         await add(data, setDrinkids);
-        // setDrinkids([]);
         setCanAdd(true);
         closeAddModal();
     };

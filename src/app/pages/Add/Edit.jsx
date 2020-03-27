@@ -5,27 +5,29 @@ import {IconButton} from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers';
 import CloseButton from '@material-ui/icons/Close';
-import stats from '../../controller/calculateStatistics.js';
-import FirebaseUser from '../../controller/backend.js';
+import {edit} from '../../controller';
 import {Modal, TextInput} from '../../components';
 import './Add.scss';
+import { useTranslation } from 'react-i18next';
 
-const Edit = ({open, setOpen, edit, setDrinkids}) => {
+const Edit = ({open, setOpen, drinkData, setDrinkids}) => {
+    const {t} = useTranslation();
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [price, setPrice] = useState('');
     const [date, setDate] = useState(new Date());
     const [description, setDescription] = useState('');
+    const [canAdd, setCanAdd] = useState(true);
 
     useEffect(() => {
-        if(edit !== null){
-            setName(edit.name);
-            setLocation(edit.location);
-            setPrice(edit.price/100);
-            setDate(edit.date);
-            setDescription(edit.description);
+        if(drinkData !== null){
+            setName(drinkData.name);
+            setLocation(drinkData.location);
+            setPrice(drinkData.price/100);
+            setDate(drinkData.date);
+            setDescription(drinkData.description);
         }
-    }, [open, edit]);
+    }, [open, drinkData]);
 
     const handleTextChange = setInput => e => {
         e.preventDefault();
@@ -34,23 +36,8 @@ const Edit = ({open, setOpen, edit, setDrinkids}) => {
     }
     const handlePriceChange = e => {(e.target.value).match(/^-?\d*\.?\d*$/) && setPrice(e.target.value)}
     const handleDateChange = date => {setDate(date)}
-    const finishUpdate = () => {
-        document.getElementById('add-drink--button').disabled = false;
-        stats.deleteDrink(edit.id, FirebaseUser.get.currentUser.drinkids);
-        stats.addDrink({drink: {
-            name: name,
-            location: location,
-            price: parseInt(parseFloat(price) * 100),
-            date: new Date(date).toISOString(),
-            description: description
-        }}, edit.id, FirebaseUser.get.currentUser.drinkids);
-        FirebaseUser.user.updateStats();
-        setDrinkids(FirebaseUser.get.currentUser.drinkids);
-        edit.update();
-        setOpen(!open);
-    }
-    const addDrink = () => {
-        document.getElementById('add-drink--button').disabled = true;
+    const editDrink = async() => {
+        setCanAdd(false);
         let data = {
             drink: {
                 name: name,
@@ -67,9 +54,13 @@ const Edit = ({open, setOpen, edit, setDrinkids}) => {
                 title: 'Oops...',
                 text: 'Please enter a valid price to add drink'
             });
-            return document.getElementById('add-drink--button').disabled = false;
+            setCanAdd(true);
+            return;
         }
-        FirebaseUser.drinks.update(data, edit.id, finishUpdate);
+        await edit(data, drinkData.id, setDrinkids);
+        
+        setCanAdd(true);
+        setOpen(!open);
     };
 
     return (
@@ -96,7 +87,7 @@ const Edit = ({open, setOpen, edit, setDrinkids}) => {
                 </MuiPickersUtilsProvider>
                 <TextInput value={description} onChange={handleTextChange(setDescription)} label="Description" id="description-input"/>
                 <div className="add-button-holder">
-                    <button id="add-drink--button" onClick={addDrink} className="text">{'EDIT'}</button>
+                    <button id="add-drink--button" disabled={!canAdd} onClick={editDrink} className="text">{t('EDIT')}</button>
                 </div>
             </div>
         </Modal>

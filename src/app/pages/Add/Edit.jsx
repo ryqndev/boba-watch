@@ -69,7 +69,7 @@ const Edit = ({open, setOpen, drinkData, setDrinkids}) => {
                 <IconButton color="secondary" className="close-button" onClick={() => {setOpen(!open)}}>
                     <CloseButton color="secondary"/>
                 </IconButton>
-                <h5>Add a purchase</h5>
+                <h5>Edit purchase</h5>
                 <TextInput value={location} onChange={handleTextChange(setLocation)} label="Location" id="location-input"/>
                 <TextInput value={name} onChange={handleTextChange(setName)} label="Drink Name" id="name-input"/>
                 <TextInput value={price} onChange={handlePriceChange} label="Price" id="name-input" type="tel"/>

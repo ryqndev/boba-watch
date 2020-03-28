@@ -24,7 +24,7 @@ const add = async(data, setDrinkids) => {
     }
 }
 
-const edit = async(data, id, setDrinkids) => {
+const edit = async(data, id) => {
     try{
         await backend.drinks.update(data, id);                                 //updates drink on firebase
         stats.deleteDrink(id, backend.get.currentUser.drinkids);

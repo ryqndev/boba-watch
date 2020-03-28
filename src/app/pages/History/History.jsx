@@ -54,7 +54,6 @@ const History = ({drinkids, setDrinkids}) => {
             displayedMonthly = monthlyDisplay,
             displayedOverall = completeDisplay;
         drinkids.forEach((drinkid, i) => {
-            console.log("drink", i, drinkid);
             let drink = JSON.parse(localStorage.getItem(drinkid));
             let ddate = new Date(drink.date);
             if(ddate.getMonth() === month && ddate.getFullYear() === year && displayedMonthly > 0){
@@ -63,14 +62,9 @@ const History = ({drinkids, setDrinkids}) => {
                 total.push(drink);
             }
         });
-        console.log("drinkids shouldve changed", drinkids);
         setMonthly(monthly);
         setComplete(total);
     }, [drinkids, completeDisplay, monthlyDisplay]);
-
-    useEffect(() => {
-        console.log("on monthly _+ complete", monthly, complete);
-    }, [monthly, complete]);
     return (
         <div className="history-page">
             <h3 className="bw">{t('Monthly Spending')}</h3>

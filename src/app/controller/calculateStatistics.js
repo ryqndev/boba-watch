@@ -67,7 +67,7 @@ function deleteDrink(id, drinkids){
         updateMetrics(deletedDrink, mmetrics, false);
     }
     updateMetrics(deletedDrink, cmetrics, false);
-    var i = drinkids.indexOf(id);
+    let i = drinkids.indexOf(id);
     if (i > -1) drinkids.splice(i, 1);
     localStorage.removeItem(id);
     localStorage.setItem('metrics', JSON.stringify(mmetrics));
@@ -78,9 +78,9 @@ function deleteDrink(id, drinkids){
  * the newly created drink at correctly sorted time recursively. 
  * Couldn't find a way to retrieve the local data
  */
-function insertDrinkSorted( id, toInsertDate, drinks, lo, hi ){
+function insertDrinkSorted(id, toInsertDate, drinks, lo, hi){
     if( hi <= lo ) {
-        return drinks.splice( toInsertDate < new Date(JSON.parse(localStorage.getItem(drinks[lo])).date) ? lo + 1 : lo, 0, id );
+        return drinks.splice(toInsertDate < new Date(JSON.parse(localStorage.getItem(drinks[lo])).date) ? lo + 1 : lo, 0, id);
     }
     let mid = parseInt( (hi - lo) / 2 + lo );
     let midDate = new Date(JSON.parse(localStorage.getItem(drinks[mid])).date);
@@ -88,9 +88,9 @@ function insertDrinkSorted( id, toInsertDate, drinks, lo, hi ){
         return drinks.splice(mid + 1, 0, id);
     }
     if(toInsertDate < midDate){
-        return insertDrinkSorted( id, toInsertDate, drinks, mid + 1, hi ); 
+        return insertDrinkSorted(id, toInsertDate, drinks, mid + 1, hi); 
     }
-    return insertDrinkSorted( id, toInsertDate, drinks, lo, mid - 1 ); 
+    return insertDrinkSorted(id, toInsertDate, drinks, lo, mid - 1); 
 }
 function resetMonthly(drinkids){
     let mmetrics = getDefaultMetrics(),
@@ -113,17 +113,18 @@ function resetMonthly(drinkids){
     localStorage.setItem('metrics', JSON.stringify(mmetrics));
     return mmetrics;
 }
-function addDrink(data, drinkids){
+function addDrink(data, id, drinkids){
     let mmetrics = JSON.parse(localStorage.getItem('metrics'));
     let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
     if(drinkids.length){
-        insertDrinkSorted(data.id, new Date(data.date), drinkids, 0, drinkids.length - 1 );
+        insertDrinkSorted(id, new Date(data.drink.date), drinkids, 0, drinkids.length - 1 );
     }else{
-        drinkids.push(data.id);
+        drinkids.push(id);
     }
-    updateMetrics(data, mmetrics);
-    updateMetrics(data, cmetrics);
-    localStorage.setItem(data.id, JSON.stringify(data));
+    let drinkdata = {id: id, ...data.drink};
+    updateMetrics(drinkdata, mmetrics);
+    updateMetrics(drinkdata, cmetrics);
+    localStorage.setItem(id, JSON.stringify(drinkdata));
     localStorage.setItem('metrics', JSON.stringify(mmetrics));
     localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
 }

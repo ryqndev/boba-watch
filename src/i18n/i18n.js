@@ -25,6 +25,7 @@ const detectOptions = {
 i18n.use(LanguageDetector).use(initReactI18next).init({
     resources,
     detection: detectOptions,
+    lng: "en",
     fallbackLng: "en", 
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {

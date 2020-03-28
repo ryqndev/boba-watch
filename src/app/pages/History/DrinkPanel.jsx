@@ -14,7 +14,6 @@ const DrinkPanel = ({setEditDetails, data, setDrinkids}) => {
     const removeLocally = () => {
         stats.deleteDrink(data.id, FirebaseUser.get.currentUser.drinkids);
         localStorage.setItem('user', JSON.stringify(FirebaseUser.get.currentUser));
-        console.log("remove called", FirebaseUser.get.currentUser.drinkids);
         setDrinkids(FirebaseUser.get.currentUser.drinkids);
         FirebaseUser.user.updateStats();
     }

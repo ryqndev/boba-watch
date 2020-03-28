@@ -1,0 +1,63 @@
+.feed-page{
+    & h1{
+        color: #F68080;
+        font-size: 1.5rem;
+        margin: 0;
+        padding: 10px 20px;
+    }
+    & .content{
+        padding: 30px;
+        & .user{
+            & img{
+                position: absolute;
+                height: 75px;
+                width: 75px;
+                border-radius: 50%;
+                transform: translateY(calc(1.5rem - 35px));
+                border: 4px solid #F68080;
+                left: 60px;
+            }
+            & h2{
+                font-size: 1.3rem;
+                color: #F68080;
+                padding-right: 20px;
+                margin: 0;
+                text-align: right;
+            }
+        }
+        & .item{
+            border: 2px solid #F68080;
+            border-radius: 15px;
+            margin-bottom: 35px;
+            & .header{
+                background-color: #F68080;
+                text-align: right;
+                color: white;
+                font-weight: bold;
+                padding: 10px 20px;
+            }
+            & .content{
+                display: grid;
+                grid-template-columns: 1fr auto;
+                grid-template-rows: repeat(3, auto);
+                padding: 20px;
+                & p{
+                    &.location{
+                        font-size: 1.3rem;
+                    }
+                    &.price{
+                        font-size: 1.3rem;
+                    }
+                    &.date{
+                        color: #F68080;
+                        grid-column: 1/3;
+                    }
+                    &.description{
+                        grid-column: 1/3;
+                        font-size: 0.8rem;
+                    }
+                }
+            }
+        }
+    }
+}

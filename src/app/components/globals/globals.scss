@@ -42,6 +42,7 @@ body {
 }
 p{
     color: var(--text-secondary);
+    transition: color 350ms;
 }
 button{
     font-size: 14px;
@@ -70,9 +71,6 @@ a{
         outline: 0;
         border: none;
     }
-}
-p{
-    transition: color 350ms;
 }
 h2.bw, h3.bw, h4.bw, h5.bw, h6.bw{
     transition: color 350ms;
@@ -133,13 +131,13 @@ h6.bw{
     background-size: contain;
 }
 @media only screen and (max-width: 350px) {
-    h2 {
-        font-size: 30px !important;
+    h2.bw {
+        font-size: 30px;
     }
-    h3 {
-        font-size: 20px !important;
+    h3.bw {
+        font-size: 20px;
     }
-    h4 {
-        font-size: 20px !important;
+    h4.bw {
+        font-size: 20px;
     }
 }

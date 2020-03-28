@@ -1,11 +1,13 @@
 nav{
+    box-sizing: border-box;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     position: fixed;
     height: 56px;
     width: 100%;
     bottom: 0;
     background-color: var(--nav-bg);
+    padding: 0 10px;
     -webkit-appearance: none;
     z-index: 950;
     & .add-icon{

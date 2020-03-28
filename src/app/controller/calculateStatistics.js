@@ -117,14 +117,13 @@ function addDrink(data, id, drinkids){
     let mmetrics = JSON.parse(localStorage.getItem('metrics'));
     let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
     if(drinkids.length){
-        insertDrinkSorted(id, new Date(data.drink.date), drinkids, 0, drinkids.length - 1 );
+        insertDrinkSorted(id, new Date(data.date), drinkids, 0, drinkids.length - 1 );
     }else{
         drinkids.push(id);
     }
-    let drinkdata = {id: id, ...data.drink};
-    updateMetrics(drinkdata, mmetrics);
-    updateMetrics(drinkdata, cmetrics);
-    localStorage.setItem(id, JSON.stringify(drinkdata));
+    updateMetrics(data, mmetrics);
+    updateMetrics(data, cmetrics);
+    localStorage.setItem(id, JSON.stringify(data));
     localStorage.setItem('metrics', JSON.stringify(mmetrics));
     localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
 }

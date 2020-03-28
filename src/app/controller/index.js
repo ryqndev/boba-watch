@@ -11,33 +11,34 @@ const add = async(data, setDrinkids) => {
             id: firebaseReturnedResult.id,
             ...firebaseReturnedResult.data().drink
         };
-        stats.addDrink(drink, backend.get.currentUser.drinkids);    //recalculate stats and insert in drinkids sorted
-        backend.user.updateStats();                                 //update stats on firebase
-        localStorage.setItem('user', JSON.stringify(backend.get.currentUser));      //save new drinksid
-        Swal.fire(i18next.t('Done!'), i18next.t('Drink added'), 'success');               //let user know 
-        setDrinkids(backend.get.currentUser.drinkids);
-        return true;
+        return success(drink, setDrinkids);
     }catch(err){
-        Swal.fire(i18next.t('Oops...!'), i18next.t('Something went wrong'), 'error');     //let user know 
-        console.error(err);
-        return false;
+        return error(err);
     }
 }
 
-const edit = async(data, id) => {
+const edit = async(data, id, setDrinkids) => {
     try{
         await backend.drinks.update(data, id);                                 //updates drink on firebase
         stats.deleteDrink(id, backend.get.currentUser.drinkids);
-        stats.addDrink(data, id, backend.get.currentUser.drinkids);
-        backend.user.updateStats();
-        localStorage.setItem('user', JSON.stringify(backend.get.currentUser));      //save new drinksid
-        Swal.fire(i18next.t('Done!'), i18next.t('Drink updated'), 'success');       //let user know 
-        return true;
+        return success({id: id, ...data.drink}, setDrinkids);
     }catch(err){
-        Swal.fire(i18next.t('Oops...!'), i18next.t('Something went wrong'), 'error');     //let user know 
-        console.error(err);
-        return false;
+        return error(err);
     }
+}
+
+const success = (drink, setDrinkids) => {
+    stats.addDrink(drink, drink.id,backend.get.currentUser.drinkids);    //recalculate stats and insert in drinkids sorted
+    backend.user.updateStats();                                         //update stats on firebase
+    localStorage.setItem('user', JSON.stringify(backend.get.currentUser));      //save new drinksid
+    Swal.fire(i18next.t('Done!'), i18next.t('Drink added'), 'success');               //let user know 
+    setDrinkids(backend.get.currentUser.drinkids);
+    return true;
+}
+const error = (err) => {
+    Swal.fire(i18next.t('Oops...!'), i18next.t('Something went wrong'), 'error');     //let user know 
+    console.error(err);
+    return false;
 }
 
 export {

@@ -171,7 +171,7 @@ const updateStats = (userStats, callback=nothing ) => {
 const addDrink = async(data) => {
     return db.collection(`users/${store.currentUser.user.uid}/drinks`).add(data);
 }
-const updateDrink = (data, id) => {
+const updateDrink = async(data, id) => {
     return db.collection(`users/${store.currentUser.user.uid}/drinks`).doc(id).set(data);
 }
 const deleteDrink = (id, callback=nothing) => {
@@ -184,6 +184,10 @@ const deleteDrink = (id, callback=nothing) => {
     }).catch(err => {
         Swal.fire('Error!', `Couldn't delete your drink. Try again later!`, 'error');
     });
+}
+
+const getUserBlog = async(uid) => {
+    return db.collection(`users/${uid}/blog`).doc('user').get();
 }
 
 export default {
@@ -199,5 +203,8 @@ export default {
         add: addDrink,
         update: updateDrink,
         delete: deleteDrink
+    },
+    blog: {
+        profile: getUserBlog
     }
 }

@@ -1,4 +1,5 @@
 .blog-page{
+    padding-bottom: 40px;
     & h1{
         color: #F68080;
         font-size: 1.1rem;
@@ -51,6 +52,6 @@
         }
     }
     & .content{
-        padding: 30px;
+        padding: 0 30px 30px 30px;
     }
 }

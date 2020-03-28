@@ -6,10 +6,12 @@ import Utils from '../../components/textUtil.js';
 import FirebaseUser from '../../controller/backend.js';
 import stats from '../../controller/calculateStatistics';
 import './DrinkPanel.scss';
+import Swal from 'sweetalert2';
 
 const DrinkPanel = ({setEditDetails, data, setDrinkids}) => {
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
+    const [canPublish, setCanPublish] = useState(true);
     const remove = () => {FirebaseUser.drinks.delete(data.id, removeLocally)}
     const removeLocally = () => {
         stats.deleteDrink(data.id, FirebaseUser.get.currentUser.drinkids);
@@ -18,6 +20,16 @@ const DrinkPanel = ({setEditDetails, data, setDrinkids}) => {
         FirebaseUser.user.updateStats();
     }
     const edit = () => {setEditDetails({...data, update: setDrinkids})}
+    const publish = async() => {
+        setCanPublish(false);
+        try{
+            await FirebaseUser.publish.add(data);
+            Swal.fire('Success!', 'Drink published on your blog!', 'success');
+        }catch(err){
+            setCanPublish(true);
+            Swal.fire('Error!', err+'', 'error');
+        }
+    }
     const drinkDate = (new Date(data.date)).toDateString();
     return (
         <div className="drink-panel">
@@ -52,6 +64,7 @@ const DrinkPanel = ({setEditDetails, data, setDrinkids}) => {
                 </p>
 
                 <div className="options">
+                    <button className="text" onClick={publish} disabled={!canPublish}>{t('PUBLISH')}</button>
                     <button className="text" onClick={edit}>{t('EDIT')}</button>
                     <button className="text" onClick={remove}>{t('DELETE')}</button>
                 </div>

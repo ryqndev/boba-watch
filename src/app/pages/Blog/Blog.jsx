@@ -9,7 +9,19 @@ import './Blog.scss';
 
 const Blog = () => {
     const {t} = useTranslation();
+    const [posts, setPosts] = useState([]);
     const stats = JSON.parse(localStorage.getItem('metrics'));
+    useEffect(() => {
+        (async() => {
+            let entries = await FirebaseUser.publish.get.user(FirebaseUser.get.currentUser.user.uid);
+            let allPosts = [];
+            entries.forEach(entry => {
+                let data = {id: entry.id, ...entry.data()}
+                allPosts.push(data);
+            });
+            setPosts(allPosts);
+        })();
+    }, []);
     return (
         <div className="blog-page">
             <h1>PUBLIC PROFILE PREVIEW</h1>
@@ -27,7 +39,7 @@ const Blog = () => {
                 <p>DRINKS THIS MONTH</p> {stats.td}
             </div>
             <div className="content">
-
+                {posts.map(post => <FeedItem key={post.id} {...post}/>)}
             </div>
         </div>
     );

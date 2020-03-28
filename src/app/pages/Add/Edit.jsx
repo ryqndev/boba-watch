@@ -34,6 +34,11 @@ const Edit = ({open, setOpen, drinkData, setDrinkids}) => {
         if(e.target.value.length >= 80) return;
         setInput(e.target.value);
     }
+    const handleTextChangeDescription = setInput => e => {
+        e.preventDefault();
+        if(e.target.value.length >= 300) return;
+        setInput(e.target.value);
+    }
     const handlePriceChange = e => {(e.target.value).match(/^-?\d*\.?\d*$/) && setPrice(e.target.value)}
     const handleDateChange = date => {setDate(date)}
     const editDrink = async() => {
@@ -85,7 +90,7 @@ const Edit = ({open, setOpen, drinkData, setDrinkids}) => {
                         inputProps={{ maxLength: 100 }}
                     />
                 </MuiPickersUtilsProvider>
-                <TextInput value={description} onChange={handleTextChange(setDescription)} label="Description" id="description-input"/>
+                <TextInput value={description} onChange={handleTextChangeDescription(setDescription)} label="Description" id="description-input"/>
                 <div className="add-button-holder">
                     <button id="add-drink--button" disabled={!canAdd} onClick={editDrink} className="text">{t('EDIT')}</button>
                 </div>

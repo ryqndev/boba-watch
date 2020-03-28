@@ -63,7 +63,8 @@ let init = (callback) => {
             db.collection(`users/${store.currentUser.user.uid}/drinks`).orderBy('drink.date', 'desc').get(),
             (user?.metadata?.creationTime === user?.metadata?.lastSignInTime)
                 ? setUser(defaultProfile)
-                : getUser()
+                : getUser(),
+            setBlog()
         ];
         Promise.all(setup).then(([drinks, profile]) => {
             saveDrinksLocally(drinks);
@@ -71,6 +72,14 @@ let init = (callback) => {
             localStorage.setItem('user', JSON.stringify(store.currentUser));
             callback(user);
         }).catch(defaultError);
+    });
+}
+
+const setBlog = async() => {
+    return db.collection(`users/${store.currentUser.user.uid}/blog`).doc('user').set({
+        location: 'US',
+        name:  store.currentUser.user.displayName,
+        profile:  store.currentUser.user.photoURL
     });
 }
 
@@ -126,6 +135,7 @@ const updateUser = ({sharing, budget, limit}, callback=nothing) => {
         budget: budget,
         limit: limit
     };
+    setBlog();
     if(isNaN(data.budget) || isNaN(data.limit)){
         return Swal.fire('Oops...', `Please enter valid numbers`, 'error');
     }
@@ -190,6 +200,16 @@ const getUserBlog = async(uid) => {
     return db.collection(`users/${uid}/blog`).doc('user').get();
 }
 
+const publishAdd = async({id, ...data}) => {
+    return db.collection('blogs').add({ uid: store.currentUser.user.uid, ...data});
+}
+const publishGetUser = async(uid) => {
+    return db.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(5).get();
+}
+const publishGetFeed = async(uid) => {
+    return db.collection('blogs').orderBy('date', 'desc').limit(5).get();
+}
+
 export default {
     init: init,
     logout: logout,
@@ -206,5 +226,12 @@ export default {
     },
     blog: {
         profile: getUserBlog
+    },
+    publish: {
+        add: publishAdd,
+        get: {
+            user: publishGetUser,
+            feed: publishGetFeed
+        }
     }
 }

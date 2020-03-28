@@ -47,12 +47,15 @@
             padding-bottom: 10px;
         }
         & .options{
+            box-sizing: border-box;
+            padding: 0 5px;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             grid-template-rows: auto;
             column-gap: 10px;
             margin-bottom: 5px;
             & button{
+                padding: 5px 10px;
                 margin: 15px 0px 20px 0px;
             }
         }

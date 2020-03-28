@@ -4,17 +4,17 @@ import FirebaseUser from '../../controller/backend';
 import {Card} from '../../components';
 import { useTranslation } from 'react-i18next';
 
-const FeedItemWithAvatar = ({user, ...data}) => {
+const FeedItemWithAvatar = ({uid, ...data}) => {
 
     const [person, setPerson] = useState(null);
     useEffect(() => {
         if(person !== null) return;
         (async() => {
-            FirebaseUser.blog.profile(user).then(res => {
+            FirebaseUser.blog.profile(uid).then(res => {
                 setPerson(res.data());
             }).catch(err => {console.log(err)});
         })();
-    }, [user, person]);
+    }, [uid, person]);
     return (
         <div>
             {person !== null && <div className="user">
@@ -28,7 +28,7 @@ const FeedItemWithAvatar = ({user, ...data}) => {
 const FeedItem = ({name, location, price, date, description}) => {
     const {t} = useTranslation();
     return (
-        <Card className="item">
+        <Card className="feed-item">
             <div className="header">
                 {name}
             </div>

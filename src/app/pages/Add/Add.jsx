@@ -24,6 +24,11 @@ const Add = ({open, setOpen, setDrinkids}) => {
         if(e.target.value.length >= 80) return;
         setInput(e.target.value);
     }
+    const handleTextChangeDescription = setInput => e => {
+        e.preventDefault();
+        if(e.target.value.length >= 300) return;
+        setInput(e.target.value);
+    }
     const handlePriceChange = e => {if((e.target.value).match(/^-?\d*\.?\d*$/)) setPrice(e.target.value)}
     const handleDateChange = (date) => {setDate(date)}
     const closeAddModal = () => {
@@ -61,7 +66,7 @@ const Add = ({open, setOpen, setDrinkids}) => {
                 <h5>{t('Add a purchase')}</h5>
                 <TextInput value={location} onChange={handleTextChange(setLocation)} label={t("Location")} id="location-input"/>
                 <TextInput value={name} onChange={handleTextChange(setName)} label={t("Drink Name")} id="name-input"/>
-                <TextInput value={price} onChange={handlePriceChange} label={t("Price")} id="name-input" type="tel"/>
+                <TextInput value={price} onChange={handlePriceChange} label={t("Price")} id="name-input" type="text"/>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <DateTimePicker
                         id="date-value"
@@ -74,7 +79,7 @@ const Add = ({open, setOpen, setDrinkids}) => {
                         inputProps={{ maxLength: 100 }}
                     />
                 </MuiPickersUtilsProvider>
-                <TextInput value={description} onChange={handleTextChange(setDescription)} label={t("Description")} id="description-input"/>
+                <TextInput value={description} onChange={handleTextChangeDescription(setDescription)} label={t("Description")} id="description-input"/>
                 <div className="add-button-holder">
                     <button disabled={!canAdd} id="add-drink--button" onClick={addDrink} className="text">{t('ADD')}</button>
                 </div>

@@ -7,7 +7,6 @@ function toMoney(money, short = false){
         return parseInt(money/100);
     }
     return Number(money/100).toFixed(2);
-
 }
 export default {
     toMoney: toMoney

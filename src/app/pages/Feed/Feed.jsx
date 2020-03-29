@@ -7,6 +7,7 @@ import './Feed.scss';
 const Feed = () => {
     const {t} = useTranslation();
     const [posts, setPosts] = useState([]);
+    const [isFave, setIsFave] = useState(false);
     useEffect(() => {
         (async() => {
             let entries = await FirebaseUser.publish.get.feed(FirebaseUser.get.currentUser.user.uid);
@@ -20,9 +21,14 @@ const Feed = () => {
     }, []);
     return (
         <div className="feed-page">
-            <h1>EXPLORE</h1>
+            <div className="feed-header">
+                <div className="icon"></div>
+                EXPLORE
+                <div className={isFave ? "" : "selected"} onClick={setIsFave.bind(null, false)}>PUBLIC</div>
+                <div className={!isFave ? "" : "selected"} onClick={setIsFave.bind(null, true)}>FAVES</div>
+            </div>
             <div className="content">
-                {posts.map(feedContent => <FeedItemWithAvatar key={feedContent.id} {...feedContent} />)}
+                {posts.map(feedContent => <FeedItemWithAvatar key={feedContent.id} place={feedContent.location} {...feedContent} />)}
             </div>
         </div>
     );

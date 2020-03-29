@@ -201,13 +201,23 @@ const getUserBlog = async(uid) => {
 }
 
 const publishAdd = async({id, ...data}) => {
-    return db.collection('blogs').add({ uid: store.currentUser.user.uid, ...data});
+    return db.collection('blogs').add({ uid: store.currentUser.user.uid, likes: 0, ...data});
 }
 const publishGetUser = async(uid) => {
-    return db.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(5).get();
+    return db.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(6).get();
 }
 const publishGetFeed = async(uid) => {
-    return db.collection('blogs').orderBy('date', 'desc').limit(5).get();
+    return db.collection('blogs').orderBy('date', 'desc').limit(10).get();
+}
+const publishDelete = async(id) => {
+    return db.collection('blogs').doc(id).delete();
+}
+const blogLike = async(id, increment) => {
+    const change = firebase.firestore.FieldValue.increment(increment ? 1 : -1);
+    const likedCollection = db.collection(`users/${store.currentUser.user.uid}/user/profile/liked`);
+    if(increment) likedCollection.doc(id).set({});
+    else likedCollection.doc(id).delete();
+    return db.collection('blogs').doc(id).update({ likes: change });
 }
 
 export default {
@@ -225,13 +235,15 @@ export default {
         delete: deleteDrink
     },
     blog: {
-        profile: getUserBlog
+        profile: getUserBlog,
+        like: blogLike
     },
     publish: {
         add: publishAdd,
         get: {
             user: publishGetUser,
             feed: publishGetFeed
-        }
+        },
+        delete: publishDelete
     }
 }

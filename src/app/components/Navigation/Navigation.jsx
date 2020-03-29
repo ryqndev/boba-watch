@@ -5,6 +5,7 @@ import DashboardIcon from '@material-ui/icons/HomeRounded';
 import AddIcon from '@material-ui/icons/AddRounded';
 import HistoryIcon from '@material-ui/icons/AttachMoneyRounded';
 import PublicIcon from '@material-ui/icons/FaceRounded';
+import FirebaseUser from '../../controller/backend';
 import './Navigation.scss';
 
 const Navigation = ({add, toggleAdd, history}) => {
@@ -42,8 +43,8 @@ const Navigation = ({add, toggleAdd, history}) => {
                 </div>
             </Link>
 
-            <Link to='/blog'>
-                <div className={'icon' + isTab('/blog')}>
+            <Link to={'/blog/' + FirebaseUser.get.currentUser.user.uid}>
+                <div className={'icon' + isTab('/blog/' + FirebaseUser.get.currentUser.user.uid)}>
                     <PublicIcon />
                     <p className="label">blog</p>
                 </div>

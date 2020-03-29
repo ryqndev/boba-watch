@@ -1,19 +1,43 @@
 .blog-page{
     padding-bottom: 40px;
-    & h1{
+    & h2.review{
         color: #F68080;
-        font-size: 1.1rem;
+        text-align: center;
+        margin: 0 0 10px 0;
+        letter-spacing: 4px;
+        & span{
+            position: relative;
+            top: -5px;
+            font-size: 0.8rem;
+        }
+    }
+    & .blog-header{
+        background-color: #FFAFA4;
+        color: #FFFFFF;
+        font-size: 0.9rem;
         margin: 0;
-        padding: 10px 20px;
+        padding: 10px 0px;
+        font-weight: bold;
+        .icon{
+            height: 30px;
+            width: 30px;
+            padding-right: 10px;
+            transform: translateY(-6px);
+            background-image: url('../../../assets/logo-shadow.svg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            float: left;
+        }
     }
     & .user{
-        padding-top: 40px;
+        padding-top: 30px;
         & img{
             position: absolute;
             height: 90px;
             width: 90px;
             border-radius: 50%;
-            transform: translateY(calc(1.5rem - 55px));
+            transform: translateY(calc(1.5rem - 45px));
             border: 4px solid #F68080;
             right: 35px;
         }
@@ -39,19 +63,27 @@
         }
     }
     & .stats{
-        padding: 30px 40px;
+        padding: 30px 60px;
         display: grid;
         grid-template-columns: 1fr auto;
-        row-gap: 5px;
-        text-align: right;
         font-weight: bold;
-        font-size: 1.3rem;
+        font-size: 1rem;
+        color: #F68080;
+        text-align: right;
         & p {
             text-align: left;
-            color: #F68080;
+            color: black;
         }
     }
     & .content{
         padding: 0 30px 30px 30px;
+        & .item-controls{
+            padding-top: 20px;
+            grid-column: 1/3;
+            text-align: center;
+            & button{
+                margin: 0;
+            }
+        }
     }
 }

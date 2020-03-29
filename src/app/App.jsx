@@ -54,8 +54,8 @@ const App = () => {
                 <Route exact path='/feed' >
                     <Feed /> 
                 </Route>
-                <Route exact path='/blog' >
-                    <Blog /> 
+                <Route exact path='/blog/:userid' >
+                    <Blog/> 
                 </Route>
             </Switch>
             <Add open={add} setOpen={setAdd} setDrinkids={setDrinkids}/>

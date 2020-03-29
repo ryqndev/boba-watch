@@ -3,9 +3,14 @@ import Utils from '../../components/textUtil.js';
 import FirebaseUser from '../../controller/backend';
 import {Card} from '../../components';
 import { useTranslation } from 'react-i18next';
+import {withRouter} from 'react-router-dom'
+import HeartEmptyIcon from '@material-ui/icons/FavoriteBorderRounded';
+import HeartFilledIcon from '@material-ui/icons/FavoriteRounded';
+import Filter from 'bad-words';
 
-const FeedItemWithAvatar = ({uid, ...data}) => {
+let filter = new Filter();
 
+const WithAvatar = ({uid, history, ...data}) => {
     const [person, setPerson] = useState(null);
     useEffect(() => {
         if(person !== null) return;
@@ -15,28 +20,46 @@ const FeedItemWithAvatar = ({uid, ...data}) => {
             }).catch(err => {console.log(err)});
         })();
     }, [uid, person]);
+    const visitProfile = () => {
+        history.push('/blog/' + uid);
+    }
     return (
-        <div>
-            {person !== null && <div className="user">
+        <div className="feed-avatar">
+            {person !== null && <div className="user" onClick={visitProfile}>
                 <img src={person.profile} alt="avatar" />
-                <h2>{person.name}</h2>
+                <h2>{filter.clean(person.name)}</h2>
             </div>}
             <FeedItem {...data}/>
         </div>
     );
 }
-const FeedItem = ({name, location, price, date, description}) => {
+const FeedItem = ({id, name, place, price, date, description, likes, children}) => {
     const {t} = useTranslation();
+    const [liked, setLiked] = useState(false);
+    const [likeDisplay, setLikeDisplay] = useState(likes);
+    const toggleFavorite = () => {
+        FirebaseUser.blog.like(id, !liked).then(() => {
+            setLikeDisplay(likeDisplay + (liked ? -1 : 1));
+            setLiked(!liked);
+        });
+    }
     return (
         <Card className="feed-item">
             <div className="header">
-                {name}
+                <span>{filter.clean(name)}</span>
+                <p className="favorite-amount">
+                    {(likeDisplay ?? 0) > 999 ? ((likeDisplay / 100) >> 0) + 'k' : (likeDisplay ?? 0)}
+                </p>
+                <div className="favorite" onClick={toggleFavorite}>
+                    {liked ? <HeartFilledIcon /> : <HeartEmptyIcon/>}
+                </div>
             </div>
-            <div className="content">
-                <p className="location">{location}</p>
+            <div className="item-content">
+                <p className="location">{filter.clean(place)}</p>
                 <p className="price">{t('$')}{Utils.toMoney(price)}</p>
                 <p className="date">{(new Date(date).toDateString())}</p>
-                <p className="description">{description}</p>
+                <p className="description">{filter.clean(description)}</p>
+                {children}
             </div>
         </Card>
     );
@@ -44,4 +67,4 @@ const FeedItem = ({name, location, price, date, description}) => {
 
 
 export default FeedItem;
-export {FeedItemWithAvatar};
+export const FeedItemWithAvatar = withRouter(WithAvatar);

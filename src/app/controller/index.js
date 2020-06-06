@@ -3,7 +3,7 @@ import stats from './calculateStatistics';
 import Swal from 'sweetalert2';
 import i18next from 'i18next';
 
-const add = async(data, setDrinkids) => {
+const add = async(data) => {
     try{
         let firebaseAddAction = await backend.drinks.add(data);     //add drink to firebase
         let firebaseReturnedResult = await firebaseAddAction.get(); //get drink + generated id
@@ -11,7 +11,7 @@ const add = async(data, setDrinkids) => {
             id: firebaseReturnedResult.id,
             ...firebaseReturnedResult.data().drink
         };
-        return success(drink, setDrinkids);
+        return success(drink);
     }catch(err){
         return error(err);
     }
@@ -27,12 +27,11 @@ const edit = async(data, id, setDrinkids) => {
     }
 }
 
-const success = (drink, setDrinkids) => {
+const success = (drink) => {
     stats.addDrink(drink, drink.id,backend.get.currentUser.drinkids);    //recalculate stats and insert in drinkids sorted
     backend.user.updateStats();                                         //update stats on firebase
     localStorage.setItem('user', JSON.stringify(backend.get.currentUser));      //save new drinksid
     Swal.fire(i18next.t('Done!'), i18next.t('Drink added'), 'success');               //let user know 
-    setDrinkids(backend.get.currentUser.drinkids);
     return true;
 }
 const error = (err) => {

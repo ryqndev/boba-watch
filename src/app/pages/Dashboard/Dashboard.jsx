@@ -12,9 +12,9 @@ import 'react-vis/dist/style.css';
 
 const Dashboard = () => {
     const {t} = useTranslation();
-    const [metrics, setMetrics] = useState(JSON.parse(localStorage.getItem('metrics')));
-    const [cmetrics, setCmetrics] = useState(JSON.parse(localStorage.getItem('completeMetrics')));
-    const [drinkPercent, setdrinkPercent] = useState(parseInt((metrics.td / FirebaseUser.get.currentUser.profile.limit) * 100));
+    const [metrics] = useState(JSON.parse(localStorage.getItem('metrics')));
+    const [cmetrics] = useState(JSON.parse(localStorage.getItem('completeMetrics')));
+    const [drinkPercent] = useState(parseInt((metrics.td / FirebaseUser.get.currentUser.profile.limit) * 100));
     const [width, setWidth] = useState(window.innerWidth - 40);
     const budget = FirebaseUser.get.currentUser.profile.budget;
     const resize = () => {setWidth(window.innerWidth - 40)}

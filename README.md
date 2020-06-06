@@ -48,3 +48,10 @@ I'm adding this section to talk about some of the design/implementation regrets 
     * This is extremely prevalent in the extensive use of localStorage to handle much of the state management since using Redux was already overkill for a small application and although localStorage isn't reliable, it was a decision to pick the lesser of two evils (BUT HOOKS EXISTED AND I DID NOT KNOW).
 - Hooks. I wish I knew about hooks before I developed this. HOOKS HOOKS HOOKS PLEASE USE HOOKS OH MY LORD IT MAKES EVERYTHING SO MUCH BETTER
 - HOOKS!
+
+
+## Brief Style Guidelines
+
+### CSS
+- Keep styles to change only properties within container
+    - use 'margin' property only if absolutely necessary.

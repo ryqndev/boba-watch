@@ -8,7 +8,7 @@ import PublicIcon from '@material-ui/icons/FaceRounded';
 import FirebaseUser from '../../controller/backend';
 import './Navigation.scss';
 
-const Navigation = ({add, toggleAdd, history}) => {
+const Navigation = ({history}) => {
     const [tab, setTab] = useState(history.location.pathname);
 
     useEffect(() => {
@@ -31,11 +31,11 @@ const Navigation = ({add, toggleAdd, history}) => {
                     <p className="label">history</p>
                 </div>
             </Link>
-            <div onClick={toggleAdd}>
-                <div className={'add-icon' + (add ? ' selected' : '')}>
+            <Link to='/add'>
+                <div className={'add-icon' + isTab('/add')}>
                     <AddIcon style={{ fontSize: 50 }}/>
                 </div>
-            </div>
+            </Link>
             <Link to='/feed'>
                 <div className={'icon' + isTab('/feed')}>
                     <ExploreIcon />

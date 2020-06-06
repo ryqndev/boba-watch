@@ -1,25 +1,59 @@
 .add-modal{
-    box-sizing: border-box;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: calc(100vw - 60px);
-    max-width: 430px;
-    padding: 20px 27px 0 27px;
-    border-radius: 10px;
-    transform: translate(-50%, -50%);
-    background-color: var(--bg-secondary);
-    border: 2px solid var(--bg-border);
-    transition: background-color 350ms, border-color 350ms;
-    & h5{
-        margin: 0 0 15px 0;
-        text-align: center;
-        font-weight: 700;
-        font-size: 1.1rem;
-        @media screen and (min-width: 400px){
-            font-size: 1.4rem;
+    display: grid;
+    row-gap: 15px;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr;
+    padding: 40px 40px 90px 40px;
+    background: linear-gradient(180deg, var(--text-accent) 0%, var(--dash-blend) 50%);
+    background-size: 100vw 190px;
+    background-repeat: no-repeat;
+    & .add-holder{
+        border: 2px solid #F68080;
+        & h5{
+            margin: 0;
+            background-color: #FFF1EF;
+            color: #F68080;
+            border-bottom: 1px solid #F68080;
+            padding: 15px 0px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            @media screen and (min-width: 400px){
+                font-size: 1.4rem;
+            }
+        }
+        & .content{
+            box-sizing: border-box;
+            width: 100%;
+            padding: 20px 20px;
+            & textarea{
+                box-sizing: border-box;
+                width: 100%;
+                resize: none;
+                padding: 10px;
+                border: 1px solid rgb(243, 243, 243);
+                border-radius: 4px;
+            }
+        }
+        & .rating-holder{
+            width: 100%;
+            direction: rtl;
+            & .rating-select{
+                direction: ltr;
+                display: grid;
+                padding: 5px 15px;
+                grid-template-columns: auto 1fr;
+                border-radius: 20px 0px 0px 20px;
+                background-color: #F68080;
+                width: 160px;
+                & p{
+                    color: white;
+                    font-weight: bold;
+                }
+            }
         }
     }
+    
     & button.close-button{
         position: absolute;
         top: 10px;

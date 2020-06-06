@@ -16,7 +16,7 @@ const Start = ({history}) => {
         FirebaseUser.init(user => {
             history.push(user ? '/app' : '/login');
         });
-		console.log("v2.0.2");
+		console.log("v2.0.3");
     }, [history]);
     return (
         <Switch>
@@ -33,23 +33,22 @@ const Start = ({history}) => {
 }
 
 const App = () => {
-    const [add, setAdd] = useState(false);
     const [user, setUser] = useState(false);
     const [drinkids, setDrinkids] = useState(FirebaseUser.get.currentUser.drinkids);
     return (
-        <Router initialEntries={['/dash', '/history', '/feed', '/blog']} initialIndex={0}>
+        <Router initialEntries={['/dash', '/history', '/add', '/feed', '/blog']} initialIndex={0}>
             <Switch>
                 <Route exact path='/dash' >
-                    <img 
-                        src={FirebaseUser.get.currentUser.user.photoURL}
-                        alt="user settings"
-                        className="avatar-button"
-                        onClick={setUser.bind(null, true)}
-                    />
+                    <UserIcon setUser={setUser}/>
                     <Dashboard /> 
                 </Route>
                 <Route exact path='/history'>
+                    <UserIcon setUser={setUser}/>
                     <History drinkids={drinkids} setDrinkids={setDrinkids}/>
+                </Route>
+                <Route exact path='/add' >
+                    <UserIcon setUser={setUser}/>
+                    <Add /> 
                 </Route>
                 <Route exact path='/feed' >
                     <Feed /> 
@@ -58,10 +57,19 @@ const App = () => {
                     <Blog/> 
                 </Route>
             </Switch>
-            <Add open={add} setOpen={setAdd} setDrinkids={setDrinkids}/>
             <User open={user} setOpen={setUser} />
-            <Navigation add={add} toggleAdd={() => {setAdd(!add)}} />
+            <Navigation />
         </Router>
+    );
+}
+const UserIcon = ({setUser}) => {
+    return (
+        <img 
+            src={FirebaseUser.get.currentUser.user.photoURL}
+            alt="user settings"
+            className="avatar-button"
+            onClick={setUser.bind(null, true)}
+        />
     );
 }
 

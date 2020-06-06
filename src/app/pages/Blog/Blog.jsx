@@ -17,12 +17,14 @@ const Blog = () => {
     const [bio, setBio] = useState("Just a boba girl in a boba world");
     const [photo, setPhoto] = useState(FirebaseUser.get.currentUser.user.photoURL);
     const [name, setName] = useState(FirebaseUser.get.currentUser.user.displayName);
-    const stats = JSON.parse(localStorage.getItem('metrics'));
+    const [stats, setStats] = useState(JSON.parse(localStorage.getItem('metrics')));
     useEffect(() => {
         (async() => {
             setPosts([]);
             setPhoto(BobaImage);
             setName("");
+            let stats = await FirebaseUser.blog.stats(userid);
+            setStats(stats.data());
             let user = await FirebaseUser.blog.profile(userid);
             user = user.data();
             setBio(user.bio ?? "Just a boba person in a boba world");

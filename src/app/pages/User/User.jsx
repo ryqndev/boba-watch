@@ -32,20 +32,24 @@ const User = ({open, setOpen}) => {
         };
         FirebaseUser.user.update(data, () => {
             FirebaseUser.get.currentUser.profile = data;
+            localStorage.setItem('user', JSON.stringify(FirebaseUser.get.currentUser));
             close();
         });
     }
-    const handleToggle = () => {
-        let data = {
-            budget: parseFloat(budget) * 100,
-            limit: parseInt(limit),
-            sharing: !sharing
-        };
-        FirebaseUser.user.update(data, () => {
-            FirebaseUser.get.currentUser.profile = data;
-            setSharing(FirebaseUser.get.currentUser.profile.sharing);
-        });
+    const themeSelect = (val) => {
+        console.log(val);
     }
+    // const handleToggle = () => {
+    //     let data = {
+    //         budget: parseFloat(budget) * 100,
+    //         limit: parseInt(limit),
+    //         sharing: !sharing
+    //     };
+    //     FirebaseUser.user.update(data, () => {
+    //         FirebaseUser.get.currentUser.profile = data;
+    //         setSharing(FirebaseUser.get.currentUser.profile.sharing);
+    //     });
+    // }
     const close = () => { 
         setOpen(false);
         setBudget(FirebaseUser.get.currentUser.profile.budget / 100);
@@ -88,7 +92,7 @@ const User = ({open, setOpen}) => {
                     value={limit}
                     label={t("Max of drinks / month")}
                 />
-                <div className="user-share-profile">
+                {/* <div className="user-share-profile">
                     {t('Share Profile')}: 
                     <Toggle
                         defaultChecked={sharing}
@@ -98,7 +102,16 @@ const User = ({open, setOpen}) => {
                 </div>
                 <Collapse in={sharing}>
                     <TextClipboard text={`https://share.boba.watch/#/${FirebaseUser.get.currentUser.user.uid}`}/>
-                </Collapse>
+                </Collapse> */}
+                <div className="user-theme-select">
+                    <select class="select-wrapper" value={0} onChange={themeSelect}>
+                        <option value={1}>This is a native select element</option>
+                        <option>Apples</option>
+                        <option>Bananas</option>
+                        <option>Grapes</option>
+                        <option>Oranges</option>
+                    </select>
+                </div>
                 <div className="button-holder">
                     <button 
                         className="logout text"

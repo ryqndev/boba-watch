@@ -6,7 +6,8 @@ import './Feed.scss';
 
 const Feed = () => {
     const {t} = useTranslation();
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState(null);
+    const [faves, setFaves] = useState(null);
     const [isFave, setIsFave] = useState(false);
     useEffect(() => {
         (async() => {
@@ -19,6 +20,25 @@ const Feed = () => {
             setPosts(allPosts);
         })();
     }, []);
+    useEffect(() => {
+        if(faves === null && isFave){
+            (async() => {
+                let entries = await FirebaseUser.blog.faves(FirebaseUser.get.currentUser.user.uid);
+                let allPosts = [];
+                entries.forEach(entry => {
+                    allPosts.push(FirebaseUser.blog.get(entry.id));
+                });
+                Promise.all(allPosts).then(res => {
+                    setFaves(res.reduce((acc, e) => {
+                        if(e.data() !== null && e.data() !== undefined){
+                            acc.push({id: e.id, ...e.data()});
+                        }
+                        return acc;
+                    }, []));
+                })
+            })();
+        }
+    }, [isFave, faves]);
     return (
         <div className="feed-page">
             <div className="feed-header">
@@ -28,7 +48,10 @@ const Feed = () => {
                 <div className={!isFave ? "" : "selected"} onClick={setIsFave.bind(null, true)}>FAVES</div>
             </div>
             <div className="content">
-                {posts.map(feedContent => <FeedItemWithAvatar key={feedContent.id} place={feedContent.location} {...feedContent} />)}
+                {isFave 
+                    ? (faves ?? []).map(feedContent => <FeedItemWithAvatar key={feedContent.id} place={feedContent.location} {...feedContent} />)
+                    : (posts ?? []).map(feedContent => <FeedItemWithAvatar key={feedContent.id} place={feedContent.location} {...feedContent} />)
+                }
             </div>
         </div>
     );

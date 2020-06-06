@@ -82,7 +82,9 @@ const setBlog = async() => {
         profile:  store.currentUser.user.photoURL
     });
 }
-
+const getBlog = async(blogid) => {
+    return db.collection('blogs').doc(blogid).get();
+}
 const saveDrinksLocally = (entries) => {
     let drinkids = [];
     entries.forEach(entry => {
@@ -220,6 +222,16 @@ const blogLike = async(id, increment) => {
     return db.collection('blogs').doc(id).update({ likes: change });
 }
 
+const getFaves = async(uid) => {
+    return db.collection(`users/${uid}/user/profile/liked`).limit(6).get();
+}
+const getStats = async(uid) => {
+    return db.collection('users')
+        .doc(uid)
+        .collection('user')
+        .doc('stats').get();
+}
+
 export default {
     init: init,
     logout: logout,
@@ -236,7 +248,10 @@ export default {
     },
     blog: {
         profile: getUserBlog,
-        like: blogLike
+        like: blogLike,
+        faves: getFaves,
+        get: getBlog,
+        stats: getStats
     },
     publish: {
         add: publishAdd,

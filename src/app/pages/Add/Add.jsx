@@ -51,7 +51,7 @@ const Add = () => {
         <div className="add-modal">
             <h4 className="bw title">{t('Add a Purchase')}</h4>
             <Card className="add-holder">
-                <h5>{t("What's the tea?")}</h5>
+                <h5>{t("WHAT'S THE TEA?")}</h5>
                 <div className="content">
                     <TextInput value={location} onChange={handleTextChange(setLocation)} label={t("Location")} id="location-input"/>
                     <TextInput value={name} onChange={handleTextChange(setName)} label={t("Drink Name")} id="name-input"/>

@@ -22,7 +22,7 @@ const Blog = () => {
         (async() => {
             setPosts([]);
             setPhoto(BobaImage);
-            setName("");
+            setName("Loading...");
             let stats = await FirebaseUser.blog.stats(userid);
             setStats(stats.data());
             let user = await FirebaseUser.blog.profile(userid);

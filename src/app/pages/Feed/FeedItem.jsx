@@ -25,10 +25,11 @@ const WithAvatar = ({uid, history, ...data}) => {
     }
     return (
         <div className="feed-avatar">
-            {person !== null && <div className="user" onClick={visitProfile}>
-                <img src={person.profile} alt="avatar" />
-                <h2>{filter.clean(person.name)}</h2>
-            </div>}
+            <div className="user" onClick={visitProfile}>
+                {/* Best way to display blank image is using a base64 string. Other implementations make extra get req or broken html */}
+                <img src={person?.profile ?? "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="} alt="avatar" />
+                <h2>{filter.clean(person?.name ?? "Boba Bro")}</h2>
+            </div>
             <FeedItem {...data}/>
         </div>
     );

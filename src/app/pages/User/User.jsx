@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import Toggle from 'react-toggle';
-import {Button, IconButton, Collapse} from '@material-ui/core';
+import {Button, IconButton} from '@material-ui/core';
 import CloseButton from '@material-ui/icons/Close';
 import HelpButton from '@material-ui/icons/Help';
 import {useTranslation} from 'react-i18next';
-import {Modal, TextInput, TextClipboard} from '../../components';
+import {Modal, TextInput, Select} from '../../components';
 import FirebaseUser from '../../controller/backend.js';
+import {themeSelectOptions, themeSelectDefaultValue} from '../../components/globals/theme';
 import './User.scss';
 import 'react-toggle/style.css';
+
 
 /**
  * @NOTE previous bad choice of naming for using 'public' as a state key which has to now
@@ -36,20 +37,9 @@ const User = ({open, setOpen}) => {
             close();
         });
     }
-    const themeSelect = (val) => {
-        console.log(val);
+    const themeSelect = (event) => {
+        console.log(event.target.value);
     }
-    // const handleToggle = () => {
-    //     let data = {
-    //         budget: parseFloat(budget) * 100,
-    //         limit: parseInt(limit),
-    //         sharing: !sharing
-    //     };
-    //     FirebaseUser.user.update(data, () => {
-    //         FirebaseUser.get.currentUser.profile = data;
-    //         setSharing(FirebaseUser.get.currentUser.profile.sharing);
-    //     });
-    // }
     const close = () => { 
         setOpen(false);
         setBudget(FirebaseUser.get.currentUser.profile.budget / 100);
@@ -103,15 +93,7 @@ const User = ({open, setOpen}) => {
                 <Collapse in={sharing}>
                     <TextClipboard text={`https://share.boba.watch/#/${FirebaseUser.get.currentUser.user.uid}`}/>
                 </Collapse> */}
-                <div className="user-theme-select">
-                    <select class="select-wrapper" value={0} onChange={themeSelect}>
-                        <option value={1}>This is a native select element</option>
-                        <option>Apples</option>
-                        <option>Bananas</option>
-                        <option>Grapes</option>
-                        <option>Oranges</option>
-                    </select>
-                </div>
+                <Select options={themeSelectOptions} defaultValue={themeSelectDefaultValue} title='theme:' />
                 <div className="button-holder">
                     <button 
                         className="logout text"

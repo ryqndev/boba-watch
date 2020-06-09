@@ -1,0 +1,28 @@
+.user-theme-select{
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    grid-template-columns: 1fr;
+    & label{
+
+    }
+    & .select-wrapper{
+        border-radius: 0;
+        border: 1px solid #FFA4A4;
+        background-color: rgb(255, 219, 219);
+        appearance: none; 
+        &:-moz-focusring {
+            color: transparent;
+            text-shadow: 0 0 0 #000;
+        }
+        & option{
+            appearance: none; 
+            border-radius: 0;
+            border: 1px solid #FFA4A4;
+            background-color: rgb(255, 219, 219);
+        }
+        &:focus{
+            appearance: none; 
+            
+        }
+    }
+}

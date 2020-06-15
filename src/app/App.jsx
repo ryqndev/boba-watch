@@ -7,12 +7,13 @@ import History from './pages/History';
 import Login from './pages/Login';
 import Feed from './pages/Feed';
 import Blog from './pages/Blog';
-import {Navigation} from './components';
+import { Navigation } from './components';
+import Theme, {current} from './components/globals/theme';
 import FirebaseUser from './controller/backend';
 
 const Start = ({history}) => {
     useEffect(() => {
-		// Theme(SavedTheme());
+		Theme(current());
         FirebaseUser.init(user => {
             history.push(user ? '/app' : '/login');
         });

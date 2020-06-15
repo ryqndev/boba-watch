@@ -1,19 +1,19 @@
 {
-    "themeName": "Light",
+    "themeName": "Dark",
     "themeStyles": {
-        "bg-primary": "white",
-        "bg-secondary": "white",
-        "bg-border": "#FFDCDC",
-        "bg-blend": "linear-gradient(180deg, #FC8A8A 0%, #FFD3B3 100%)",
-        "dash-blend": "#FFD3B3",
-        "avatar-border": "white",
-        "text-primary": "white",
-        "text-secondary": "black",
-        "text-light": "#FFC9C2",
-        "text-accent": "#F68080",
-        "btn-bg": "#F68080",
-        "btn-text": "white",
-        "nav-bg": "#FFAFA4",
-        "nav-text": "white"
+        "--bg-primary": "#161C26",
+        "--bg-secondary": "#161C26",
+        "--bg-border": "#7F91A8",
+        "--bg-blend": "linear-gradient(180deg, #FC8A8A 0%, #FFD3B3 100%)",
+        "--dash-blend": "#000000",
+        "--avatar-border": "black",
+        "--text-primary": "#FFFFFF",
+        "--text-secondary": "#FFFFFF",
+        "--text-light": "#000000",
+        "--text-accent": "#FFA4A4",
+        "--btn-bg": "#F68080",
+        "--btn-text": "black",
+        "--nav-bg": "#000000",
+        "--nav-text": "#FFA4A4"
     }
 }

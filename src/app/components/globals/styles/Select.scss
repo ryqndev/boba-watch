@@ -3,9 +3,11 @@
     grid-template-rows: repeat(2, auto);
     grid-template-columns: 1fr;
     & label{
-
+        font-size: 0.8rem;
+        color: rgb(255, 113, 113);
     }
     & .select-wrapper{
+        padding: 5px;
         border-radius: 0;
         border: 1px solid #FFA4A4;
         background-color: rgb(255, 219, 219);

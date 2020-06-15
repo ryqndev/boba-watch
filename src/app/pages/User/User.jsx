@@ -5,7 +5,7 @@ import HelpButton from '@material-ui/icons/Help';
 import {useTranslation} from 'react-i18next';
 import {Modal, TextInput, Select} from '../../components';
 import FirebaseUser from '../../controller/backend.js';
-import {themeSelectOptions, themeSelectDefaultValue} from '../../components/globals/theme';
+import Theme, {themeSelectOptions, themeSelectDefaultValue} from '../../components/globals/theme';
 import './User.scss';
 import 'react-toggle/style.css';
 
@@ -37,8 +37,8 @@ const User = ({open, setOpen}) => {
             close();
         });
     }
-    const themeSelect = (event) => {
-        console.log(event.target.value);
+    const themeSelect = (value) => {
+        Theme(value);
     }
     const close = () => { 
         setOpen(false);
@@ -93,7 +93,12 @@ const User = ({open, setOpen}) => {
                 <Collapse in={sharing}>
                     <TextClipboard text={`https://share.boba.watch/#/${FirebaseUser.get.currentUser.user.uid}`}/>
                 </Collapse> */}
-                <Select options={themeSelectOptions} defaultValue={themeSelectDefaultValue} title='theme:' />
+                <Select
+                    options={themeSelectOptions}
+                    defaultValue={themeSelectDefaultValue}
+                    title='Theme:'
+                    onValueChange={themeSelect}
+                />
                 <div className="button-holder">
                     <button 
                         className="logout text"

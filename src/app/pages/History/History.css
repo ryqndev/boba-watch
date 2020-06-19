@@ -12,7 +12,7 @@ p{
     font-family: Poppins;
 }
 h3 span{
-    color: black;
+    color: var(--text-secondary);
 }
 .history-total{
     margin-top: 25px;

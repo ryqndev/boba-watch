@@ -1,5 +1,5 @@
 .drink-panel{
-    border-bottom: 2px solid #F68080;
+    border-bottom: 2px solid var(--text-accent);
     margin-bottom: 10px;
     cursor: pointer;
     & .info{
@@ -7,7 +7,7 @@
         grid-template-columns: 2fr 1fr auto;
         grid-template-rows: 25px 35px;
         & .place{
-            color: #F68080;
+            color: var(--text-accent);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;

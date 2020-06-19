@@ -8,16 +8,16 @@ import Login from './pages/Login';
 import Feed from './pages/Feed';
 import Blog from './pages/Blog';
 import { Navigation } from './components';
-import Theme, {current} from './components/globals/theme';
+import Theme from './components/globals/theme';
 import FirebaseUser from './controller/backend';
 
 const Start = ({history}) => {
     useEffect(() => {
-		Theme(current());
+		Theme();
         FirebaseUser.init(user => {
             history.push(user ? '/app' : '/login');
         });
-		console.log("v2.0.3");
+		console.log("v2.0.4");
     }, [history]);
     return (
         <Switch>

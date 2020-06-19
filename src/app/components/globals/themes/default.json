@@ -14,6 +14,9 @@
         "--btn-bg": "#F68080",
         "--btn-text": "white",
         "--nav-bg": "#FFAFA4",
-        "--nav-text": "white"
+        "--nav-text": "white",
+        "--blog-text-primary": "#F68080",
+        "--blog-bg-secondary": "#F68080",
+        "--blog-accent": "#F68080"
     }
 }

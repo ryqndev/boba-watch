@@ -44,13 +44,13 @@
                 width: 75px;
                 border-radius: 50%;
                 transform: translateY(calc(1.5rem - 35px));
-                border: 4px solid #F68080;
+                border: 4px solid var(--blog-accent);
                 background-color: rgb(243, 169, 169);
                 left: 50px;
             }
             & h2{
                 font-size: 1.3rem;
-                color: #F68080;
+                color: var(--blog-text-primary);
                 padding-right: 20px;
                 margin: 0;
                 text-align: right;
@@ -66,14 +66,14 @@
     }
 }
 .feed-item{
-    border: 2px solid #F68080;
+    border: 2px solid var(--blog-accent);
     border-radius: 15px;
     margin-bottom: 35px;
     & .header{
         display: grid;
         grid-template-columns: 1fr 45px auto;
         column-gap: 4px;
-        background-color: #F68080;
+        background-color: var(--blog-bg-secondary);
         text-align: right;
         color: white;
         font-weight: bold;

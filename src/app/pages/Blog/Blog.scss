@@ -1,7 +1,7 @@
 .blog-page{
     padding-bottom: 40px;
     & h2.review{
-        color: #F68080;
+        color: var(--blog-text-primary);
         text-align: center;
         margin: 0 0 10px 0;
         letter-spacing: 4px;

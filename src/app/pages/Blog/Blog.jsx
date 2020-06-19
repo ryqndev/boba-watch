@@ -125,9 +125,11 @@ const Blog = () => {
             <div className="content">
                 {posts.map(post => (
                     <FeedItem key={post.id} place={post.location} {...post}>
-                        <div className="item-controls">
-                            <button onClick={() => {deletePost(post.id)}}>DELETE</button>
-                        </div>
+                        {isOwnProfile && (
+                            <div className="item-controls">
+                                <button onClick={() => {deletePost(post.id)}}>DELETE</button>
+                            </div>)
+                        }
                     </FeedItem>
                 ))}
             </div>

@@ -17,6 +17,7 @@
         "--nav-text": "#7F91A8",
         "--blog-text-primary": "white",
         "--blog-bg-secondary": "black",
-        "--blog-accent": "#7F91A8"
+        "--blog-accent": "#7F91A8",
+        "--blog-bg-primary": "black"
     }
 }

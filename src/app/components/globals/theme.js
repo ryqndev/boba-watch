@@ -8,11 +8,22 @@
  * @todo add color theme for specific days that require different themes 
  * that are time switched (i.e. red/green for holidays, etc.)
  */
-
 import lightTheme from './themes/default.json';
 import darkTheme from './themes/dark.json';
 
 const themeStyles = [lightTheme, darkTheme];
+
+const THEME_SELECT_DEFAULT_VALUE = 0;
+const THEME_SELECT_OPTIONS = [
+    {
+        'value': 0,
+        'label': 'default'
+    },
+    {
+        'value': 1,
+        'label': 'dark'
+    },
+];
 
 /**
  * @function Theme - Loads saved theme storage and sets the theme. If no 
@@ -40,21 +51,9 @@ const setTheme = (value) => {
  * @function getTheme - Gets and returns saved theme value from 
  * localStorage. If value is not found, returns 0.
  * 
- * @returns value stored in local storage or default 0 if none exists
+ * @returns {Number} value stored in local storage or default 0 if none exists
  */
-const getTheme = () => Number(localStorage.getItem('theme') ?? 0);
-
-const THEME_SELECT_DEFAULT_VALUE = 0;
-const THEME_SELECT_OPTIONS = [
-    {
-        'value': 0,
-        'label': 'default'
-    },
-    {
-        'value': 1,
-        'label': 'dark'
-    },
-];
+const getTheme = () => Number(localStorage.getItem('theme') ?? THEME_SELECT_DEFAULT_VALUE);
 
 export default Theme;
 export {

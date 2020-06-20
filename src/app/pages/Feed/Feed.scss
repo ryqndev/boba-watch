@@ -3,7 +3,7 @@
     & .feed-header{
         display: grid;
         grid-template-columns: auto 1fr auto auto;
-        background-color: #FFAFA4;
+        background-color: var(--blog-bg-primary);
         color: #FFFFFF;
         font-size: 0.9rem;
         margin: 0;

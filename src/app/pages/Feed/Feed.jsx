@@ -43,9 +43,9 @@ const Feed = () => {
         <div className="feed-page">
             <div className="feed-header">
                 <div className="icon"></div>
-                EXPLORE
-                <div className={isFave ? "" : "selected"} onClick={setIsFave.bind(null, false)}>PUBLIC</div>
-                <div className={!isFave ? "" : "selected"} onClick={setIsFave.bind(null, true)}>FAVES</div>
+                {t("EXPLORE")}
+                <div className={isFave ? "" : "selected"} onClick={setIsFave.bind(null, false)}>{t("PUBLIC")}</div>
+                <div className={!isFave ? "" : "selected"} onClick={setIsFave.bind(null, true)}>{t("FAVES")}</div>
             </div>
             <div className="content">
                 {isFave 

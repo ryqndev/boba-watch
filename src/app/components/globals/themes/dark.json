@@ -5,19 +5,19 @@
         "--bg-secondary": "#161C26",
         "--bg-border": "#7F91A8",
         "--bg-blend": "linear-gradient(180deg, #FC8A8A 0%, #FFD3B3 100%)",
-        "--dash-blend": "black",
-        "--avatar-border": "black",
+        "--dash-blend": "#151515",
+        "--avatar-border": "#151515",
         "--text-primary": "white",
         "--text-secondary": "white",
-        "--text-light": "black",
+        "--text-light": "#151515",
         "--text-accent": "#7F91A8",
         "--btn-bg": "#F68080",
-        "--btn-text": "black",
-        "--nav-bg": "black",
+        "--btn-text": "#151515",
+        "--nav-bg": "#151515",
         "--nav-text": "#7F91A8",
         "--blog-text-primary": "white",
-        "--blog-bg-secondary": "black",
+        "--blog-bg-secondary": "#151515",
         "--blog-accent": "#7F91A8",
-        "--blog-bg-primary": "black"
+        "--blog-bg-primary": "#151515"
     }
 }

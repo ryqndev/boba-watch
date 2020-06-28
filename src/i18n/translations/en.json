@@ -36,6 +36,10 @@
         "Overall Spending": "Overall Spending",
         "Complete Total": "Complete Total",
         "on": "on",
-        "DELETE": "DELETE"
+        "DELETE": "DELETE",
+
+        "EXPLORE": "EXPLORE",
+        "PUBLIC": "PUBLIC",
+        "FAVES": "FAVES"
     }
 }

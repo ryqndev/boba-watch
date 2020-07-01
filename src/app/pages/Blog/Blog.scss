@@ -65,6 +65,9 @@
             color: white;
             font-size: 0.8rem;
         }
+        & .user-share-toggle-grid{
+            grid-column: 1/3;
+        }
     }
     & .stats{
         padding: 30px 60px;

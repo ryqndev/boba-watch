@@ -1,38 +1,34 @@
-import React, { Component } from 'react';
+import React, {useState} from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {IconButton, Snackbar} from '@material-ui/core';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import './textclipboard.css';
 
-export class TextClipboard extends Component{
-    state = {
-        copiedNotification: false
-    }
-    closeSnackbar = () => {
-        this.setState({ copiedNotification: false });
+const TextClipboard = ({className='', text}) => {
+    const [copiedNotification, setCopiedNotification] = useState(false);
+    const closeSnackbar = () => {
+        setCopiedNotification(!copiedNotification);
     };
-    copy = () => {
+    const copy = () => {
         if (navigator.share) {
             navigator.share({
                 title: 'My Boba Watch Profile',
                 text: 'Check out my boba spending!',
-                url: this.props.text,
+                url: text,
             }).catch(err => {
-                this.setState({ copiedNotification: true });
+                setCopiedNotification(true);
             })
         }else{
-            this.setState({ copiedNotification: true });
+            setCopiedNotification(true);
         }
-          
     }
-    render() {
-        return (
-        <div className="clipboard">
+    return (
+        <div className={`clipboard ${className}`}>
             <div className="clipboard-text" id="copy-me">
-                {this.props.text}
+                {text}
             </div>
-            <CopyToClipboard text={this.props.text} >
-                <IconButton style={{padding: 0}} className="clipboard-icon" onClick={this.copy}>
+            <CopyToClipboard text={text} >
+                <IconButton style={{padding: 0}} className="clipboard-icon" onClick={copy}>
                     <FileCopyIcon style={{fontSize: 14}}/>
                 </IconButton>
             </CopyToClipboard>
@@ -41,14 +37,13 @@ export class TextClipboard extends Component{
                     vertical: 'bottom',
                     horizontal: 'center',
                 }}
-                open={this.state.copiedNotification}
+                open={copiedNotification}
                 autoHideDuration={4000}
-                onClose={this.closeSnackbar}
+                onClose={closeSnackbar}
                 message={<span>Link Copied!</span>}
             />
         </div>
-        )
-    }
+    );
 }
 
 export default TextClipboard;

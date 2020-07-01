@@ -36,7 +36,7 @@ const store = {
         theme: undefined        // theme
     }
 };
-window.userstuff = store;
+window.userstuff = store;//TODO remove
 const nothing = () => { return; }
 const defaultError = err => {Swal.fire('Error!', err+'', 'error')}
 
@@ -57,7 +57,9 @@ let init = (callback) => {
             photoURL: user.photoURL,
             isAnonymous: user.isAnonymous,
             email: user.email,
-            emailVerified: user.emailVerified
+            emailVerified: user.emailVerified,
+            created: user?.metadata?.creationTime,
+            lastSignedIn: user?.metadata?.lastSignInTime
         };
         let setup = [
             db.collection(`users/${store.currentUser.user.uid}/drinks`).orderBy('drink.date', 'desc').get(),

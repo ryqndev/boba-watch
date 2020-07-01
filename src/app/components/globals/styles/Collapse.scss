@@ -1,0 +1,10 @@
+.collapse{
+    overflow: hidden;
+    height: auto;
+    transition: max-height 350ms;
+    max-height: 0px;
+    box-sizing: border-box;
+    &.open{
+        max-height: 1000px;
+    }
+}

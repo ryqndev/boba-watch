@@ -82,17 +82,7 @@ const User = ({open, setOpen}) => {
                     value={limit}
                     label={t("Max of drinks / month")}
                 />
-                {/* <div className="user-share-profile">
-                    {t('Share Profile')}: 
-                    <Toggle
-                        defaultChecked={sharing}
-                        onClick={handleToggle}
-                        label={t("Share Profile")}
-                    />
-                </div>
-                <Collapse in={sharing}>
-                    <TextClipboard text={`https://share.boba.watch/#/${FirebaseUser.get.currentUser.user.uid}`}/>
-                </Collapse> */}
+
                 <Select
                     options={THEME_SELECT_OPTIONS}
                     defaultValue={getTheme()}

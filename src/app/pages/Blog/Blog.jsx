@@ -7,18 +7,16 @@ import {useParams} from 'react-router-dom';
 import {FeedItem} from '../Feed';
 import LocationIcon from '@material-ui/icons/LocationOnRounded';
 import Swal from 'sweetalert2';
+import {TextClipboard, Collapse} from '../../components';
 import BobaImage from '../../../assets/logo-shadow.svg';
 import './Blog.scss';
 
-const handleToggle = (budget, limit, sharing, setSharing) => {
-    let data = {
-        budget: parseFloat(budget) * 100,
-        limit: parseInt(limit),
-        sharing: !sharing
-    };
-    FirebaseUser.user.update(data, () => {
-        FirebaseUser.get.currentUser.profile = data;
-        setSharing(FirebaseUser.get.currentUser.profile.sharing);
+const toggleProfileSharing = (callback) => {
+    let data = FirebaseUser.get.currentUser.profile;
+
+    FirebaseUser.user.update({...data, sharing: !data.sharing}, () => {
+        data.sharing = !data.sharing;
+        callback(data.sharing);
     });
 }
 
@@ -32,6 +30,8 @@ const Blog = () => {
     const [name, setName] = useState(FirebaseUser.get.currentUser.user.displayName);
     const [stats, setStats] = useState(JSON.parse(localStorage.getItem('metrics')));
     const [isOwnProfile, setIsOwnProfile] = useState(false);
+    const [profileSharing, setProfileSharing] = useState(FirebaseUser.get.currentUser.profile.sharing);
+
     useEffect(() => {
         setIsOwnProfile(userid === FirebaseUser.get.currentUser.user.uid);
         console.log("Profile Owner: ", userid === FirebaseUser.get.currentUser.user.uid, userid, FirebaseUser.get.currentUser.user.uid);
@@ -115,11 +115,29 @@ const Blog = () => {
             <div className="profile">
                 <LocationIcon className="icon"/> {location}
                 <p>{bio}</p>
+                {isOwnProfile && (
+                    <div className="user-share ">
+                        <div className="user-share-profile">
+                            {t('make profile public')}: 
+                            <Toggle
+                                defaultChecked={profileSharing}
+                                onClick={() => {toggleProfileSharing(setProfileSharing)}}
+                                label={t("make profile public")}
+                            />
+                            <Collapse className="user-share-toggle-grid" open={profileSharing}>
+                                <TextClipboard
+                                    text={`https://share.boba.watch/#/${FirebaseUser.get.currentUser.user.uid}`}
+                                />
+                            </Collapse> 
+                        </div>
+                    </div>
+                )}
             </div>
+
             <div className="stats">
-                <p>DRINKS THIS MONTH</p> {stats.td}
-                <p>DRINK AVERAGE</p> {t('$')}{Utils.toMoney(stats.ad)}
-                <p>MONTHLY TOTAL</p> {t('$')}{Utils.toMoney(stats.tc)}
+                <p>DRINKS PURCHASED</p> {stats.ctd}
+                <p>DRINK AVERAGE</p> {t('$')}{Utils.toMoney(stats.cad)}
+                <p>TOTAL SPENT</p> {t('$')}{Utils.toMoney(stats.ctc)}
             </div>
             <h2 className="review"> <span>★</span> REVIEWS <span>★</span> </h2>
             <div className="content">

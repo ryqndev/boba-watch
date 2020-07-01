@@ -42,11 +42,11 @@
             & .rating-select{
                 direction: ltr;
                 display: grid;
-                padding: 5px 15px;
+                padding: 5px 2px 5px 15px;
                 grid-template-columns: auto 1fr;
                 border-radius: 20px 0px 0px 20px;
                 background-color: #F68080;
-                width: 160px;
+                width: 185px;
                 & p{
                     color: white;
                     font-weight: bold;

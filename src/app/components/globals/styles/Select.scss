@@ -10,17 +10,19 @@
         padding: 5px;
         border-radius: 0;
         border: 1px solid #FFA4A4;
-        background-color: rgb(255, 219, 219);
+        background-color: rgba(255, 175, 164, 0.17);;
         appearance: none; 
         &:-moz-focusring {
             color: transparent;
             text-shadow: 0 0 0 #000;
         }
         & option{
+            font-family: 'Poppins';
             appearance: none; 
             border-radius: 0;
             border: 1px solid #FFA4A4;
-            background-color: rgb(255, 219, 219);
+            font-size: 18px;
+            background-color: rgba(255, 175, 164, 0.17);;
         }
         &:focus{
             appearance: none; 

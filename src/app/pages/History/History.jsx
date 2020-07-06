@@ -34,16 +34,16 @@ const History = ({drinkids, setDrinkids}) => {
     const [complete, setComplete] = useState([]);
     const [monthlyDisplay, setMonthlyDisplay] = useState(7);
     const [completeDisplay, setCompleteDisplay] = useState(5);
-    const [editDrinkDetails, setEditDrinkDetails] = useState(null);
-    const [edit, setEdit] = useState(false);
+    // const [editDrinkDetails, setEditDrinkDetails] = useState(null);
+    // const [edit, setEdit] = useState(false);
 
     const monthSum = Number(JSON.parse(localStorage.getItem('metrics')).tc);
     const totalSum = Number(JSON.parse(localStorage.getItem('completeMetrics')).tc);
 
-    useEffect(() => {
-        if(editDrinkDetails === null) return;
-        setEdit(true);
-    }, [editDrinkDetails]);
+    // useEffect(() => {
+    //     if(editDrinkDetails === null) return;
+    //     setEdit(true);
+    // }, [editDrinkDetails]);
 
     useEffect(() => {
         let monthly = [],
@@ -69,19 +69,19 @@ const History = ({drinkids, setDrinkids}) => {
         <div className="history-page">
             <h3 className="bw">{t('Monthly Spending')}</h3>
             <div className="history-spending">
-                {monthly.map(e => <DrinkPanel key={e.id} data={e} setDrinkids={setDrinkids} setEditDetails={setEditDrinkDetails} />)}
+                {monthly.map(e => <DrinkPanel key={e.id} data={e}/>)}
             </div>
             <h3 className="bw history-total">
                 <span>{t('Monthly Total')}:</span> {t('$')}{Utils.toMoney(monthSum)}
             </h3>
             <h3 className="bw">{t('Overall Spending')}</h3>
             <div className="history-spending">
-                {complete.map(e => <DrinkPanel key={e.id} data={e} setDrinkids={setDrinkids} setEditDetails={setEditDrinkDetails} />)}
+                {complete.map(e => <DrinkPanel key={e.id} data={e}/>)}
             </div>
             <h3 className="bw history-total">
                 <span>{t('Complete Total')}:</span> {t('$')}{Utils.toMoney(totalSum)}
             </h3>
-            <Edit open={edit} setOpen={setEdit} drinkData={editDrinkDetails} setDrinkids={setDrinkids}/>
+            {/* <Edit open={edit} setOpen={setEdit} drinkData={editDrinkDetails} setDrinkids={setDrinkids}/> */}
         </div>
     );
 }

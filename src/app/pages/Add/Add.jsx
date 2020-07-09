@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import 'date-fns'; 
 import Swal from 'sweetalert2';
@@ -6,16 +6,22 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
 import { add } from '../../controller';
 import {TextInput, Card} from '../../components';
+import StarRatingComponent from 'react-star-rating-component';
 import './Add.scss';
 
-const Add = () => {
+const Add = ({pageTitle, buttonTitle, editData}) => {
     const {t} = useTranslation();
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [price, setPrice] = useState('');
     const [date, setDate] = useState(new Date());
+    const [rating, setRating] = useState(0);
     const [description, setDescription] = useState('');
     const [canAdd, setCanAdd] = useState(true);
+
+    useEffect(() => {
+
+    }, []);
 
     const handleTextChange = setInput => e => {
         e.preventDefault();
@@ -48,7 +54,7 @@ const Add = () => {
     };
     return (
         <div className="add-modal">
-            <h4 className="bw title">{t('Add a Purchase')}</h4>
+            <h4 className="bw title">{t(pageTitle ?? 'Add a Purchase')}</h4>
             <Card className="add-holder">
                 <h5>{t("WHAT'S THE TEA?")}</h5>
                 <div className="content">
@@ -73,7 +79,14 @@ const Add = () => {
                         <p>
                             RATING :
                         </p>
-                        <div style={{textAlign: "right"}}>⭐⭐⭐⭐⭐</div>
+                        {/* <div style={{textAlign: "right"}}>⭐⭐⭐⭐⭐</div> */}
+                        <StarRatingComponent 
+                            name="rate1" 
+                            starCount={5}
+                            value={rating}
+                            onStarClick={(v) => {setRating(v)}}
+                            onStarHover={(v) => {setRating(v)}}
+                        />
                     </div>
                 </div>
                 <div className="content">
@@ -85,7 +98,7 @@ const Add = () => {
                         placeholder={t("How was your drink?")}
                     />
                     <div className="add-button-holder">
-                        <button disabled={!canAdd} id="add-drink--button" onClick={addDrink} className="text">{t('ADD')}</button>
+                        <button disabled={!canAdd} id="add-drink--button" onClick={addDrink} className="text">{t(buttonTitle ?? 'ADD')}</button>
                     </div>
                 </div>
             </Card>

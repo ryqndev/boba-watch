@@ -3,25 +3,32 @@ import {useTranslation} from 'react-i18next';
 import 'date-fns'; 
 import Swal from 'sweetalert2';
 import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, DateTimePicker } from 'material-ui-pickers';
-import { add } from '../../controller';
+import {MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers';
+import {add, edit} from '../../controller';
 import {TextInput, Card} from '../../components';
 import StarRatingComponent from 'react-star-rating-component';
+import {ReactComponent as StarEmptyIcon} from './star_empty.svg';
+import {ReactComponent as StarFilledIcon} from './star_filled.svg';
 import './Add.scss';
 
 const Add = ({pageTitle, buttonTitle, editData}) => {
     const {t} = useTranslation();
-    const [name, setName] = useState('');
-    const [location, setLocation] = useState('');
-    const [price, setPrice] = useState('');
-    const [date, setDate] = useState(new Date());
-    const [rating, setRating] = useState(0);
-    const [description, setDescription] = useState('');
+    const [name, setName] = useState(editData?.name ?? '');
+    const [location, setLocation] = useState(editData?.location ?? '');
+    const [price, setPrice] = useState(editData?.price ?? '');
+    const [date, setDate] = useState(editData?.date ?? new Date());
+    const [rating, setRating] = useState(editData?.rating ?? 0);
+    const [description, setDescription] = useState(editData?.description ?? '');
     const [canAdd, setCanAdd] = useState(true);
 
     useEffect(() => {
-
-    }, []);
+        setName(editData?.name ?? '');
+        setLocation(editData?.location ?? '');
+        setPrice((editData?.price ?? 0)/100);
+        setDate(editData?.date ?? new Date());
+        setRating(editData?.rating ?? 0);
+        setDescription(editData?.description ?? '');
+    }, [editData]);
 
     const handleTextChange = setInput => e => {
         e.preventDefault();
@@ -50,8 +57,13 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
             setCanAdd(true);
             return;
         }
-        await add(data);
+        if(editData.id === undefined || editData.id === null){
+            await add(data);
+        }else{
+            await edit(data, editData.id);
+        }
     };
+    
     return (
         <div className="add-modal">
             <h4 className="bw title">{t(pageTitle ?? 'Add a Purchase')}</h4>
@@ -79,11 +91,11 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
                         <p>
                             RATING :
                         </p>
-                        {/* <div style={{textAlign: "right"}}>⭐⭐⭐⭐⭐</div> */}
                         <StarRatingComponent 
-                            name="rate1" 
+                            name="rating" 
                             starCount={5}
                             value={rating}
+                            renderStarIcon={(i, v) => (i <= v ? <StarFilledIcon /> : <StarEmptyIcon />)}
                             onStarClick={(v) => {setRating(v)}}
                             onStarHover={(v) => {setRating(v)}}
                         />

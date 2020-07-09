@@ -81,7 +81,6 @@ const History = ({drinkids, setDrinkids}) => {
             <h3 className="bw history-total">
                 <span>{t('Complete Total')}:</span> {t('$')}{Utils.toMoney(totalSum)}
             </h3>
-            {/* <Edit open={edit} setOpen={setEdit} drinkData={editDrinkDetails} setDrinkids={setDrinkids}/> */}
         </div>
     );
 }

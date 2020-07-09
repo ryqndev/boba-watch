@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MemoryRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
-import Add from './pages/Add';
+import {Add, Edit} from './pages/Add';
 import User from './pages/User/User';
 import History from './pages/History';
 import Login from './pages/Login';
@@ -39,7 +39,7 @@ const App = () => {
     return (
         <Router initialEntries={['/dash', '/history', '/add', '/feed', '/blog']} initialIndex={0}>
             <Switch>
-                <Route exact path='/dash' >
+                <Route exact path='/dash'>
                     <UserIcon setUser={setUser}/>
                     <Dashboard /> 
                 </Route>
@@ -47,14 +47,18 @@ const App = () => {
                     <UserIcon setUser={setUser}/>
                     <History drinkids={drinkids} setDrinkids={setDrinkids}/>
                 </Route>
-                <Route exact path='/add' >
+                <Route exact path='/add'>
                     <UserIcon setUser={setUser}/>
                     <Add /> 
                 </Route>
-                <Route exact path='/feed' >
+                <Route exact path='/edit/:userid'>
+                    <UserIcon setUser={setUser}/>
+                    <Edit /> 
+                </Route>
+                <Route exact path='/feed'>
                     <Feed /> 
                 </Route>
-                <Route exact path='/blog/:userid' >
+                <Route exact path='/blog/:userid'>
                     <Blog/> 
                 </Route>
             </Switch>

@@ -42,14 +42,18 @@
             & .rating-select{
                 direction: ltr;
                 display: grid;
-                padding: 5px 15px 5px 15px;
-                grid-template-columns: auto auto;
+                padding: 5px 10px 5px 15px;
+                grid-template-columns: auto 90px;
                 border-radius: 20px 0px 0px 20px;
                 background-color: #F68080;
-                max-width: 180px;
+                max-width: 160px;
                 & p{
                     color: white;
                     font-weight: bold;
+                }
+                & svg{
+                    margin: 0 2px 0 2px;
+                    height: 13px;
                 }
             }
         }

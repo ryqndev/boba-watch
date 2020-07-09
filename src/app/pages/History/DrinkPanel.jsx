@@ -6,9 +6,10 @@ import Utils from '../../components/textUtil.js';
 import FirebaseUser from '../../controller/backend.js';
 import stats from '../../controller/calculateStatistics';
 import './DrinkPanel.scss';
+import {withRouter} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const DrinkPanel = ({setEditDetails, data, setDrinkids}) => {
+const DrinkPanel = ({data, setDrinkids, history}) => {
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
     const [canPublish, setCanPublish] = useState(true);
@@ -19,7 +20,9 @@ const DrinkPanel = ({setEditDetails, data, setDrinkids}) => {
         setDrinkids(FirebaseUser.get.currentUser.drinkids);
         FirebaseUser.user.updateStats();
     }
-    const edit = () => {setEditDetails({...data, update: setDrinkids})}
+    const edit = () => {
+        history.push('/edit/' + data.id);
+    }
     const publish = async() => {
         setCanPublish(false);
         try{
@@ -74,4 +77,4 @@ const DrinkPanel = ({setEditDetails, data, setDrinkids}) => {
 
 }
 
-export default DrinkPanel;
+export default withRouter(DrinkPanel);

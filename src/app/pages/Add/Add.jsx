@@ -50,7 +50,8 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
             location: location,
             price: parseInt(parseFloat(price) * 100),
             date: new Date(date).toISOString(),
-            description: description
+            description: description,
+            rating: rating
         }} 
         if (isNaN(data.drink.price)){
             Swal.fire('Oops...', t('Please enter a valid price to add drink'), 'error');

@@ -9,7 +9,7 @@ import './DrinkPanel.scss';
 import {withRouter} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const DrinkPanel = ({data, setDrinkids, history}) => {
+const DrinkPanel = ({data, history}) => {
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
     const [canPublish, setCanPublish] = useState(true);
@@ -17,7 +17,6 @@ const DrinkPanel = ({data, setDrinkids, history}) => {
     const removeLocally = () => {
         stats.deleteDrink(data.id, FirebaseUser.get.currentUser.drinkids);
         localStorage.setItem('user', JSON.stringify(FirebaseUser.get.currentUser));
-        setDrinkids(FirebaseUser.get.currentUser.drinkids);
         FirebaseUser.user.updateStats();
     }
     const edit = () => {

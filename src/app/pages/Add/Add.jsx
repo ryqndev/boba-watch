@@ -58,7 +58,7 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
             setCanAdd(true);
             return;
         }
-        if(editData.id === undefined || editData.id === null){
+        if(editData?.id === undefined || editData?.id === null){
             await add(data);
         }else{
             await edit(data, editData.id);

@@ -56,10 +56,13 @@ const History = ({drinkids, setDrinkids}) => {
         drinkids.forEach((drinkid, i) => {
             let drink = JSON.parse(localStorage.getItem(drinkid));
             let ddate = new Date(drink.date);
+
             if(ddate.getMonth() === month && ddate.getFullYear() === year && displayedMonthly > 0){
                 monthly.push(drink);
-            }else if(ddate.getMonth() !== month && ddate.getFullYear() !== year && displayedOverall > 0){
+                displayedMonthly--;
+            }else if(ddate.getMonth() !== month && ddate.getFullYear() === year && displayedOverall > 0){
                 total.push(drink);
+                displayedOverall--;
             }
         });
         setMonthly(monthly);

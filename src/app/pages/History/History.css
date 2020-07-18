@@ -3,7 +3,7 @@
 }
 .history-load-more{
     text-align: center;
-    height: 50px;
+    height: 55px;
     font-size: 35px;
     color: #FFC9C2;
 }
@@ -15,6 +15,9 @@ h3 span{
     color: var(--text-secondary);
 }
 .history-total{
-    margin-top: 25px;
+    padding: 20px 0 15px 0;
     text-align: right;
+}
+.thaman-color{
+    border-bottom: 2px solid var(--text-accent);
 }

@@ -24,7 +24,7 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
     useEffect(() => {
         setName(editData?.name ?? '');
         setLocation(editData?.location ?? '');
-        setPrice((editData?.price ?? 0)/100);
+        setPrice(editData?.price == null ? '' : (editData.price / 100));
         setDate(editData?.date ?? new Date());
         setRating(editData?.rating ?? 0);
         setDescription(editData?.description ?? '');

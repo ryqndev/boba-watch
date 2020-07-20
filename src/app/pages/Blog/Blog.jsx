@@ -34,7 +34,6 @@ const Blog = () => {
 
     useEffect(() => {
         setIsOwnProfile(userid === FirebaseUser.get.currentUser.user.uid);
-        console.log("Profile Owner: ", userid === FirebaseUser.get.currentUser.user.uid, userid, FirebaseUser.get.currentUser.user.uid);
         (async() => {
             setPosts([]);
             setPhoto(BobaImage);
@@ -45,7 +44,6 @@ const Blog = () => {
                 setStats(stats);
                 let user = await FirebaseUser.blog.profile(userid);
                 user = user.data();
-                console.log("Receiver blog owner data & stats: ", user, stats);
     
                 setBio(user.bio ?? "Just a boba person in a boba world");
                 setName(user.name ?? "Boba Person");

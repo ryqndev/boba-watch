@@ -90,6 +90,12 @@
         grid-template-columns: 1fr auto;
         grid-template-rows: repeat(3, auto);
         padding: 20px;
+        // & .rating-holder{
+            & svg{
+                margin: 0 2px 0 2px;
+                height: 13px;
+            }
+        // }
         & p{
             &.location{
                 font-size: 1.3rem;

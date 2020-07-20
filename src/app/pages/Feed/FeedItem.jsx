@@ -4,6 +4,9 @@ import FirebaseUser from '../../controller/backend';
 import {Card} from '../../components';
 import { useTranslation } from 'react-i18next';
 import {withRouter} from 'react-router-dom'
+import StarRatingComponent from 'react-star-rating-component';
+import {ReactComponent as StarEmptyIcon} from './star_empty.svg';
+import {ReactComponent as StarFilledIcon} from './star_filled.svg';
 import HeartEmptyIcon from '@material-ui/icons/FavoriteBorderRounded';
 import HeartFilledIcon from '@material-ui/icons/FavoriteRounded';
 import Filter from 'bad-words';
@@ -34,7 +37,7 @@ const WithAvatar = ({uid, history, ...data}) => {
         </div>
     );
 }
-const FeedItem = ({id, name, place, price, date, description, likes, children}) => {
+const FeedItem = ({id, name, place, price, date, description, likes, rating, children}) => {
     const {t} = useTranslation();
     const [liked, setLiked] = useState(false);
     const [likeDisplay, setLikeDisplay] = useState(likes);
@@ -44,6 +47,10 @@ const FeedItem = ({id, name, place, price, date, description, likes, children}) 
             setLiked(!liked);
         });
     }
+    useEffect(() => {
+        console.log("drink data: ", name, id, rating);
+    }, [id, name, rating]);
+
     return (
         <Card className="feed-item">
             <div className="header">
@@ -58,6 +65,16 @@ const FeedItem = ({id, name, place, price, date, description, likes, children}) 
             <div className="item-content">
                 <p className="location">{filter.clean(place)}</p>
                 <p className="price">{t('$')}{Utils.toMoney(price)}</p>
+                {(rating !== null && rating !== undefined) && 
+                    <div className="ratings-holder">
+                        <StarRatingComponent 
+                            name="rating" 
+                            starCount={5}
+                            value={rating}
+                            renderStarIcon={(i, v) => (i <= v ? <StarFilledIcon /> : <StarEmptyIcon />)}
+                        />
+                    </div>
+                }
                 <p className="date">{(new Date(date).toDateString())}</p>
                 <p className="description">{filter.clean(description)}</p>
                 {children}

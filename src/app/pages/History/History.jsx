@@ -4,7 +4,7 @@ import Utils from '../../components/textUtil.js';
 import {Edit} from '../Add';
 import {useTranslation} from 'react-i18next';
 import FirebaseUser from '../../controller/backend';
-import './History.css';
+import './History.scss';
 
 const LoadMore = ({click}) => {
     return (

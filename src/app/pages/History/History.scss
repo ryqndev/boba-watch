@@ -1,0 +1,29 @@
+.history-page{
+    padding: 40px 40px 80px 40px;
+    & h3.bw{
+        color: var(--btn-bg);
+        &.history-total{
+            padding: 20px 0 15px 0;
+            text-align: right;
+            color: var(--blog-text-primary);
+        }
+        & span{
+            color: var(--history-summary);
+        }
+    }
+}
+.history-load-more{
+    text-align: center;
+    height: 55px;
+    font-size: 35px;
+    color: var(--text-accent);
+}
+p{
+    margin: 0;
+    font-family: Poppins;
+}
+
+
+.thaman-color{
+    border-bottom: 2px solid var(--text-accent);
+}

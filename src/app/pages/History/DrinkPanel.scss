@@ -22,6 +22,7 @@
         & .price{
             font-size: 24px;
             text-align: right;
+            color: var(--text-accent);
         }
         & .name{
             white-space: nowrap;
@@ -30,7 +31,7 @@
         }
         & .expand-icon{
             margin-top: 10px;
-            color: #F68080;
+            color: var(--text-accent);
         }
     }
     & .collapsed-info{
@@ -55,6 +56,8 @@
             column-gap: 10px;
             margin-bottom: 5px;
             & button{
+                background-color: var(--text-accent);
+                color: var(--text-primary);
                 padding: 5px 10px;
                 margin: 15px 0px 20px 0px;
             }

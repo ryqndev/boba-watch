@@ -4,7 +4,7 @@
         "--bg-primary": "#161C26",
         "--bg-secondary": "#161C26",
         "--bg-border": "#7F91A8",
-        "--bg-blend": "linear-gradient(180deg, #FC8A8A 0%, #FFD3B3 100%)",
+        "--bg-blend": "linear-gradient(180deg, #050505 0%, #050505 100%)",
         "--dash-blend": "#151515",
         "--avatar-border": "#151515",
         "--text-primary": "white",
@@ -13,12 +13,13 @@
         "--text-accent": "#7F91A8",
         "--btn-bg": "#F68080",
         "--btn-text": "#151515",
-        "--nav-bg": "#151515",
+        "--nav-bg": "#050505",
         "--nav-text": "#7F91A8",
         "--blog-text-primary": "white",
-        "--blog-bg-secondary": "#151515",
+        "--blog-bg-secondary": "#101015",
         "--blog-accent": "#7F91A8",
-        "--blog-bg-primary": "#151515",
-        "--logout-btn": "#7F91A8"
+        "--blog-bg-primary": "#050505",
+        "--logout-btn": "#7F91A8",
+        "--history-summary": "#7F91A8"
     }
 }

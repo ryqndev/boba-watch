@@ -5,9 +5,11 @@
     font-size: 14px;
     display: grid;
     grid-template-columns: 1fr 25px;
+
 }
 .clipboard-text{
     font-family: 'Poppins';
     user-select: all;
     overflow-x: scroll;
+    white-space: nowrap;
 }

@@ -19,6 +19,7 @@
         "--blog-bg-secondary": "#F68080",
         "--blog-accent": "#F68080",
         "--blog-bg-primary": "#FFAFA4",
-        "--logout-btn": "#FF0000"
+        "--logout-btn": "#FF0000",
+        "--history-summary": "black"
     }
 }

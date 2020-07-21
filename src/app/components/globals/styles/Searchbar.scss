@@ -1,0 +1,22 @@
+.search-wrapper{
+    padding: 15px 0px 10px 0;
+    & input{
+        box-sizing: border-box;
+        width: 100%;
+        border: 1px solid var(--text-accent);
+        height: 35px;
+        border-radius: 10px;
+        font-size: 1rem;
+        padding: 0px 10px;
+        transition: border-color 350ms;
+        &:focus{
+            box-shadow: 0px 0px 5px 0px var(--text-accent);
+        }
+    }
+    & .results{
+        position: relative;
+        max-height: 300px;
+        width: 100%;
+        overflow-y: scroll;
+    }
+}

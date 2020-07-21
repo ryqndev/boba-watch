@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import CloseButton from '@material-ui/icons/Close';
-import HelpButton from '@material-ui/icons/Help';
 import {useTranslation} from 'react-i18next';
 import {Modal, TextInput, Select} from '../../components';
 import FirebaseUser from '../../controller/backend.js';

@@ -45,11 +45,11 @@ const App = () => {
                 </Route>
                 <Route exact path='/history'>
                     <UserIcon setUser={setUser}/>
-                    <History drinkids={drinkids} setDrinkids={setDrinkids}/>
+                    <History drinkids={drinkids}/>
                 </Route>
                 <Route exact path='/add'>
                     <UserIcon setUser={setUser}/>
-                    <Add /> 
+                    <Add setDrinkids={setDrinkids}/> 
                 </Route>
                 <Route exact path='/edit/:userid'>
                     <UserIcon setUser={setUser}/>

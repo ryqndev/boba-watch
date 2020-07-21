@@ -20,6 +20,7 @@
         "--blog-accent": "#F68080",
         "--blog-bg-primary": "#FFAFA4",
         "--logout-btn": "#FF0000",
-        "--history-summary": "black"
+        "--history-summary": "black",
+        "--add-header": "#FFF1EF"
     }
 }

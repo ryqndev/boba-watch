@@ -8,12 +8,12 @@
     background-size: 100vw 190px;
     background-repeat: no-repeat;
     & .add-holder{
-        border: 3px solid #F68080;
+        border: 3px solid var(--blog-accent);
         border-radius: 8px;
         & h5{
             margin: 0;
-            background-color: #FFF1EF;
-            color: #F68080;
+            background-color: var(--add-header);
+            color: var(--blog-text-primary);
             border-bottom: 1px solid rgb(245, 179, 179);
             padding: 15px 0px;
             text-align: center;
@@ -45,7 +45,7 @@
                 padding: 5px 10px 5px 15px;
                 grid-template-columns: auto 90px;
                 border-radius: 20px 0px 0px 20px;
-                background-color: #F68080;
+                background-color: var(--blog-accent);
                 max-width: 160px;
                 & p{
                     color: white;
@@ -81,7 +81,11 @@
     text-align: center;
     width: 100%;
 }
-
+#description-input{
+    color: var(--text-secondary);
+    border-color: var(--text-light);
+    background-color: transparent;
+}
 div.MuiDialogActions-root button > span {
     color: white;
 }

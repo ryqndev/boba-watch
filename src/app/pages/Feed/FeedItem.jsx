@@ -47,9 +47,6 @@ const FeedItem = ({id, name, place, price, date, description, likes, rating, chi
             setLiked(!liked);
         });
     }
-    useEffect(() => {
-        console.log("drink data: ", name, id, rating);
-    }, [id, name, rating]);
 
     return (
         <Card className="feed-item">

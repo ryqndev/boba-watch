@@ -5,7 +5,7 @@
     row-gap: 15px;
     column-gap: 15px;
     padding: 40px 40px 90px 40px;
-    background: linear-gradient(180deg, var(--text-accent) 0%, var(--dash-blend) 50%);
+    background: var(--bg-blend);
     background-size: 100vw 190px;
     background-repeat: no-repeat;
     & .title{

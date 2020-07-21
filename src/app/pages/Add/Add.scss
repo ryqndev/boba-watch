@@ -4,7 +4,7 @@
     grid-template-rows: auto auto;
     grid-template-columns: 1fr;
     padding: 40px 40px 90px 40px;
-    background: linear-gradient(180deg, var(--text-accent) 0%, var(--dash-blend) 50%);
+    background: var(--bg-blend);
     background-size: 100vw 190px;
     background-repeat: no-repeat;
     & .add-holder{

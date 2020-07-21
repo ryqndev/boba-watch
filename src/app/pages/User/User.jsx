@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import {Button, IconButton} from '@material-ui/core';
 import CloseButton from '@material-ui/icons/Close';
 import HelpButton from '@material-ui/icons/Help';
 import {useTranslation} from 'react-i18next';
 import {Modal, TextInput, Select} from '../../components';
 import FirebaseUser from '../../controller/backend.js';
-import {setTheme, getTheme, THEME_SELECT_OPTIONS, THEME_SELECT_DEFAULT_VALUE} from '../../components/globals/theme';
+import {setTheme, getTheme, THEME_SELECT_OPTIONS} from '../../components/globals/theme';
 import './User.scss';
 import 'react-toggle/style.css';
 
@@ -46,18 +45,12 @@ const User = ({open, setOpen}) => {
         setLimit(FirebaseUser.get.currentUser.profile.limit);
         setSharing(FirebaseUser.get.currentUser.profile.sharing);
     }
-    const getHelp = () => {
-        window.open('https://info.boba.watch/');
-    }
     return (
         <Modal open={open}>
             <div className="user-modal">
-                <IconButton color="secondary" className="modal-small--button close-button" onClick={close}>
-                    <CloseButton color="secondary" style={{ fontSize: 14 }}/>
-                </IconButton>
-                <IconButton className="modal-small--button help-button" onClick={getHelp}>
-                    <HelpButton color="secondary" style={{ fontSize: 14 }}/>
-                </IconButton>
+                <button className="close-button" onClick={close}>
+                    <CloseButton />
+                </button>
                 <img src={FirebaseUser.get.currentUser.user.photoURL} className="avatar" alt="user"/>
                 <h1>{t('User Settings')}</h1>
                 <TextInput
@@ -95,7 +88,7 @@ const User = ({open, setOpen}) => {
                         onClick={FirebaseUser.logout}>
                         {t('LOGOUT')}
                     </button>
-                    <Button className="update" onClick={updateFirebase}>{t('UPDATE')}</Button>
+                    <button className="update" onClick={updateFirebase}>{t('UPDATE')}</button>
                 </div>
             </div>
         </Modal>

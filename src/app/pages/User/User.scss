@@ -1,19 +1,23 @@
 .user-modal{
     position: fixed;
+    box-sizing: border-box;
     top: calc( 50vh - 190px);
-    width: calc( 100vw - 50px);
     left: 50%;
+    width: calc( 100vw - 50px);
     transform: translateX(-50%);
     max-width: 400px;
-    background-color: white;
-    border: 3px solid #FFDCDC;
+    color: var(--text-secondary);
+    background-color: var(--bg-primary);
+    border: 3px solid var(--nav-bg);
     border-radius: 10px;
-    box-sizing: border-box;
     padding: 60px 40px 20px 40px;
     transition: all 320ms;
     z-index: 1050;
     &:focus{
         outline: none;
+    }
+    & input.input{
+        color: var(--text-secondary);
     }
     & .avatar{
         border-radius: 50%;
@@ -24,7 +28,7 @@
         left: 50%;
         transform: translateX(-50%);
         margin: 0;
-        border: 4px solid #FFDCDC;
+        border: 4px solid var(--nav-bg);
     }
     & h1{
         margin: 0 0 20px 0;
@@ -40,37 +44,38 @@
     grid-template-columns: repeat(2, 1fr);
     text-align: center;
     width: 100%;
+    & button{
+        padding: 0px;
+        margin: 20px 15px 5px;
+    }
     & .logout{
-        padding: 0;
-        color: #FF0000;
-        border: 1px solid red;
-        background-color: #ffffff;
-        &:hover{
-            background-color: #FF5050;
-            color: white;
-        }
+        // box-shadow: none;
+        color: var(--logout-btn);
+        border: 1px solid var(--logout-btn);
+        background-color: var(--bg-primary);
     }
 }
-.modal-small--button{
-    position: absolute !important;
+button.close-button{
+    box-sizing: border-box;
+    position: absolute;
     top: 15px;
-    padding: 3px !important;
-}
-.close-button{
+    padding: 3px 0px 0px 1px;
     right: 15px;
-    background-color: #FFAFA4 !important;
-}
-.help-button{
-    right: 45px;
-    background-color: grey !important;
+    margin: 0px;
+    height: 22px;
+    width: 22px;
+    background-color: var(--text-accent);
+    border-radius: 50%;
+    & svg{
+        height: 15px;
+        width: 15px;
+    }
 }
 .user-share-profile{
+    
     font-size: 15px;
     display: grid;
     grid-template-columns: 1fr 50px;
     row-gap: 10px;
     padding: 5px;
-}
-#copy-me{
-    white-space: nowrap;
 }

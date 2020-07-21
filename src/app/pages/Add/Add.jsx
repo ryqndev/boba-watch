@@ -42,6 +42,14 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
     }
     const handlePriceChange = e => {if((e.target.value).match(/^-?\d*\.?\d*$/)) setPrice(e.target.value)}
     const handleDateChange = (date) => {setDate(date)}
+    const clearForm = () => {
+        setName('');
+        setLocation('');
+        setPrice('');
+        setDate(new Date());
+        setRating(0);
+        setDescription('');
+    }
 
     const addDrink = async() => {
         setCanAdd(false);
@@ -60,6 +68,9 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
         }
         if(editData?.id === undefined || editData?.id === null) await add(data);
         else await edit(data, editData.id);
+
+        clearForm();
+        setCanAdd(true);
     };
     
     return (

@@ -17,7 +17,7 @@ span.text-input {
         font-weight: bold;
         width: 100%;
         background: transparent;
-        color: #000000;
+        color: var(--text-secondary);
         &:focus{
             outline: none;
         }

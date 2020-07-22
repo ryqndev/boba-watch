@@ -5,22 +5,22 @@ const UserSunburst = ({spent, budget, width}) => {
     const size = width - 45;
     const data = {
         size: 0,
-        color: "#FFFFFF",
+        color: 'transparent',
         children: [
             {
                 title: "Progress",
                 size: spent,
-                color: "#32de44",
+                color: "#f68080",
                 children: [{
                     title: "Padding",
                     size: 0,
-                    color: "#FFFFFF",
+                    color: 'transparent',
                 }]
             },
             {
                 title: "Until Limit",
                 size: budget - spent,
-                color: "#F4F4F4",
+                color: "#00000044",
             }
         ]
     };

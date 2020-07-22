@@ -21,6 +21,8 @@
         "--blog-bg-primary": "#FFAFA4",
         "--logout-btn": "#FF0000",
         "--history-summary": "black",
-        "--add-header": "#FFF1EF"
+        "--add-header": "#FFF1EF",
+        "--dash-bg-secondary": "#F68080",
+        "--dash-text-secondary": "#FFFFFF"
     }
 }

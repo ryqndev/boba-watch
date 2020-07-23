@@ -7,6 +7,10 @@
             text-align: right;
             color: var(--blog-text-primary);
         }
+        &.none-label{
+            color: grey;
+            font-size: 16px;
+        }
         & span{
             color: var(--history-summary);
         }
@@ -26,4 +30,10 @@ p{
 
 .thaman-color{
     border-bottom: 2px solid var(--text-accent);
+    &.none-label{
+        margin-top: 10px;
+        padding: 5px 0px;
+        border-bottom: 1px solid var(--text-accent);
+        border-top: 1px solid var(--text-accent);
+    }
 }

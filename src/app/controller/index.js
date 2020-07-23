@@ -30,7 +30,7 @@ const edit = async(data, id) => {
 const user = () => backend.get.currentUser;
 
 const success = (drink, isEdit=false) => {
-    stats.addDrink(drink, drink.id,backend.get.currentUser.drinkids);           //recalculate stats and insert in drinkids sorted
+    stats.addDrink(drink, drink.id, backend.get.currentUser.drinkids);           //recalculate stats and insert in drinkids sorted
     backend.user.updateStats();                                                 //update stats on firebase
     localStorage.setItem('user', JSON.stringify(backend.get.currentUser));      //save new drinksid
     Swal.fire(i18next.t('Done!'), i18next.t(isEdit ? 'Drink updated' : 'Drink added'), 'success');         //let user know 

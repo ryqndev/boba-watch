@@ -19,8 +19,8 @@ const LoadMore = ({click}) => {
 const NoDrinksLabel = ({label}) => {
     const {t} = useTranslation();
     return (
-        <div className="thaman-color">
-            <h3 className="bw">
+        <div className="thaman-color none-label">
+            <h3 className="bw none-label">
                 {t(label)}
             </h3>
         </div>
@@ -56,7 +56,7 @@ const History = () => {
             }
         });
         if(monthly.length === 0){
-            monthly.push(<NoDrinksLabel key={1} label="No drinks this month" />);
+            monthly.push(<NoDrinksLabel key={1} label="no drinks this month ...yet" />);
             if(total.length === 0) total.push(<NoDrinksLabel key={1} label="Add a drink to start!" />);
         }
         if(rec <= 0) monthly.push(<LoadMore key="load" click={() => {setShow({...show, 'recent': show.recent + 10})}}/>);

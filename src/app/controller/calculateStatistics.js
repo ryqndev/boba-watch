@@ -116,12 +116,23 @@ function resetMonthly(drinkids){
 function addDrink(data, id, drinkids){
     let mmetrics = JSON.parse(localStorage.getItem('metrics'));
     let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
+    let today = new Date(),
+        todayMonth = today.getMonth(),
+        todayYear = today.getFullYear(),
+        drinkDate = new Date(data.date);
+        
     if(drinkids.length){
-        insertDrinkSorted(id, new Date(data.date), drinkids, 0, drinkids.length - 1 );
+        insertDrinkSorted(id, drinkDate, drinkids, 0, drinkids.length - 1 );
     }else{
         drinkids.push(id);
     }
-    updateMetrics(data, mmetrics);
+    
+    if(
+        drinkDate.getMonth() === todayMonth &&
+        drinkDate.getFullYear() === todayYear
+    ){
+        updateMetrics(data, mmetrics);
+    }
     updateMetrics(data, cmetrics);
     localStorage.setItem(id, JSON.stringify(data));
     localStorage.setItem('metrics', JSON.stringify(mmetrics));

@@ -3,6 +3,7 @@ import DrinkPanel from './DrinkPanel';
 import Utils from '../../components/textUtil.js';
 import {useTranslation} from 'react-i18next';
 import {Searchbar} from '../../components';
+import {user} from '../../controller';
 import './History.scss';
 
 const LoadMore = ({click}) => {
@@ -26,22 +27,16 @@ const NoDrinksLabel = ({label}) => {
     );
 }
 
-const History = ({drinkids}) => {
+const History = () => {
     const {t} = useTranslation();
-    const [monthly, setMonthly] = useState([<NoDrinksLabel key={1} label="No drinks this month" />]);
-    const [complete, setComplete] = useState([<NoDrinksLabel key={1} label="Add a drink to start!" />]);
+    const [monthly, setMonthly] = useState([]);
+    const [total, setTotal] = useState([]);
     const [show, setShow] = useState({'complete': 5, 'recent': 7});
     const [expandedDrinklistData, setExpandedDrinklistData] = useState([]);
-    const [drinkidsCopy, setDrinkidsCopy] = useState(drinkids);
+    const [drinkidsCopy, setDrinkidsCopy] = useState(user().drinkids);
 
     const monthSum = Number(JSON.parse(localStorage.getItem('metrics')).tc);
     const totalSum = Number(JSON.parse(localStorage.getItem('completeMetrics')).tc);
-
-    useEffect(() => {
-        setDrinkidsCopy(drinkids);
-    }, [drinkids]);
-
-
     useEffect(() => {
         let monthly = [], total = [], tempExpandedDrinkListData = [],
             d = new Date(), m = d.getMonth(), y = d.getFullYear(),
@@ -60,10 +55,15 @@ const History = ({drinkids}) => {
                 com--;
             }
         });
+        if(monthly.length === 0){
+            monthly.push(<NoDrinksLabel key={1} label="No drinks this month" />);
+            if(total.length === 0) total.push(<NoDrinksLabel key={1} label="Add a drink to start!" />);
+        }
         if(rec <= 0) monthly.push(<LoadMore key="load" click={() => {setShow({...show, 'recent': show.recent + 10})}}/>);
         if(com <= 0) total.push(<LoadMore key="load" click={() => {setShow({...show, 'complete': show.complete + 10})}}/>);
+
         setMonthly(monthly);
-        setComplete(total);
+        setTotal(total);
 
         setExpandedDrinklistData(tempExpandedDrinkListData);
 
@@ -77,7 +77,7 @@ const History = ({drinkids}) => {
 
     return (
         <div className="history-page">
-            <h3 className="bw" onClick={() => {console.log(drinkids, drinkidsCopy)}}>{t('Drink History')}</h3>
+            <h3 className="bw">{t('Drink History')}</h3>
             <Searchbar 
                 placeholder={t('Search your history...')}
                 data={expandedDrinklistData}
@@ -93,7 +93,7 @@ const History = ({drinkids}) => {
             </h3>
             <h3 className="bw">{t('Overall Spending')}</h3>
             <div className="history-spending">
-                {complete}
+                {total}
             </div>
             <h3 className="bw history-total">
                 <span>{t('Complete Total')}:</span> {t('$')}{Utils.toMoney(totalSum)}

@@ -27,6 +27,8 @@ const edit = async(data, id) => {
     }
 }
 
+const user = () => backend.get.currentUser;
+
 const success = (drink, isEdit=false) => {
     stats.addDrink(drink, drink.id,backend.get.currentUser.drinkids);           //recalculate stats and insert in drinkids sorted
     backend.user.updateStats();                                                 //update stats on firebase
@@ -42,5 +44,6 @@ const error = (err) => {
 
 export {
     add,
-    edit
+    edit,
+    user
 }

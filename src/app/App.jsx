@@ -17,7 +17,7 @@ const Start = ({history}) => {
         FirebaseUser.init(user => {
             history.push(user ? '/app' : '/login');
         });
-		console.log("v2.0.4");
+		console.log("v2.0.5");
     }, [history]);
     return (
         <Switch>
@@ -35,7 +35,6 @@ const Start = ({history}) => {
 
 const App = () => {
     const [user, setUser] = useState(false);
-    const [drinkids, setDrinkids] = useState(FirebaseUser.get.currentUser.drinkids);
     return (
         <Router initialEntries={['/dash', '/history', '/add', '/feed', '/blog']} initialIndex={0}>
             <Switch>
@@ -45,11 +44,11 @@ const App = () => {
                 </Route>
                 <Route exact path='/history'>
                     <UserIcon setUser={setUser}/>
-                    <History drinkids={drinkids}/>
+                    <History />
                 </Route>
                 <Route exact path='/add'>
                     <UserIcon setUser={setUser}/>
-                    <Add setDrinkids={setDrinkids}/> 
+                    <Add /> 
                 </Route>
                 <Route exact path='/edit/:userid'>
                     <UserIcon setUser={setUser}/>

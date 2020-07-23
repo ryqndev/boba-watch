@@ -5,11 +5,21 @@
     font-size: 14px;
     display: grid;
     grid-template-columns: 1fr 25px;
-
+    grid-template-rows: 22px;
 }
 .clipboard-text{
     font-family: 'Poppins';
     user-select: all;
     overflow-x: scroll;
+    overflow-y: hidden;
     white-space: nowrap;
+}
+button.clipboard-icon{
+    padding: 0;
+    margin: 0;
+    background-color: transparent !important;
+    transform: translateY(1px);
+}
+.clipboard-icon > svg > path{
+    fill: white;
 }

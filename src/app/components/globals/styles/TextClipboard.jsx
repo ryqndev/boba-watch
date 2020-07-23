@@ -1,6 +1,7 @@
 import React from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
+import Swal from 'sweetalert2';
 import './textclipboard.css';
 
 const TextClipboard = ({className='', text}) => {
@@ -11,7 +12,9 @@ const TextClipboard = ({className='', text}) => {
                 text: 'Check out my boba spending!',
                 url: text,
             }).catch(err => {
-            })
+            });
+        }else{
+            Swal.fire("Link Copied!", '', 'success');
         }
     }
     return (
@@ -20,7 +23,7 @@ const TextClipboard = ({className='', text}) => {
                 {text}
             </div>
             <CopyToClipboard text={text} >
-                <button style={{padding: 0}} className="clipboard-icon" onClick={copy}>
+                <button className="clipboard-icon" onClick={copy}>
                     <FileCopyIcon style={{fontSize: 14}}/>
                 </button>
             </CopyToClipboard>

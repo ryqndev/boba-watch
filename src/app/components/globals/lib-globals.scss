@@ -4,6 +4,7 @@
 .firebaseui-container.firebaseui-id-page-callback{
     background-color: transparent;
 }
+
 .swal2-popup{
     background-color: var(--bg-primary);
     & p, h1, h2, h3, h4, h5{
@@ -12,4 +13,46 @@
     & .swal2-content{
         color: var(--history-summary);
     }
+}
+
+.MuiFormControl-root{
+    & label, div{
+        color: var(--history-summary) !important;
+    }
+    & :before{
+        border-bottom-color: var(--history-summary) !important;
+    }
+    & :after{
+        border-bottom-color: #F68080 !important;
+    }
+}
+
+.MuiPickersCalendarHeader-iconButton, .MuiPickersCalendarHeader-iconButton > *{
+    background-color: transparent !important;
+}
+.MuiPickersToolbar-toolbar, 
+.MuiTabs-root,
+.MuiPickersDay-isSelected,
+.MuiPickersClock-pin,
+.MuiPickersClockPointer-noPoint,
+.MuiPickersClockPointer-pointer{
+    background-color: var(--blog-bg-secondary) !important;
+}
+.MuiPaper-root{
+    background-color: var(--bg-primary) !important;
+    & span, & .MuiTypography-subtitle1{
+        color: var(--history-summary) !important;
+    }
+    & button{
+        &:hover, &:focus, &:active{
+            background-color: transparent;
+        }
+    }
+}
+.MuiTypography-h5{
+    color: var(--text-accent) !important;
+}
+.MuiPickersClockPointer-thumb{
+    // background-color: var(--blog-bg-secondary) !important;
+    border-color: var(--blog-bg-secondary) !important;
 }

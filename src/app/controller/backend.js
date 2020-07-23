@@ -73,6 +73,8 @@ let init = (callback) => {
             saveUserLocally(profile);
             localStorage.setItem('user', JSON.stringify(store.currentUser));
             callback(user);
+            console.log("finished user called", profile.data());
+
         }).catch(defaultError);
     });
 }
@@ -107,6 +109,18 @@ const saveUserLocally = (user) => {
     ){
         profile = defaultProfile;
     }
+    if(profile?.budget === undefined){
+        profile.budget = 10000;
+    }
+    if(profile?.limit === undefined){
+        profile.limit = 15;
+    }
+    if(profile?.sharing === undefined){
+        profile.sharing = 
+            profile?.public === undefined 
+                ? false 
+                : profile.public;
+    }
     store.currentUser.profile = profile;
 };
 
@@ -127,6 +141,7 @@ const setUser = async(profile=defaultProfile) => {
         .set(profile);
 }
 const getUser = async() => {
+    console.log("get user called");
     return db.collection('users')
         .doc(store.currentUser.user.uid)
         .collection('user')
@@ -262,5 +277,5 @@ export default {
             feed: publishGetFeed
         },
         delete: publishDelete
-    }
+    },
 }

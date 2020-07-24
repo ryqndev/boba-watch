@@ -18,7 +18,7 @@ const WithAvatar = ({uid, history, ...data}) => {
     useEffect(() => {
         if(person !== null) return;
         (async() => {
-            FirebaseUser.blog.profile(uid).then(res => {
+            FirebaseUser.blog.getProfile(uid).then(res => {
                 setPerson(res.data());
             }).catch(err => {console.log(err)});
         })();

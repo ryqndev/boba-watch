@@ -86,8 +86,7 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
                         <DateTimePicker
                             id="date-value"
                             className="add-input"
-                            margin="dense"
-                            format="M/d/yyyy h:mm a"
+                            format="M/d/yyyy h:mm"
                             label={t("Date")}
                             value={date}
                             onChange={handleDateChange}

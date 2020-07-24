@@ -218,6 +218,9 @@ const deleteDrink = (id, callback=nothing) => {
 const getUserBlog = async(uid) => {
     return db.collection(`users/${uid}/blog`).doc('user').get();
 }
+const setUserBlog = async(updateValues) => {
+    return db.collection(`users/${store.currentUser.user.uid}/blog`).doc('user').update(updateValues);
+}
 
 const publishAdd = async({id, ...data}) => {
     return db.collection('blogs').add({ uid: store.currentUser.user.uid, likes: 0, ...data});
@@ -264,7 +267,8 @@ export default {
         delete: deleteDrink
     },
     blog: {
-        profile: getUserBlog,
+        getProfile: getUserBlog,
+        setProfile: setUserBlog,
         like: blogLike,
         faves: getFaves,
         get: getBlog,

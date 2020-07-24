@@ -10,6 +10,9 @@ import Swal from 'sweetalert2';
 import {TextClipboard, Collapse} from '../../components';
 import BobaImage from '../../../assets/logo-shadow.svg';
 import './Blog.scss';
+import Filter from 'bad-words';
+
+let filter = new Filter();
 
 const toggleProfileSharing = (callback) => {
     let data = FirebaseUser.get.currentUser.profile;
@@ -24,7 +27,7 @@ const Blog = () => {
     const {userid} = useParams();
     const {t} = useTranslation();
     const [posts, setPosts] = useState([]);
-    const [location, setLocation] = useState("ARCADIA");
+    const [location, setLocation] = useState("---");
     const [bio, setBio] = useState("Just a boba girl in a boba world");
     const [photo, setPhoto] = useState(FirebaseUser.get.currentUser.user.photoURL);
     const [name, setName] = useState(FirebaseUser.get.currentUser.user.displayName);
@@ -42,13 +45,13 @@ const Blog = () => {
                 let stats = await FirebaseUser.blog.stats(userid);
                 stats = stats.data();
                 setStats(stats);
-                let user = await FirebaseUser.blog.profile(userid);
+                let user = await FirebaseUser.blog.getProfile(userid);
                 user = user.data();
     
-                setBio(user.bio ?? "Just a boba person in a boba world");
+                setBio(filter.clean(user.bio ?? "Just a boba person in a boba world"));
                 setName(user.name ?? "Boba Person");
                 setPhoto(user.profile ?? "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
-                setLocation(user.location ?? "Boba World");
+                setLocation(filter.clean(user.location ?? "Boba World"));
                 let entries = await FirebaseUser.publish.get.user(userid);
                 let allPosts = [];
                 entries.forEach(entry => {
@@ -102,7 +105,50 @@ const Blog = () => {
             }
         })
     }
-
+    const triggerLocationEdit = async() => {
+        if(!isOwnProfile) return;
+        const { value: location } = await Swal.fire({
+            title: 'Change location',
+            input: 'text',
+            inputPlaceholder: 'Where I am now...',
+            inputAttributes: {
+                maxLength: 20
+            }
+        });
+        if(location){
+            FirebaseUser.blog.setProfile(
+                {location: location}
+            ).then(() => {
+                setLocation(location);
+                Swal.fire('Done!', 'Your public location has been changed.', 'success');
+            }).catch((err) => {
+                console.log(err);
+                Swal.fire('Whoops!', 'Something went wrong... Try again later.', 'error');
+            });
+        }
+    }
+    const triggerBioEdit = async() => {
+        if(!isOwnProfile) return;
+        const { value: bio } = await Swal.fire({
+            title: 'Edit bio',
+            input: 'textarea',
+            inputPlaceholder: 'About me...',
+            inputAttributes: {
+                maxLength: 200
+            }
+        });
+        if(bio){
+            FirebaseUser.blog.setProfile(
+                {bio: bio}
+            ).then(() => {
+                setBio(bio);
+                Swal.fire('Done!', 'Your bio has been updated.', 'success');
+            }).catch((err) => {
+                console.log(err);
+                Swal.fire('Whoops!', 'Something went wrong... Try again later.', 'error');
+            });
+        }
+    }
     return (
         <div className="blog-page">
             <div className="blog-header"> <div className="icon"></div>PUBLIC PROFILE PREVIEW</div>
@@ -111,8 +157,8 @@ const Blog = () => {
                 <h2>{name}</h2>
             </div>
             <div className="profile">
-                <LocationIcon className="icon"/> {location}
-                <p>{bio}</p>
+                <LocationIcon className="icon" onClick={triggerLocationEdit}/> {location}
+                <p onClick={triggerBioEdit}>{bio}</p>
                 {isOwnProfile && (
                     <div className="user-share ">
                         <div className="user-share-profile">
@@ -120,7 +166,7 @@ const Blog = () => {
                             <Toggle
                                 defaultChecked={profileSharing}
                                 onClick={() => {toggleProfileSharing(setProfileSharing)}}
-                                label={t("make profile public")}
+                                label={t('make profile public')}
                             />
                             <Collapse className="user-share-toggle-grid" open={profileSharing}>
                                 <TextClipboard
@@ -139,15 +185,17 @@ const Blog = () => {
             </div>
             <h2 className="review"> <span>★</span> REVIEWS <span>★</span> </h2>
             <div className="content">
-                {posts.map(post => (
-                    <FeedItem key={post.id} place={post.location} {...post}>
-                        {isOwnProfile && (
-                            <div className="item-controls">
-                                <button onClick={() => {deletePost(post.id)}}>DELETE</button>
-                            </div>)
-                        }
-                    </FeedItem>
-                ))}
+                {posts.length !== 0
+                    ? posts.map(post => (
+                        <FeedItem key={post.id} place={post.location} {...post}>
+                            {isOwnProfile && (
+                                <div className="item-controls">
+                                    <button onClick={() => {deletePost(post.id)}}>DELETE</button>
+                                </div>)
+                            }
+                        </FeedItem>))
+                    : <h3 key="empty">No Published Reviews</h3>
+                }
             </div>
         </div>
     );

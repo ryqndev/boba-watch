@@ -59,9 +59,12 @@
         grid-row: 3/5;
         transition: background-position-y 1s;
         & > p{
-            color: var(--text-accent);
+            color: var(--blog-text-primary);
             font-size: 12px;
         }
+        & h3{
+            color: var(--blog-text-primary);
+        }        
     }
     & .total{
         padding: 5px;

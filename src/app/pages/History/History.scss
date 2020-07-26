@@ -1,5 +1,8 @@
 .history-page{
     padding: 40px 40px 80px 40px;
+    @media screen and (max-width: 350px){
+        padding: 40px 25px 90px 25px;
+    }
     & h3.bw{
         color: var(--btn-bg);
         &.history-total{

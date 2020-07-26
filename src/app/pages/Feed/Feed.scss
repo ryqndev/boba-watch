@@ -20,6 +20,7 @@
             background-size: contain;
             float: left;
         }
+
         & div{
             padding-right: 20px;
             transition: color 350ms;
@@ -37,6 +38,13 @@
     }
     & .content{
         padding: 30px;
+        & .feed-end{
+            color: rgb(114, 117, 133);
+            text-align: center;
+            border-top: 5px dotted var(--text-accent);
+            padding: 20px 0;
+            font-size: 22px;
+        }
         & .user{
             & img{
                 position: absolute;
@@ -84,6 +92,9 @@
         padding: 10px 20px;
         & span{
             text-align: left;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow-x: hidden;
         }
         & p{
             color: white;

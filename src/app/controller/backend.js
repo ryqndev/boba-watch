@@ -8,6 +8,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/analytics';
 import stats from './calculateStatistics';
 import Swal from 'sweetalert2';
 
@@ -16,9 +17,10 @@ const firebaseConfig = {
     authDomain: 'boba-watch-firebase.firebaseapp.com',
     databaseURL: 'https://boba-watch-firebase.firebaseio.com',
     projectId: 'boba-watch-firebase',
-    storageBucket: '',
+    storageBucket: 'boba-watch-firebase.appspot.com',
     messagingSenderId: '674375234614',
-    appId: '1:674375234614:web:fdaf98c291204b9c'
+    appId: '1:674375234614:web:fdaf98c291204b9c',
+    measurementId: 'G-C2DYVHCWDR'
 };
 firebase.initializeApp(firebaseConfig);
 
@@ -66,11 +68,13 @@ let init = (callback) => {
             (user?.metadata?.creationTime === user?.metadata?.lastSignInTime)
                 ? setUser(defaultProfile)
                 : getUser(),
-            setBlog()
+            setBlog(),
+            getAutofillOptions()
         ];
-        Promise.all(setup).then(([drinks, profile]) => {
+        Promise.all(setup).then(([drinks, profile, blog, autofill]) => {
             saveDrinksLocally(drinks);
             saveUserLocally(profile);
+            saveAutofillLocally(autofill);
             localStorage.setItem('user', JSON.stringify(store.currentUser));
             callback(user);
             console.log("finished user called", profile.data());
@@ -81,7 +85,6 @@ let init = (callback) => {
 
 const setBlog = async() => {
     return db.collection(`users/${store.currentUser.user.uid}/blog`).doc('user').set({
-        location: 'US',
         name:  store.currentUser.user.displayName,
         profile:  store.currentUser.user.photoURL
     });
@@ -124,6 +127,11 @@ const saveUserLocally = (user) => {
     store.currentUser.profile = profile;
 };
 
+const saveAutofillLocally = (autofill) => {
+    let data = autofill?.data()?.data ?? '[]';
+    localStorage.setItem('autofill', data);
+}
+
 const logout = () => {
     firebase.auth().signOut().then(function() {
         let theme = localStorage.getItem('theme');
@@ -141,7 +149,6 @@ const setUser = async(profile=defaultProfile) => {
         .set(profile);
 }
 const getUser = async() => {
-    console.log("get user called");
     return db.collection('users')
         .doc(store.currentUser.user.uid)
         .collection('user')
@@ -215,6 +222,13 @@ const deleteDrink = (id, callback=nothing) => {
     });
 }
 
+const getAutofillOptions = async() => {
+    return db.collection(`users/${store.currentUser.user.uid}/user`).doc('autofill').get();
+}
+const setAutofillOptions = async(data) => {
+    return db.collection(`users/${store.currentUser.user.uid}/user`).doc('autofill').set({data: JSON.stringify(data)});
+}
+
 const getUserBlog = async(uid) => {
     return db.collection(`users/${uid}/blog`).doc('user').get();
 }
@@ -259,6 +273,8 @@ export default {
         get: getUser,
         update: updateUser,
         updateStats: updateStatsFromLocalStorage,
+        getAutofill: getAutofillOptions,
+        setAutofill: setAutofillOptions
     },
     get: store,
     drinks: {

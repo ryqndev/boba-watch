@@ -4,17 +4,27 @@
     grid-template-rows: auto auto;
     grid-template-columns: 1fr;
     padding: 40px 40px 90px 40px;
+    @media screen and (max-width: 350px){
+        padding: 40px 20px 90px 20px;
+    }
     background: var(--bg-blend);
     background-size: 100vw 190px;
     background-repeat: no-repeat;
     & .add-holder{
         border: 3px solid var(--blog-accent);
         border-radius: 8px;
+        & .autofill-divider{
+            font-size: 16px;
+            color: var(--text-accent);
+            margin-top: 20px;
+            padding-top: 5px;
+            border: none;
+            border-top: 3px dotted var(--text-accent);
+        }
         & h5{
             margin: 0;
             background-color: var(--add-header);
             color: var(--blog-text-primary);
-            border-bottom: 1px solid rgb(245, 179, 179);
             padding: 15px 0px;
             text-align: center;
             font-weight: 700;
@@ -22,6 +32,10 @@
             @media screen and (min-width: 400px){
                 font-size: 1.2rem;
             }
+        }
+        & label.autofill-label{
+            font-size: 16px;
+            color: var(--text-accent);
         }
         & .content{
             box-sizing: border-box;
@@ -58,6 +72,10 @@
             }
         }
     }
+    & .autofill-select, .autofill-select > div{
+        background-color: var(--bg-primary);
+        color: var(--text-secondary);
+    }
     
     & button.close-button{
         position: absolute;
@@ -78,8 +96,27 @@
     }
 }
 .add-button-holder{
-    text-align: center;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    box-sizing: border-box;
+    padding: 20px 5px 0px 5px;
     width: 100%;
+    & button.text{
+        border: 2px solid transparent;
+        padding: 2px 20px;
+        width: 100px;
+        &#save-drink--button{
+            background-color: transparent;
+            color: var(--text-accent);
+            border-color: var(--text-accent);
+            &.saved{
+                background-color: rgb(36, 200, 21);
+                color: black;
+                border-color: transparent;
+            }
+        }
+    }
+
 }
 #description-input{
     color: var(--text-secondary);

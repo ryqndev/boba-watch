@@ -134,7 +134,7 @@ const Blog = () => {
             input: 'textarea',
             inputPlaceholder: 'About me...',
             inputAttributes: {
-                maxLength: 200
+                maxLength: 350
             }
         });
         if(bio){

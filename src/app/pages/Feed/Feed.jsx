@@ -52,6 +52,7 @@ const Feed = () => {
                     ? (faves ?? []).map(feedContent => <FeedItemWithAvatar key={feedContent.id} place={feedContent.location} {...feedContent} />)
                     : (posts ?? []).map(feedContent => <FeedItemWithAvatar key={feedContent.id} place={feedContent.location} {...feedContent} />)
                 }
+                <div className="feed-end">No more posts to show.</div>
             </div>
         </div>
     );

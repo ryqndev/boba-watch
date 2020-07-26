@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import CloseButton from '@material-ui/icons/Close';
 import {useTranslation} from 'react-i18next';
-import {Modal, TextInput, Select} from '../../components';
+import {Modal, TextInput} from '../../components';
 import FirebaseUser from '../../controller/backend.js';
 import {setTheme, getTheme, THEME_SELECT_OPTIONS} from '../../components/globals/theme';
+import Select from 'react-select';
 import './User.scss';
 import 'react-toggle/style.css';
 
@@ -35,7 +36,7 @@ const User = ({open, setOpen}) => {
             close();
         });
     }
-    const themeSelect = (value) => {
+    const themeSelect = ({value}) => {
         setTheme(value);
     }
     const close = () => { 
@@ -45,7 +46,7 @@ const User = ({open, setOpen}) => {
         setSharing(FirebaseUser.get.currentUser.profile.sharing);
     }
     return (
-        <Modal open={open}>
+        <Modal open={open} setOpen={setOpen}>
             <div className="user-modal">
                 <button className="close-button" onClick={close}>
                     <CloseButton />
@@ -77,10 +78,12 @@ const User = ({open, setOpen}) => {
 
                 <Select
                     options={THEME_SELECT_OPTIONS}
-                    defaultValue={getTheme()}
-                    title='Theme:'
-                    onValueChange={themeSelect}
+                    defaultValue={THEME_SELECT_OPTIONS[getTheme()]} 
+                    name='theme'
+                    onChange={themeSelect}
+                    className='theme-select'
                 />
+                
                 <div className="button-holder">
                     <button 
                         className="logout text"

@@ -16,7 +16,8 @@
     &:focus{
         outline: none;
     }
-    & input.input{
+    & .theme-select, .theme-select > div{
+        background-color: var(--bg-primary);
         color: var(--text-secondary);
     }
     & .avatar{

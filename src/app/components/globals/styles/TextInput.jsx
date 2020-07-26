@@ -2,10 +2,10 @@ import React from 'react';
 import './TextInput.scss';
 
 const TextInput = (props) => {
-    let {value, id, label} = props;
+    let {value, id, label, autofocus} = props;
     return (
         <span className={'text-input' + (value.length === 0 ? '' : ' input--filled')}>
-            <input {...props} name={id}/>
+            <input {...props} autoComplete='off' autoFocus={autofocus ?? false} name={id}/>
             <label htmlFor={id}>
                 <span>
                     {label}

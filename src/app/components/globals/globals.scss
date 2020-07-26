@@ -16,6 +16,7 @@
 }
 html, body {
     overscroll-behavior: none;
+    min-height: -webkit-fill-available;
 }
 body {
     margin: 0;

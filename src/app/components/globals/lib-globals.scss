@@ -42,6 +42,9 @@
     background-color: var(--bg-primary) !important;
     & span, & .MuiTypography-subtitle1{
         color: var(--history-summary) !important;
+        &.MuiPickersToolbarButton-toolbarBtnSelected{
+            color: var(--text-primary) !important;
+        }
     }
     & button{
         &:hover, &:focus, &:active{

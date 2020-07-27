@@ -77,8 +77,6 @@ let init = (callback) => {
             saveAutofillLocally(autofill);
             localStorage.setItem('user', JSON.stringify(store.currentUser));
             callback(user);
-            console.log("finished user called", profile.data());
-
         }).catch(defaultError);
     });
 }

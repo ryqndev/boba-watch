@@ -91,7 +91,7 @@ const Blog = () => {
         }).then((res) => {
             if (res.value) {
                 FirebaseUser.publish.delete(id).then(async(res) => {
-                    Swal.fire('Deleted!','Your file has been deleted.', 'success');
+                    Swal.fire('Deleted!','Your post has been deleted.', 'success');
                     let entries = await FirebaseUser.publish.get.user(userid);
                     let allPosts = [];
                     entries.forEach(entry => {

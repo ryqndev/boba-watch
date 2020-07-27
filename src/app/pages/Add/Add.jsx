@@ -3,6 +3,7 @@ import {useTranslation} from 'react-i18next';
 import 'date-fns'; 
 import Swal from 'sweetalert2';
 import DateFnsUtils from '@date-io/date-fns';
+import {withRouter} from 'react-router-dom';
 import {MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers';
 import {add, edit} from '../../controller';
 import {TextInput, Card} from '../../components';
@@ -10,12 +11,11 @@ import FirebaseUser from '../../controller/backend';
 import StarRatingComponent from 'react-star-rating-component';
 import {ReactComponent as StarEmptyIcon} from './star_empty.svg';
 import {ReactComponent as StarFilledIcon} from './star_filled.svg';
-
 import Select from 'react-select';
-import './Add.scss';
 import backend from '../../controller/backend';
+import './Add.scss';
 
-const Add = ({pageTitle, buttonTitle, editData}) => {
+const Add = ({pageTitle, buttonTitle, editData, history}) => {
     const {t} = useTranslation();
     const [name, setName] = useState(editData?.name ?? '');
     const [location, setLocation] = useState(editData?.location ?? '');
@@ -85,10 +85,15 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
         clearForm();
         setCanSave(true);
         setCanAdd(true);
+        history.push('/dash');
     };
 
     const saveDrink = (e) => {
         e.preventDefault();
+        if(name === ''){
+            Swal.fire('Can\'t save drink without name', 'Please add a name to save to the autofill list', 'error');
+            return;
+        }
         if(!canSave) return;
         let data = [
             ...autofill,
@@ -129,7 +134,8 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
                 setRating(data.rating);
                 setDescription(data.description);
             }else if(result.dismiss === 'cancel'){
-                let updated = autofill.splice(autofill.findIndex(e => e.value === data.value), 1);
+                let updated = [...autofill];
+                updated.splice(updated.findIndex(e => e.value === data.value), 1);
                 backend.user.setAutofill(updated).then(() => {
                     localStorage.setItem('autofill', JSON.stringify(updated));
                     setAutofill(updated);
@@ -154,7 +160,7 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
                         name='autofill'
                         onChange={autofillSelect}
                         className='autofill-select'
-                        isSearchable={true}/>
+                    />
 
                     <div className="autofill-divider">or add a new drink:</div>
 
@@ -221,4 +227,4 @@ const Add = ({pageTitle, buttonTitle, editData}) => {
     );
 }
 
-export default Add;
+export default withRouter(Add);

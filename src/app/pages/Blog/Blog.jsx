@@ -194,7 +194,7 @@ const Blog = () => {
                                 </div>)
                             }
                         </FeedItem>))
-                    : <h3 key="empty">No Published Reviews</h3>
+                    : <h3 key="@ryqndev/empty">No Published Reviews</h3>
                 }
             </div>
         </div>

@@ -56,8 +56,8 @@ const History = () => {
             }
         });
         if(monthly.length === 0){
-            monthly.push(<NoDrinksLabel key='@ryqndev' label="no drinks this month ...yet" />);
-            if(total.length === 0) total.push(<NoDrinksLabel key={'@ryqndev'} label="Add a drink to start!" />);
+            monthly.push(<NoDrinksLabel key='@ryqndev/empty' label="no drinks this month ...yet" />);
+            if(total.length === 0) total.push(<NoDrinksLabel key='@ryqndev/empty' label="Add a drink to start!" />);
         }
         if(rec <= 0) monthly.push(<LoadMore key='@ryqndev/load' click={() => {setShow({...show, 'recent': show.recent + 10})}}/>);
         if(com <= 0) total.push(<LoadMore key='@ryqndev/load' click={() => {setShow({...show, 'complete': show.complete + 10})}}/>);

@@ -62,7 +62,6 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
     const handlePriceChange = e => {if((e.target.value).match(/^-?\d*\.?\d*$/)) setPrice(e.target.value)}
     const handleDateChange = (date) => {setDate(date)}
 
-
     const addDrink = async(e) => {
         e.preventDefault();
         setCanAdd(false);
@@ -164,7 +163,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
 
                     <div className="autofill-divider">or add a new drink:</div>
 
-                    <TextInput value={location} onChange={handleTextChange(setLocation)} autofocus label={t("Location")} id="location-input"/>
+                    <TextInput value={location} onChange={handleTextChange(setLocation)} autoFocus label={t("Location")} id="location-input"/>
                     <TextInput value={name} onChange={handleTextChange(setName)} label={t("Drink Name")} id="name-input"/>
                     <TextInput value={price} onChange={handlePriceChange} label={t("Price")} id="name-input" type="text"/>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>

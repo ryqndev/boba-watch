@@ -9,5 +9,6 @@
     z-index: 1040;
 }
 .modal-backdrop.open{
-    display: block;
+    display: grid;
+    overflow: hidden;
 }

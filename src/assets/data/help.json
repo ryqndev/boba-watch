@@ -1,0 +1,68 @@
+{
+    "data": [
+        {
+            "img": "theme.png",
+            "title": "Dark Mode",
+            "path": ["user", "theme", "[SELECT dark]"],
+            "desc": "You can now search through your history of drinks!. The search feature will be able to match description, location, name, and price. (date search funcitonality currently in the works!)"
+        },
+        {
+            "img": "search.png",
+            "title": "Search",
+            "path": ["history", "Search..."],
+            "desc": "You can now search through your history of drinks!. The search feature will be able to match description, location, name, and price. (date search funcitonality currently in the works!)"
+        },
+        {
+            "img": "edit.png",
+            "title": "Edit",
+            "path": ["history", "[any drink]", "EDIT"],
+            "desc": "You can now edit a drink entry without having to delete and create a new one. Just click the edit button after selecting a drink entry."
+        },
+        {
+            "img": "publish.png",
+            "title": "Publish",
+            "path": ["history", "[any drink]", "PUBLISH"],
+            "desc": "Start your own blog by publishing your drink entries for the world to see. Note: privating your profile will only keep your profile hidden and people may still be able to see your posts on their feed."
+        },
+        {
+            "img": "rating.png",
+            "title": "Rating",
+            "path": ["add", "RATING"],
+            "desc": "You can now rate your drinks with a 1-5 star rating system!"
+        },
+        {
+            "img": "save.png",
+            "title": "Save",
+            "path": ["add", "[fill drink detail]", "SAVE"],
+            "desc": "Find yourself adding the same drinks over and over again? Now, you can fill out the add page and click 'SAVE' to save drinks to your autofill list."
+        },
+        {
+            "img": "autofill.png",
+            "title": "Autofill",
+            "path": ["add", "Autofill with saved entry", "[SELECT]"],
+            "desc": "After saving drinks to your autofilled list, you can quickly fill out the form by selecting it from the dropdown menu. Your autofill list will save the following entries: [location, drink name, price, rating, description]"
+        },
+        {
+            "img": "feed.png",
+            "title": "Feed",
+            "path": ["feed"],
+            "desc": "All drinks and posts that anyone choose to publish will be displayed through the global feed. You can 'like' posts that you find interesting and they will be saved in your 'faves' tab unless deleted by the creator"
+        },
+        {
+            "img": "profiles.png",
+            "title": "Profiles",
+            "path": ["feed", "[click on user's avatar]"],
+            "desc": "You can view any person's profile by clicking on their avatar. "
+        },
+        {
+            "img": "manage.png",
+            "title": "Manage your Profile",
+            "path": ["blog", "[location icon or bio]"],
+            "desc": "You can edit your profile location or bio anytime by just clicking on them. Here, you can also view and manage your public posts."
+        },
+        {
+            "title": "Moderation",
+            "desc": "We reserve the right to remove you from the platform. Please exercise common sense when posting things publicly. If you are found to be posting material we deem inappropriate or irrelevant, you will be banned from posting."
+        }
+    ]
+}

@@ -48,10 +48,10 @@ const User = ({open, setOpen}) => {
     return (
         <Modal open={open} setOpen={setOpen}>
             <div className="user-modal">
+                <img src={FirebaseUser.get.currentUser.user.photoURL} className="avatar" alt="user"/>
                 <button className="close-button" onClick={close}>
                     <CloseButton />
                 </button>
-                <img src={FirebaseUser.get.currentUser.user.photoURL} className="avatar" alt="user"/>
                 <h1>{t('User Settings')}</h1>
                 <TextInput
                     id="monthly-spending-input"
@@ -76,6 +76,7 @@ const User = ({open, setOpen}) => {
                     label={t("Max of drinks / month")}
                 />
 
+                <label className="theme-label">Theme:</label>
                 <Select
                     options={THEME_SELECT_OPTIONS}
                     defaultValue={THEME_SELECT_OPTIONS[getTheme()]} 

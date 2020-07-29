@@ -1,0 +1,39 @@
+.help-content{
+    place-self: center;
+    box-sizing: border-box;
+    background-color: var(--bg-primary);
+    width: calc(100vw - 40px);
+    border-radius: 4px;
+    padding: 10px 0px 15px;
+    & .slide{
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 40px 20px;
+    }
+    & h2{
+        text-align: center;
+        margin: 10px 0 0 0;
+        color: var(--text-accent);
+    }
+    & h3{
+        margin: 0px;
+        color: #F68080;
+    }
+    & span{
+        color: grey;
+    }
+    & p{
+        font-size: 14px;
+    }
+    & img{
+        width: 100%;
+        object-fit: cover;
+    }
+    & button, button:hover, button:focus, button:active{
+        background-color: transparent;
+        &:before{
+            background: var(--text-secondary) !important;
+        }
+    }
+}

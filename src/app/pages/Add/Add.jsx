@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import 'date-fns'; 
 import Swal from 'sweetalert2';
+import {alertInvalidDrinkPrice, alertEmptyDrinkName, alertAutofillSuccess, alertDefaultError} from '../../libs/SwalAlerts';
 import DateFnsUtils from '@date-io/date-fns';
 import {withRouter} from 'react-router-dom';
 import {MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers';
@@ -74,7 +75,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             rating: rating
         }} 
         if (isNaN(data.drink.price)){
-            Swal.fire('Oops...', t('Please enter a valid price to add drink'), 'error');
+            alertInvalidDrinkPrice();
             setCanAdd(true);
             return;
         }
@@ -90,7 +91,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
     const saveDrink = (e) => {
         e.preventDefault();
         if(name === ''){
-            Swal.fire('Can\'t save drink without name', 'Please add a name to save to the autofill list', 'error');
+            alertEmptyDrinkName();
             return;
         }
         if(!canSave) return;
@@ -110,11 +111,10 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
         FirebaseUser.user.setAutofill(data).then(() => {
             setAutofill(data);
             localStorage.setItem('autofill', JSON.stringify(data));
-            Swal.fire('Saved!', 'You can now autofill your next purchase with these drink details.', 'success');
+            alertAutofillSuccess();
         }).catch((err) => {
             setCanSave(true);
-            console.log(err);
-            Swal.fire('Whoops!', 'Something went wrong...', 'error');
+            alertDefaultError(err);
         });
     }
     const autofillSelect = (data) => {
@@ -139,8 +139,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
                     localStorage.setItem('autofill', JSON.stringify(updated));
                     setAutofill(updated);
                 }).catch((err) => {
-                    console.log(err);
-                    Swal.fire('Ooops', 'Something went wrong...', 'error');
+                    alertDefaultError(err);
                 });
             }
         })

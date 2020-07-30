@@ -6,7 +6,7 @@ import Utils from '../../components/textUtil';
 import {useParams} from 'react-router-dom';
 import {FeedItem} from '../Feed';
 import LocationIcon from '@material-ui/icons/LocationOnRounded';
-import Swal from 'sweetalert2';
+import {alertDefaultError, alertBlogPostDeletedSuccess, alertBioUpdateSuccess, alertLocationUpdateSuccess, promptBioUpdate, promptLocationUpdate, confirmBlogPostDelete} from '../../libs/SwalAlerts';
 import {TextClipboard, Collapse} from '../../components';
 import BobaImage from '../../../assets/logo-shadow.svg';
 import './Blog.scss';
@@ -80,18 +80,10 @@ const Blog = () => {
     }, [userid]);
     
     const deletePost = (id) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "Once you delete this you can't get it back!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((res) => {
+        confirmBlogPostDelete().then((res) => {
             if (res.value) {
                 FirebaseUser.publish.delete(id).then(async(res) => {
-                    Swal.fire('Deleted!','Your post has been deleted.', 'success');
+                    alertBlogPostDeletedSuccess();
                     let entries = await FirebaseUser.publish.get.user(userid);
                     let allPosts = [];
                     entries.forEach(entry => {
@@ -100,52 +92,36 @@ const Blog = () => {
                     });
                     setPosts(allPosts);
                 }).catch(err => {
-                    Swal.fire('Whoops!','Something went wrong while deleting', 'error');                    
+                    alertDefaultError(err);                   
                 });
             }
         })
     }
     const triggerLocationEdit = async() => {
         if(!isOwnProfile) return;
-        const { value: location } = await Swal.fire({
-            title: 'Change location',
-            input: 'text',
-            inputPlaceholder: 'Where I am now...',
-            inputAttributes: {
-                maxLength: 20
-            }
-        });
+        const { value: location } = await promptLocationUpdate();
         if(location){
             FirebaseUser.blog.setProfile(
                 {location: location}
             ).then(() => {
                 setLocation(location);
-                Swal.fire('Done!', 'Your public location has been changed.', 'success');
+                alertLocationUpdateSuccess();
             }).catch((err) => {
-                console.log(err);
-                Swal.fire('Whoops!', 'Something went wrong... Try again later.', 'error');
+                alertDefaultError(err);
             });
         }
     }
     const triggerBioEdit = async() => {
         if(!isOwnProfile) return;
-        const { value: bio } = await Swal.fire({
-            title: 'Edit bio',
-            input: 'textarea',
-            inputPlaceholder: 'About me...',
-            inputAttributes: {
-                maxLength: 350
-            }
-        });
+        const { value: bio } = await promptBioUpdate();
         if(bio){
             FirebaseUser.blog.setProfile(
                 {bio: bio}
             ).then(() => {
                 setBio(bio);
-                Swal.fire('Done!', 'Your bio has been updated.', 'success');
-            }).catch((err) => {
-                console.log(err);
-                Swal.fire('Whoops!', 'Something went wrong... Try again later.', 'error');
+                alertBioUpdateSuccess();
+            }).catch(err => {
+                alertDefaultError(err);
             });
         }
     }

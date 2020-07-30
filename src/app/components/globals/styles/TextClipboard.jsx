@@ -1,8 +1,8 @@
 import React from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
-import Swal from 'sweetalert2';
 import './textclipboard.css';
+import {alertLinkCopiedSuccess} from '../../../libs/SwalAlerts';
 
 const TextClipboard = ({className='', text}) => {
     const copy = () => {
@@ -14,7 +14,7 @@ const TextClipboard = ({className='', text}) => {
             }).catch(err => {
             });
         }else{
-            Swal.fire("Link Copied!", '', 'success');
+            alertLinkCopiedSuccess();
         }
     }
     return (

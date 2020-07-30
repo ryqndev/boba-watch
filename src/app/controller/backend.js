@@ -10,7 +10,13 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
 import stats from './calculateStatistics';
-import Swal from 'sweetalert2';
+import {
+    alertDefaultError,
+    alertInvalidNumberInput,
+    alertSettingsUpdateSuccess,
+    alertDrinkNotDeleted,
+    alertDrinkDeletedSuccess
+} from '../libs/SwalAlerts';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ',
@@ -40,7 +46,6 @@ const store = {
 };
 window.userstuff = store;//TODO remove
 const nothing = () => { return; }
-const defaultError = err => {Swal.fire('Error!', err+'', 'error')}
 
 let init = (callback) => {
     db = firebase.firestore(); 
@@ -77,7 +82,7 @@ let init = (callback) => {
             saveAutofillLocally(autofill);
             localStorage.setItem('user', JSON.stringify(store.currentUser));
             callback(user);
-        }).catch(defaultError);
+        }).catch(alertDefaultError);
     });
 }
 
@@ -136,7 +141,7 @@ const logout = () => {
         localStorage.clear();
         localStorage.setItem('theme', theme);
         window.location.reload();
-    }).catch(defaultError);      
+    }).catch(alertDefaultError);      
 }
 
 const setUser = async(profile=defaultProfile) => {
@@ -161,10 +166,10 @@ const updateUser = ({sharing, budget, limit}, callback=nothing) => {
     };
     setBlog();
     if(isNaN(data.budget) || isNaN(data.limit)){
-        return Swal.fire('Oops...', `Please enter valid numbers`, 'error');
+        return alertInvalidNumberInput();
     }
     setUser(data).then(() => {
-        Swal.fire('Success!', 'Your settings have been updated', 'success');
+        alertSettingsUpdateSuccess();
         callback(data);
     });
 }
@@ -193,7 +198,7 @@ const updateStats = (userStats, callback=nothing ) => {
     .then(res => {
         callback(res);
     }).catch(err => {
-        Swal.fire('Error!', `${err}`, 'error');
+        alertDefaultError(err);
         callback(err);
     });
 }
@@ -213,10 +218,10 @@ const deleteDrink = (id, callback=nothing) => {
     .doc(id)
     .delete()
     .then(() => {
-        Swal.fire('Done!', 'Drink has been deleted', 'success'); 
+        alertDrinkDeletedSuccess();
         callback();
     }).catch(err => {
-        Swal.fire('Error!', `Couldn't delete your drink. Try again later!`, 'error');
+        alertDrinkNotDeleted(err);
     });
 }
 

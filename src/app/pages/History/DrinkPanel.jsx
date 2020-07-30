@@ -7,7 +7,7 @@ import FirebaseUser from '../../controller/backend.js';
 import stats from '../../controller/calculateStatistics';
 import './DrinkPanel.scss';
 import {withRouter} from 'react-router-dom';
-import Swal from 'sweetalert2';
+import {alertDefaultError, alertPublishSuccess} from '../../libs/SwalAlerts.js';
 
 const DrinkPanel = ({data, history, triggerUpdate}) => {
     const {t} = useTranslation();
@@ -27,10 +27,10 @@ const DrinkPanel = ({data, history, triggerUpdate}) => {
         setCanPublish(false);
         try{
             await FirebaseUser.publish.add(data);
-            Swal.fire('Success!', 'Drink published on your blog!', 'success');
+            alertPublishSuccess();
         }catch(err){
             setCanPublish(true);
-            Swal.fire('Error!', err+'', 'error');
+            alertDefaultError(err);
         }
     }
     const drinkDate = (new Date(data.date)).toDateString();

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Utils from '../../components/textUtil.js';
 import FirebaseUser from '../../controller/backend';
 import {Card} from '../../components';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import {withRouter} from 'react-router-dom'
 import StarRatingComponent from 'react-star-rating-component';
 import {ReactComponent as StarEmptyIcon} from './star_empty.svg';

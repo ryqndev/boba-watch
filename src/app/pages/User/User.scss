@@ -10,7 +10,7 @@
     background-color: var(--bg-primary);
     border: 3px solid var(--nav-bg);
     border-radius: 10px;
-    padding: 60px 40px 20px 40px;
+    padding: 60px 40px 26px 40px;
     transition: all 320ms;
     z-index: 1050;
     &:focus{
@@ -36,7 +36,7 @@
         border: 4px solid var(--nav-bg);
     }
     & h1{
-        margin: 0 0 20px 0;
+        margin: 0 0 26px 0;
         text-align: center;
         font-size: 1.5rem;
         @media screen and (min-width: 370px){
@@ -51,7 +51,7 @@
     width: 100%;
     & button{
         padding: 0px;
-        margin: 20px 15px 5px;
+        margin: 26px 15px 5px;
     }
     & .logout{
         // box-shadow: none;
@@ -60,24 +60,28 @@
         background-color: var(--bg-primary);
     }
 }
-button.close-button{
+button.close-button, button.help-button{
     box-sizing: border-box;
     position: absolute;
-    top: 15px;
-    padding: 3px 0px 0px 1px;
-    right: 15px;
+    top: 16px;
+    padding: 0px;
     margin: 0px;
-    height: 22px;
-    width: 22px;
-    background-color: var(--text-accent);
+    right: 16px;
+    background-color: transparent;
     border-radius: 50%;
+    &:focus, &:hover, &:active{
+        background-color: transparent;
+    }
     & svg{
-        height: 15px;
-        width: 15px;
+        & path{
+            fill: var(--text-accent);
+        }
     }
 }
+button.help-button{
+    right: 45px;
+}
 .user-share-profile{
-    
     font-size: 15px;
     display: grid;
     grid-template-columns: 1fr 50px;

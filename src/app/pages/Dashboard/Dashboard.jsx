@@ -7,9 +7,15 @@ import UserSunburst from './graphs/UserSunburst';
 import {Card} from '../../components';
 import stats from '../../controller/calculateStatistics';
 import FirebaseUser from '../../controller/backend.js';
-import Help from './Help';
+import Help from '../User/Help';
 import './Dashboard.scss';
 import 'react-vis/dist/style.css';
+
+const hasLoadedBefore = () => {
+    let firstLoad = JSON.parse(localStorage.getItem('loaded') ?? 'true');
+    localStorage.setItem('loaded', false);
+    return firstLoad;
+}
 
 const Dashboard = () => {
     const {t} = useTranslation();
@@ -17,7 +23,7 @@ const Dashboard = () => {
     const [cmetrics] = useState(JSON.parse(localStorage.getItem('completeMetrics')));
     const [drinkPercent] = useState(parseInt((metrics.td / FirebaseUser.get.currentUser.profile.limit) * 100));
     const [width, setWidth] = useState(window.innerWidth - 40);
-    const [openHelp, setOpenHelp] = useState(true);
+    const [help, setHelp] = useState(hasLoadedBefore());
     const budget = FirebaseUser.get.currentUser.profile.budget;
     const resize = () => {setWidth(window.innerWidth - 40)}
     useEffect(() => {stats.resetMonthly(FirebaseUser.get.currentUser.drinkids)}, []);
@@ -25,6 +31,7 @@ const Dashboard = () => {
         window.addEventListener('resize', resize);
         return () => {window.removeEventListener('resize', resize)}
     }, [setWidth]);
+
     return (
         <div className="dashboard-page">
             <h4 className="bw title">{t('Monthly Spending')}</h4>
@@ -52,7 +59,7 @@ const Dashboard = () => {
             </Card>
             <DailyHeatMap data={cmetrics.d} width={width} />
             <TimeBarGraphs width={width} data={cmetrics.d} />
-            <Help open={openHelp} setOpen={setOpenHelp} />
+            <Help open={help} setOpen={setHelp} />
         </div>
     );
 }

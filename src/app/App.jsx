@@ -39,19 +39,19 @@ const App = () => {
         <Router initialEntries={['/dash', '/history', '/add', '/feed', '/blog']} initialIndex={0}>
             <Switch>
                 <Route exact path='/dash'>
-                    <UserIcon setUser={setUser}/>
+                    <UserIcon setUser={setUser} />
                     <Dashboard /> 
                 </Route>
                 <Route exact path='/history'>
-                    <UserIcon setUser={setUser}/>
+                    <UserIcon setUser={setUser} />
                     <History />
                 </Route>
                 <Route exact path='/add'>
-                    <UserIcon setUser={setUser}/>
+                    <UserIcon setUser={setUser} />
                     <Add /> 
                 </Route>
                 <Route exact path='/edit/:userid'>
-                    <UserIcon setUser={setUser}/>
+                    <UserIcon setUser={setUser} />
                     <Edit /> 
                 </Route>
                 <Route exact path='/feed'>

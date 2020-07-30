@@ -3,6 +3,7 @@
     box-sizing: border-box;
     background-color: var(--bg-primary);
     width: calc(100vw - 40px);
+    max-width: 500px;
     border-radius: 4px;
     padding: 10px 0px 15px;
     & .slide{
@@ -10,11 +11,18 @@
         width: 100%;
         box-sizing: border-box;
         padding: 10px 40px 20px;
+        @media screen and (max-width: 350px){
+            padding: 10px 25px 20px;
+        }
     }
     & h2{
         text-align: center;
         margin: 10px 0 0 0;
+        font-size: 2.4rem;
         color: var(--text-accent);
+        @media screen and (max-width: 350px){
+            font-size: 2rem;
+        }
     }
     & h3{
         margin: 0px;

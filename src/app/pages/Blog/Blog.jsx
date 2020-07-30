@@ -81,7 +81,7 @@ const Blog = () => {
     
     const deletePost = (id) => {
         confirmBlogPostDelete().then((res) => {
-            if (res.value) {
+            if (res.value){
                 FirebaseUser.publish.delete(id).then(async(res) => {
                     alertBlogPostDeletedSuccess();
                     let entries = await FirebaseUser.publish.get.user(userid);
@@ -91,9 +91,7 @@ const Blog = () => {
                         allPosts.push(data);
                     });
                     setPosts(allPosts);
-                }).catch(err => {
-                    alertDefaultError(err);                   
-                });
+                }).catch(alertDefaultError);
             }
         })
     }
@@ -101,28 +99,20 @@ const Blog = () => {
         if(!isOwnProfile) return;
         const { value: location } = await promptLocationUpdate();
         if(location){
-            FirebaseUser.blog.setProfile(
-                {location: location}
-            ).then(() => {
+            FirebaseUser.blog.setProfile({location: location}).then(() => {
                 setLocation(location);
                 alertLocationUpdateSuccess();
-            }).catch((err) => {
-                alertDefaultError(err);
-            });
+            }).catch(alertDefaultError);
         }
     }
     const triggerBioEdit = async() => {
         if(!isOwnProfile) return;
         const { value: bio } = await promptBioUpdate();
         if(bio){
-            FirebaseUser.blog.setProfile(
-                {bio: bio}
-            ).then(() => {
+            FirebaseUser.blog.setProfile({bio: bio}).then(() => {
                 setBio(bio);
                 alertBioUpdateSuccess();
-            }).catch(err => {
-                alertDefaultError(err);
-            });
+            }).catch(alertDefaultError);
         }
     }
     return (

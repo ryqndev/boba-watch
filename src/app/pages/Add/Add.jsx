@@ -138,9 +138,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
                 backend.user.setAutofill(updated).then(() => {
                     localStorage.setItem('autofill', JSON.stringify(updated));
                     setAutofill(updated);
-                }).catch((err) => {
-                    alertDefaultError(err);
-                });
+                }).catch(alertDefaultError);
             }
         })
 

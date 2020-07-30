@@ -30,7 +30,7 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-let db;
+let db, analytics;
 const defaultProfile = {
     'budget': 10000,
     'limit': 15,
@@ -49,6 +49,7 @@ const nothing = () => { return; }
 
 let init = (callback) => {
     db = firebase.firestore(); 
+    analytics = firebase.analytics();
     db.enablePersistence().catch(err => {console.error(err)});
 
     let savedUserData = JSON.parse(localStorage.getItem('user'));

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, withRouter, useLocation} from 'react-router-dom';
 import ExploreIcon from '@material-ui/icons/ExploreRounded';
 import DashboardIcon from '@material-ui/icons/HomeRounded';
 import AddIcon from '@material-ui/icons/AddRounded';
@@ -9,14 +9,19 @@ import FirebaseUser from '../../controller/backend';
 import './Navigation.scss';
 
 const Navigation = ({history}) => {
+    let location = useLocation();
     const [tab, setTab] = useState(history.location.pathname);
+    const isTab = path => (path === tab ? ' selected' : '');
 
     useEffect(() => {
         setTab(history.location.pathname);
     }, [history.location.pathname]);
 
-    const isTab = path => (path === tab ? ' selected' : '');
-
+    useEffect(() => {
+        if(FirebaseUser.analytics){
+            FirebaseUser.analytics.logEvent('page_view', {page_path: location.pathname});
+        }
+    }, [location]);
     return (
         <nav>
             <Link to='/dash'>

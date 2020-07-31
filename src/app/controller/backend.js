@@ -19,18 +19,18 @@ import {
 } from '../libs/SwalAlerts';
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ',
-    authDomain: 'boba-watch-firebase.firebaseapp.com',
-    databaseURL: 'https://boba-watch-firebase.firebaseio.com',
-    projectId: 'boba-watch-firebase',
-    storageBucket: 'boba-watch-firebase.appspot.com',
-    messagingSenderId: '674375234614',
-    appId: '1:674375234614:web:fdaf98c291204b9c',
-    measurementId: 'G-C2DYVHCWDR'
+    apiKey: "AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ",
+    authDomain: "boba-watch-firebase.firebaseapp.com",
+    databaseURL: "https://boba-watch-firebase.firebaseio.com",
+    projectId: "boba-watch-firebase",
+    storageBucket: "boba-watch-firebase.appspot.com",
+    messagingSenderId: "674375234614",
+    appId: "1:674375234614:web:fdaf98c291204b9c",
+    measurementId: "G-C2DYVHCWDR"
 };
 firebase.initializeApp(firebaseConfig);
+let db, analytics = firebase.analytics();
 
-let db, analytics;
 const defaultProfile = {
     'budget': 10000,
     'limit': 15,
@@ -49,7 +49,6 @@ const nothing = () => { return; }
 
 let init = (callback) => {
     db = firebase.firestore(); 
-    analytics = firebase.analytics();
     db.enablePersistence().catch(err => {console.error(err)});
 
     let savedUserData = JSON.parse(localStorage.getItem('user'));
@@ -59,6 +58,7 @@ let init = (callback) => {
     }
     firebase.auth().onAuthStateChanged(user => {
         if(!user) return callback(user);    // if not logged in user
+        analytics.logEvent('login');
         store.currentUser.user = {
             displayName: user.displayName,
             uid: user.uid,
@@ -138,6 +138,7 @@ const saveAutofillLocally = (autofill) => {
 
 const logout = () => {
     firebase.auth().signOut().then(function() {
+        analytics.logEvent('logout');
         let theme = localStorage.getItem('theme');
         localStorage.clear();
         localStorage.setItem('theme', theme);
@@ -302,4 +303,5 @@ export default {
         },
         delete: publishDelete
     },
+    analytics: analytics,
 }

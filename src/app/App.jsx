@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MemoryRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
+import {MemoryRouter as Router, Route, Switch, withRouter} from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import {Add, Edit} from './pages/Add';
 import User from './pages/User/User';
@@ -13,11 +13,11 @@ import FirebaseUser from './controller/backend';
 
 const Start = ({history}) => {
     useEffect(() => {
-		Theme();
+        Theme();
         FirebaseUser.init(user => {
             history.push(user ? '/app' : '/login');
         });
-		console.log("v2.0.5");
+        console.log("v2.0.5");
     }, [history]);
     return (
         <Switch>
@@ -27,7 +27,7 @@ const Start = ({history}) => {
 				<Login />
 			</Route>
 			<Route path='/app'>
-                <App location={history}/>
+                <App />
 			</Route>
 		</Switch>
     );

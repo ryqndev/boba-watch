@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import 'date-fns'; 
 import Swal from 'sweetalert2';
-import {alertInvalidDrinkPrice, alertEmptyDrinkName, alertAutofillSuccess, alertDefaultError} from '../../libs/SwalAlerts';
+import {alertInvalidDrinkPrice, alertEmptyDrinkName, alertAutofillSuccess, alertDefaultError} from '../../libs/swal';
 import DateFnsUtils from '@date-io/date-fns';
 import {withRouter} from 'react-router-dom';
 import {MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers';
@@ -162,7 +162,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
 
                     <TextInput value={location} onChange={handleTextChange(setLocation)} autoFocus label={t("Location")} id="location-input"/>
                     <TextInput value={name} onChange={handleTextChange(setName)} label={t("Drink Name")} id="name-input"/>
-                    <TextInput value={price} onChange={handlePriceChange} label={t("Price")} id="name-input" type="text"/>
+                    <TextInput value={price} onChange={handlePriceChange} label={t("Price")} id="price-input" type="text"/>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DateTimePicker
                             id="date-value"

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import FirebaseUser from '../../controller/backend';
+import {publishGetFeed, getFaves, getBlogPost} from '../../libs/firestore';
 import {FeedItemWithAvatar} from './FeedItem';
 import './Feed.scss';
 
@@ -11,7 +12,7 @@ const Feed = () => {
     const [isFave, setIsFave] = useState(false);
     useEffect(() => {
         (async() => {
-            let entries = await FirebaseUser.publish.get.feed(FirebaseUser.get.currentUser.user.uid);
+            let entries = await publishGetFeed(FirebaseUser.get.currentUser.user.uid);
             let allPosts = [];
             entries.forEach(entry => {
                 let data = {id: entry.id, ...entry.data()}
@@ -23,10 +24,10 @@ const Feed = () => {
     useEffect(() => {
         if(faves === null && isFave){
             (async() => {
-                let entries = await FirebaseUser.blog.faves(FirebaseUser.get.currentUser.user.uid);
+                let entries = await getFaves(FirebaseUser.get.currentUser.user.uid);
                 let allPosts = [];
                 entries.forEach(entry => {
-                    allPosts.push(FirebaseUser.blog.get(entry.id));
+                    allPosts.push(getBlogPost(entry.id));
                 });
                 Promise.all(allPosts).then(res => {
                     setFaves(res.reduce((acc, e) => {

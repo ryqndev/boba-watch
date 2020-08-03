@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Utils from '../../components/textUtil.js';
 import FirebaseUser from '../../controller/backend';
+import  {getUserBlog} from '../../libs/firestore';
 import {Card} from '../../components';
 import {useTranslation} from 'react-i18next';
 import {withRouter} from 'react-router-dom'
@@ -18,7 +19,7 @@ const WithAvatar = ({uid, history, ...data}) => {
     useEffect(() => {
         if(person !== null) return;
         (async() => {
-            FirebaseUser.blog.getProfile(uid).then(res => {
+            getUserBlog(uid).then(res => {
                 setPerson(res.data());
             }).catch(err => {console.log(err)});
         })();

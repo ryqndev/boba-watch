@@ -7,7 +7,7 @@ import FirebaseUser from '../../controller/backend.js';
 import stats from '../../controller/calculateStatistics';
 import './DrinkPanel.scss';
 import {withRouter} from 'react-router-dom';
-import {alertDefaultError, alertPublishSuccess} from '../../libs/SwalAlerts.js';
+import {alertDefaultError, alertPublishSuccess} from '../../libs/swal.js';
 
 const DrinkPanel = ({data, history, triggerUpdate}) => {
     const {t} = useTranslation();

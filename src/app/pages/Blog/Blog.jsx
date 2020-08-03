@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import Toggle from 'react-toggle';
 import {useTranslation} from 'react-i18next';
 import FirebaseUser from '../../controller/backend';
+import {deleteBlogPost, publishGetUser, getUserBlog} from '../../libs/firestore';
 import Utils from '../../components/textUtil';
 import {useParams} from 'react-router-dom';
 import {FeedItem} from '../Feed';
 import LocationIcon from '@material-ui/icons/LocationOnRounded';
-import {alertDefaultError, alertBlogPostDeletedSuccess, alertBioUpdateSuccess, alertLocationUpdateSuccess, promptBioUpdate, promptLocationUpdate, confirmBlogPostDelete} from '../../libs/SwalAlerts';
+import {alertDefaultError, alertBlogPostDeletedSuccess, alertBioUpdateSuccess, alertLocationUpdateSuccess, promptBioUpdate, promptLocationUpdate, confirmBlogPostDelete} from '../../libs/swal';
 import {TextClipboard, Collapse} from '../../components';
 import BobaImage from '../../../assets/logo-shadow.svg';
 import './Blog.scss';
@@ -45,14 +46,14 @@ const Blog = () => {
                 let stats = await FirebaseUser.blog.stats(userid);
                 stats = stats.data();
                 setStats(stats);
-                let user = await FirebaseUser.blog.getProfile(userid);
+                let user = await getUserBlog(userid);
                 user = user.data();
     
                 setBio(filter.clean(user.bio ?? "Just a boba person in a boba world"));
                 setName(user.name ?? "Boba Person");
                 setPhoto(user.profile ?? "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
                 setLocation(filter.clean(user.location ?? "Boba World"));
-                let entries = await FirebaseUser.publish.get.user(userid);
+                let entries = await publishGetUser(userid);
                 let allPosts = [];
                 entries.forEach(entry => {
                     let data = {id: entry.id, ...entry.data()}
@@ -82,9 +83,9 @@ const Blog = () => {
     const deletePost = (id) => {
         confirmBlogPostDelete().then((res) => {
             if (res.value){
-                FirebaseUser.publish.delete(id).then(async(res) => {
+                deleteBlogPost(id).then(async(res) => {
                     alertBlogPostDeletedSuccess();
-                    let entries = await FirebaseUser.publish.get.user(userid);
+                    let entries = await publishGetUser(userid);
                     let allPosts = [];
                     entries.forEach(entry => {
                         let data = {id: entry.id, ...entry.data()}

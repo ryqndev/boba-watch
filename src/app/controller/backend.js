@@ -1,14 +1,14 @@
 /**
  * @file backend.js
  * @author ryqndev - ryan yang
- * @summary - A set of functions to help organize all the server calls
- * in one place
  */
 
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
+import {init as initFirestore, database as db, analytics} from '../libs/firestore';
+import {onLogin} from '../libs/analytics';
 import stats from './calculateStatistics';
 import {
     alertDefaultError,
@@ -16,20 +16,7 @@ import {
     alertSettingsUpdateSuccess,
     alertDrinkNotDeleted,
     alertDrinkDeletedSuccess
-} from '../libs/SwalAlerts';
-
-const firebaseConfig = {
-    apiKey: "AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ",
-    authDomain: "boba-watch-firebase.firebaseapp.com",
-    databaseURL: "https://boba-watch-firebase.firebaseio.com",
-    projectId: "boba-watch-firebase",
-    storageBucket: "boba-watch-firebase.appspot.com",
-    messagingSenderId: "674375234614",
-    appId: "1:674375234614:web:fdaf98c291204b9c",
-    measurementId: "G-C2DYVHCWDR"
-};
-firebase.initializeApp(firebaseConfig);
-let db, analytics = firebase.analytics();
+} from '../libs/swal';
 
 const defaultProfile = {
     'budget': 10000,
@@ -48,8 +35,7 @@ window.userstuff = store;//TODO remove
 const nothing = () => { return; }
 
 let init = (callback) => {
-    db = firebase.firestore(); 
-    db.enablePersistence().catch(err => {console.error(err)});
+    initFirestore();
 
     let savedUserData = JSON.parse(localStorage.getItem('user'));
     if(savedUserData !== null){
@@ -58,7 +44,7 @@ let init = (callback) => {
     }
     firebase.auth().onAuthStateChanged(user => {
         if(!user) return callback(user);    // if not logged in user
-        analytics.logEvent('login');
+        onLogin();
         store.currentUser.user = {
             displayName: user.displayName,
             uid: user.uid,
@@ -93,9 +79,7 @@ const setBlog = async() => {
         profile:  store.currentUser.user.photoURL
     });
 }
-const getBlog = async(blogid) => {
-    return db.collection('blogs').doc(blogid).get();
-}
+
 const saveDrinksLocally = (entries) => {
     let drinkids = [];
     entries.forEach(entry => {
@@ -134,16 +118,6 @@ const saveUserLocally = (user) => {
 const saveAutofillLocally = (autofill) => {
     let data = autofill?.data()?.data ?? '[]';
     localStorage.setItem('autofill', data);
-}
-
-const logout = () => {
-    firebase.auth().signOut().then(function() {
-        analytics.logEvent('logout');
-        let theme = localStorage.getItem('theme');
-        localStorage.clear();
-        localStorage.setItem('theme', theme);
-        window.location.reload();
-    }).catch(alertDefaultError);      
 }
 
 const setUser = async(profile=defaultProfile) => {
@@ -234,24 +208,12 @@ const setAutofillOptions = async(data) => {
     return db.collection(`users/${store.currentUser.user.uid}/user`).doc('autofill').set({data: JSON.stringify(data)});
 }
 
-const getUserBlog = async(uid) => {
-    return db.collection(`users/${uid}/blog`).doc('user').get();
-}
 const setUserBlog = async(updateValues) => {
     return db.collection(`users/${store.currentUser.user.uid}/blog`).doc('user').update(updateValues);
 }
 
 const publishAdd = async({id, ...data}) => {
     return db.collection('blogs').add({ uid: store.currentUser.user.uid, likes: 0, ...data});
-}
-const publishGetUser = async(uid) => {
-    return db.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(6).get();
-}
-const publishGetFeed = async(uid) => {
-    return db.collection('blogs').orderBy('date', 'desc').limit(10).get();
-}
-const publishDelete = async(id) => {
-    return db.collection('blogs').doc(id).delete();
 }
 const blogLike = async(id, increment) => {
     const change = firebase.firestore.FieldValue.increment(increment ? 1 : -1);
@@ -261,9 +223,6 @@ const blogLike = async(id, increment) => {
     return db.collection('blogs').doc(id).update({ likes: change });
 }
 
-const getFaves = async(uid) => {
-    return db.collection(`users/${uid}/user/profile/liked`).limit(6).get();
-}
 const getStats = async(uid) => {
     return db.collection('users')
         .doc(uid)
@@ -273,7 +232,6 @@ const getStats = async(uid) => {
 
 export default {
     init: init,
-    logout: logout,
     user: {
         get: getUser,
         update: updateUser,
@@ -288,20 +246,12 @@ export default {
         delete: deleteDrink
     },
     blog: {
-        getProfile: getUserBlog,
         setProfile: setUserBlog,
         like: blogLike,
-        faves: getFaves,
-        get: getBlog,
         stats: getStats
     },
     publish: {
         add: publishAdd,
-        get: {
-            user: publishGetUser,
-            feed: publishGetFeed
-        },
-        delete: publishDelete
     },
     analytics: analytics,
 }

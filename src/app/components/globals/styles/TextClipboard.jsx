@@ -2,7 +2,7 @@ import React from 'react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import './textclipboard.css';
-import {alertLinkCopiedSuccess} from '../../../libs/SwalAlerts';
+import {alertLinkCopiedSuccess} from '../../../libs/swal';
 
 const TextClipboard = ({className='', text}) => {
     const copy = () => {

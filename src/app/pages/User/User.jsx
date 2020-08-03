@@ -4,6 +4,7 @@ import HelpButton from '@material-ui/icons/HelpOutlineOutlined';
 import {useTranslation} from 'react-i18next';
 import {Modal, TextInput} from '../../components';
 import FirebaseUser from '../../controller/backend.js';
+import {logout} from '../../libs/firestore';
 import {setTheme, getTheme, THEME_SELECT_OPTIONS} from '../../components/globals/theme';
 import Select from 'react-select';
 import Help from './Help';
@@ -95,7 +96,7 @@ const User = ({open, setOpen}) => {
                     <div className="button-holder">
                         <button 
                             className="logout text"
-                            onClick={FirebaseUser.logout}>
+                            onClick={logout}>
                             {t('LOGOUT')}
                         </button>
                         <button className="update" onClick={updateFirebase}>{t('UPDATE')}</button>

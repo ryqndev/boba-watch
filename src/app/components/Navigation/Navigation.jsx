@@ -1,27 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import {Link, withRouter, useLocation} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import ExploreIcon from '@material-ui/icons/ExploreRounded';
 import DashboardIcon from '@material-ui/icons/HomeRounded';
 import AddIcon from '@material-ui/icons/AddRounded';
 import HistoryIcon from '@material-ui/icons/AttachMoneyRounded';
 import PublicIcon from '@material-ui/icons/FaceRounded';
 import FirebaseUser from '../../controller/backend';
+import {onPageView} from '../../libs/analytics';
 import './Navigation.scss';
 
 const Navigation = ({history}) => {
-    let location = useLocation();
     const [tab, setTab] = useState(history.location.pathname);
     const isTab = path => (path === tab ? ' selected' : '');
 
     useEffect(() => {
-        setTab(history.location.pathname);
+        let path = history.location.pathname;
+        setTab(path);
+        onPageView(path);
     }, [history.location.pathname]);
-
-    useEffect(() => {
-        if(FirebaseUser.analytics){
-            FirebaseUser.analytics.logEvent('page_view', {page_path: location.pathname});
-        }
-    }, [location]);
     return (
         <nav>
             <Link to='/dash'>

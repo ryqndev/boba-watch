@@ -7,6 +7,10 @@ import Utils from '../../components/textUtil';
 import {useParams} from 'react-router-dom';
 import {FeedItem} from '../Feed';
 import LocationIcon from '@material-ui/icons/LocationOnRounded';
+import {TextClipboard, Collapse} from '../../components';
+import BobaImage from '../../../assets/logo-shadow.svg';
+import Filter from 'bad-words';
+import './Blog.scss';
 import {
     alertDefaultError,
     alertBlogPostDeletedSuccess,
@@ -16,14 +20,11 @@ import {
     promptLocationUpdate,
     confirmBlogPostDelete
 } from '../../libs/swal';
-import {TextClipboard, Collapse} from '../../components';
-import BobaImage from '../../../assets/logo-shadow.svg';
+
 import {
     stats as defaultStats,
     blog as defaultBlog,
 } from '../../defaults';
-import './Blog.scss';
-import Filter from 'bad-words';
 
 let filter = new Filter();
 
@@ -79,7 +80,6 @@ const Blog = () => {
                 setLocation("Not in Boba World :(");
                 setStats(defaultStats);
             }
-            
         })();
     }, [userid]);
     

@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import * as firebaseui from 'firebaseui';
+import {ui, firebase} from '../libs/firestore';
 import 'firebaseui/dist/firebaseui.css';
 
 const loginHeaderStyle = {
@@ -14,7 +12,6 @@ const loginHeaderStyle = {
 
 const Login = () => {
     useEffect(() => {
-        let ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
         ui.start('#auth-container', {
             signInOptions: [
                 firebase.auth.GoogleAuthProvider.PROVIDER_ID,

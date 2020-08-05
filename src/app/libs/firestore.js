@@ -3,6 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
 import {alertDefaultError} from '../libs/swal';
+import * as firebaseui from 'firebaseui';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ",
@@ -16,7 +17,10 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-let database, analytics = firebase.analytics();
+let database, 
+    analytics = firebase.analytics(), 
+    ui = firebaseui.auth.AuthUI.getInstance() 
+        || new firebaseui.auth.AuthUI(firebase.auth());;
 
 const init = () => {
     database = firebase.firestore(); 
@@ -54,6 +58,8 @@ const getFaves = async(uid) => {
 }
 
 export {
+    ui,
+    firebase,
     init,
     logout,
     database,

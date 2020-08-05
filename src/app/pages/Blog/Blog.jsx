@@ -2,14 +2,26 @@ import React, {useState, useEffect} from 'react';
 import Toggle from 'react-toggle';
 import {useTranslation} from 'react-i18next';
 import FirebaseUser from '../../controller/backend';
-import {deleteBlogPost, publishGetUser, getUserBlog} from '../../libs/firestore';
+import {deleteBlogPost, publishGetUser, getUserBlog, getUserStats} from '../../libs/firestore';
 import Utils from '../../components/textUtil';
 import {useParams} from 'react-router-dom';
 import {FeedItem} from '../Feed';
 import LocationIcon from '@material-ui/icons/LocationOnRounded';
-import {alertDefaultError, alertBlogPostDeletedSuccess, alertBioUpdateSuccess, alertLocationUpdateSuccess, promptBioUpdate, promptLocationUpdate, confirmBlogPostDelete} from '../../libs/swal';
+import {
+    alertDefaultError,
+    alertBlogPostDeletedSuccess,
+    alertBioUpdateSuccess,
+    alertLocationUpdateSuccess,
+    promptBioUpdate,
+    promptLocationUpdate,
+    confirmBlogPostDelete
+} from '../../libs/swal';
 import {TextClipboard, Collapse} from '../../components';
 import BobaImage from '../../../assets/logo-shadow.svg';
+import {
+    stats as defaultStats,
+    blog as defaultBlog,
+} from '../../defaults';
 import './Blog.scss';
 import Filter from 'bad-words';
 
@@ -29,7 +41,7 @@ const Blog = () => {
     const {t} = useTranslation();
     const [posts, setPosts] = useState([]);
     const [location, setLocation] = useState("---");
-    const [bio, setBio] = useState("Just a boba girl in a boba world");
+    const [bio, setBio] = useState(defaultBlog.bio);
     const [photo, setPhoto] = useState(FirebaseUser.get.currentUser.user.photoURL);
     const [name, setName] = useState(FirebaseUser.get.currentUser.user.displayName);
     const [stats, setStats] = useState(JSON.parse(localStorage.getItem('metrics')));
@@ -43,16 +55,16 @@ const Blog = () => {
             setPhoto(BobaImage);
             setName("Loading...");
             try{
-                let stats = await FirebaseUser.blog.stats(userid);
+                let stats = await getUserStats(userid);
                 stats = stats.data();
                 setStats(stats);
                 let user = await getUserBlog(userid);
                 user = user.data();
     
-                setBio(filter.clean(user.bio ?? "Just a boba person in a boba world"));
-                setName(user.name ?? "Boba Person");
-                setPhoto(user.profile ?? "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
-                setLocation(filter.clean(user.location ?? "Boba World"));
+                setBio(filter.clean(user.bio ?? defaultBlog.bio));
+                setName(user.name ?? defaultBlog.name);
+                setPhoto(user.profile ?? defaultBlog.photo);
+                setLocation(filter.clean(user.location ?? defaultBlog.location));
                 let entries = await publishGetUser(userid);
                 let allPosts = [];
                 entries.forEach(entry => {
@@ -65,16 +77,7 @@ const Blog = () => {
                 setName("Who dis?");
                 setPhoto(BobaImage);
                 setLocation("Not in Boba World :(");
-                setStats({
-                    "ad": 0,
-                    "cad": 0,
-                    "ctc": 0,
-                    "ctd": 0,
-                    "d": "[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]",
-                    "fn": "Who dis?",
-                    "tc": 0,
-                    "td": 0
-                });
+                setStats(defaultStats);
             }
             
         })();

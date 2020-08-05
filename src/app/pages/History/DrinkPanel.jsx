@@ -20,13 +20,11 @@ const DrinkPanel = ({data, history, triggerUpdate}) => {
         FirebaseUser.user.updateStats();
         triggerUpdate([...FirebaseUser.get.currentUser.drinkids]);
     }
-    const edit = () => {
-        history.push('/edit/' + data.id);
-    }
+    const edit = () => { history.push('/edit/' + data.id) }
     const publish = async() => {
         setCanPublish(false);
         try{
-            await FirebaseUser.publish.add(data);
+            await FirebaseUser.publish(data);
             alertPublishSuccess();
         }catch(err){
             setCanPublish(true);

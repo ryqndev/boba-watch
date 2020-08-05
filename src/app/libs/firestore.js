@@ -1,8 +1,8 @@
-import {alertDefaultError} from '../libs/swal';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
+import {alertDefaultError} from '../libs/swal';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ",
@@ -31,7 +31,6 @@ const logout = () => {
         window.location.reload();
     }).catch(alertDefaultError);      
 }
-
 const publishGetUser = async(uid, limit=6) => {
     return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).get();
 }
@@ -43,6 +42,9 @@ const deleteBlogPost = async(blogid) => {
 }
 const getBlogPost = async(blogid) => {
     return database.collection('blogs').doc(blogid).get();
+}
+const getUserStats = async(uid) => {
+    return database.collection(`users/${uid}/user`).doc('stats').get();
 }
 const getUserBlog = async(uid) => {
     return database.collection(`users/${uid}/blog`).doc('user').get();
@@ -60,6 +62,7 @@ export {
     publishGetFeed,
     deleteBlogPost,
     getBlogPost,
+    getUserStats,
     getUserBlog,
     getFaves,
 }

@@ -2,14 +2,14 @@
  * @file backend.js
  * @author ryqndev - ryan yang
  */
-
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
-import {init as initFirestore, database as db, analytics} from '../libs/firestore';
+import {init as initFirestore, database as db} from '../libs/firestore';
 import {onLogin} from '../libs/analytics';
 import stats from './calculateStatistics';
+import {profile as defaultProfile} from '../defaults';
 import {
     alertDefaultError,
     alertInvalidNumberInput,
@@ -18,11 +18,6 @@ import {
     alertDrinkDeletedSuccess
 } from '../libs/swal';
 
-const defaultProfile = {
-    'budget': 10000,
-    'limit': 15,
-    'sharing': false
-}
 const store = {
     currentUser:{
         user: undefined,        // metadata - (name, email, photo, etc.)
@@ -36,7 +31,6 @@ const nothing = () => { return; }
 
 let init = (callback) => {
     initFirestore();
-
     let savedUserData = JSON.parse(localStorage.getItem('user'));
     if(savedUserData !== null){
         store.currentUser = savedUserData;
@@ -83,8 +77,7 @@ const setBlog = async() => {
 const saveDrinksLocally = (entries) => {
     let drinkids = [];
     entries.forEach(entry => {
-        let data = {id: entry.id, ...entry.data().drink}
-        localStorage.setItem(entry.id, JSON.stringify(data));
+        localStorage.setItem(entry.id, JSON.stringify({id: entry.id, ...entry.data().drink}));
         drinkids.push(entry.id);
     });
     store.currentUser.drinkids = drinkids;
@@ -179,10 +172,6 @@ const updateStats = (userStats, callback=nothing ) => {
     });
 }
 
-/**
- * @function Drink methods
- * These methods either add, update, or delete a singular drink object.
- */
 const addDrink = async(data) => {
     return db.collection(`users/${store.currentUser.user.uid}/drinks`).add(data);
 }
@@ -223,13 +212,6 @@ const blogLike = async(id, increment) => {
     return db.collection('blogs').doc(id).update({ likes: change });
 }
 
-const getStats = async(uid) => {
-    return db.collection('users')
-        .doc(uid)
-        .collection('user')
-        .doc('stats').get();
-}
-
 export default {
     init: init,
     user: {
@@ -248,10 +230,6 @@ export default {
     blog: {
         setProfile: setUserBlog,
         like: blogLike,
-        stats: getStats
     },
-    publish: {
-        add: publishAdd,
-    },
-    analytics: analytics,
+    publish: publishAdd
 }

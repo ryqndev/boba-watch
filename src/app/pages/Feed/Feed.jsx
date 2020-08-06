@@ -3,6 +3,7 @@ import {useTranslation} from 'react-i18next';
 import FirebaseUser from '../../controller/backend';
 import {publishGetFeed, getFaves, getBlogPost} from '../../libs/firestore';
 import {FeedItemWithAvatar} from './FeedItem';
+import {add} from '../../libs/dexie';
 import './Feed.scss';
 
 const Feed = () => {
@@ -12,11 +13,15 @@ const Feed = () => {
     const [isFave, setIsFave] = useState(false);
     useEffect(() => {
         (async() => {
+            /**
+             * network call to find if updates availble... then make call otherwise fallback
+             */
             let entries = await publishGetFeed(FirebaseUser.get.currentUser.user.uid);
             let allPosts = [];
             entries.forEach(entry => {
                 let data = {id: entry.id, ...entry.data()}
                 allPosts.push(data);
+                add(data);
             });
             setPosts(allPosts);
         })();

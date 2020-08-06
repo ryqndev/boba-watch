@@ -9,8 +9,14 @@ const onPageView = (path='unknown') => {
         page_path: path
     });
 }
+const onError = (description='N/A') => {
+    analytics.logEvent('exception', {
+        description: description
+    });
+}
 
 export {
     onLogin,
-    onPageView
+    onPageView,
+    onError
 }

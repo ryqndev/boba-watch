@@ -173,10 +173,17 @@ const updateStats = (userStats, callback=nothing ) => {
 }
 
 const addDrink = async(data) => {
-    return db.collection(`users/${store.currentUser.user.uid}/drinks`).add(data);
+    return db.collection(`users/${store.currentUser.user.uid}/drinks`).add({
+        created: firebase.firestore.FieldValue.serverTimestamp(),
+        edited: firebase.firestore.FieldValue.serverTimestamp(),
+        ...data
+    });
 }
 const updateDrink = async(data, id) => {
-    return db.collection(`users/${store.currentUser.user.uid}/drinks`).doc(id).set(data);
+    return db.collection(`users/${store.currentUser.user.uid}/drinks`).doc(id).set({
+        edited: firebase.firestore.FieldValue.serverTimestamp(),
+        ...data
+    });
 }
 const deleteDrink = (id, callback=nothing) => {
     db.collection(`users/${store.currentUser.user.uid}/drinks`)
@@ -202,7 +209,13 @@ const setUserBlog = async(updateValues) => {
 }
 
 const publishAdd = async({id, ...data}) => {
-    return db.collection('blogs').add({ uid: store.currentUser.user.uid, likes: 0, ...data});
+    return db.collection('blogs').add({
+            uid: store.currentUser.user.uid,
+            likes: 0,
+            published: firebase.firestore.FieldValue.serverTimestamp(),
+            edited: firebase.firestore.FieldValue.serverTimestamp(),
+            ...data
+    });
 }
 const blogLike = async(id, increment) => {
     const change = firebase.firestore.FieldValue.increment(increment ? 1 : -1);

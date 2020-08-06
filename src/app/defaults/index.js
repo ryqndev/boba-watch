@@ -21,8 +21,16 @@ const blog = {
     bio: "Just a boba person in a boba world",
     photo: "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
 }
+
+const blogPostGetOptions = {
+    offset: 0,
+    limit: 10,
+    
+}
+
 export {
     profile,
     stats,
-    blog
+    blog,
+    blogPostGetOptions
 }

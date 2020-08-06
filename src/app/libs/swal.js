@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
 import i18next from 'i18next';
+import {onError} from './analytics';
 
 const supportContact = 'ryanqyang@gmail.com';
 
@@ -16,10 +17,12 @@ const alertEmptyDrinkName = () => {
     Swal.fire(i18next.t('Can\'t save drink without name'), i18next.t('Please add a name to save to the autofill list'), 'error');
 }
 const alertDrinkNotDeleted = (error) => {
+    onError(error);
     console.log(`Please copy this error and send to ${supportContact}`, error);
     Swal.fire(i18next.t('Oops...'), i18next.t('Couldn\'t delete your drink. Try again later!'), 'error');
 }
 const alertDefaultError = (error) => {
+    onError(error);
     console.log(`Please copy this error and send to ${supportContact}`, error);
     Swal.fire(i18next.t('Oops...'), i18next.t('Something went wrong...'), 'error');
 }
@@ -31,6 +34,7 @@ const alertLinkCopiedSuccess = () => {
     Swal.fire(i18next.t('Link Copied!'), i18next.t(''), 'success');
 }
 const alertSettingsUpdateSuccess = () => {
+    
     Swal.fire(i18next.t('Success!'), i18next.t('Your settings have been updated'), 'success');
 }
 const alertAutofillSuccess = () => {
@@ -80,7 +84,6 @@ const promptLocationUpdate = async() => {
 /**
  * confirm messages
  */
-
 const confirmBlogPostDelete = async() => {
     return Swal.fire({
         title: i18next.t('Are you sure?'),

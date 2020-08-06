@@ -20,7 +20,7 @@ firebase.initializeApp(firebaseConfig);
 let database, 
     analytics = firebase.analytics(), 
     ui = firebaseui.auth.AuthUI.getInstance() 
-        || new firebaseui.auth.AuthUI(firebase.auth());;
+        || new firebaseui.auth.AuthUI(firebase.auth());
 
 const init = () => {
     database = firebase.firestore(); 
@@ -38,8 +38,8 @@ const logout = () => {
 const publishGetUser = async(uid, limit=6) => {
     return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).get();
 }
-const publishGetFeed = async(uid, limit=10) => {
-    return database.collection('blogs').orderBy('date', 'desc').limit(limit).get();
+const publishGetFeed = (callback, limit=10) => {
+    return database.collection('blogs').orderBy('date', 'desc').limit(limit).onSnapshot(callback);
 }
 const deleteBlogPost = async(blogid) => {
     return database.collection('blogs').doc(blogid).delete();

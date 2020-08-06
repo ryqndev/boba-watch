@@ -5,23 +5,25 @@ import {blogPostGetOptions} from '../defaults';
 const db = new Dexie('blogposts');
 
 db.version(1).stores({
-    blogposts: "&id, uid,date, likes, location, name, price, fave"
+    blogposts: "&id, uid, date, likes, location, name, price, fave, edited, published"
 });
 
-const add = async(data) => {
-    db.blogposts.put(data).then(() => {
-        console.log(data.id);
-        return db.blogposts.get(data.id);
-    }).then(data => {
-        console.log('data stored', data);
-    }).catch(err => {
-        alertDefaultError(err);
-    });
+const add = async(data, fave=0) => {
+    return db.blogposts.put({fave: fave, ...data});
 }
 
-const get = async(options) => {
+const getFaves = async(options) => {
     db.blogposts
-    .where('fave').equalsIgnoreCase('true')
+    .where('fave').equals(1)
+    .offset(options.offset || blogPostGetOptions.offset)
+    .limit(options.limit || blogPostGetOptions.limit)
+    .toArray(posts => {
+        console.log(posts);
+        return posts;
+    });
+}
+const getFeed = async(options) => {
+    db.blogposts
     .offset(options.offset || blogPostGetOptions.offset)
     .limit(options.limit || blogPostGetOptions.limit)
     .toArray(posts => {
@@ -32,5 +34,6 @@ const get = async(options) => {
 
 export {
     add,
-    get
+    getFaves,
+    getFeed,
 }

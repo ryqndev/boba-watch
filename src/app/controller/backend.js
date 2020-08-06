@@ -217,12 +217,18 @@ const publishAdd = async({id, ...data}) => {
             ...data
     });
 }
-const blogLike = async(id, increment) => {
-    const change = firebase.firestore.FieldValue.increment(increment ? 1 : -1);
-    const likedCollection = db.collection(`users/${store.currentUser.user.uid}/user/profile/liked`);
-    if(increment) likedCollection.doc(id).set({});
-    else likedCollection.doc(id).delete();
-    return db.collection('blogs').doc(id).update({ likes: change });
+const blogLike = async(id, data, increment) => {
+    // let {edited, ...data} = data;
+    let blogLikeBatch = db.batch(),
+        pathRef = db.collection(`users/${store.currentUser.user.uid}/user/profile/liked`).doc(id),
+        change = firebase.firestore.FieldValue.increment(increment ? 1 : -1);
+
+    blogLikeBatch.update(db.collection('blogs').doc(id), { likes: change });
+
+    if(increment) blogLikeBatch.set(pathRef, {liked: firebase.firestore.FieldValue.serverTimestamp(), ...data});
+    else blogLikeBatch.set(pathRef, {liked: firebase.firestore.FieldValue.serverTimestamp(), ...data});
+
+    return blogLikeBatch.commit();
 }
 
 export default {

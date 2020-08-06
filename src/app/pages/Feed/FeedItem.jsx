@@ -38,12 +38,12 @@ const WithAvatar = ({uid, history, ...data}) => {
         </div>
     );
 }
-const FeedItem = ({id, name, place, price, date, description, likes, rating, children}) => {
+const FeedItem = ({match, location, children, staticContext, ...post}) => {
     const {t} = useTranslation();
     const [liked, setLiked] = useState(false);
-    const [likeDisplay, setLikeDisplay] = useState(likes);
+    const [likeDisplay, setLikeDisplay] = useState(post.likes);
     const toggleFavorite = () => {
-        FirebaseUser.blog.like(id, !liked).then(() => {
+        FirebaseUser.blog.like(post.id, post, !liked).then(() => {
             setLikeDisplay(likeDisplay + (liked ? -1 : 1));
             setLiked(!liked);
         });
@@ -52,7 +52,7 @@ const FeedItem = ({id, name, place, price, date, description, likes, rating, chi
     return (
         <Card className="feed-item">
             <div className="header">
-                <span>{filter.clean(name)}</span>
+                <span>{filter.clean(post.name)}</span>
                 <p className="favorite-amount">
                     {(likeDisplay ?? 0) > 999 ? ((likeDisplay / 100) >> 0) + 'k' : (likeDisplay ?? 0)}
                 </p>
@@ -61,20 +61,20 @@ const FeedItem = ({id, name, place, price, date, description, likes, rating, chi
                 </div>
             </div>
             <div className="item-content">
-                <p className="location">{filter.clean(place)}</p>
-                <p className="price">{t('$')}{Utils.toMoney(price)}</p>
-                {(rating !== null && rating !== undefined) && 
+                <p className="location">{filter.clean(post.place)}</p>
+                <p className="price">{t('$')}{Utils.toMoney(post.price)}</p>
+                {(post.rating !== null && post.rating !== undefined) && 
                     <div className="ratings-holder">
                         <StarRatingComponent 
                             name="rating" 
                             starCount={5}
-                            value={rating}
+                            value={post.rating}
                             renderStarIcon={(i, v) => (i <= v ? <StarFilledIcon /> : <StarEmptyIcon />)}
                         />
                     </div>
                 }
-                <p className="date">{(new Date(date).toDateString())}</p>
-                <p className="description">{filter.clean(description)}</p>
+                <p className="date">{(new Date(post.date).toDateString())}</p>
+                <p className="description">{filter.clean(post.description)}</p>
                 {children}
             </div>
         </Card>

@@ -8,23 +8,23 @@ import './Feed.scss';
 
 const Feed = () => {
     const {t} = useTranslation();
-    const [posts, setPosts] = useState(null);
+    const [posts, setPosts] = useState([]);
     const [faves, setFaves] = useState(null);
     const [isFave, setIsFave] = useState(false);
     useEffect(() => {
-        (async() => {
-            /**
-             * network call to find if updates availble... then make call otherwise fallback
-             */
-            let entries = await publishGetFeed(FirebaseUser.get.currentUser.user.uid);
-            let allPosts = [];
-            entries.forEach(entry => {
-                let data = {id: entry.id, ...entry.data()}
-                allPosts.push(data);
-                add(data);
+        let feedposts = [], unsubscribe = publishGetFeed(snapshot => {
+            snapshot.docChanges().forEach(change => {
+                if(change.type === 'added'){
+                    let data = {id: change.doc.id, ...change.doc.data()}
+                    feedposts.push(data);
+                    setPosts([...feedposts]);
+                    add(data);
+                }
             });
-            setPosts(allPosts);
-        })();
+        });
+        return () => {
+            unsubscribe();
+        }
     }, []);
     useEffect(() => {
         if(faves === null && isFave){

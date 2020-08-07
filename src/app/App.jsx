@@ -55,7 +55,9 @@ const App = () => {
                     <Edit /> 
                 </Route>
                 <Route exact path='/feed'>
-                    <Feed /> 
+                    <Router initialEntries={['/popular', '/fave']} initialIndex={0}>
+                        <Feed />
+                    </Router>
                 </Route>
                 <Route exact path='/blog/:userid'>
                     <Blog/> 

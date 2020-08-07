@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import {alertInvalidDrinkPrice, alertEmptyDrinkName, alertAutofillSuccess, alertDefaultError} from '../../libs/swal';
 import DateFnsUtils from '@date-io/date-fns';
 import {withRouter} from 'react-router-dom';
-import {MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers';
+import {MuiPickersUtilsProvider, DateTimePicker} from '@material-ui/pickers';
 import {add, edit} from '../../controller';
 import {TextInput, Card} from '../../components';
 import FirebaseUser from '../../controller/backend';

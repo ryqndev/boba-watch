@@ -21,7 +21,8 @@
             float: left;
         }
 
-        & div{
+        & a{
+            color: inherit;
             padding-right: 20px;
             transition: color 350ms;
             &.selected{

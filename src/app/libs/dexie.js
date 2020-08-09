@@ -11,14 +11,13 @@ db.version(1).stores({
 const add = async(data, fave=0) => {
     return db.blogposts.put({fave: fave, ...data});
 }
+const setFave = (id, liked) => {
+    return db.blogposts.update(id, {liked: liked ? 1 : 0});
+}
 
-const getFaves = async(options) => {
-    db.blogposts
-    .where('fave').equals(1)
-    .offset(options.offset || blogPostGetOptions.offset)
-    .limit(options.limit || blogPostGetOptions.limit)
-    .toArray(posts => {
-        console.log(posts);
+const getFaves = async(callback) => {
+    return db.blogposts.where('fave').equals(1).toArray(posts => {
+        callback(posts);
         return posts;
     });
 }
@@ -34,6 +33,7 @@ const getFeed = async(options) => {
 
 export {
     add,
+    setFave,
     getFaves,
     getFeed,
 }

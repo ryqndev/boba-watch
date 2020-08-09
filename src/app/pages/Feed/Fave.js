@@ -1,39 +1,32 @@
 import React, {useState, useEffect} from 'react';
 import FirebaseUser from '../../controller/backend';
-import {publishGetFeed, getBlogPost} from '../../libs/firestore';
+import {getFaves as getCloudFirebaseFaves} from '../../libs/firestore';
 import {FeedItemWithAvatar} from './FeedItem';
-import {add, getFaves} from '../../libs/dexie';
+import {add, exists, getFaves as getLocalDexieFaves} from '../../libs/dexie';
 
 const Fave = () => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        // let data = {id: change.doc.id, ...change.doc.data()}
-        // (async() => {
-        //     let entries = await getFaves(FirebaseUser.get.currentUser.user.uid);
-        //     let allPosts = [];
-        //     entries.forEach(entry => {
-        //         allPosts.push(getBlogPost(entry.id));
-        //     });
-        //     Promise.all(allPosts).then(res => {
-        //         setPosts(res.reduce((acc, e) => {
-        //             if(e.data() !== null && e.data() !== undefined){
-        //                 acc.push({id: e.id, ...e.data()});
-        //             }
-        //             return acc;
-        //         }, []));
-        //     })
-        // })();
-
         let feedposts = [];
-        getFaves(posts => {
+        getLocalDexieFaves().then(posts => {
             feedposts = feedposts.concat(posts);
             setPosts(feedposts);
         });
-        // check firebase for most recent updated liked
-            //if found:
-                // add it to dexie db
-                // 
+        const recursivelyUpdate = (startAfter) => {
+            getCloudFirebaseFaves(FirebaseUser.get.currentUser.user.uid, 1, startAfter).then(docSnap => {
+                let cursor = docSnap.docs[0];
+
+                if(cursor === undefined) return;
+                exists(cursor.id).then(() => {
+                    feedposts.push({id: cursor.id, ...cursor.data()});
+                    setPosts(feedposts);
+                    add({id: cursor.id, fave: 1, ...cursor.data()});
+                    recursivelyUpdate(cursor);
+                });
+            });
+        }
+        recursivelyUpdate(0);
     }, []);
     return posts.map(feedContent => 
         <FeedItemWithAvatar 

@@ -53,8 +53,8 @@ const getUserStats = async(uid) => {
 const getUserBlog = async(uid) => {
     return database.collection(`users/${uid}/blog`).doc('user').get();
 }
-const getFaves = async(uid) => {
-    return database.collection(`users/${uid}/user/profile/liked`).limit(6).get();
+const getFaves = async(uid, limit=6, startAfter=0) => {
+    return database.collection(`users/${uid}/user/profile/liked`).orderBy('liked').startAfter(startAfter).limit(limit).get();
 }
 
 export {

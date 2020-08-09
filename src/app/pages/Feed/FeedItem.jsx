@@ -5,6 +5,7 @@ import  {getUserBlog} from '../../libs/firestore';
 import {Card} from '../../components';
 import {useTranslation} from 'react-i18next';
 import {withRouter} from 'react-router-dom'
+import {add} from '../../libs/dexie';
 import StarRatingComponent from 'react-star-rating-component';
 import {ReactComponent as StarEmptyIcon} from './star_empty.svg';
 import {ReactComponent as StarFilledIcon} from './star_filled.svg';
@@ -34,7 +35,7 @@ const WithAvatar = ({uid, history, ...data}) => {
                 <img src={person?.profile ?? "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="} alt="avatar" />
                 <h2>{filter.clean(person?.name ?? "Boba Bro")}</h2>
             </div>
-            <FeedItem {...data}/>
+            <FeedItem {...data} uid={uid}/>
         </div>
     );
 }
@@ -46,6 +47,7 @@ const FeedItem = ({match, location, children, staticContext, ...post}) => {
         FirebaseUser.blog.like(post.id, post, !liked).then(() => {
             setLikeDisplay(likeDisplay + (liked ? -1 : 1));
             setLiked(!liked);
+            add(post, 1);
         });
     }
 

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {publishGetFeed} from '../../libs/firestore';
-import {add} from '../../libs/dexie';
+import {add, exists} from '../../libs/dexie';
 import {FeedItemWithAvatar} from './FeedItem';
 import './Feed.scss';
 
@@ -14,7 +14,9 @@ const Popular = () => {
                     let data = {id: change.doc.id, ...change.doc.data()}
                     feedposts.unshift(data);
                     setPosts([...feedposts]);
-                    add(data);
+                    exists(data.id).catch(() => {
+                        add(data);
+                    });
                 }
             });
         });

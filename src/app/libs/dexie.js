@@ -8,17 +8,21 @@ db.version(1).stores({
     blogposts: "&id, uid, date, likes, location, name, price, fave, edited, published"
 });
 
-const add = async(data, fave=0) => {
+const add = (data, fave=0) => {
     return db.blogposts.put({fave: fave, ...data});
 }
 const setFave = (id, liked) => {
     return db.blogposts.update(id, {liked: liked ? 1 : 0});
 }
+const exists = (id) => {
+    return new Promise((res, rej) => {
+        db.blogposts.get(id, post => {post === undefined ? rej() : res(post)})
+    });
+}
 
-const getFaves = async(callback) => {
-    return db.blogposts.where('fave').equals(1).toArray(posts => {
-        callback(posts);
-        return posts;
+const getFaves = () => {
+    return new Promise(res => {
+        db.blogposts.where('fave').equals(1).toArray(posts => {res(posts)});
     });
 }
 const getFeed = async(options) => {
@@ -33,6 +37,7 @@ const getFeed = async(options) => {
 
 export {
     add,
+    exists,
     setFave,
     getFaves,
     getFeed,

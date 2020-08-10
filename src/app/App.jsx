@@ -54,10 +54,10 @@ const App = () => {
                     <UserIcon setUser={setUser} />
                     <Edit /> 
                 </Route>
-                <Route exact path='/feed'>
-                    <Router initialEntries={['/popular', '/fave']} initialIndex={0}>
+                <Route path='/feed'>
+                    {/* <Router initialEntries={['/popular', '/fave']} initialIndex={0}> */}
                         <Feed />
-                    </Router>
+                    {/* </Router> */}
                 </Route>
                 <Route exact path='/blog/:userid'>
                     <Blog/> 

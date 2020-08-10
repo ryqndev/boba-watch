@@ -218,7 +218,7 @@ const publishAdd = async({id, ...data}) => {
     });
 }
 const blogLike = async(id, data, increment) => {
-    let {likes, edited, ...post} = data;
+    let {edited, ...post} = data;
     let blogLikeBatch = db.batch(),
         pathRef = db.collection(`users/${store.currentUser.user.uid}/user/profile/liked`).doc(id),
         change = firebase.firestore.FieldValue.increment(increment ? 1 : -1);

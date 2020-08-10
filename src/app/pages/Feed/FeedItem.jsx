@@ -26,6 +26,7 @@ const WithAvatar = ({uid, history, ...data}) => {
         })();
     }, [uid, person]);
     const visitProfile = () => {
+        console.log(history);
         history.push('/blog/' + uid);
     }
     return (
@@ -39,15 +40,15 @@ const WithAvatar = ({uid, history, ...data}) => {
         </div>
     );
 }
-const FeedItem = ({match, location, children, staticContext, ...post}) => {
+const FeedItem = ({match, location, children, staticContext, isLiked=false, ...post}) => {
     const {t} = useTranslation();
-    const [liked, setLiked] = useState(false);
+    const [liked, setLiked] = useState(isLiked);
     const [likeDisplay, setLikeDisplay] = useState(post.likes);
     const toggleFavorite = () => {
         FirebaseUser.blog.like(post.id, post, !liked).then(() => {
             setLikeDisplay(likeDisplay + (liked ? -1 : 1));
+            add(post, !liked ? 1 : 0);
             setLiked(!liked);
-            add(post, 1);
         });
     }
 

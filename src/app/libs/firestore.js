@@ -38,8 +38,11 @@ const logout = () => {
 const publishGetUser = async(uid, limit=6) => {
     return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).get();
 }
-const publishGetFeed = (callback, limit=10) => {
-    return database.collection('blogs').orderBy('date', 'desc').limit(limit).onSnapshot(callback);
+const publishGetFeed = (callback, limit=1) => {
+    return database.collection('blogs').orderBy('published', 'desc').limit(limit).onSnapshot(callback);
+}
+const getFeed = async(limit=1, startAfter=0) => {
+    return database.collection('blogs').orderBy('published').startAfter(startAfter).limit(limit).get();
 }
 const deleteBlogPost = async(blogid) => {
     return database.collection('blogs').doc(blogid).delete();
@@ -53,7 +56,7 @@ const getUserStats = async(uid) => {
 const getUserBlog = async(uid) => {
     return database.collection(`users/${uid}/blog`).doc('user').get();
 }
-const getFaves = async(uid, limit=6, startAfter=0) => {
+const getFaves = async(uid, limit=1, startAfter=0) => {
     return database.collection(`users/${uid}/user/profile/liked`).orderBy('liked').startAfter(startAfter).limit(limit).get();
 }
 
@@ -71,4 +74,5 @@ export {
     getUserStats,
     getUserBlog,
     getFaves,
+    getFeed,
 }

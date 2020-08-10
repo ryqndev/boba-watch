@@ -26,12 +26,10 @@ const getFaves = () => {
     });
 }
 const getFeed = async(options) => {
-    db.blogposts
-    .offset(options.offset || blogPostGetOptions.offset)
-    .limit(options.limit || blogPostGetOptions.limit)
-    .toArray(posts => {
-        console.log(posts);
-        return posts;
+    return new Promise(res => {
+        db.blogposts
+        .limit(options?.limit || blogPostGetOptions.limit)
+        .toArray(posts => {res(posts)});
     });
 }
 

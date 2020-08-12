@@ -26,7 +26,6 @@ const WithAvatar = ({uid, history, ...data}) => {
         })();
     }, [uid, person]);
     const visitProfile = () => {
-        console.log(history);
         history.push('/blog/' + uid);
     }
     return (
@@ -41,9 +40,10 @@ const WithAvatar = ({uid, history, ...data}) => {
     );
 }
 const FeedItem = ({match, location, children, staticContext, isLiked=false, ...post}) => {
+
     const {t} = useTranslation();
     const [liked, setLiked] = useState(isLiked);
-    const [likeDisplay, setLikeDisplay] = useState(post.likes);
+    const [likeDisplay, setLikeDisplay] = useState(post?.likes ?? 0);
     const toggleFavorite = () => {
         FirebaseUser.blog.like(post.id, post, !liked).then(() => {
             setLikeDisplay(likeDisplay + (liked ? -1 : 1));
@@ -57,7 +57,7 @@ const FeedItem = ({match, location, children, staticContext, isLiked=false, ...p
             <div className="header">
                 <span>{filter.clean(post.name)}</span>
                 <p className="favorite-amount">
-                    {(likeDisplay ?? 0) > 999 ? ((likeDisplay / 100) >> 0) + 'k' : (likeDisplay ?? 0)}
+                    {likeDisplay > 999 ? ((likeDisplay / 100) >> 0) + 'k' : (likeDisplay < 0 ? 0 : likeDisplay) }
                 </p>
                 <div className="favorite" onClick={toggleFavorite}>
                     {liked ? <HeartFilledIcon /> : <HeartEmptyIcon/>}

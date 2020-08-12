@@ -1,5 +1,5 @@
 import Dexie from 'dexie';
-import {alertDefaultError} from '../libs/swal';
+import firebase from 'firebase';
 import {blogPostGetOptions} from '../defaults';
 
 const db = new Dexie('blogposts');
@@ -9,7 +9,14 @@ db.version(1).stores({
 });
 
 const add = (data, fave=0) => {
-    return db.blogposts.put({fave: fave, ...data});
+    return db.blogposts.put({
+        fave: fave,
+        ...data,
+        published: new firebase.firestore.Timestamp(
+            data.published.seconds, 
+            data.published.nanoseconds
+        ).toDate().toString(),
+    });
 }
 const setFave = (id, liked) => {
     return db.blogposts.update(id, {liked: liked ? 1 : 0});

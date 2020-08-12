@@ -37,6 +37,8 @@ const Popular = () => {
                     feedposts.unshift(data);
                     setPosts([...feedposts]);
                     exists(data.id).catch(() => { add(data) });
+                }else if(change.type === 'deleted'){
+                    console.log(change.doc.id, change.doc.data());
                 }
             });
         });
@@ -49,6 +51,7 @@ const Popular = () => {
         <FeedItemWithAvatar 
             key={feedContent.id} 
             place={feedContent.location} 
+            isLiked={feedContent?.fave ?? false}
             {...feedContent} 
         />
     );

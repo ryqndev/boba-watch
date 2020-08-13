@@ -8,9 +8,8 @@ db.version(1).stores({
     blogposts: "&id, uid, date, likes, location, name, price, fave, edited, published"
 });
 
-const add = (data, fave=0) => {
+const add = (data) => {
     return db.blogposts.put({
-        fave: fave,
         ...data,
         published: new firebase.firestore.Timestamp(
             data.published.seconds, 
@@ -18,24 +17,14 @@ const add = (data, fave=0) => {
         ).toDate().toString(),
     });
 }
-const setFave = (id, liked) => {
-    return db.blogposts.update(id, {liked: liked ? 1 : 0});
-}
 const exists = (id) => {
     return new Promise((res, rej) => {
         db.blogposts.get(id, post => {post === undefined ? rej() : res(post)})
     });
 }
-
-const getFaves = () => {
-    return new Promise(res => {
-        db.blogposts.where('fave').equals(1).toArray(posts => {res(posts)});
-    });
-}
-const getFeed = async(options) => {
+const getFaves = async(options) => {
     return new Promise(res => {
         db.blogposts
-        .limit(options?.limit || blogPostGetOptions.limit)
         .toArray(posts => {res(posts)});
     });
 }
@@ -43,7 +32,5 @@ const getFeed = async(options) => {
 export {
     add,
     exists,
-    setFave,
     getFaves,
-    getFeed,
 }

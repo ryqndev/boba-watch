@@ -62,8 +62,8 @@ const History = () => {
         if(rec <= 0) monthly.push(<LoadMore key='@ryqndev/load' click={() => {setShow({...show, 'recent': show.recent + 10})}}/>);
         if(com <= 0) total.push(<LoadMore key='@ryqndev/load' click={() => {setShow({...show, 'complete': show.complete + 10})}}/>);
 
-        setMonthly(monthly);
-        setTotal(total);
+        setMonthly([...monthly]);
+        setTotal([...total]);
 
         setExpandedDrinklistData(tempExpandedDrinkListData);
 

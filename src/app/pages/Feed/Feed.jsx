@@ -18,7 +18,7 @@ const Feed = ({location}) => {
             <div className="content">
                 <Switch>
                     <Route exact strict path='/feed'>
-                        <Popular />
+                        <Popular displayCount={10}/>
                     </Route>
                     <Route exact strict path='/feed/fave'>
                         <Fave />

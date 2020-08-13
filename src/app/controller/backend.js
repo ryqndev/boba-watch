@@ -210,11 +210,11 @@ const setUserBlog = async(updateValues) => {
 
 const publishAdd = async({id, ...data}) => {
     return db.collection('blogs').add({
-            uid: store.currentUser.user.uid,
-            likes: 0,
-            published: firebase.firestore.FieldValue.serverTimestamp(),
-            edited: firebase.firestore.FieldValue.serverTimestamp(),
-            ...data
+        uid: store.currentUser.user.uid,
+        likes: 0,
+        published: firebase.firestore.FieldValue.serverTimestamp(),
+        edited: firebase.firestore.FieldValue.serverTimestamp(),
+        ...data
     });
 }
 const blogLike = async(id, data, increment) => {
@@ -228,7 +228,7 @@ const blogLike = async(id, data, increment) => {
 
     //save to 'liked' collection in user store
     if(increment) blogLikeBatch.set(pathRef, {liked: firebase.firestore.FieldValue.serverTimestamp(), ...post});
-    else blogLikeBatch.set(pathRef, {liked: firebase.firestore.FieldValue.serverTimestamp(), ...post});
+    else blogLikeBatch.set(pathRef, {liked: firebase.firestore.FieldValue.serverTimestamp()});
 
     return blogLikeBatch.commit();
 }

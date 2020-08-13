@@ -41,7 +41,7 @@ const WithAvatar = ({uid, history, ...data}) => {
 }
 const FeedItem = ({match, location, children, staticContext, isLiked=false, ...post}) => {
     const {t} = useTranslation();
-    const [liked, setLiked] = useState(isLiked);
+    const [liked, setLiked] = useState(false);
     const [likeDisplay, setLikeDisplay] = useState(post?.likes ?? 0);
     const toggleFavorite = () => {
         FirebaseUser.blog.like(post.id, post, !liked).then(() => {

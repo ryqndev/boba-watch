@@ -8,8 +8,8 @@ const Popular = ({displayCount}) => {
     useEffect(() => {
         let unsubscribe = publishGetFeed(snapshot => {
             let feedposts = [];
-            snapshot.docChanges().forEach(change => {
-                feedposts.push({id: change.doc.id, ...change.doc.data()});
+            snapshot.forEach(doc => {
+                feedposts.push({id: doc.id, ...doc.data()});
             });
             setPosts([...feedposts]);
         }, displayCount);

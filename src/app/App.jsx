@@ -17,7 +17,7 @@ const Start = ({history}) => {
         FirebaseUser.init(user => {
             history.push(user ? '/app' : '/login');
         });
-        console.log("v2.0.5");
+        console.log("v2.0.6");
     }, [history]);
     return (
         <Switch>

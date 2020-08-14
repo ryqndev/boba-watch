@@ -52,7 +52,6 @@ let init = (callback) => {
             updateFaves();
             savedUserData.user = store.currentUser.user;
             store.currentUser = savedUserData;
-            console.log("loaded saved user data", firebase.auth().currentUser);
             // TODO : should get updates here
             return callback(user);
         }

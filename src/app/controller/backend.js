@@ -6,9 +6,10 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
-import {init as initFirestore, database as db} from '../libs/firestore';
+import {init as initFirestore, database as db, getFaves as getCloudFirebaseFaves} from '../libs/firestore';
 import {onLogin as logLoginToAnalytics} from '../libs/analytics';
 import stats from './calculateStatistics';
+import {add, exists} from '../libs/dexie';
 import {profile as defaultProfile} from '../defaults';
 import {
     alertDefaultError,
@@ -23,7 +24,6 @@ const store = {
         user: undefined,        // metadata - (name, email, photo, etc.)
         profile: undefined,     // stats    - (budget, limit, sharing)
         drinkids: undefined,    // drinkids - [id1, id2, id3,...] date desc order
-        theme: undefined        // theme
     }
 };
 window.userstuff = store;//TODO remove
@@ -31,17 +31,11 @@ const nothing = () => { return; }
 
 let init = (callback) => {
     initFirestore();
-    let savedUserData = JSON.parse(localStorage.getItem('user'));
-    if(savedUserData !== null){
-        store.currentUser = savedUserData;
-        console.log("loaded saved user data");
-        // TODO : should get updates here
-        return callback(store.currentUser.user);
-    }
     firebase.auth().onAuthStateChanged(user => {
-        console.log("user auth state changed");
         if(!user) return callback(user);    // if not logged in user
         logLoginToAnalytics();
+
+        let savedUserData = JSON.parse(localStorage.getItem('user'));
         store.currentUser.user = {
             displayName: user.displayName,
             uid: user.uid,
@@ -52,6 +46,17 @@ let init = (callback) => {
             created: user?.metadata?.creationTime,
             lastSignedIn: user?.metadata?.lastSignInTime
         };
+
+        if(savedUserData !== null){
+            // high priority fix
+            updateFaves();
+            savedUserData.user = store.currentUser.user;
+            store.currentUser = savedUserData;
+            console.log("loaded saved user data", firebase.auth().currentUser);
+            // TODO : should get updates here
+            return callback(user);
+        }
+    
         let setup = [
             getDrinks(user.uid),
             userStatsSetup(user?.metadata),
@@ -66,6 +71,21 @@ let init = (callback) => {
             callback(user);
         }).catch(alertDefaultError);
     });
+}
+
+const updateFaves = () => {
+    const recursivelyUpdate = (startAfter) => {
+        getCloudFirebaseFaves(store.currentUser.user.uid, 1, startAfter).then(docSnap => {
+            let cursor = docSnap.docs[0];
+            if(cursor === undefined) return;
+            exists(cursor.id).then(found => {    
+                if(found) return;
+                add({id: cursor.id, ...cursor.data()});
+                recursivelyUpdate(cursor);
+            })
+        });
+    }
+    recursivelyUpdate(0);
 }
 
 const getDrinks = async(uid) => {
@@ -95,13 +115,6 @@ const saveDrinksLocally = (entries) => {
 
 const saveUserLocally = (user) => {
     let profile = user?.data();
-    if(
-        profile?.budget === undefined
-        || profile?.limit === undefined
-        || profile?.sharing === undefined
-    ){
-        profile = defaultProfile;
-    }
     if(profile?.budget === undefined){
         profile.budget = 10000;
     }
@@ -237,7 +250,7 @@ const blogLike = async(id, data, increment) => {
 
     //save to 'liked' collection in user store
     if(increment) blogLikeBatch.set(pathRef, {liked: firebase.firestore.FieldValue.serverTimestamp(), ...post});
-    else blogLikeBatch.set(pathRef, {liked: firebase.firestore.FieldValue.serverTimestamp()});
+    else blogLikeBatch.delete(pathRef);
 
     return blogLikeBatch.commit();
 }

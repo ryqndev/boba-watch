@@ -1,6 +1,5 @@
 import Dexie from 'dexie';
 import firebase from 'firebase';
-import {blogPostGetOptions} from '../defaults';
 
 const db = new Dexie('blogposts');
 
@@ -17,9 +16,12 @@ const add = (data) => {
         ).toDate().toString(),
     });
 }
+const remove = (data) => {
+    return db.blogposts.delete(data.id);
+}
 const exists = (id) => {
-    return new Promise((res, rej) => {
-        db.blogposts.get(id, post => {post === undefined ? rej() : res(post)})
+    return new Promise(res => {
+        db.blogposts.get(id, post => {res(post)})
     });
 }
 const getFaves = async(options) => {
@@ -31,6 +33,7 @@ const getFaves = async(options) => {
 
 export {
     add,
+    remove,
     exists,
     getFaves,
 }

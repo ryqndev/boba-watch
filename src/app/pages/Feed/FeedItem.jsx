@@ -5,7 +5,7 @@ import  {getUserBlog} from '../../libs/firestore';
 import {Card} from '../../components';
 import {useTranslation} from 'react-i18next';
 import {withRouter} from 'react-router-dom'
-import {add} from '../../libs/dexie';
+import {add, remove, exists} from '../../libs/dexie';
 import StarRatingComponent from 'react-star-rating-component';
 import {ReactComponent as StarEmptyIcon} from './star_empty.svg';
 import {ReactComponent as StarFilledIcon} from './star_filled.svg';
@@ -41,22 +41,29 @@ const WithAvatar = ({uid, history, ...data}) => {
 }
 const FeedItem = ({match, location, children, staticContext, isLiked=false, ...post}) => {
     const {t} = useTranslation();
-    const [liked, setLiked] = useState(false);
+    const [liked, setLiked] = useState(isLiked);
     const [likeDisplay, setLikeDisplay] = useState(post?.likes ?? 0);
     const toggleFavorite = () => {
         FirebaseUser.blog.like(post.id, post, !liked).then(() => {
             setLikeDisplay(likeDisplay + (liked ? -1 : 1));
-            add(post);
+            liked ? remove(post) : add(post);
             setLiked(!liked);
         });
     }
+    useEffect(() => {
+        if(!isLiked){
+            exists(post.id).then(found => { 
+                if(found) setLiked(true);
+            });
+        }
+    }, [isLiked, post.id]);
 
     return (
         <Card className="feed-item">
             <div className="header">
                 <span>{filter.clean(post.name)}</span>
                 <p className="favorite-amount">
-                    {likeDisplay > 999 ? ((likeDisplay / 100) >> 0) + 'k' : (likeDisplay < 0 ? 0 : likeDisplay) }
+                    {isLiked ? '' : likeDisplay > 999 ? ((likeDisplay / 100) >> 0) + 'k' : (likeDisplay < 0 ? 0 : likeDisplay) }
                 </p>
                 <div className="favorite" onClick={toggleFavorite}>
                     {liked ? <HeartFilledIcon /> : <HeartEmptyIcon/>}

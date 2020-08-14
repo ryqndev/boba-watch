@@ -7,7 +7,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
 import {init as initFirestore, database as db} from '../libs/firestore';
-import {onLogin} from '../libs/analytics';
+import {onLogin as logLoginToAnalytics} from '../libs/analytics';
 import stats from './calculateStatistics';
 import {profile as defaultProfile} from '../defaults';
 import {
@@ -34,11 +34,14 @@ let init = (callback) => {
     let savedUserData = JSON.parse(localStorage.getItem('user'));
     if(savedUserData !== null){
         store.currentUser = savedUserData;
+        console.log("loaded saved user data");
+        // TODO : should get updates here
         return callback(store.currentUser.user);
     }
     firebase.auth().onAuthStateChanged(user => {
+        console.log("user auth state changed");
         if(!user) return callback(user);    // if not logged in user
-        onLogin();
+        logLoginToAnalytics();
         store.currentUser.user = {
             displayName: user.displayName,
             uid: user.uid,
@@ -50,10 +53,8 @@ let init = (callback) => {
             lastSignedIn: user?.metadata?.lastSignInTime
         };
         let setup = [
-            db.collection(`users/${store.currentUser.user.uid}/drinks`).orderBy('drink.date', 'desc').get(),
-            (user?.metadata?.creationTime === user?.metadata?.lastSignInTime)
-                ? setUser(defaultProfile)
-                : getUser(),
+            getDrinks(user.uid),
+            userStatsSetup(user?.metadata),
             setBlog(),
             getAutofillOptions()
         ];
@@ -65,6 +66,14 @@ let init = (callback) => {
             callback(user);
         }).catch(alertDefaultError);
     });
+}
+
+const getDrinks = async(uid) => {
+    return db.collection(`users/${uid}/drinks`).orderBy('drink.date', 'desc').get();
+}
+
+const userStatsSetup = (meta) => {
+    return (meta?.creationTime === meta?.lastSignInTime) ? setUser() : getUser()
 }
 
 const setBlog = async() => {

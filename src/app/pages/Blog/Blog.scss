@@ -78,13 +78,12 @@
         grid-template-columns: 1fr auto;
         font-weight: bold;
         font-size: 1rem;
-        color: var(--text-accent);
-        text-align: right;
         & p {
             text-align: left;
             color: var(--text-secondary);
             &.value{
                 color: var(--text-accent);
+                text-align: right;
             }
         }
     }

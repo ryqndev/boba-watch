@@ -4,6 +4,7 @@ import {useTranslation} from 'react-i18next';
 import FirebaseUser from '../../controller/backend';
 import {deleteBlogPost, publishGetUser, getUserBlog, getUserStats} from '../../libs/firestore';
 import Utils from '../../components/textUtil';
+import StatsDisplay from './Stats';
 import {useParams} from 'react-router-dom';
 import {FeedItem} from '../Feed';
 import LocationIcon from '@material-ui/icons/LocationOnRounded';
@@ -148,11 +149,12 @@ const Blog = () => {
                 )}
             </div>
 
-            <div className="stats">
+            {/* <div className="stats">
                 <p>DRINKS PURCHASED</p> <p className="value">{stats.ctd}</p>
                 <p>DRINK AVERAGE</p> <p className="value">{t('$')}{Utils.toMoney(stats.cad)}</p>
                 <p>TOTAL SPENT</p> <p className="value">{t('$')}{Utils.toMoney(stats.ctc)}</p>
-            </div>
+            </div> */}
+            <StatsDisplay totalDrinksPurchased={stats.ctd} averageDrinkCost={stats.cad} totalSpent={stats.ctc} />
             <h2 className="review"> <span>★</span> REVIEWS <span>★</span> </h2>
             <div className="content">
                 {posts.length !== 0

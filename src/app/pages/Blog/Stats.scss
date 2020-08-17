@@ -1,0 +1,17 @@
+.blog-stats--wrapper{
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 30px 60px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    font-weight: bold;
+    font-size: 1rem;
+    & label {
+        text-align: left;
+        color: var(--text-secondary);
+    }
+    & p{
+        text-align: right;
+        color: var(--text-accent);
+    }
+}

@@ -149,9 +149,9 @@ const Blog = () => {
             </div>
 
             <div className="stats">
-                <p>DRINKS PURCHASED</p> {stats.ctd}
-                <p>DRINK AVERAGE</p> {t('$')}{Utils.toMoney(stats.cad)}
-                <p>TOTAL SPENT</p> {t('$')}{Utils.toMoney(stats.ctc)}
+                <p>DRINKS PURCHASED</p> <p className="value">{stats.ctd}</p>
+                <p>DRINK AVERAGE</p> <p className="value">{t('$')}{Utils.toMoney(stats.cad)}</p>
+                <p>TOTAL SPENT</p> <p className="value">{t('$')}{Utils.toMoney(stats.ctc)}</p>
             </div>
             <h2 className="review"> <span>★</span> REVIEWS <span>★</span> </h2>
             <div className="content">

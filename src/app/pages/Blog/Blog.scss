@@ -71,6 +71,8 @@
         }
     }
     & .stats{
+        max-width: 350px;
+        margin: 0 auto;
         padding: 30px 60px;
         display: grid;
         grid-template-columns: 1fr auto;
@@ -81,10 +83,15 @@
         & p {
             text-align: left;
             color: var(--text-secondary);
+            &.value{
+                color: var(--text-accent);
+            }
         }
     }
     & .content{
         padding: 0 30px 30px 30px;
+        max-width: 400px;
+        margin: 0 auto;
         & .item-controls{
             padding-top: 20px;
             grid-column: 1/3;

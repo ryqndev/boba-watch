@@ -35,6 +35,8 @@
         }
     }
     & .collapsed-info{
+        max-width: 400px;
+        margin: 0 auto;
         text-align: center;
         max-height: 0px;
         transition: max-height 350ms cubic-bezier(0, 1, 0, 1);

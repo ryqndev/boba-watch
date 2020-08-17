@@ -85,7 +85,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
         clearForm();
         setCanSave(true);
         setCanAdd(true);
-        history.push('/dash');
+        history.push('/history');
     };
 
     const saveDrink = (e) => {

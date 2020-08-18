@@ -13,16 +13,17 @@ const Reviews = ({ownerUID, currentUID, initialDisplayCount=5}) => {
 
     useEffect(() => {
         setPosts(null);
-        publishGetUser(ownerUID, displayCount).then(entries => {
-            let posts = [];
-            entries.forEach(entry => {
-                posts.push({id: entry.id, ...entry.data()});
+        let unsubscribe = publishGetUser(ownerUID, displayCount, snapshot => {
+            let feedposts = [];
+            snapshot.forEach(doc => {
+                feedposts.push({id: doc.id, ...doc.data()});
             });
-            setPosts(posts);
-        }).catch(err => {
-            alertDefaultError(err);
-            setPosts([]);
-        });
+            setPosts([...feedposts]);
+        }, displayCount);
+
+        return () => {
+            unsubscribe();
+        }
     }, [ownerUID, displayCount]);
 
     const deletePost = (postID) => {

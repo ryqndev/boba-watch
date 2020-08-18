@@ -35,8 +35,8 @@ const logout = () => {
         window.location.reload();
     }).catch(alertDefaultError);      
 }
-const publishGetUser = (uid, limit=6) => {
-    return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).get();
+const publishGetUser = (uid, limit=5, callback) => {
+    return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).onSnapshot(callback);
 }
 const publishGetFeed = (callback, limit=1) => {
     return database.collection('blogs').orderBy('published', 'desc').limit(limit).onSnapshot(callback);

@@ -1,5 +1,5 @@
 .blog-page{
-    padding-bottom: 40px;
+    padding-bottom: 60px;
     & h2.review{
         color: var(--blog-text-primary);
         text-align: center;
@@ -68,23 +68,6 @@
         }
         & .user-share-toggle-grid{
             grid-column: 1/3;
-        }
-    }
-    & .content{
-        padding: 0 30px 30px 30px;
-        max-width: 400px;
-        margin: 0 auto;
-        & .item-controls{
-            padding-top: 20px;
-            grid-column: 1/3;
-            text-align: center;
-            & button{
-                margin: 0;
-            }
-        }
-        & h3{
-            text-align: center;
-            color: var(--text-secondary);
         }
     }
 }

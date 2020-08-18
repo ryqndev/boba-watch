@@ -48,6 +48,9 @@ const FeedItem = ({match, location, children, staticContext, isLiked=false, ...p
             setLikeDisplay(likeDisplay + (liked ? -1 : 1));
             liked ? remove(post) : add(post);
             setLiked(!liked);
+        }).catch(err => {
+            remove(post);
+            setLiked(false);
         });
     }
     useEffect(() => {

@@ -38,7 +38,6 @@ const toggleProfileSharing = (callback) => {
 const Blog = () => {
     const {userid} = useParams();
     const {t} = useTranslation();
-    // const [posts, setPosts] = useState([]);
     const [location, setLocation] = useState("---");
     const [bio, setBio] = useState(defaultBlog.bio);
     const [photo, setPhoto] = useState(FirebaseUser.get.currentUser.user.photoURL);
@@ -50,7 +49,6 @@ const Blog = () => {
     useEffect(() => {
         setIsOwnProfile(userid === FirebaseUser.get.currentUser.user.uid);
         (async() => {
-            // setPosts([]);
             setPhoto(BobaImage);
             setName("Loading...");
             try{
@@ -64,13 +62,6 @@ const Blog = () => {
                 setName(user.name ?? defaultBlog.name);
                 setPhoto(user.profile ?? defaultBlog.photo);
                 setLocation(filter.clean(user.location ?? defaultBlog.location));
-                // let entries = await publishGetUser(userid);
-                // let allPosts = [];
-                // entries.forEach(entry => {
-                //     let data = {id: entry.id, ...entry.data()}
-                //     allPosts.push(data);
-                // });
-                // setPosts(allPosts);
             }catch{
                 setBio("This person does not exist. This could either be an error, a bug, or more likely, the user has privated their profile.");
                 setName("Who dis?");

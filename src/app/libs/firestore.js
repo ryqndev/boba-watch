@@ -35,7 +35,7 @@ const logout = () => {
         window.location.reload();
     }).catch(alertDefaultError);      
 }
-const publishGetUser = async(uid, limit=6) => {
+const publishGetUser = (uid, limit=6) => {
     return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).get();
 }
 const publishGetFeed = (callback, limit=1) => {

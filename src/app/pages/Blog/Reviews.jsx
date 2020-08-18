@@ -7,12 +7,13 @@ import {
     confirmBlogPostDelete
 } from '../../libs/swal';
 
-const Reviews = ({ownerUID, currentUID, initialDisplayCount=3}) => {
+const Reviews = ({ownerUID, currentUID, initialDisplayCount=5}) => {
     const [posts, setPosts] = useState(null);
-    
+    const [displayCount, setDisplayCount] = useState(initialDisplayCount);
+
     useEffect(() => {
         setPosts(null);
-        publishGetUser(ownerUID, initialDisplayCount).then(entries => {
+        publishGetUser(ownerUID, displayCount).then(entries => {
             let posts = [];
             entries.forEach(entry => {
                 posts.push({id: entry.id, ...entry.data()});
@@ -22,7 +23,7 @@ const Reviews = ({ownerUID, currentUID, initialDisplayCount=3}) => {
             alertDefaultError(err);
             setPosts([]);
         });
-    }, [ownerUID]);
+    }, [ownerUID, displayCount]);
 
     const deletePost = (postID) => {
         confirmBlogPostDelete().then((res) => {

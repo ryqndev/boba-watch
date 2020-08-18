@@ -2,18 +2,18 @@ import i18n from "i18next";
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from "react-i18next";
 import en from './translations/en.json';
-import enGB from './translations/en-gb.json';
-import es from './translations/es.json';
-import zh from './translations/zh.json';
-import zhTW from './translations/zh-tw.json';
+// import enGB from './translations/en-gb.json';
+// import es from './translations/es.json';
+// import zh from './translations/zh.json';
+// import zhTW from './translations/zh-tw.json';
 
 const resources = { 
     en: en,
-    "en-US": en,
-    "en-GB": enGB,
-    es: es,
-    zh: zh,
-    "zh-TW": zhTW
+    // "en-US": en,
+    // "en-GB": enGB,
+    // es: es,
+    // zh: zh,
+    // "zh-TW": zhTW
 };
 const detectOptions = {
     order: ['localStorage', 'navigator'],

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {useTranslation} from 'react-i18next';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandedDrinkDescription from './ExpandedDrinkDescription';
 import {toMoney} from '../../components/textUtil.js';
 import FirebaseUser from '../../controller/backend.js';
 import stats from '../../controller/calculateStatistics';
@@ -52,18 +53,7 @@ const DrinkPanel = ({data, history, triggerUpdate}) => {
                 </p>
             </div>
             <div className={'collapsed-info' + (expanded ? ' expanded' : '')}>
-                <p className="label">
-                    {data.name} 
-                    <br />
-                    <span>@{data.location}</span>
-                </p>
-                <p className="description">
-                    {data.description}
-                </p>
-                <p className="date">
-                    <span>{t('on')}</span> {drinkDate}
-                </p>
-
+                <ExpandedDrinkDescription {...data} date={drinkDate}/>
                 <div className="options">
                     <button className="text" onClick={publish} disabled={!canPublish}>{t('PUBLISH')}</button>
                     <button className="text" onClick={edit}>{t('EDIT')}</button>

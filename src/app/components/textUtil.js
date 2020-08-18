@@ -4,9 +4,11 @@
  */
 function toMoney(money, short = false){
     if(short){
-        return parseInt(money/100);
+        let res = parseInt(money/100);
+        return isNaN(res) ? '---' : res;
     }
-    return Number(money/100).toFixed(2);
+    let res = Number(money/100).toFixed(2);
+    return isNaN(res) ? '---' : res;
 }
 export default {
     toMoney: toMoney

@@ -10,6 +10,13 @@ function toMoney(money, short = false){
     let res = Number(money/100).toFixed(2);
     return isNaN(res) ? '---' : res;
 }
-export default {
-    toMoney: toMoney
+
+const ellipsisText = (text, characterLengthCutoff=80) => {
+    if(text.length > characterLengthCutoff)
+        return text.substr(text, characterLengthCutoff - 4) + "...";
+    return text;
+}
+export {
+    toMoney,
+    ellipsisText
 }

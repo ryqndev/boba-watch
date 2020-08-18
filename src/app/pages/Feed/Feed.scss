@@ -113,6 +113,9 @@
         & p{
             &.location{
                 font-size: 1.3rem;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow-x: hidden;
             }
             &.price{
                 font-size: 1.3rem;
@@ -126,6 +129,12 @@
                 grid-column: 1/3;
                 font-size: 0.8rem;
             }
+        }
+        & .expand-wrapper{
+            display: grid;
+            place-items: center;
+            padding-top: 15px;
+            grid-column: 1/3;
         }
     }
 }

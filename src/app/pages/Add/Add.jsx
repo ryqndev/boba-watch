@@ -60,7 +60,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
         if(e.target.value.length >= 300) return;
         setInput(e.target.value);
     }
-    const handlePriceChange = e => {if((e.target.value).match(/^-?\d*\.?\d*$/)) setPrice(e.target.value)}
+    const handlePriceChange = e => {if((e.target.value).match(/^-?\d*\.?\d*$/) && e.target.value.length < 8) setPrice(e.target.value)}
     const handleDateChange = (date) => {setDate(date)}
 
     const addDrink = async(e) => {

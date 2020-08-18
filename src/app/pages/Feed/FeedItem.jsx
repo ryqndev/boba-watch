@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import Utils from '../../components/textUtil.js';
+import {toMoney, ellipsisText} from '../../components/textUtil.js';
 import FirebaseUser from '../../controller/backend';
-import  {getUserBlog} from '../../libs/firestore';
+import {getUserBlog} from '../../libs/firestore';
 import {Card} from '../../components';
 import {useTranslation} from 'react-i18next';
 import {withRouter} from 'react-router-dom'
@@ -61,6 +61,10 @@ const FeedItem = ({match, location, children, staticContext, isLiked=false, ...p
         }
     }, [isLiked, post.id]);
 
+    const expand = () => {
+        console.log('expand post:', post);
+    }
+
     return (
         <Card className="feed-item">
             <div className="header">
@@ -74,7 +78,7 @@ const FeedItem = ({match, location, children, staticContext, isLiked=false, ...p
             </div>
             <div className="item-content">
                 <p className="location">{filter.clean(post.place)}</p>
-                <p className="price">{t('$')}{Utils.toMoney(post.price)}</p>
+                <p className="price">{t('$')}{toMoney(post.price)}</p>
                 {(post.rating !== null && post.rating !== undefined) && 
                     <div className="ratings-holder">
                         <StarRatingComponent 
@@ -86,8 +90,12 @@ const FeedItem = ({match, location, children, staticContext, isLiked=false, ...p
                     </div>
                 }
                 <p className="date">{(new Date(post.date).toDateString())}</p>
-                <p className="description">{filter.clean(post.description)}</p>
+                <p className="description">{filter.clean(ellipsisText(post.description))}</p>
                 {children}
+
+                <div className="expand-wrapper">
+                    <button onClick={expand}>view full post</button>
+                </div>
             </div>
         </Card>
     );

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {useTranslation} from 'react-i18next';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import Utils from '../../components/textUtil.js';
+import {toMoney} from '../../components/textUtil.js';
 import FirebaseUser from '../../controller/backend.js';
 import stats from '../../controller/calculateStatistics';
 import './DrinkPanel.scss';
@@ -39,7 +39,7 @@ const DrinkPanel = ({data, history, triggerUpdate}) => {
                     {data.location}
                 </p>
                 <p className="price">
-                    {t('$')}{Utils.toMoney(data.price)}
+                    {t('$')}{toMoney(data.price)}
                 </p>
                 <div className="expand-icon">
                     {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}

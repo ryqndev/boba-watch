@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import DrinkPanel from './DrinkPanel';
-import Utils from '../../components/textUtil.js';
+import {toMoney} from '../../components/textUtil.js';
 import {useTranslation} from 'react-i18next';
 import {Searchbar} from '../../components';
 import {user} from '../../controller';
@@ -89,14 +89,14 @@ const History = () => {
                 {monthly}
             </div>
             <h3 className="bw history-total">
-                <span>{t('Monthly Total')}:</span> {t('$')}{Utils.toMoney(monthSum)}
+                <span>{t('Monthly Total')}:</span> {t('$')}{toMoney(monthSum)}
             </h3>
             <h3 className="bw">{t('Overall Spending')}</h3>
             <div className="history-spending">
                 {total}
             </div>
             <h3 className="bw history-total">
-                <span>{t('Complete Total')}:</span> {t('$')}{Utils.toMoney(totalSum)}
+                <span>{t('Complete Total')}:</span> {t('$')}{toMoney(totalSum)}
             </h3>
         </div>
     );

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import Utils from '../../components/textUtil.js';
+import {toMoney} from '../../components/textUtil.js';
 import DailyHeatMap from './graphs/DailyHeatMap';
 import TimeBarGraphs from './graphs/TimeBarGraphs';
 import UserSunburst from './graphs/UserSunburst';
@@ -37,17 +37,17 @@ const Dashboard = () => {
             <h4 className="bw title">{t('Monthly Spending')}</h4>
             <Card id="chart-holder">
                 <div className="description">
-                    {t('MONTHLY LIMIT')}: {t('$')}{Utils.toMoney(budget, budget/10000 > 1)}
+                    {t('MONTHLY LIMIT')}: {t('$')}{toMoney(budget, budget/10000 > 1)}
                     <br />
-                    <span>{t('$')}{Utils.toMoney(metrics.tc, metrics.tc/10000 > 1)}</span>
+                    <span>{t('$')}{toMoney(metrics.tc, metrics.tc/10000 > 1)}</span>
                     <br />
-                    {t('REMAINING')}: {t('$')}{Utils.toMoney(budget - metrics.tc)}
+                    {t('REMAINING')}: {t('$')}{toMoney(budget - metrics.tc)}
                 </div>
                 <UserSunburst budget={budget} spent={metrics.tc} width={width}/>
             </Card>
             <Card className="budget">
                 <p>{t('This is how much you’ve spent on drinks so far')}:</p>
-                <h2 className="bw">{t('$')}{Utils.toMoney(cmetrics.tc, cmetrics.tc/10000 > 1)}</h2>
+                <h2 className="bw">{t('$')}{toMoney(cmetrics.tc, cmetrics.tc/10000 > 1)}</h2>
             </Card>
             <Card className="limit" style={{backgroundPositionY: (100 - drinkPercent) * 2.7}}>
                 <h3 className="bw">{drinkPercent}%</h3>

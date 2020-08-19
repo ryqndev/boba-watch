@@ -35,11 +35,11 @@ const WithAvatar = ({uid, history, ...data}) => {
                 <img src={person?.profile ?? "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="} alt=" " />
                 <h2>{filter.clean(person?.name ?? "Boba Bro")}</h2>
             </div>
-            <FeedItem {...data} uid={uid}/>
+            <FeedItem {...data} person={person} uid={uid}/>
         </div>
     );
 }
-const FeedItem = ({match, location, children, staticContext, isLiked=false, ...post}) => {
+const FeedItem = ({match, location, children, staticContext, person, isLiked=false, setExpand, ...post}) => {
     const {t} = useTranslation();
     const [liked, setLiked] = useState(isLiked);
     const [likeDisplay, setLikeDisplay] = useState(post?.likes ?? 0);
@@ -60,10 +60,6 @@ const FeedItem = ({match, location, children, staticContext, isLiked=false, ...p
             });
         }
     }, [isLiked, post.id]);
-
-    const expand = () => {
-        console.log('expand post:', post);
-    }
 
     return (
         <Card className="feed-item">
@@ -93,9 +89,9 @@ const FeedItem = ({match, location, children, staticContext, isLiked=false, ...p
                 <p className="description">{filter.clean(ellipsisText(post.description))}</p>
                 {children}
 
-                <div className="expand-wrapper">
-                    <button onClick={expand}>view full post</button>
-                </div>
+                {!!person && <div className="expand-wrapper">
+                    <button onClick={() => {setExpand({show: true, person: person, ...post})}}>view full post</button>
+                </div>}
             </div>
         </Card>
     );

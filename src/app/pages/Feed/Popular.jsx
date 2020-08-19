@@ -3,7 +3,7 @@ import {publishGetFeed} from '../../libs/firestore';
 import {FeedItemWithAvatar} from './FeedItem';
 import './Feed.scss';
 
-const Popular = ({displayCount}) => {
+const Popular = ({displayCount, expand}) => {
     const [posts, setPosts] = useState([]);
     useEffect(() => {
         let unsubscribe = publishGetFeed(snapshot => {
@@ -24,6 +24,7 @@ const Popular = ({displayCount}) => {
             key={feedContent.id} 
             place={feedContent.location} 
             isLiked={feedContent?.fave ?? false}
+            setExpand={expand}
             {...feedContent} 
         />
     );

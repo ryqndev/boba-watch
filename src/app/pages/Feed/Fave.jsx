@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {FeedItemWithAvatar} from './FeedItem';
 import {getFaves as getLocalDexieFaves} from '../../libs/dexie';
 
-const Fave = () => {
+const Fave = ({expand}) => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -16,6 +16,7 @@ const Fave = () => {
         <FeedItemWithAvatar 
             key={feedContent.id} 
             place={feedContent.location} 
+            setExpand={expand}
             isLiked
             {...feedContent} 
         />

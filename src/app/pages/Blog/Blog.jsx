@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Toggle from 'react-toggle';
 import {useTranslation} from 'react-i18next';
 import FirebaseUser from '../../controller/backend';
-import {deleteBlogPost, publishGetUser, getUserBlog, getUserStats} from '../../libs/firestore';
+import {getUserBlog, getUserStats} from '../../libs/firestore';
 import StatsDisplay from './Stats';
 import ReviewsDisplay from './Reviews';
 import {useParams} from 'react-router-dom';
@@ -131,10 +131,12 @@ const Blog = () => {
                 <span>★</span> REVIEWS <span>★</span>
             </h2>
 
-            <ReviewsDisplay
-                ownerUID={userid}
-                currentUID={FirebaseUser.get.currentUser.user.uid}
-            />
+            <div className="reviews-holder">
+                <ReviewsDisplay
+                    ownerUID={userid}
+                    currentUID={FirebaseUser.get.currentUser.user.uid}
+                />
+            </div>
         </div>
     );
 }

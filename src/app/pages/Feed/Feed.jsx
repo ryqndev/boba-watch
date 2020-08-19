@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Route, Switch, Link, withRouter} from 'react-router-dom';
 import Popular from './Popular';
 import Fave from './Fave';
+import {Modal} from '../../components';
+import ExpandedFeedItem from './ExpandedFeedItem';
 import './Feed.scss';
 
 const Feed = ({location}) => {
     const {t} = useTranslation();
+    const [expandedFeedItem, setExpandedFeedItem] = useState({show: false});
     return (
         <div className="feed-page">
             <div className="feed-header">
@@ -18,14 +21,17 @@ const Feed = ({location}) => {
             <div className="content">
                 <Switch>
                     <Route exact strict path='/feed'>
-                        <Popular displayCount={10}/>
+                        <Popular expand={setExpandedFeedItem} displayCount={10}/>
                     </Route>
                     <Route exact strict path='/feed/fave'>
-                        <Fave />
+                        <Fave expand={setExpandedFeedItem}/>
                     </Route>
                 </Switch>
                 <div className="feed-end">No more posts to show.</div>
             </div>
+            <Modal open={expandedFeedItem.show} setOpen={(show) => {setExpandedFeedItem({show: show})}}>
+                <ExpandedFeedItem {...expandedFeedItem}/>
+            </Modal>
         </div>
     );
 }

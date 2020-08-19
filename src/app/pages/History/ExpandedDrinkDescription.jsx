@@ -11,9 +11,11 @@ const ExpandedDrinkDescription = ({name, location, description, date}) => {
                 <br />
                 <span>@{location}</span>
             </p>
+            <br />
             <p className="description">
                 {description}
             </p>
+            <br />
             <p className="date">
                 <span>{t('on')}</span> {date}
             </p>

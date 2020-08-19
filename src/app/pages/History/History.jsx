@@ -70,9 +70,7 @@ const History = () => {
     }, [drinkidsCopy.length, drinkidsCopy, show, show.recent, show.complete]);
 
     const DrinkSearchResult = ({item, matches}) => {
-        return (
-            <DrinkPanel triggerUpdate={setDrinkidsCopy} data={item}/>
-        );
+        return (<DrinkPanel triggerUpdate={setDrinkidsCopy} data={item}/>);
     }
 
     return (

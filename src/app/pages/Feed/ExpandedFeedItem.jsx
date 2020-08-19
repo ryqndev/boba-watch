@@ -9,7 +9,7 @@ const ExpandedFeedItem = ({show, person, name, place, description, date, uid, hi
     return show && (
         <div className="expanded-feed-item--wrapper">
             <div className="user">
-                <img src={person.profile} alt="avatar" onClick={() => {
+                <img src={person.profile} alt=" " onClick={() => {
                     history.push('/blog/' + uid);
                 }}/>
                 <h2>{person.name}</h2>

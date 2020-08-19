@@ -96,7 +96,7 @@ const Blog = () => {
         <div className="blog-page">
             <div className="blog-header"> <div className="icon"></div>PUBLIC PROFILE PREVIEW</div>
             <div className="user">
-                <img src={photo} alt="avatar" />
+                <img src={photo} alt=" " />
                 <h2>{name}</h2>
             </div>
             <div className="profile">

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {FeedItemWithAvatar} from './FeedItem';
 import {getFaves as getLocalDexieFaves} from '../../libs/dexie';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
 const Fave = ({expand}) => {
     const [posts, setPosts] = useState([]);
@@ -12,15 +13,23 @@ const Fave = ({expand}) => {
             setPosts(feedposts);
         });
     }, []);
-    return posts.map(feedContent => 
-        <FeedItemWithAvatar 
-            key={feedContent.id} 
-            place={feedContent.location} 
-            setExpand={expand}
-            isLiked
-            {...feedContent} 
-        />
-    );
+    return (
+        <TransitionGroup>
+            {
+                posts.map((feedContent, i) =>
+                    <CSSTransition timeout={350 + (50 * i)} classNames="fade-left" key={feedContent.id}>
+                        <FeedItemWithAvatar
+                            key={feedContent.id}
+                            place={feedContent.location}
+                            isLiked={feedContent?.fave ?? false}
+                            setExpand={expand}
+                            {...feedContent}
+                        />
+                    </CSSTransition>
+                )
+            } 
+        </TransitionGroup>
+    )
 }
 
 export default Fave;

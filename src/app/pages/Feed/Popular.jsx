@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {publishGetFeed} from '../../libs/firestore';
 import {FeedItemWithAvatar} from './FeedItem';
+import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import './Feed.scss';
 
 const Popular = ({displayCount, expand}) => {
@@ -19,14 +20,22 @@ const Popular = ({displayCount, expand}) => {
         }
     }, [displayCount]);
 
-    return posts.map(feedContent => 
-        <FeedItemWithAvatar 
-            key={feedContent.id} 
-            place={feedContent.location} 
-            isLiked={feedContent?.fave ?? false}
-            setExpand={expand}
-            {...feedContent} 
-        />
+    return (
+        <TransitionGroup>
+            {
+                posts.map((feedContent, i) =>
+                    <CSSTransition timeout={250 + (50 * i)} classNames="fade-left" key={feedContent.id}>
+                        <FeedItemWithAvatar
+                            key={feedContent.id}
+                            place={feedContent.location}
+                            isLiked={feedContent?.fave ?? false}
+                            setExpand={expand}
+                            {...feedContent}
+                        />
+                    </CSSTransition>
+                )
+            } 
+        </TransitionGroup>
     );
 }
 

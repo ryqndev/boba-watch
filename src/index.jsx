@@ -6,6 +6,7 @@ import * as serviceWorker from './app/serviceWorker';
 // import FirebaseUser from './app/controller/backend.js';
 import './app/components/globals/globals.scss';
 import './app/components/globals/lib-globals.scss';
+import './app/components/globals/animations.scss';
 import './i18n';
 
 // try{

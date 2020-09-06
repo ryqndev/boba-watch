@@ -89,9 +89,9 @@ const FeedItem = ({match, location, children, staticContext, person, isLiked=fal
                 <p className="description">{filter.clean(ellipsisText(post.description))}</p>
                 {children}
 
-                {!!person && <div className="expand-wrapper">
+                <div className="expand-wrapper">
                     <button onClick={() => {setExpand({show: true, person: person, ...post})}}>view full post</button>
-                </div>}
+                </div>
             </div>
         </Card>
     );

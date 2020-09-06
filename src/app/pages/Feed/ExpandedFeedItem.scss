@@ -32,10 +32,17 @@
             color: var(--text-secondary);
         }
     }
+    & p.title{
+        text-align: left;
+        font-size: 1.4rem;
+        & span{
+            font-size: 1.3rem;
+        }
+    }
     & .content{
         max-height: calc(100vh - 350px);
         overflow-y: scroll;
-        padding-top: 50px;
+        padding-top: 35px;
         border-radius: 10px;
         background-color: var(--bg-primary);
     }

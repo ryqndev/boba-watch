@@ -1,0 +1,22 @@
+:root{
+    --animation-time: 350ms;
+}
+
+.fade-left-enter {
+    opacity: 0;
+    transform: translateX(-10px);
+}
+.fade-left-enter-active {
+    opacity: 1;
+    transform: translateX(0px);
+    transition: opacity var(--animation-time), transform var(--animation-time);
+}
+.fade-left-exit {
+    transform: translateX(0px);
+    opacity: 1;
+}
+.fade-left-exit-active {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity var(--animation-time), transform var(--animation-time);
+}

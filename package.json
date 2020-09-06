@@ -28,12 +28,14 @@
     "react-select": "^3.1.0",
     "react-star-rating-component": "^1.4.1",
     "react-toggle": "^4.1.1",
+    "react-transition-group": "^4.4.1",
     "react-vis": "^1.11.7",
     "sweetalert2": "^9.17.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "beta": "react-scripts build && cp -R build/. ../beta-boba-watch/ && cd ../beta-boba-watch/ && echo \"beta.boba.watch\" > CNAME && git add . && git commit -m \"New Update\" && git pushh",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn run build",

@@ -24,7 +24,7 @@ const Feed = ({location}) => {
                         <Popular expand={setExpandedFeedItem} displayCount={10}/>
                     </Route>
                     <Route exact strict path='/feed/fave'>
-                        <Fave expand={setExpandedFeedItem}/>
+                        <Fave expand={setExpandedFeedItem} displayCount={10}/>
                     </Route>
                 </Switch>
                 <div className="feed-end">No more posts to show.</div>

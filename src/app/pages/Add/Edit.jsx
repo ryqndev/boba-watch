@@ -5,8 +5,8 @@ import {withRouter} from 'react-router-dom';
 const Edit = ({match}) => {
     const [data, setData] = useState(null);
     useEffect(() => {
-        setData(JSON.parse(localStorage.getItem(match.params.userid)));
-    }, [match.params.userid]);
+        setData(JSON.parse(localStorage.getItem(match.params.drinkid)));
+    }, [match.params.drinkid]);
     return (
         <Add
             pageTitle='Edit a Purchase'

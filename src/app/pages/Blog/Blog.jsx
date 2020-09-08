@@ -11,6 +11,7 @@ import {TextClipboard, Collapse} from '../../components';
 import BobaImage from '../../../assets/logo-shadow.svg';
 import Filter from 'bad-words';
 import './Blog.scss';
+import Text from '../../components/globals/styles/Text';
 import {
     alertDefaultError,
     alertBioUpdateSuccess,
@@ -47,10 +48,11 @@ const Blog = () => {
     const [profileSharing, setProfileSharing] = useState(FirebaseUser.get.currentUser.profile.sharing);
 
     useEffect(() => {
+        setPhoto(BobaImage);
+        setName("Loading...");
         setIsOwnProfile(userid === FirebaseUser.get.currentUser.user.uid);
+        if(userid === undefined) return;
         (async() => {
-            setPhoto(BobaImage);
-            setName("Loading...");
             try{
                 let stats = await getUserStats(userid);
                 stats = stats.data();
@@ -97,11 +99,11 @@ const Blog = () => {
             <div className="blog-header"> <div className="icon"></div>PUBLIC PROFILE PREVIEW</div>
             <div className="user">
                 <img src={photo} alt=" " />
-                <h2>{name}</h2>
+                <h2><Text defaultKey="Loading...">{name}</Text></h2>
             </div>
             <div className="profile">
-                <LocationIcon className="icon" onClick={triggerLocationEdit}/> {location}
-                <p onClick={triggerBioEdit}>{bio}</p>
+                <LocationIcon className="icon" onClick={triggerLocationEdit}/> <Text>{location}</Text>
+                <p onClick={triggerBioEdit}><Text>{bio}</Text></p>
                 {isOwnProfile && (
                     <div className="user-share ">
                         <div className="user-share-profile">
@@ -137,6 +139,9 @@ const Blog = () => {
                     currentUID={FirebaseUser.get.currentUser.user.uid}
                 />
             </div>
+            {/* <Modal open={expandedFeedItem.show} setOpen={(show) => {setExpandedFeedItem({show: show})}}>
+                <ExpandedFeedItem {...expandedFeedItem}/>
+            </Modal> */}
         </div>
     );
 }

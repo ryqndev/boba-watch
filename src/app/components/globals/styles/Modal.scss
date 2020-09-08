@@ -7,6 +7,7 @@
     background-color: #000000aa;
     display: none;
     z-index: 1040;
+    overflow: hidden;
 }
 .modal-backdrop.open{
     display: grid;

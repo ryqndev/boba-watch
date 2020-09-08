@@ -7,7 +7,8 @@ import History from './pages/History';
 import Login from './pages/Login';
 import Feed from './pages/Feed';
 import Blog from './pages/Blog';
-import { Navigation } from './components';
+import {Navigation} from './components';
+import {CSSTransition} from 'react-transition-group';
 import Theme from './components/globals/theme';
 import FirebaseUser from './controller/backend';
 
@@ -32,49 +33,60 @@ const Start = ({history}) => {
 		</Switch>
     );
 }
+const Page = ({path, children}) => (
+    <Route exact path={path}>
+        {({ match }) => (
+            <CSSTransition unmountOnExit mountOnEnter in={match != null} timeout={100} classNames="fade-quick">
+                <div className="page">
+                    {children}
+                </div>
+            </CSSTransition>
+        )}
+    </Route>
+);
 
 const App = () => {
     const [user, setUser] = useState(false);
     return (
         <Router initialEntries={['/dash', '/history', '/add', '/feed', '/blog']} initialIndex={0}>
-            <Switch>
-                <Route exact path='/dash'>
-                    <UserIcon setUser={setUser} />
-                    <Dashboard /> 
-                </Route>
-                <Route exact path='/history'>
-                    <UserIcon setUser={setUser} />
-                    <History />
-                </Route>
-                <Route exact path='/add'>
-                    <UserIcon setUser={setUser} />
-                    <Add /> 
-                </Route>
-                <Route exact path='/edit/:userid'>
-                    <UserIcon setUser={setUser} />
-                    <Edit /> 
-                </Route>
-                <Route path='/feed'>
+            <Page path="/dash">
+                <Dashboard />
+                <UserIcon setUser={setUser} />
+            </Page>
+            <Page path="/history">
+                <History />
+                <UserIcon setUser={setUser} />
+            </Page>
+            <Page path="/add">
+                <Add />
+                <UserIcon setUser={setUser} />
+            </Page>
+            <Page path="/edit/:drinkid">
+                <Edit />
+                <UserIcon setUser={setUser} />
+            </Page>
+            <Route strict path="/feed">
+                <div className="page">
                     <Feed />
-                </Route>
-                <Route exact path='/blog/:userid'>
-                    <Blog/> 
-                </Route>
-            </Switch>
+                </div>
+            </Route>
+            <Route exact path="/blog/:userid">
+                <div className="page">
+                    <Blog />
+                </div>
+            </Route>
             <User open={user} setOpen={setUser} />
             <Navigation />
         </Router>
     );
 }
-const UserIcon = ({setUser}) => {
-    return (
-        <img 
-            src={FirebaseUser.get.currentUser.user.photoURL}
-            alt="user settings"
-            className="avatar-button"
-            onClick={setUser.bind(null, true)}
-        />
-    );
-}
+const UserIcon = ({setUser}) => (
+    <img 
+        src={FirebaseUser.get.currentUser.user.photoURL}
+        alt="user settings"
+        className="avatar-button"
+        onClick={setUser.bind(null, true)}
+    />
+);
 
 export default withRouter(Start);

@@ -43,7 +43,6 @@ const Navigation = ({history}) => {
                     <p className="label">feed</p>
                 </div>
             </Link>
-
             <Link to={'/blog/' + FirebaseUser.get.currentUser.user.uid}>
                 <div className={'icon' + isTab('/blog/' + FirebaseUser.get.currentUser.user.uid)}>
                     <PublicIcon />

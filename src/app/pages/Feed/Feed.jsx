@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Route, Switch, Link, withRouter} from 'react-router-dom';
 import Popular from './Popular';
@@ -10,6 +10,9 @@ import './Feed.scss';
 const Feed = ({location}) => {
     const {t} = useTranslation();
     const [expandedFeedItem, setExpandedFeedItem] = useState({show: false});
+    useEffect(() => {
+        console.log(location);
+    }, [location])
     return (
         <div className="feed-page">
             <div className="feed-header">

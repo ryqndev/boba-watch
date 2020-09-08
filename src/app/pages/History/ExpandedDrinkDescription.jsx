@@ -7,7 +7,7 @@ const ExpandedDrinkDescription = ({name, location, description, date}) => {
     return (
         <div className="expanded-drink-description--wrapper">
             <p className="title">
-                {name}
+                {name} 
                 <br />
                 <span>@{location}</span>
             </p>

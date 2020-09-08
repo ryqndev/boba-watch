@@ -1,4 +1,5 @@
 import React, {useRef} from 'react';
+import {CSSTransition} from 'react-transition-group';
 import './Modal.scss';
 
 const Modal = ({open, setOpen, children}) => {
@@ -8,9 +9,11 @@ const Modal = ({open, setOpen, children}) => {
         if(ref.current && ref.current === e.target) setOpen(false);
     }
     return (
-        <div className={'modal-backdrop ' + (open ? 'open' : '')} onClick={toggleClose} ref={ref}>
-            {children}
-        </div>
+        <CSSTransition in={open} timeout={100} classNames="fade-quick">
+            <div className={'modal-backdrop ' + (open ? 'open' : '')} onClick={toggleClose} ref={ref}>
+                {children}
+            </div>
+        </CSSTransition>
     );   
 }
 

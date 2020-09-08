@@ -17,7 +17,7 @@ const Fave = ({expand}) => {
         <TransitionGroup>
             {
                 posts.map((feedContent, i) =>
-                    <CSSTransition timeout={350 + (50 * i)} classNames="fade-left" key={feedContent.id}>
+                    <CSSTransition mountOnEnter unmountOnExit timeout={350 + (50 * i)} classNames="fade-left" key={feedContent.id}>
                         <FeedItemWithAvatar
                             key={feedContent.id}
                             place={feedContent.location}

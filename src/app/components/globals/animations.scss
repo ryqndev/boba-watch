@@ -1,5 +1,6 @@
 :root{
     --animation-time: 350ms;
+    --animation-quick: 100ms;
 }
 
 .fade-left-enter {
@@ -19,4 +20,21 @@
     opacity: 0;
     transform: translateX(-10px);
     transition: opacity var(--animation-time), transform var(--animation-time);
+}
+
+.fade-quick-enter {
+    opacity: 0;
+}
+.fade-quick-exit {
+    opacity: 1;
+}
+.fade-quick-enter-active {
+    opacity: 1;
+}
+.fade-quick-exit-active {
+    opacity: 0;
+}
+.fade-quick-enter-active,
+.fade-quick-exit-active{
+    transition: opacity var(--animation-quick);
 }

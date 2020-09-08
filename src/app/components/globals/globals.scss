@@ -101,6 +101,14 @@ h6.bw{
     color: var(--text-accent);
     font-size: 12px;
 }
+.page{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+}
 .avatar-button{
     height: 37px;
     width: 37px;

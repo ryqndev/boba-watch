@@ -4,7 +4,7 @@ const profile = {
     'sharing': false
 }
 
-const stats = {
+const metrics = {
     "ad": 0,
     "cad": 0,
     "ctc": 0,
@@ -30,7 +30,7 @@ const blogPostGetOptions = {
 
 export {
     profile,
-    stats,
+    metrics,
     blog,
     blogPostGetOptions
 }

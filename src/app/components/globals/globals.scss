@@ -102,12 +102,14 @@ h6.bw{
     font-size: 12px;
 }
 .page{
-    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     overflow-y: scroll;
+    &.with-user{
+        position: fixed;
+    }
 }
 .avatar-button{
     height: 37px;

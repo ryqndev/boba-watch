@@ -40,29 +40,34 @@ const Reviews = ({ownerUID, currentUID, initialDisplayCount=5}) => {
     }
     const displayMore = () => { setDisplayCount(displayCount + 5) }
     const ContentDisplay = (posts) => {
-        if(!posts)              return (<h3 key="@ryqndev/loading">Loading...</h3>);
-        if(posts.length === 0)  return (<h3 key="@ryqndev/empty">No Published Reviews</h3>);
-        
-        let content = posts.map(post => (
-            <FeedItem key={post.id} place={post.location} {...post}>
-                {(ownerUID === currentUID) && (
-                    <div className="item-controls">
-                        <button onClick={() => {deletePost(post.id)}}>DELETE</button>
-                    </div>)
-                }
-            </FeedItem>));
-
-        content.push(
-            posts.length >= displayCount 
-            ? <div key="@ryqndev/show" className="more" onClick={displayMore}>Click to show more</div>
-            : <div key="@ryqndev/end"className="end">No more posts to show.</div>
-        );
+        if (!posts) return [];
+        let content = posts.map((post, i) => (
+            <CSSTransition mountOnEnter unmountOnExit timeout={350 + (50 * i)} classNames="fade-left" key={post.id}>
+                <FeedItem place={post.location} expandable={false} {...post}>
+                    {(ownerUID === currentUID) && (
+                        <div className="item-controls">
+                            <button onClick={() => {deletePost(post.id)}}>DELETE</button>
+                        </div>)
+                    }
+                </FeedItem>
+            </CSSTransition>
+        ));
         return content;
     }
 
     return (
         <div className="blog-reviews--wrapper">
-            {ContentDisplay(posts)}
+            {
+                posts === null 
+                ? <h3 key="@ryqndev/loading">Loading...</h3>
+                : posts?.length === 0 && <h3 key="@ryqndev/empty">No Published Reviews</h3>
+            }
+            <TransitionGroup>
+                {ContentDisplay(posts)}
+            </TransitionGroup>
+            {posts && (posts.length >= displayCount) 
+            ? <div key="@ryqndev/show" className="more" onClick={displayMore}>Click to show more</div>
+            : <div key="@ryqndev/end"className="end">No more posts to show.</div>}
         </div>
     )
 }

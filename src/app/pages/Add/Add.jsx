@@ -160,7 +160,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
 
                     <div className="autofill-divider">or add a new drink:</div>
 
-                    <TextInput value={location} onChange={handleTextChange(setLocation)} autoFocus label={t("Location")} id="location-input"/>
+                    <TextInput value={location} onChange={handleTextChange(setLocation)} label={t("Location")} id="location-input"/>
                     <TextInput value={name} onChange={handleTextChange(setName)} label={t("Drink Name")} id="name-input"/>
                     <TextInput value={price} onChange={handlePriceChange} label={t("Price")} id="price-input" type="text"/>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>

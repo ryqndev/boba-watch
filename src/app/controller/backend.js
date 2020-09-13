@@ -6,7 +6,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
-import {init as initFirestore, database as db, getFaves as getCloudFirebaseFaves} from '../libs/firestore';
+import {database as db, getFaves as getCloudFirebaseFaves} from '../libs/firestore';
 import {onLogin as logLoginToAnalytics} from '../libs/analytics';
 import stats from './calculateStatistics';
 import {add, exists} from '../libs/dexie';
@@ -30,7 +30,6 @@ window.userstuff = store;//TODO remove
 const nothing = () => { return; }
 
 let init = (callback) => {
-    initFirestore();
     firebase.auth().onAuthStateChanged(user => {
         if(!user) return callback(user);    // if not logged in user
         logLoginToAnalytics();

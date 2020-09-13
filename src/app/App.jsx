@@ -11,33 +11,39 @@ import {Navigation} from './components';
 import {CSSTransition} from 'react-transition-group';
 import Theme from './components/globals/theme';
 import FirebaseUser from './controller/backend';
+import AuthUserContext from './controller/contexts/AuthUserContext';
 
 const Start = ({history}) => {
+    const [authUser, setAuthUser] = useState();
     useEffect(() => {
         Theme();
         FirebaseUser.init(user => {
+            setAuthUser(user);
             history.push(user ? '/app' : '/login');
         });
         console.log("v2.0.6");
     }, [history]);
+
     return (
-        <Switch>
-			<Route exact path='/'>
-			</Route>
-			<Route path='/login'>
-				<Login />
-			</Route>
-			<Route path='/app'>
-                <App />
-			</Route>
-		</Switch>
+        <AuthUserContext.Provider value={[authUser]}> 
+            <Switch>
+                <Route exact path='/'>
+                </Route>
+                <Route path='/login'>
+                    <Login />
+                </Route>
+                <Route path='/app'>
+                    <App />
+                </Route>
+            </Switch>
+        </AuthUserContext.Provider> 
     );
 }
 const Page = ({path, children}) => (
     <Route exact path={path}>
         {({ match }) => (
             <CSSTransition unmountOnExit mountOnEnter in={match != null} timeout={100} classNames="fade-quick">
-                <div className="page">
+                <div className="page with-user">
                     {children}
                 </div>
             </CSSTransition>

@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import Toggle from 'react-toggle';
 import {useTranslation} from 'react-i18next';
 import FirebaseUser from '../../controller/backend';
-import {getUserBlog, getUserStats} from '../../libs/firestore';
+import {getUserBlog} from '../../libs/firestore';
+import useMetrics from '../../controller/hooks/useMetrics';
 import StatsDisplay from './Stats';
 import ReviewsDisplay from './Reviews';
 import {useParams} from 'react-router-dom';
@@ -20,10 +21,7 @@ import {
     promptLocationUpdate,
 } from '../../libs/swal';
 
-import {
-    stats as defaultStats,
-    blog as defaultBlog,
-} from '../../defaults';
+import {blog as defaultBlog} from '../../defaults';
 
 let filter = new Filter();
 
@@ -38,12 +36,12 @@ const toggleProfileSharing = (callback) => {
 
 const Blog = () => {
     const {userid} = useParams();
+    const stats = useMetrics(userid);
     const {t} = useTranslation();
     const [location, setLocation] = useState("---");
     const [bio, setBio] = useState(defaultBlog.bio);
     const [photo, setPhoto] = useState(FirebaseUser.get.currentUser.user.photoURL);
     const [name, setName] = useState(FirebaseUser.get.currentUser.user.displayName);
-    const [stats, setStats] = useState(JSON.parse(localStorage.getItem('metrics')));
     const [isOwnProfile, setIsOwnProfile] = useState(false);
     const [profileSharing, setProfileSharing] = useState(FirebaseUser.get.currentUser.profile.sharing);
 
@@ -54,9 +52,6 @@ const Blog = () => {
         if(userid === undefined) return;
         (async() => {
             try{
-                let stats = await getUserStats(userid);
-                stats = stats.data();
-                setStats(stats);
                 let user = await getUserBlog(userid);
                 user = user.data();
     
@@ -69,7 +64,6 @@ const Blog = () => {
                 setName("Who dis?");
                 setPhoto(BobaImage);
                 setLocation("Not in Boba World :(");
-                setStats(defaultStats);
             }
         })();
     }, [userid]);

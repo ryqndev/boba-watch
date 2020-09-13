@@ -6,19 +6,11 @@ import './Feed.scss';
 
 const Popular = ({displayCount, expand}) => {
     const [posts, setPosts] = useState([]);
-    useEffect(() => {
-        let unsubscribe = publishGetFeed(snapshot => {
-            let feedposts = [];
-            snapshot.forEach(doc => {
-                feedposts.push({id: doc.id, ...doc.data()});
-            });
-            setPosts([...feedposts]);
-        }, displayCount);
-
-        return () => {
-            unsubscribe();
-        }
-    }, [displayCount]);
+    useEffect(() => publishGetFeed(displayCount, snapshot => {
+        let feedposts = [];
+        snapshot.forEach(doc => {feedposts.push({id: doc.id, ...doc.data()})});
+        setPosts([...feedposts]);
+    }), [displayCount]);
 
     return (
         <TransitionGroup>

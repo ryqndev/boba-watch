@@ -39,7 +39,7 @@ const WithAvatar = ({uid, history, ...data}) => {
         </div>
     );
 }
-const FeedItem = ({match, location, children, staticContext, person, isLiked=false, setExpand, ...post}) => {
+const FeedItem = ({match, location, children, staticContext, expandable=true, person, isLiked=false, setExpand, ...post}) => {
     const {t} = useTranslation();
     const [liked, setLiked] = useState(isLiked);
     const [likeDisplay, setLikeDisplay] = useState(post?.likes ?? 0);
@@ -86,12 +86,11 @@ const FeedItem = ({match, location, children, staticContext, person, isLiked=fal
                     </div>
                 }
                 <p className="date">{(new Date(post.date).toDateString())}</p>
-                <p className="description">{filter.clean(ellipsisText(post.description))}</p>
-                {children}
-
-                <div className="expand-wrapper">
+                <p className="description">{filter.clean(expandable ? ellipsisText(post.description) : post.description)}</p>
+                {expandable && <div className="expand-wrapper">
                     <button onClick={() => {setExpand({show: true, person: person, ...post})}}>view full post</button>
-                </div>
+                </div>}
+                {children}
             </div>
         </Card>
     );

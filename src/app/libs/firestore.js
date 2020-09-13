@@ -19,13 +19,11 @@ firebase.initializeApp(firebaseConfig);
 
 let database, 
     analytics = firebase.analytics(), 
-    ui = firebaseui.auth.AuthUI.getInstance() 
-        || new firebaseui.auth.AuthUI(firebase.auth());
+    ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
 
-const init = () => {
-    database = firebase.firestore(); 
-    database.enablePersistence().catch(err => {console.error(err)});
-}
+database = firebase.firestore(); 
+database.enablePersistence().catch(err => {console.error(err)});
+
 const logout = () => {
     firebase.auth().signOut().then(function() {
         analytics.logEvent('logout');
@@ -38,7 +36,7 @@ const logout = () => {
 const publishGetUser = (uid, limit=5, callback) => {
     return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).onSnapshot(callback);
 }
-const publishGetFeed = (callback, limit=1) => {
+const publishGetFeed = (limit=1, callback) => {
     return database.collection('blogs').orderBy('published', 'desc').limit(limit).onSnapshot(callback);
 }
 const getFeed = async(limit=1, startAfter=0) => {
@@ -63,7 +61,6 @@ const getFaves = async(uid, limit=1, startAfter=0) => {
 export {
     ui,
     firebase,
-    init,
     logout,
     database,
     analytics,

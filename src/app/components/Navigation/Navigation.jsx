@@ -20,8 +20,8 @@ const Navigation = ({history}) => {
     }, [history.location.pathname]);
     return (
         <nav>
-            <Link to='/dash'>
-                <div className={'icon' + isTab('/dash')}>
+            <Link to='/'>
+                <div className={'icon' + isTab('/')}>
                     <DashboardIcon />
                     <p className="label">home</p>
                 </div>

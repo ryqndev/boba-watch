@@ -107,6 +107,7 @@ h6.bw{
     width: 100vw;
     height: 100vh;
     overflow-y: scroll;
+    background-color: var(--bg-primary);
     &.with-user{
         position: fixed;
     }

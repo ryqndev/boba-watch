@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {MemoryRouter as Router, Route, Switch, withRouter} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, withRouter} from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import {Add, Edit} from './pages/Add';
 import User from './pages/User/User';
@@ -54,8 +54,8 @@ const Page = ({path, children}) => (
 const App = () => {
     const [user, setUser] = useState(false);
     return (
-        <Router initialEntries={['/dash', '/history', '/add', '/feed', '/blog']} initialIndex={0}>
-            <Page path="/dash">
+        <Router basename={process.env.PUBLIC_URL}>
+            <Page path="/">
                 <Dashboard />
                 <UserIcon setUser={setUser} />
             </Page>

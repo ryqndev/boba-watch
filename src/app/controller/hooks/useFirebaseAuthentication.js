@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import firebase from 'firebase';
 
 const useFirebaseAuthentication = (firebase) => {
     const [user, setUser] = useState(null);

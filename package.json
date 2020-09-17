@@ -35,7 +35,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && cp build/index.html build/404.html",
-    "beta": "react-scripts build && cp -R build/. ../beta-boba-watch/ && cd ../beta-boba-watch/ && echo \"beta.boba.watch\" > CNAME && git add . && git commit -m \"New Update\" && git pushh",
+    "beta": "npm run build && cp -R build/. ../beta-boba-watch/ && cd ../beta-boba-watch/ && echo \"beta.boba.watch\" > CNAME && git add . && git commit -m \"New Update\" && git pushh",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn run build",

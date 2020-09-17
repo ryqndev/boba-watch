@@ -26,7 +26,6 @@ const store = {
         drinkids: undefined,    // drinkids - [id1, id2, id3,...] date desc order
     }
 };
-window.userstuff = store;//TODO remove
 const nothing = () => { return; }
 
 let init = (callback) => {

@@ -9,7 +9,7 @@ import {
 } from '../../libs/swal';
 import './Reviews.scss';
 
-const Reviews = ({ownerUID, currentUID, initialDisplayCount=5}) => {
+const Reviews = ({ownerUID, currentUID, initialDisplayCount=2}) => {
     const [posts, setPosts] = useState(null);
     const [displayCount, setDisplayCount] = useState(initialDisplayCount);
 

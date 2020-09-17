@@ -205,7 +205,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
                             onClick={saveDrink}
                             className={`text ${canSave ? '' : 'saved'}`}
                         >
-                            {canSave ? t('SAVE FILL') : t('SAVED')}
+                            {canSave ? t('SAVE') : t('SAVED')}
                         </button>
                         <div></div>
                         <button

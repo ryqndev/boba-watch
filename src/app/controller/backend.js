@@ -97,7 +97,7 @@ const setBlog = async() => {
     return db.collection(`users/${store.currentUser.user.uid}/blog`).doc('user').set({
         name:  store.currentUser.user.displayName,
         profile:  store.currentUser.user.photoURL
-    });
+    }, {merge: true});
 }
 
 const saveDrinksLocally = (entries) => {

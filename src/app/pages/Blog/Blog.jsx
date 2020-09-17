@@ -54,7 +54,6 @@ const Blog = () => {
             try{
                 let user = await getUserBlog(userid);
                 user = user.data();
-    
                 setBio(filter.clean(user.bio ?? defaultBlog.bio));
                 setName(user.name ?? defaultBlog.name);
                 setPhoto(user.profile ?? defaultBlog.photo);

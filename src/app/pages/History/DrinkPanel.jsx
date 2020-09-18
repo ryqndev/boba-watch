@@ -7,8 +7,10 @@ import {toMoney} from '../../components/textUtil.js';
 import FirebaseUser from '../../controller/backend.js';
 import stats from '../../controller/calculateStatistics';
 import './DrinkPanel.scss';
+import {isAfter} from 'date-fns'
+import {database} from '../../libs/firestore';
 import {withRouter} from 'react-router-dom';
-import {alertDefaultError, alertPublishSuccess} from '../../libs/swal.js';
+import {alertDefaultError, alertPublishSuccess, alertRestriction} from '../../libs/swal.js';
 
 const DrinkPanel = ({data, history, triggerUpdate}) => {
     const {t} = useTranslation();
@@ -25,6 +27,12 @@ const DrinkPanel = ({data, history, triggerUpdate}) => {
     const publish = async() => {
         setCanPublish(false);
         try{
+            let allowed = await database.collection(`users/${FirebaseUser.get.currentUser.user.uid}/blog`).doc('user').get();
+            allowed = allowed.data()?.restrictedUntil;
+            if(allowed !== undefined && isAfter(new Date(allowed), new Date())){
+                setCanPublish(true);
+                return alertRestriction(new Date(allowed).toDateString());
+            }
             await FirebaseUser.publish(data);
             alertPublishSuccess();
         }catch(err){

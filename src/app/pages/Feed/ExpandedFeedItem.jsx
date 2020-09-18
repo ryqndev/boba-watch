@@ -23,11 +23,19 @@ const ExpandedFeedItem = ({ show, person, name, place, description, date, uid, i
             },
             showCancelButton: true
         })
-        if (reasonForReport) {
+        if(reasonForReport){
             database.collection('reports').doc(id).set({
-                [FirebaseUser.get.currentUser.user.uid]: reasonForReport
+                [FirebaseUser.get.currentUser.user.uid]: reasonForReport,
+                post: {
+                    desc: description,
+                    name: name,
+                    person: person,
+                    date: date,
+                    uid: uid
+                }
             }, { merge: true }).then(() => {
                 Swal.fire('Report received!', 'Sorry you had to see that.... Thanks for reporting this to us so we can take a closer look at and take appropriate action', 'success');
+                setReportable(true);
             }).catch(alertDefaultError);
         }
     }

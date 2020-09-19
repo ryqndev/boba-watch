@@ -10,7 +10,7 @@ import './Feed.scss';
 const Feed = ({location}) => {
     const {t} = useTranslation();
     const [expandedFeedItem, setExpandedFeedItem] = useState({show: false});
-    const [popularDisplayCount, setPopularDisplayCount] = useState(3);
+    const [popularDisplayCount, setPopularDisplayCount] = useState(10);
     return (
         <div className="feed-page">
             <div className="feed-header">
@@ -22,13 +22,17 @@ const Feed = ({location}) => {
             <div className="content">
                 <Switch>
                     <Route exact strict path='/feed'>
-                        <Popular expand={setExpandedFeedItem} displayCount={popularDisplayCount}/>
+                        <Popular 
+                            expand={setExpandedFeedItem} 
+                            displayCount={popularDisplayCount} 
+                            setDisplayCount={setPopularDisplayCount}
+                        />
                     </Route>
                     <Route exact strict path='/feed/fave'>
                         <Fave expand={setExpandedFeedItem} displayCount={10}/>
                     </Route>
                 </Switch>
-                <div className="feed-end" onClick={() => {setPopularDisplayCount(c => c + 2)}}>Show more</div>
+                <div className="feed-end">No more posts to show</div>
             </div>
             <Modal open={expandedFeedItem.show} setOpen={(show) => {setExpandedFeedItem({show: show})}}>
                 <ExpandedFeedItem {...expandedFeedItem}/>

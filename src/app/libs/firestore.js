@@ -4,6 +4,7 @@ import 'firebase/auth';
 import 'firebase/analytics';
 import {alertDefaultError} from '../libs/swal';
 import * as firebaseui from 'firebaseui';
+import {subWeeks, subMonths} from 'date-fns';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ",
@@ -36,8 +37,22 @@ const logout = () => {
 const publishGetUser = (uid, limit=5, callback) => {
     return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).onSnapshot(callback);
 }
-const publishGetFeed = (limit=1, callback) => {
-    return database.collection('blogs').orderBy('published', 'desc').limit(limit).onSnapshot(callback);
+const publishGetFeed = (limit=1, orderBy='published', time='all', callback) => {
+    let date = new Date();
+    switch(time){
+        case 'week':
+            date = subWeeks(date, 1);
+            break;
+        case 'month':
+            date = subMonths(date, 1);
+            break;
+        case 'all':
+        default:
+            date = new Date(0);
+            break;
+    }
+    date = firebase.firestore.Timestamp.fromDate(date);
+    return database.collection('blogs').where('published', '>=', date).orderBy(orderBy, 'desc').limit(limit).onSnapshot(callback);
 }
 const getFeed = async(limit=1, startAfter=0) => {
     return database.collection('blogs').orderBy('published').startAfter(startAfter).limit(limit).get();

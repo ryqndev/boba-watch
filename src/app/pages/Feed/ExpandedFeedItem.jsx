@@ -38,6 +38,7 @@ const ExpandedFeedItem = ({ show, person, name, place, description, date, uid, i
                 setReportable(true);
             }).catch(alertDefaultError);
         }
+        setReportable(true);
     }
     const share = () => {
         navigator.share(

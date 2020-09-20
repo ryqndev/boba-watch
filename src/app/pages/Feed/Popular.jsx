@@ -8,10 +8,9 @@ const Popular = ({displayCount, setDisplayCount, expand}) => {
     const [posts, setPosts] = useState([]);
     const [newOrPopular, setNewOrPopular] = useState('published');
     const [timeframe, setTimeframe] = useState('all');
+    
     useEffect(() => publishGetFeed(displayCount, newOrPopular, timeframe, snapshot => {
-        let feedposts = [];
-        snapshot.forEach(doc => {feedposts.push({id: doc.id, ...doc.data()})});
-        setPosts([...feedposts]);
+        setPosts(snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})))
     }), [displayCount, newOrPopular, timeframe]);
 
     return (

@@ -13,7 +13,7 @@
         margin-bottom: 40px;
         background-color: #88888811;
         padding: 10px 20px 20px;
-        font-size: 12px;
+        font-size: 14px;
         color: var(--text-secondary);
         border-radius: 4px;
         & h1{
@@ -37,8 +37,9 @@
             text-align: center;
             & .toggle{
                 display: grid;
+                font-size: 12px;
                 & div{
-                    padding: none;
+                    padding: 3px;
                     border-radius: none;
                     border: 1px solid var(--text-accent);
                     margin-left: -1px;
@@ -46,14 +47,14 @@
                     &.selected{
                         box-shadow: 0 0 5px 1px var(--text-accent);
                         background-color: var(--bg-border);
-                        color: var(--text-accent);
+                        color: var(--blog-text-primary);
                     }
                     &.left{
-                        border-radius: 10px 0px 0px 10px;
+                        border-radius: 15px 0px 0px 15px;
                         margin-left: 0px;
                     }
                     &.right{
-                        border-radius: 0px 10px 10px 0px;
+                        border-radius: 0px 15px 15px 0px;
                         margin-left: -1px;
                     }
                 }

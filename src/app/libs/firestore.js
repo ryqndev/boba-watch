@@ -52,7 +52,9 @@ const publishGetFeed = (limit=1, orderBy='published', time='all', callback) => {
             break;
     }
     date = firebase.firestore.Timestamp.fromDate(date);
-    return database.collection('blogs').where('published', '>=', date).orderBy(orderBy, 'desc').limit(limit).onSnapshot(callback);
+    if(orderBy === 'published')
+        return database.collection('blogs').orderBy('published', 'desc').where('published', '>=', date).limit(limit).onSnapshot(callback);
+    return database.collection('blogs').orderBy('published').where('published', '>=', date).orderBy(orderBy, 'desc').limit(limit).onSnapshot(callback);
 }
 const getFeed = async(limit=1, startAfter=0) => {
     return database.collection('blogs').orderBy('published').startAfter(startAfter).limit(limit).get();

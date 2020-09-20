@@ -15,15 +15,13 @@ const Reviews = ({ownerUID, currentUID, initialDisplayCount=2}) => {
 
     useEffect(() => {
         setPosts(null);
+        let isMounted = true;
         let unsubscribe = publishGetUser(ownerUID, displayCount, snapshot => {
-            let feedposts = [];
-            snapshot.forEach(doc => {
-                feedposts.push({id: doc.id, ...doc.data()});
-            });
-            setPosts([...feedposts]);
+            if(isMounted) setPosts(snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})));
         }, displayCount);
 
         return () => {
+            isMounted = false;
             unsubscribe();
         }
     }, [ownerUID, displayCount]);
@@ -65,6 +63,7 @@ const Reviews = ({ownerUID, currentUID, initialDisplayCount=2}) => {
             <TransitionGroup>
                 {ContentDisplay(posts)}
             </TransitionGroup>
+            
             {posts && (posts.length >= displayCount) 
             ? <div key="@ryqndev/show" className="more" onClick={displayMore}>Click to show more</div>
             : <div key="@ryqndev/end"className="end">No more posts to show.</div>}

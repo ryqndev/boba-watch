@@ -50,21 +50,27 @@ const Blog = () => {
         setName("Loading...");
         setIsOwnProfile(userid === FirebaseUser.get.currentUser.user.uid);
         if(userid === undefined) return;
+        let isMounted = true;
         (async() => {
             try{
                 let user = await getUserBlog(userid);
                 user = user.data();
+                if(!isMounted) return;
                 setBio(filter.clean(user.bio ?? defaultBlog.bio));
                 setName(user.name ?? defaultBlog.name);
                 setPhoto(user.profile ?? defaultBlog.photo);
                 setLocation(filter.clean(user.location ?? defaultBlog.location));
             }catch{
+                if(!isMounted) return;
                 setBio("This person does not exist. This could either be an error, a bug, or more likely, the user has privated their profile.");
                 setName("Who dis?");
                 setPhoto(BobaImage);
                 setLocation("Not in Boba World :(");
             }
         })();
+        return () => {
+            isMounted = false;
+        }
     }, [userid]);
     
     const triggerLocationEdit = async() => {
@@ -132,9 +138,6 @@ const Blog = () => {
                     currentUID={FirebaseUser.get.currentUser.user.uid}
                 />
             </div>
-            {/* <Modal open={expandedFeedItem.show} setOpen={(show) => {setExpandedFeedItem({show: show})}}>
-                <ExpandedFeedItem {...expandedFeedItem}/>
-            </Modal> */}
         </div>
     );
 }

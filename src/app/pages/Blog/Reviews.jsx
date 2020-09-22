@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {deleteBlogPost, publishGetUser} from '../../libs/firestore';
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {FeedItem} from '../Feed';
@@ -8,8 +8,10 @@ import {
     confirmBlogPostDelete
 } from '../../libs/swal';
 import './Reviews.scss';
+import AuthUserContext from '../../controller/contexts/AuthUserContext';
 
-const Reviews = ({ownerUID, currentUID, initialDisplayCount=2}) => {
+const Reviews = ({ownerUID, initialDisplayCount=2}) => {
+    const [authUser] = useContext(AuthUserContext);
     const [posts, setPosts] = useState(null);
     const [displayCount, setDisplayCount] = useState(initialDisplayCount);
 
@@ -27,6 +29,7 @@ const Reviews = ({ownerUID, currentUID, initialDisplayCount=2}) => {
     }, [ownerUID, displayCount]);
 
     const deletePost = (postID) => {
+        console.log(postID);
         confirmBlogPostDelete().then((res) => {
             if(res.value){
                 deleteBlogPost(postID).then(async(res) => {
@@ -42,7 +45,7 @@ const Reviews = ({ownerUID, currentUID, initialDisplayCount=2}) => {
         let content = posts.map((post, i) => (
             <CSSTransition mountOnEnter unmountOnExit timeout={350 + (50 * i)} classNames="fade-left" key={post.id}>
                 <FeedItem place={post.location} expandable={false} {...post}>
-                    {(ownerUID === currentUID) && (
+                    {(ownerUID === authUser.uid) && (
                         <div className="item-controls">
                             <button onClick={() => {deletePost(post.id)}}>DELETE</button>
                         </div>)

@@ -1,39 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {useTranslation} from 'react-i18next';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandedDrinkDescription from './ExpandedDrinkDescription';
 import {toMoney} from '../../components/textUtil.js';
-import FirebaseUser from '../../controller/backend.js';
 import stats from '../../controller/calculateStatistics';
 import './DrinkPanel.scss';
 import {isAfter} from 'date-fns'
-import {database} from '../../libs/firestore';
+import {database, firebase} from '../../libs/firestore';
 import {withRouter} from 'react-router-dom';
-import {alertDefaultError, alertPublishSuccess, alertRestriction} from '../../libs/swal.js';
+import {alertDefaultError, alertDrinkDeletedSuccess, alertDrinkNotDeleted, alertPublishSuccess, alertRestriction} from '../../libs/swal.js';
+import AuthUserContext from '../../controller/contexts/AuthUserContext';
+import {addSeconds, format} from 'date-fns';
 
 const DrinkPanel = ({data, history, triggerUpdate}) => {
+    const [authUser] = useContext(AuthUserContext);
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
     const [canPublish, setCanPublish] = useState(true);
-    const remove = () => {FirebaseUser.drinks.delete(data.id, removeLocally)}
-    const removeLocally = () => {
-        stats.deleteDrink(data.id, FirebaseUser.get.currentUser.drinkids);
-        localStorage.setItem('user', JSON.stringify(FirebaseUser.get.currentUser));
-        FirebaseUser.user.updateStats();
-        triggerUpdate([...FirebaseUser.get.currentUser.drinkids]);
+
+    const remove = () => {
+        database.collection(`users/${authUser.uid}/drinks`).doc(data.id).delete().then(() => {
+            let metrics = stats.deleteDrink(data.id);
+            metrics.d = JSON.stringify(metrics.d);
+            database.collection(`users/${authUser.uid}/user`).doc('stats').set(metrics).finally(() => {
+                alertDrinkDeletedSuccess();
+                triggerUpdate(JSON.parse(localStorage.getItem('drinkids')));
+            });
+        }).catch(err => {
+            alertDrinkNotDeleted(err);
+        });
     }
     const edit = () => { history.push('/edit/' + data.id) }
     const publish = async() => {
         setCanPublish(false);
         try{
-            let allowed = await database.collection(`users/${FirebaseUser.get.currentUser.user.uid}/blog`).doc('user').get();
+            let allowed = await database.collection(`users/${authUser.uid}/blog`).doc('user').get();
             allowed = allowed.data()?.restrictedUntil;
             if(allowed !== undefined && isAfter(new Date(allowed), new Date())){
                 setCanPublish(true);
-                return alertRestriction(new Date(allowed).toDateString());
+                return alertRestriction(format(new Date(allowed), 'eee. LLLL d, yyyy h:mm:ss aaaa'));
             }
-            await FirebaseUser.publish(data);
+            const {id, ...publishableData} = data;
+            await database.collection('blogs').add({
+                uid: authUser.uid,
+                likes: 0,
+                published: firebase.firestore.FieldValue.serverTimestamp(),
+                edited: firebase.firestore.FieldValue.serverTimestamp(),
+                ...publishableData
+            });
+            database.collection(`users/${authUser.uid}/blog`).doc('user').set({restrictedUntil: (addSeconds(new Date(), 30)).toISOString()}, {merge: true});
             alertPublishSuccess();
         }catch(err){
             setCanPublish(true);

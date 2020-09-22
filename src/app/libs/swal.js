@@ -56,7 +56,8 @@ const alertPublishSuccess = () => {
     Swal.fire(i18next.t('Success!'), i18next.t('Drink published on your blog!'), 'success');
 }
 const alertRestriction = (date) => {
-    Swal.fire(i18next.t('Oh no!'), i18next.t('You can\'t publish a new post until ' + date + '. If the time restriction is greater than 1 minute, you have likely been temporarily banned from posting.'), 'error');
+    console.log(typeof date);
+    Swal.fire(i18next.t('Oh no!'), i18next.t('You can\'t publish a new post until ') + date +  i18next.t('. If the time restriction is greater than 1 minute, you have likely been temporarily banned from posting.'), 'error');
 }
 
 /**

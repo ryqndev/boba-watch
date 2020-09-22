@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {BrowserRouter as Router, Route, Switch, withRouter} from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import {Add, Edit} from './pages/Add';
@@ -10,22 +10,23 @@ import Blog from './pages/Blog';
 import {Navigation} from './components';
 import {CSSTransition} from 'react-transition-group';
 import Theme from './components/globals/theme';
-import FirebaseUser from './controller/backend';
+import init from './controller/LoginFlow';
 import AuthUserContext from './controller/contexts/AuthUserContext';
 
 const Start = ({history}) => {
     const [authUser, setAuthUser] = useState();
     useEffect(() => {
         Theme();
-        FirebaseUser.init(user => {
+        init(user => {
             setAuthUser(user);
+            console.log(user);
             history.push(user ? '/app' : '/login');
         });
-        console.log("v2.0.6");
+        console.log("v2.07");
     }, [history]);
 
     return (
-        <AuthUserContext.Provider value={[authUser]}> 
+        <AuthUserContext.Provider value={[authUser, setAuthUser]}> 
             <Switch>
                 <Route exact path='/'>
                 </Route>
@@ -86,13 +87,17 @@ const App = () => {
         </Router>
     );
 }
-const UserIcon = ({setUser}) => (
-    <img 
-        src={FirebaseUser.get.currentUser.user.photoURL}
-        alt="user settings"
-        className="avatar-button"
-        onClick={setUser.bind(null, true)}
-    />
-);
+const UserIcon = ({setUser}) => {
+    const [authUser] = useContext(AuthUserContext);
+
+    return (
+        <img 
+            src={authUser.photoURL}
+            alt="user settings"
+            className="avatar-button"
+            onClick={setUser.bind(null, true)}
+        />
+    );
+};
 
 export default withRouter(Start);

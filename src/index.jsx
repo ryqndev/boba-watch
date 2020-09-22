@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import {MemoryRouter as Router} from 'react-router-dom';
 import App from './app';
 import * as serviceWorker from './app/serviceWorker';
-// import FirebaseUser from './app/controller/backend.js';
 import './app/components/globals/globals.scss';
 import './app/components/globals/lib-globals.scss';
 import './app/components/globals/animations.scss';
 import './i18n';
+import { logout } from './app/libs/firestore';
 
-// try{
+try{
     ReactDOM.render( 
         <Router
             basename={process.env.PUBLIC_URL}
@@ -19,10 +19,10 @@ import './i18n';
             <App />
         </Router>
     , document.getElementById('root'));
-// }
-// catch{
-//     FirebaseUser.logout();
-// }
+}
+catch{
+    logout();
+}
 
 /**
  * Service worker is activated but doesn't do much other than default

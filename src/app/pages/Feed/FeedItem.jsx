@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {toMoney, ellipsisText} from '../../components/textUtil.js';
-import FirebaseUser from '../../controller/backend';
 import {getUserBlog} from '../../libs/firestore';
 import {Card} from '../../components';
 import {useTranslation} from 'react-i18next';
@@ -9,9 +8,11 @@ import {add, remove, exists} from '../../libs/dexie';
 import StarRatingComponent from 'react-star-rating-component';
 import {ReactComponent as StarEmptyIcon} from './star_empty.svg';
 import {ReactComponent as StarFilledIcon} from './star_filled.svg';
+import {likeBlogPost} from '../../libs/firestore';
 import HeartEmptyIcon from '@material-ui/icons/FavoriteBorderRounded';
 import HeartFilledIcon from '@material-ui/icons/FavoriteRounded';
 import Filter from 'bad-words';
+import AuthUserContext from '../../controller/contexts/AuthUserContext.js';
 
 let filter = new Filter();
 
@@ -40,11 +41,12 @@ const WithAvatar = ({uid, history, ...data}) => {
     );
 }
 const FeedItem = ({match, location, children, staticContext, expandable=true, person, isLiked=false, setExpand, ...post}) => {
+    const [authUser] = useContext(AuthUserContext);
     const {t} = useTranslation();
     const [liked, setLiked] = useState(isLiked);
     const [likeDisplay, setLikeDisplay] = useState(post?.likes ?? 0);
     const toggleFavorite = () => {
-        FirebaseUser.blog.like(post.id, post, !liked).then(() => {
+        likeBlogPost(authUser.uid, post.id, post, !liked).then(() => {
             setLikeDisplay(likeDisplay + (liked ? -1 : 1));
             liked ? remove(post) : add(post);
             setLiked(!liked);

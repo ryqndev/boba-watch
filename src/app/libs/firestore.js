@@ -26,7 +26,7 @@ database = firebase.firestore();
 database.enablePersistence().catch(err => {console.error(err)});
 
 const logout = () => {
-    firebase.auth().signOut().then(function() {
+    firebase.auth().signOut().then(function(){
         analytics.logEvent('logout');
         let theme = localStorage.getItem('theme');
         localStorage.clear();
@@ -34,6 +34,9 @@ const logout = () => {
         window.location.reload();
     }).catch(alertDefaultError);      
 }
+
+window.logout = logout;
+
 const publishGetUser = (uid, limit=5, callback) => {
     return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).onSnapshot(callback);
 }
@@ -75,6 +78,23 @@ const getFaves = async(uid, limit=1, startAfter=0) => {
     return database.collection(`users/${uid}/user/profile/liked`).orderBy('liked').startAfter(startAfter).limit(limit).get();
 }
 
+const likeBlogPost = async(uid, id, data, increment) => {
+    let {edited, ...post} = data;
+    console.log(uid, id, data, "liked");
+    let blogLikeBatch = database.batch(),
+        pathRef = database.collection(`users/${uid}/user/profile/liked`).doc(id),
+        change = firebase.firestore.FieldValue.increment(increment ? 1 : -1);
+
+    // increment/decrement 'like' counter
+    blogLikeBatch.update(database.collection('blogs').doc(id), { likes: change });
+
+    //save to 'liked' collection in user store
+    if(increment) blogLikeBatch.set(pathRef, {liked: firebase.firestore.FieldValue.serverTimestamp(), ...post});
+    else blogLikeBatch.delete(pathRef);
+
+    return blogLikeBatch.commit();
+}
+
 export {
     ui,
     firebase,
@@ -89,4 +109,5 @@ export {
     getUserBlog,
     getFaves,
     getFeed,
+    likeBlogPost,
 }

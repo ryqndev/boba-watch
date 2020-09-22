@@ -1,18 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import Toggle from 'react-toggle';
-import {useTranslation} from 'react-i18next';
-import FirebaseUser from '../../controller/backend';
-import {getUserBlog} from '../../libs/firestore';
+import React, {useState, useEffect, useContext} from 'react';
+import {database, getUserBlog} from '../../libs/firestore';
 import useMetrics from '../../controller/hooks/useMetrics';
 import StatsDisplay from './Stats';
 import ReviewsDisplay from './Reviews';
 import {useParams} from 'react-router-dom';
 import LocationIcon from '@material-ui/icons/LocationOnRounded';
-import {TextClipboard, Collapse} from '../../components';
 import BobaImage from '../../../assets/logo-shadow.svg';
 import Filter from 'bad-words';
 import './Blog.scss';
 import Text from '../../components/globals/styles/Text';
+import AuthUserContext from '../../controller/contexts/AuthUserContext';
 import {
     alertDefaultError,
     alertBioUpdateSuccess,
@@ -22,33 +19,24 @@ import {
 } from '../../libs/swal';
 
 import {blog as defaultBlog} from '../../defaults';
+import ProfileSharingToggle from './ProfileSharingToggle';
 
 let filter = new Filter();
-
-const toggleProfileSharing = (callback) => {
-    let data = FirebaseUser.get.currentUser.profile;
-
-    FirebaseUser.user.update({...data, sharing: !data.sharing}, () => {
-        data.sharing = !data.sharing;
-        callback(data.sharing);
-    });
-}
 
 const Blog = () => {
     const {userid} = useParams();
     const stats = useMetrics(userid);
-    const {t} = useTranslation();
+    const [authUser] = useContext(AuthUserContext);
     const [location, setLocation] = useState("---");
     const [bio, setBio] = useState(defaultBlog.bio);
-    const [photo, setPhoto] = useState(FirebaseUser.get.currentUser.user.photoURL);
-    const [name, setName] = useState(FirebaseUser.get.currentUser.user.displayName);
+    const [photo, setPhoto] = useState(authUser.photoURL);
+    const [name, setName] = useState(authUser.displayName);
     const [isOwnProfile, setIsOwnProfile] = useState(false);
-    const [profileSharing, setProfileSharing] = useState(FirebaseUser.get.currentUser.profile.sharing);
 
     useEffect(() => {
         setPhoto(BobaImage);
         setName("Loading...");
-        setIsOwnProfile(userid === FirebaseUser.get.currentUser.user.uid);
+        setIsOwnProfile(userid === authUser.uid);
         if(userid === undefined) return;
         let isMounted = true;
         (async() => {
@@ -56,10 +44,10 @@ const Blog = () => {
                 let user = await getUserBlog(userid);
                 user = user.data();
                 if(!isMounted) return;
-                setBio(filter.clean(user.bio ?? defaultBlog.bio));
+                setBio(filter.clean(user?.bio ?? defaultBlog.bio));
                 setName(user.name ?? defaultBlog.name);
                 setPhoto(user.profile ?? defaultBlog.photo);
-                setLocation(filter.clean(user.location ?? defaultBlog.location));
+                setLocation(filter.clean(user?.location ?? defaultBlog.location));
             }catch{
                 if(!isMounted) return;
                 setBio("This person does not exist. This could either be an error, a bug, or more likely, the user has privated their profile.");
@@ -71,28 +59,19 @@ const Blog = () => {
         return () => {
             isMounted = false;
         }
-    }, [userid]);
-    
-    const triggerLocationEdit = async() => {
+    }, [authUser, userid]);
+
+    const editProfile = async(prompt, alert, setState, key) => {
         if(!isOwnProfile) return;
-        const { value: location } = await promptLocationUpdate();
-        if(location){
-            FirebaseUser.blog.setProfile({location: location}).then(() => {
-                setLocation(location);
-                alertLocationUpdateSuccess();
+        const { value: userInput } = await prompt();
+        if(userInput){
+            database.collection(`users/${authUser.uid}/blog`).doc('user').update({[key]: userInput}).then(() => {
+                setState(userInput);
+                alert();
             }).catch(alertDefaultError);
         }
     }
-    const triggerBioEdit = async() => {
-        if(!isOwnProfile) return;
-        const { value: bio } = await promptBioUpdate();
-        if(bio){
-            FirebaseUser.blog.setProfile({bio: bio}).then(() => {
-                setBio(bio);
-                alertBioUpdateSuccess();
-            }).catch(alertDefaultError);
-        }
-    }
+
     return (
         <div className="blog-page">
             <div className="blog-header"> <div className="icon"></div>PUBLIC PROFILE PREVIEW</div>
@@ -101,25 +80,9 @@ const Blog = () => {
                 <h2><Text defaultKey="Loading...">{name}</Text></h2>
             </div>
             <div className="profile">
-                <LocationIcon className="icon" onClick={triggerLocationEdit}/> <Text>{location}</Text>
-                <p onClick={triggerBioEdit}><Text>{bio}</Text></p>
-                {isOwnProfile && (
-                    <div className="user-share ">
-                        <div className="user-share-profile">
-                            {t('make profile public')}: 
-                            <Toggle
-                                defaultChecked={profileSharing}
-                                onClick={() => {toggleProfileSharing(setProfileSharing)}}
-                                label={t('make profile public')}
-                            />
-                            <Collapse className="user-share-toggle-grid" open={profileSharing}>
-                                <TextClipboard
-                                    text={`https://share.boba.watch/#/${FirebaseUser.get.currentUser.user.uid}`}
-                                />
-                            </Collapse> 
-                        </div>
-                    </div>
-                )}
+                <LocationIcon className="icon" onClick={() => {editProfile(promptLocationUpdate, alertLocationUpdateSuccess, setLocation, 'location')}}/> <Text>{location}</Text>
+                <p onClick={() => {editProfile(promptBioUpdate, alertBioUpdateSuccess, setBio, 'bio')}}><Text>{bio}</Text></p>
+                {isOwnProfile && (<ProfileSharingToggle />)}
             </div>
 
             <StatsDisplay
@@ -133,10 +96,7 @@ const Blog = () => {
             </h2>
 
             <div className="reviews-holder">
-                <ReviewsDisplay
-                    ownerUID={userid}
-                    currentUID={FirebaseUser.get.currentUser.user.uid}
-                />
+                <ReviewsDisplay ownerUID={userid} />
             </div>
         </div>
     );

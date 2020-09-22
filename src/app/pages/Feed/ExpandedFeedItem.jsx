@@ -1,16 +1,16 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import ExpandedDrinkDescription from '../History/ExpandedDrinkDescription';
-import FirebaseUser from '../../controller/backend';
 import {database} from '../../libs/firestore';
 import { withRouter } from 'react-router-dom';
 import Reviews from '../Blog/Reviews';
 import './ExpandedFeedItem.scss';
 import Swal from 'sweetalert2';
 import { alertDefaultError } from '../../libs/swal';
+import AuthUserContext from '../../controller/contexts/AuthUserContext';
 
 const ExpandedFeedItem = ({ show, person, name, place, description, date, uid, id, history }) => {
     const [reportable, setReportable] = useState(true);
-
+    const [authUser] = useContext(AuthUserContext);
     const report = async () => {
         if(!reportable) return;
         setReportable(false);
@@ -25,7 +25,7 @@ const ExpandedFeedItem = ({ show, person, name, place, description, date, uid, i
         })
         if(reasonForReport){
             database.collection('reports').doc(id).set({
-                [FirebaseUser.get.currentUser.user.uid]: reasonForReport,
+                [authUser.uid]: reasonForReport,
                 post: {
                     desc: description,
                     name: name,
@@ -80,7 +80,6 @@ const ExpandedFeedItem = ({ show, person, name, place, description, date, uid, i
 
                 <Reviews
                     ownerUID={uid}
-                    currentUID={FirebaseUser.get.currentUser.user.uid}
                     initialDisplayCount={1}
                 />
             </div>

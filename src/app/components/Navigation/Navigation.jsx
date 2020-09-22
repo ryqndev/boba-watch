@@ -1,18 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import ExploreIcon from '@material-ui/icons/ExploreRounded';
 import DashboardIcon from '@material-ui/icons/HomeRounded';
 import AddIcon from '@material-ui/icons/AddRounded';
 import HistoryIcon from '@material-ui/icons/AttachMoneyRounded';
 import PublicIcon from '@material-ui/icons/FaceRounded';
-import FirebaseUser from '../../controller/backend';
 import {onPageView} from '../../libs/analytics';
+import AuthUserContext from '../../controller/contexts/AuthUserContext';
 import './Navigation.scss';
 
 const Navigation = ({history}) => {
     const [tab, setTab] = useState(history.location.pathname);
     const isTab = path => (path === tab ? ' selected' : '');
-
+    const [authUser] = useContext(AuthUserContext);
     useEffect(() => {
         let path = history.location.pathname;
         setTab(path);
@@ -43,8 +43,8 @@ const Navigation = ({history}) => {
                     <p className="label">feed</p>
                 </div>
             </Link>
-            <Link to={'/blog/' + FirebaseUser.get.currentUser.user.uid}>
-                <div className={'icon' + isTab('/blog/' + FirebaseUser.get.currentUser.user.uid)}>
+            <Link to={'/blog/' + authUser.uid}>
+                <div className={'icon' + isTab('/blog/' + authUser.uid)}>
                     <PublicIcon />
                     <p className="label">blog</p>
                 </div>

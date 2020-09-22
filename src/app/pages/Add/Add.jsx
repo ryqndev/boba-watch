@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import 'date-fns'; 
 import Swal from 'sweetalert2';
@@ -8,15 +8,17 @@ import {withRouter} from 'react-router-dom';
 import {MuiPickersUtilsProvider, DateTimePicker} from '@material-ui/pickers';
 import {add, edit} from '../../controller';
 import {TextInput, Card} from '../../components';
-import FirebaseUser from '../../controller/backend';
 import StarRatingComponent from 'react-star-rating-component';
 import {ReactComponent as StarEmptyIcon} from './star_empty.svg';
 import {ReactComponent as StarFilledIcon} from './star_filled.svg';
+import {database as db} from '../../libs/firestore';
 import Select from 'react-select';
 import backend from '../../controller/backend';
 import './Add.scss';
+import AuthUserContext from '../../controller/contexts/AuthUserContext';
 
 const Add = ({pageTitle, buttonTitle, editData, history}) => {
+    const [authUser] = useContext(AuthUserContext);
     const {t} = useTranslation();
     const [name, setName] = useState(editData?.name ?? '');
     const [location, setLocation] = useState(editData?.location ?? '');
@@ -79,8 +81,8 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             setCanAdd(true);
             return;
         }
-        if(editData?.id === undefined || editData?.id === null) await add(data);
-        else await edit(data, editData.id);
+        if(editData?.id === undefined || editData?.id === null) await add(data, authUser.uid);
+        else await edit(data, editData.id, authUser.uid);
 
         clearForm();
         setCanSave(true);
@@ -108,7 +110,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             }
         ];
         setCanSave(false);
-        FirebaseUser.user.setAutofill(data).then(() => {
+        db.collection(`users/${authUser.uid}/user`).doc('autofill').set({data: JSON.stringify(data)}).then(() => {
             setAutofill(data);
             localStorage.setItem('autofill', JSON.stringify(data));
             alertAutofillSuccess();
@@ -121,8 +123,8 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
         Swal.fire({
             showCancelButton: true,
             html: 'use or remove entry? <br />(click outside to cancel)',
-            cancelButtonText: '🗑️',
-            confirmButtonText: 'fill',
+            cancelButtonText: 'remove',
+            confirmButtonText: 'autofill',
             cancelButtonColor: '#f44',
             reverseButtons: true,
         }).then((result) => {
@@ -135,7 +137,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             }else if(result.dismiss === 'cancel'){
                 let updated = [...autofill];
                 updated.splice(updated.findIndex(e => e.value === data.value), 1);
-                backend.user.setAutofill(updated).then(() => {
+                db.collection(`users/${authUser.uid}/user`).doc('autofill').set({data: JSON.stringify(updated)}).then(() => {
                     localStorage.setItem('autofill', JSON.stringify(updated));
                     setAutofill(updated);
                 }).catch(alertDefaultError);

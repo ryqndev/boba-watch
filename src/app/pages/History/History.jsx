@@ -3,7 +3,8 @@ import DrinkPanel from './DrinkPanel';
 import {toMoney} from '../../components/textUtil.js';
 import {useTranslation} from 'react-i18next';
 import {Searchbar} from '../../components';
-import {user} from '../../controller';
+import useMetrics from '../../controller/hooks/useMetrics';
+import stats from '../../controller/calculateStatistics';
 import './History.scss';
 
 const LoadMore = ({click}) => {
@@ -33,11 +34,12 @@ const History = () => {
     const [total, setTotal] = useState([]);
     const [show, setShow] = useState({'complete': 5, 'recent': 7});
     const [expandedDrinklistData, setExpandedDrinklistData] = useState([]);
-    const [drinkidsCopy, setDrinkidsCopy] = useState(user().drinkids);
+    const [drinkidsCopy, setDrinkidsCopy] = useState(JSON.parse(localStorage.getItem('drinkids')));
 
-    const monthSum = Number(JSON.parse(localStorage.getItem('metrics')).tc);
-    const totalSum = Number(JSON.parse(localStorage.getItem('completeMetrics')).tc);
+    const [metrics, setMetrics] = useState(JSON.parse(localStorage.getItem('metrics')));
+
     useEffect(() => {
+        setMetrics(JSON.parse(localStorage.getItem('metrics')));
         let monthly = [], total = [], tempExpandedDrinkListData = [],
             d = new Date(), m = d.getMonth(), y = d.getFullYear(),
             {complete: com, recent: rec} = show;
@@ -87,14 +89,14 @@ const History = () => {
                 {monthly}
             </div>
             <h3 className="bw history-total">
-                <span>{t('Monthly Total')}:</span> {t('$')}{toMoney(monthSum)}
+                <span>{t('Monthly Total')}:</span> {t('$')}{toMoney(metrics.tc)}
             </h3>
             <h3 className="bw">{t('Overall Spending')}</h3>
             <div className="history-spending">
                 {total}
             </div>
             <h3 className="bw history-total">
-                <span>{t('Complete Total')}:</span> {t('$')}{toMoney(totalSum)}
+                <span>{t('Complete Total')}:</span> {t('$')}{toMoney(metrics.ctc)}
             </h3>
         </div>
     );

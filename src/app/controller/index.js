@@ -1,49 +1,51 @@
-import backend from './backend';
 import stats from './calculateStatistics';
 import Swal from 'sweetalert2';
 import i18next from 'i18next';
+import { database, firebase } from '../libs/firestore';
+import { alertDefaultError } from '../libs/swal';
 
-const add = async(data) => {
+const add = async(data, uid) => {
     try{
-        let firebaseAddAction = await backend.drinks.add(data);     //add drink to firebase
+        let firebaseAddAction = await database.collection(`users/${uid}/drinks`).add({
+            created: firebase.firestore.FieldValue.serverTimestamp(),
+            edited: firebase.firestore.FieldValue.serverTimestamp(),
+            ...data
+        });
         let firebaseReturnedResult = await firebaseAddAction.get(); //get drink + generated id
         let drink = {
             id: firebaseReturnedResult.id,
             ...firebaseReturnedResult.data().drink
         };
-        return success(drink);
+        return syncMetrics(drink, uid);
     }catch(err){
-        return error(err);
+        return alertDefaultError(err);
     }
 }
 
-const edit = async(data, id) => {
+const edit = async(data, id, uid) => {
     try{
-        await backend.drinks.update(data, id);                                  //updates drink on firebase
-        stats.deleteDrink(id, backend.get.currentUser.drinkids);
-        return success({id: id, ...data.drink}, true);
+        await database.collection(`users/${uid}/drinks`).doc(id).set({
+            edited: firebase.firestore.FieldValue.serverTimestamp(),
+            ...data
+        });
+        stats.deleteDrink(id);
+        return syncMetrics({id: id, ...data.drink}, uid, true);
     }catch(err){
-        return error(err);
+        return alertDefaultError(err);
     }
 }
 
-const user = () => backend.get.currentUser;
+const syncMetrics = (drink, uid, isEdit=false) => {
+    let metrics = stats.addDrink(drink, drink.id);
 
-const success = (drink, isEdit=false) => {
-    stats.addDrink(drink, drink.id, backend.get.currentUser.drinkids);          //recalculate stats and insert in drinkids sorted
-    backend.user.updateStats();                                                 //update stats on firebase
-    localStorage.setItem('user', JSON.stringify(backend.get.currentUser));      //save new drinksid
-    Swal.fire(i18next.t('Done!'), i18next.t(isEdit ? 'Drink updated' : 'Drink added'), 'success');         //let user know 
-    return true;
-}
-const error = (err) => {
-    Swal.fire(i18next.t('Oops...!'), i18next.t('Something went wrong'), 'error');     //let user know 
-    console.error(err);
-    return false;
+    metrics.d = JSON.stringify(metrics.d);
+
+    database.collection(`users/${uid}/user`).doc('stats').set(metrics).finally(() => {
+        Swal.fire(i18next.t('Done!'), i18next.t(isEdit ? 'Drink updated' : 'Drink added'), 'success');
+    });
 }
 
 export {
     add,
     edit,
-    user,
 }

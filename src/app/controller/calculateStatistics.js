@@ -4,6 +4,27 @@
  * @summary - A set of functions to help calculate metrics for user's drink objects
  */
 
+const splitMetrics = (metrics) => {
+    let cmetrics = {
+        'td': metrics.ctd, //monthly total drinks
+        'tc': metrics.ctc, //monthly total cost
+        'ad': metrics.cad, //monthly average drink cost
+        'd': metrics.d, //time of drinks
+    };
+    metrics.d = Array(7).fill(Array(24).fill(0));
+    let mmetrics = {...metrics};
+    return [mmetrics, cmetrics];
+}
+const joinMetrics = (mmetrics, cmetrics) => {
+    return {
+        ...mmetrics,
+        'ctd': cmetrics.td,
+        'ctc': cmetrics.tc,
+        'cad': cmetrics.ad,
+        'd': cmetrics.d
+    }
+}
+
 /**
  * @function getDefaultMetrics - returns an emtpy metrics object. Called during
  * metric recalcuation when starting from nothing. 
@@ -13,9 +34,12 @@
  */
 function getDefaultMetrics() {
     let metrics = {
-        'td': 0, //total drinks
-        'tc': 0, //total cost
-        'ad': 0, //average drink cost
+        'td': 0, //monthly total drinks
+        'tc': 0, //monthly total cost
+        'ad': 0, //monthly average drink cost
+        'ctd': 0, //complete total drinks
+        'ctc': 0, //complete total cost
+        'cad': 0, //complete average drink cost
         'd': Array(7), //time of drinks
     }
     for (let i = 0; i < 7; i++) {
@@ -31,7 +55,8 @@ function getDefaultMetrics() {
  * @param {*} drinkids 
  * TODO can make this better since chronological order is a given, just duplicate the mmetrics at certain point
  */
-function recalculateMetrics(drinkids) {
+function recalculateMetrics() {
+    let drinkids = JSON.parse(localStorage.getItem('drinkids'));
     let mmetrics = getDefaultMetrics(),
         cmetrics = getDefaultMetrics(),
         today = new Date(),
@@ -48,13 +73,14 @@ function recalculateMetrics(drinkids) {
         }
         updateMetrics(drink, cmetrics);
     });
-    localStorage.setItem('metrics', JSON.stringify(mmetrics));
-    localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
-    return mmetrics;
+
+    let metrics = joinMetrics(mmetrics, cmetrics);
+    localStorage.setItem('metrics', JSON.stringify(metrics));
+    return metrics;
 }
-function deleteDrink(id, drinkids){
-    let mmetrics = JSON.parse(localStorage.getItem('metrics'));
-    let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
+function deleteDrink(id){
+    let drinkids = JSON.parse(localStorage.getItem('drinkids'));
+    let [mmetrics, cmetrics] = splitMetrics(JSON.parse(localStorage.getItem('metrics')));
     let deletedDrink = JSON.parse(localStorage.getItem(id)),
         today = new Date(),
         todayMonth = today.getMonth(),
@@ -69,9 +95,11 @@ function deleteDrink(id, drinkids){
     updateMetrics(deletedDrink, cmetrics, false);
     let i = drinkids.indexOf(id);
     if (i > -1) drinkids.splice(i, 1);
+    let metrics = joinMetrics(mmetrics, cmetrics);
     localStorage.removeItem(id);
-    localStorage.setItem('metrics', JSON.stringify(mmetrics));
-    localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
+    localStorage.setItem('drinkids', JSON.stringify(drinkids));
+    localStorage.setItem('metrics', JSON.stringify(metrics));
+    return metrics;
 }
 /**
  * @function insertDrinkSorted - a modified binary search to insert 
@@ -110,12 +138,17 @@ function resetMonthly(drinkids){
         }
         updateMetrics(drink, mmetrics);
     });
-    localStorage.setItem('metrics', JSON.stringify(mmetrics));
-    return mmetrics;
+    let metrics = JSON.parse(localStorage.getItem('metrics'));
+
+    localStorage.setItem('metrics', JSON.stringify({...mmetrics, 'ctd': metrics.ctd,
+    'ctc': metrics.ctc,
+    'cad': metrics.cad}));
+    return metrics;
 }
-function addDrink(data, id, drinkids){
-    let mmetrics = JSON.parse(localStorage.getItem('metrics'));
-    let cmetrics = JSON.parse(localStorage.getItem('completeMetrics'));
+function addDrink(data, id){
+    let drinkids = JSON.parse(localStorage.getItem('drinkids'));
+    let [mmetrics, cmetrics] = splitMetrics(JSON.parse(localStorage.getItem('metrics')));
+
     let today = new Date(),
         todayMonth = today.getMonth(),
         todayYear = today.getFullYear(),
@@ -134,9 +167,11 @@ function addDrink(data, id, drinkids){
         updateMetrics(data, mmetrics);
     }
     updateMetrics(data, cmetrics);
+    let metrics = joinMetrics(mmetrics, cmetrics);
     localStorage.setItem(id, JSON.stringify(data));
-    localStorage.setItem('metrics', JSON.stringify(mmetrics));
-    localStorage.setItem('completeMetrics', JSON.stringify(cmetrics));
+    localStorage.setItem('drinkids', JSON.stringify(drinkids));
+    localStorage.setItem('metrics', JSON.stringify(metrics));
+    return metrics;
 }
 /**
  * @function updateMetrics - Updates the current metric object given a new drink

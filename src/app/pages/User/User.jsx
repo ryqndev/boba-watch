@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CloseButton from '@material-ui/icons/Cancel';
 import HelpButton from '@material-ui/icons/HelpOutlineOutlined';
 import {useTranslation} from 'react-i18next';
 import {Modal, TextInput} from '../../components';
-import FirebaseUser from '../../controller/backend.js';
 import {logout} from '../../libs/firestore';
+import {database} from '../../libs/firestore';
 import {setTheme, getTheme, THEME_SELECT_OPTIONS} from '../../components/globals/theme';
 import Select from 'react-select';
 import Help from './Help';
+import AuthUserContext from '../../controller/contexts/AuthUserContext';
 import './User.scss';
 import 'react-toggle/style.css';
 
@@ -19,23 +20,28 @@ import 'react-toggle/style.css';
  */
 const User = ({open, setOpen}) => {
     const {t} = useTranslation();
-    const [budget, setBudget] = useState((FirebaseUser.get.currentUser.profile.budget ?? 10000) / 100);
-    const [limit, setLimit] = useState(FirebaseUser.get.currentUser.profile.limit ?? 15);
-    const [sharing, setSharing] = useState(FirebaseUser.get.currentUser.profile.sharing ?? false);
+    const [authUser, setAuthUser] = useContext(AuthUserContext);
+    const [budget, setBudget] = useState((authUser.profile.budget ?? 10000) / 100);
+    const [limit, setLimit] = useState(authUser.profile.limit ?? 15);
+    const [sharing, setSharing] = useState(authUser.profile.sharing ?? false);
     const [help, setHelp] = useState(false);
 
+    useEffect(() => {
+        setBudget(authUser.profile.budget / 100);
+        setLimit(authUser.profile.limit);
+        setSharing(authUser.profile.sharing);
+    }, [open, authUser]);
     const handleChange = setUserInfo => event => {
         setUserInfo(event.target.value);
     }
     const updateFirebase = () => {
         let data = {
-            budget: parseFloat(budget) * 100,
+            budget: parseInt(parseFloat(budget) * 100),
             limit: parseInt(limit),
             sharing: sharing
         };
-        FirebaseUser.user.update(data, () => {
-            FirebaseUser.get.currentUser.profile = data;
-            localStorage.setItem('user', JSON.stringify(FirebaseUser.get.currentUser));
+        database.collection(`users/${authUser.uid}/user`).doc('profile').set(data).then(() => {
+            setAuthUser(state => ({...state, profile: data}));
             close();
         });
     }
@@ -44,15 +50,12 @@ const User = ({open, setOpen}) => {
     }
     const close = () => { 
         setOpen(false);
-        setBudget(FirebaseUser.get.currentUser.profile.budget / 100);
-        setLimit(FirebaseUser.get.currentUser.profile.limit);
-        setSharing(FirebaseUser.get.currentUser.profile.sharing);
     }
     return (
         <React.Fragment>
             <Modal open={open} setOpen={setOpen}>
                 <div className="user-modal">
-                    <img src={FirebaseUser.get.currentUser.user.photoURL} className="avatar" alt="user"/>
+                    <img src={authUser.photoURL} className="avatar" alt="user"/>
                     <button className="close-button" onClick={close}>
                         <CloseButton />
                     </button>

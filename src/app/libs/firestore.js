@@ -68,7 +68,7 @@ const deleteBlogPost = async(blogid) => {
 const getBlogPost = async(blogid) => {
     return database.collection('blogs').doc(blogid).get();
 }
-const getUserStats = async(uid) => {
+const getUserStats = (uid) => {
     return database.collection(`users/${uid}/user`).doc('stats').get();
 }
 const getUserBlog = async(uid) => {
@@ -80,7 +80,6 @@ const getFaves = async(uid, limit=1, startAfter=0) => {
 
 const likeBlogPost = async(uid, id, data, increment) => {
     let {edited, ...post} = data;
-    console.log(uid, id, data, "liked");
     let blogLikeBatch = database.batch(),
         pathRef = database.collection(`users/${uid}/user/profile/liked`).doc(id),
         change = firebase.firestore.FieldValue.increment(increment ? 1 : -1);

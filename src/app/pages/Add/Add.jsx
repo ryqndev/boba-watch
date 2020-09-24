@@ -13,7 +13,6 @@ import {ReactComponent as StarEmptyIcon} from './star_empty.svg';
 import {ReactComponent as StarFilledIcon} from './star_filled.svg';
 import {database as db} from '../../libs/firestore';
 import Select from 'react-select';
-import backend from '../../controller/backend';
 import './Add.scss';
 import AuthUserContext from '../../controller/contexts/AuthUserContext';
 

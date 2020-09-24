@@ -2,7 +2,7 @@
  * @file backend.js
  * @author ryqndev - ryan yang
  */
-import {database as db, getFaves as getCloudFirebaseFaves} from '../libs/firestore';
+import {getFaves as getCloudFirebaseFaves} from '../libs/firestore';
 import {add, exists} from '../libs/dexie';
 
 const updateFaves = (uid) => {
@@ -19,3 +19,5 @@ const updateFaves = (uid) => {
     }
     recursivelyUpdate(0);
 }
+
+export default updateFaves;

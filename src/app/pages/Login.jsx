@@ -13,6 +13,7 @@ const loginHeaderStyle = {
 const Login = () => {
     useEffect(() => {
         ui.start('#auth-container', {
+            signInSuccessUrl: window.location.href,
             signInOptions: [
                 firebase.auth.GoogleAuthProvider.PROVIDER_ID,
                 firebase.auth.FacebookAuthProvider.PROVIDER_ID,

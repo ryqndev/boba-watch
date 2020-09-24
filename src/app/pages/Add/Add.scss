@@ -3,9 +3,9 @@
     row-gap: 25px;
     grid-template-rows: auto auto;
     grid-template-columns: 1fr;
-    padding: 40px 40px 90px 40px;
+    padding: 40px 40px 120px 40px;
     @media screen and (max-width: 350px){
-        padding: 40px 20px 90px 20px;
+        padding: 40px 20px 120px 20px;
     }
     background: var(--bg-blend);
     background-size: 100vw 190px;
@@ -40,7 +40,7 @@
         & .content{
             box-sizing: border-box;
             width: 100%;
-            padding: 20px 20px;
+            padding: 20px 20px 70px;
             & textarea{
                 box-sizing: border-box;
                 width: 100%;

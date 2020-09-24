@@ -137,12 +137,12 @@ h6.bw{
     background: var(--bg-blend);
 }
 .login-logo{
-    height: 100vw;
+    height: calc(100vw - 50px);
     max-height: 40vh;
-    width: 100vw;
-    max-width: 50vh;
+    width: calc(100vw - 50px);
+    max-width: 40vh;
     margin: 0 auto;
-    padding-top: 20vh;
+    padding-top: 15vh;
     background-image: url('../../../assets/logo-shadow.svg');
     background-repeat: no-repeat;
     background-position: center;

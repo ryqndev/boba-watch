@@ -3,8 +3,6 @@ import DrinkPanel from './DrinkPanel';
 import {toMoney} from '../../components/textUtil.js';
 import {useTranslation} from 'react-i18next';
 import {Searchbar} from '../../components';
-import useMetrics from '../../controller/hooks/useMetrics';
-import stats from '../../controller/calculateStatistics';
 import './History.scss';
 
 const LoadMore = ({click}) => {

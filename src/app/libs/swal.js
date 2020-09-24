@@ -24,7 +24,7 @@ const alertDrinkNotDeleted = (error) => {
 const alertDefaultError = (error) => {
     onError(error);
     console.log(`Please copy this error and send to ${supportContact}`, error);
-    Swal.fire(i18next.t('Oops...'), i18next.t('Something went wrong...'), 'error');
+    Swal.fire(i18next.t('Oops...'), JSON.stringify(error), 'error');
 }
 
 /**
@@ -56,7 +56,6 @@ const alertPublishSuccess = () => {
     Swal.fire(i18next.t('Success!'), i18next.t('Drink published on your blog!'), 'success');
 }
 const alertRestriction = (date) => {
-    console.log(typeof date);
     Swal.fire(i18next.t('Oh no!'), i18next.t('You can\'t publish a new post until ') + date +  i18next.t('. If the time restriction is greater than 1 minute, you have likely been temporarily banned from posting.'), 'error');
 }
 

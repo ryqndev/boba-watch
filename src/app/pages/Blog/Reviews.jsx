@@ -29,7 +29,6 @@ const Reviews = ({ownerUID, initialDisplayCount=2}) => {
     }, [ownerUID, displayCount]);
 
     const deletePost = (postID) => {
-        console.log(postID);
         confirmBlogPostDelete().then((res) => {
             if(res.value){
                 deleteBlogPost(postID).then(async(res) => {

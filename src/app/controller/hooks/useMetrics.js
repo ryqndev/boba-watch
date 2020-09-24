@@ -1,5 +1,5 @@
 import {useState, useEffect, useContext} from 'react';
-import {getUserStats} from '../../libs/firestore';
+import {database} from '../../libs/firestore';
 import {onError} from '../../libs/analytics';
 import AuthUserContext from '../contexts/AuthUserContext';
 import stats from '../calculateStatistics';
@@ -14,7 +14,7 @@ const useMetrics = (uid) => {
 
         setMetrics({});
 
-        getUserStats().then(resp => {
+        database.collection(`users/${uid}/user`).doc('stats').get().then(resp => {
             setMetrics(resp.data());
         }).catch(onError);
 

@@ -12,6 +12,9 @@ import {CSSTransition} from 'react-transition-group';
 import Theme from './components/globals/theme';
 import init from './controller/LoginFlow';
 import AuthUserContext from './controller/contexts/AuthUserContext';
+import {add, exists} from './libs/dexie';
+import {getFaves as getCloudFirebaseFaves} from './libs/firestore';
+import { onError } from './libs/analytics';
 
 const Start = ({history}) => {
     const [authUser, setAuthUser] = useState();
@@ -19,7 +22,6 @@ const Start = ({history}) => {
         Theme();
         init(user => {
             setAuthUser(user);
-            console.log(user);
             history.push(user ? '/app' : '/login');
         });
         console.log("v2.07");
@@ -51,9 +53,30 @@ const Page = ({path, children}) => (
         )}
     </Route>
 );
-
+const updateFaves = (uid) => {
+    const recursivelyUpdate = (startAfter) => {
+        getCloudFirebaseFaves(uid, 1, startAfter).then(docSnap => {
+            let cursor = docSnap.docs[0];
+            if(cursor === undefined) return;
+            exists(cursor.id).then(found => {    
+                if(found) return;
+                add({id: cursor.id, ...cursor.data()});
+                recursivelyUpdate(cursor);
+            })
+        });
+    }
+    recursivelyUpdate(0);
+}
 const App = () => {
     const [user, setUser] = useState(false);
+    const [authUser] = useContext(AuthUserContext);
+    useEffect(() => {
+        try{
+            updateFaves(authUser.uid);
+        }catch(err){
+            onError(err);
+        }
+    }, [authUser.uid]);
     return (
         <Router basename={process.env.PUBLIC_URL}>
             <Page path="/">

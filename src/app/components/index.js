@@ -4,6 +4,7 @@ import Modal from './globals/styles/Modal.jsx';
 import TextInput from './globals/styles/TextInput.jsx';
 import TextClipboard from './globals/styles/TextClipboard.jsx';
 import Searchbar from './globals/styles/Searchbar';
+import StarRating from './globals/styles/StarRating';
 import Navigation from './Navigation';
 
 export {
@@ -13,5 +14,6 @@ export {
     TextInput,
     TextClipboard,
     Searchbar,
+    StarRating,
     Navigation,
 }

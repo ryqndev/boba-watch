@@ -7,10 +7,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {withRouter} from 'react-router-dom';
 import {MuiPickersUtilsProvider, DateTimePicker} from '@material-ui/pickers';
 import {add, edit} from '../../controller';
-import {TextInput, Card} from '../../components';
-import StarRatingComponent from 'react-star-rating-component';
-import {ReactComponent as StarEmptyIcon} from './star_empty.svg';
-import {ReactComponent as StarFilledIcon} from './star_filled.svg';
+import {TextInput, Card, StarRating} from '../../components';
 import {database as db} from '../../libs/firestore';
 import Select from 'react-select';
 import './Add.scss';
@@ -77,8 +74,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
         }} 
         if (isNaN(data.drink.price)){
             alertInvalidDrinkPrice();
-            setCanAdd(true);
-            return;
+            return setCanAdd(true);
         }
         if(editData?.id === undefined || editData?.id === null) await add(data, authUser.uid);
         else await edit(data, editData.id, authUser.uid);
@@ -91,11 +87,8 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
 
     const saveDrink = (e) => {
         e.preventDefault();
-        if(name === ''){
-            alertEmptyDrinkName();
-            return;
-        }
-        if(!canSave) return;
+        if(name === '') return alertEmptyDrinkName();
+        if(!canSave)    return;
         let data = [
             ...autofill,
             {
@@ -142,7 +135,6 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
                 }).catch(alertDefaultError);
             }
         })
-
     }
     
     return (
@@ -158,9 +150,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
                         onChange={autofillSelect}
                         className='autofill-select'
                     />
-
                     <div className="autofill-divider">or add a new drink:</div>
-
                     <TextInput value={location} onChange={handleTextChange(setLocation)} label={t("Location")} id="location-input"/>
                     <TextInput value={name} onChange={handleTextChange(setName)} label={t("Drink Name")} id="name-input"/>
                     <TextInput value={price} onChange={handlePriceChange} label={t("Price")} id="price-input" type="text"/>
@@ -176,21 +166,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
                         />
                     </MuiPickersUtilsProvider>
                 </div>
-                <div className="rating-holder">
-                    <div className="rating-select">
-                        <p>
-                            RATING :
-                        </p>
-                        <StarRatingComponent 
-                            name="rating" 
-                            starCount={5}
-                            value={rating}
-                            renderStarIcon={(i, v) => (i <= v ? <StarFilledIcon /> : <StarEmptyIcon />)}
-                            onStarClick={(v) => {setRating(v)}}
-                            onStarHover={(v) => {setRating(v)}}
-                        />
-                    </div>
-                </div>
+                <StarRating rating={rating} setRating={setRating} />
                 <div className="content">
                     <textarea
                         value={description}
@@ -200,21 +176,11 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
                         placeholder={t("How was your drink?")}
                     />
                     <div className="add-button-holder">
-                        <button
-                            disabled={!canSave}
-                            id="save-drink--button"
-                            onClick={saveDrink}
-                            className={`text ${canSave ? '' : 'saved'}`}
-                        >
+                        <button disabled={!canSave} onClick={saveDrink} className={`text save ${canSave ? '' : 'saved'}`}>
                             {canSave ? t('SAVE') : t('SAVED')}
                         </button>
                         <div></div>
-                        <button
-                            disabled={!canAdd}
-                            id="add-drink--button"
-                            onClick={addDrink}
-                            className="text"
-                        >
+                        <button disabled={!canAdd} onClick={addDrink} className="text">
                             {t(buttonTitle ?? 'ADD')}
                         </button>
                     </div>

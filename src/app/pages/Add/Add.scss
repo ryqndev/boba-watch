@@ -3,9 +3,9 @@
     row-gap: 25px;
     grid-template-rows: auto auto;
     grid-template-columns: 1fr;
-    padding: 40px 40px 120px 40px;
+    padding: 40px 40px 130px 40px;
     @media screen and (max-width: 350px){
-        padding: 40px 20px 120px 20px;
+        padding: 40px 20px 130px 20px;
     }
     background: var(--bg-blend);
     background-size: 100vw 190px;
@@ -40,7 +40,7 @@
         & .content{
             box-sizing: border-box;
             width: 100%;
-            padding: 20px 20px 70px;
+            padding: 20px;
             & textarea{
                 box-sizing: border-box;
                 width: 100%;
@@ -48,27 +48,6 @@
                 padding: 10px;
                 border: 1px solid rgb(243, 243, 243);
                 border-radius: 4px;
-            }
-        }
-        & .rating-holder{
-            width: 100%;
-            direction: rtl;
-            & .rating-select{
-                direction: ltr;
-                display: grid;
-                padding: 5px 10px 5px 15px;
-                grid-template-columns: auto 90px;
-                border-radius: 20px 0px 0px 20px;
-                background-color: var(--blog-accent);
-                max-width: 160px;
-                & p{
-                    color: white;
-                    font-weight: bold;
-                }
-                & svg{
-                    margin: 0 2px 0 2px;
-                    height: 13px;
-                }
             }
         }
     }
@@ -105,7 +84,7 @@
         border: 2px solid transparent;
         padding: 2px 20px;
         width: 100px;
-        &#save-drink--button{
+        &.save{
             background-color: transparent;
             color: var(--text-accent);
             border-color: var(--text-accent);

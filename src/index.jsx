@@ -29,4 +29,4 @@ catch{
  * react service worker code.
  * Things to be implemented: cache, indexdb, complete offline mode
  */
-serviceWorker.unregister();
+serviceWorker.register();

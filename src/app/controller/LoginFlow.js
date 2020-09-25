@@ -1,4 +1,4 @@
-import {firebase, database as db, getFaves as getCloudFirebaseFaves} from '../libs/firestore';
+import {firebase, database as db} from '../libs/firestore';
 import {onLogin as logLoginToAnalytics} from '../libs/analytics';
 import {profile as defaultProfile, metrics as defaultStats} from '../defaults';
 import stats from './calculateStatistics';

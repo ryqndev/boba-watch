@@ -17,7 +17,8 @@
 html, body {
     overflow: hidden;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
+    position: fixed;
     overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
     min-height: -webkit-fill-available;
@@ -39,6 +40,9 @@ body {
     -khtml-user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+}
+#root{
+    height: 100%;
 }
 p{
     color: var(--text-secondary);
@@ -110,7 +114,7 @@ h6.bw{
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     overflow-y: scroll;
     background-color: var(--bg-primary);
     overscroll-behavior: contain;
@@ -130,7 +134,7 @@ h6.bw{
     transition: border-color 350ms;
 }
 .login-page{
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     text-align: center;
     overflow-y: scroll;

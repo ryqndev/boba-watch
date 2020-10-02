@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import { alertDefaultError } from '../../libs/swal';
 import AuthUserContext from '../../controller/contexts/AuthUserContext';
 
-const ExpandedFeedItem = ({ show, person, name, place, description, date, uid, id, history }) => {
+const ExpandedFeedItem = ({ show, person, name, place, description, date, uid, image, id, history }) => {
     const [reportable, setReportable] = useState(true);
     const [authUser] = useContext(AuthUserContext);
     const report = async () => {
@@ -52,18 +52,19 @@ const ExpandedFeedItem = ({ show, person, name, place, description, date, uid, i
     return show && (
         <div className="expanded-feed-item--wrapper">
             <div className="user">
-                <img src={person.profile} alt=" " onClick={() => {
+                <img className="avatar" src={person.profile} alt=" " onClick={() => {
                     history.push('/blog/' + uid);
                 }} />
                 <h2>{person.name}</h2>
             </div>
 
             <div className="content">
-
                 <ExpandedDrinkDescription
                     name={name}
                     location={place}
                     description={description}
+                    image={image}
+                    expanded
                     date={new Date(date).toDateString()}
                 />
                 <div className="more-options-display" >

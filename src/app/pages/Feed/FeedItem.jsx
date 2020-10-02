@@ -13,6 +13,7 @@ import HeartEmptyIcon from '@material-ui/icons/FavoriteBorderRounded';
 import HeartFilledIcon from '@material-ui/icons/FavoriteRounded';
 import Filter from 'bad-words';
 import AuthUserContext from '../../controller/contexts/AuthUserContext.js';
+import { getImageAttribute } from '../../libs/cloud-storage.js';
 
 let filter = new Filter();
 
@@ -44,6 +45,7 @@ const FeedItem = ({match, location, children, staticContext, expandable=true, pe
     const [authUser] = useContext(AuthUserContext);
     const {t} = useTranslation();
     const [liked, setLiked] = useState(isLiked);
+    const [imageAttr, setImageAttr] = useState(false);
     const [likeDisplay, setLikeDisplay] = useState(post?.likes ?? 0);
     const toggleFavorite = () => {
         likeBlogPost(authUser.uid, post.id, post, !liked).then(() => {
@@ -62,6 +64,10 @@ const FeedItem = ({match, location, children, staticContext, expandable=true, pe
             });
         }
     }, [isLiked, post.id]);
+    useEffect(() => {
+        if(!post?.image) return;
+        (async() => {setImageAttr(await getImageAttribute(post.image, 'thumbnail'))})();
+    }, [post.image]);
 
     return (
         <Card className="feed-item">
@@ -74,10 +80,11 @@ const FeedItem = ({match, location, children, staticContext, expandable=true, pe
                     {liked ? <HeartFilledIcon /> : <HeartEmptyIcon/>}
                 </div>
             </div>
-            <div className="item-content">
+            <div className={`feed-item-content--base item-content${imageAttr ? '--with-image' : ''}`}>
+                {imageAttr && <img src={imageAttr} className="user-upload" alt="user-upload"/>}
                 <p className="location">{filter.clean(post.place)}</p>
                 <p className="price">{t('$')}{toMoney(post.price)}</p>
-                {(post.rating !== null && post.rating !== undefined) && 
+                {(post?.rating !== null && post?.rating !== undefined && post?.rating !== 0) ?
                     <div className="ratings-holder">
                         <StarRatingComponent 
                             name="rating" 
@@ -86,9 +93,11 @@ const FeedItem = ({match, location, children, staticContext, expandable=true, pe
                             renderStarIcon={(i, v) => (i <= v ? <StarFilledIcon /> : <StarEmptyIcon />)}
                         />
                     </div>
+                    :
+                    <div></div>
                 }
                 <p className="date">{(new Date(post.date).toDateString())}</p>
-                <p className="description">{filter.clean(expandable ? ellipsisText(post.description) : post.description)}</p>
+                <p className="description">{filter.clean(expandable ? ellipsisText(post.description, 50) : post.description)}</p>
                 {expandable && <div className="expand-wrapper">
                     <button onClick={() => {setExpand({show: true, person: person, ...post})}}>view full post</button>
                 </div>}

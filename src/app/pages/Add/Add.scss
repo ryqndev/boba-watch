@@ -41,6 +41,32 @@
             box-sizing: border-box;
             width: 100%;
             padding: 20px;
+            & label.upload-image{
+                border: 2px dashed var(--text-accent);
+                border-radius: 3px;
+                font-size: 0.9rem;
+                box-sizing: border-box;
+                text-align: center;
+                color: var(--text-accent);
+                display: inline-block;
+                padding: 5px;
+                width: 100%;
+                cursor: pointer;
+                margin-bottom: 10px;
+                &.uploading{
+                    border: 2px solid var(--text-accent);
+                }
+                &.uploaded{
+                    border: 2px solid rgb(15, 207, 15);
+                }
+            }
+            & img.upload-preview{
+                width: 100%;
+                object-fit: contain;
+            }
+            & input[type="file"] {
+                display: none;
+            }            
             & textarea{
                 box-sizing: border-box;
                 width: 100%;

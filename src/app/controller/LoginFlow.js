@@ -37,8 +37,8 @@ const newUserSetup = (user, callback) => {
     let setupBatch = db.batch();
     setupBatch.set(db.collection(`users/${user.uid}/user`).doc('stats'), defaultStats);
     setupBatch.set(db.collection(`users/${user.uid}/blog`).doc('user'), {
-        name:  user.displayName,
-        profile:  user.photoURL            
+        name:  user?.displayName,
+        profile:  user?.photoURL            
     }, {merge: true});
     setupBatch.set(db.collection(`users/${user.uid}/user`).doc('profile'), defaultProfile);
     return setupBatch.commit().then(() => {
@@ -66,7 +66,13 @@ const newSignInLocation = (user, callback) => {
         stats.recalculateMetrics();
 
         user.profile = {sharing: profile?.sharing ?? profile?.public ?? false , ...profile.data()};
-        callback(user);
+
+        db.collection(`users/${user.uid}/blog`).doc('user').set({
+            name:  user?.displayName,
+            profile:  user?.photoURL            
+        }, {merge: true}).finally(() => {
+            callback(user);
+        });
     });
 }
 

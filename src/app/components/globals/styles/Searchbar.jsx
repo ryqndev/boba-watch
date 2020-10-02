@@ -18,7 +18,7 @@ const Searchbar = ({placeholder="How can I help you today?", data=[], keys=[], R
     }); 
     useEffect(() => {
         let res = fuse.search(query);
-        setResults(res.slice(0, 20));
+        setResults(res.slice(0, 25));
     }, [query, data, data.length]);
     
     return (

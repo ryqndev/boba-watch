@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
+import 'firebase/storage';
 import {alertDefaultError} from '../libs/swal';
 import * as firebaseui from 'firebaseui';
 import {subWeeks, subMonths} from 'date-fns';
@@ -19,7 +20,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 let database, 
-    analytics = firebase.analytics(), 
+    analytics = firebase.analytics(),
+    storage = firebase.storage(), 
     ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
 
 database = firebase.firestore(); 
@@ -99,6 +101,7 @@ export {
     firebase,
     logout,
     database,
+    storage,
     analytics,
     publishGetUser,
     publishGetFeed,

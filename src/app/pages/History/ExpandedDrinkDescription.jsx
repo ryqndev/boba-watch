@@ -1,9 +1,17 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import { getImageAttribute } from '../../libs/cloud-storage';
 import './ExpandedDrinkDescription.scss';
 
-const ExpandedDrinkDescription = ({name, location, description, date}) => {
+const ExpandedDrinkDescription = ({name, location, description, expanded, image, date}) => {
     const {t} = useTranslation();
+    const [imageAttr, setImageAttr] = useState(false);
+    
+    useEffect(() => {
+        if(!expanded || !image) return;
+        (async() => {setImageAttr(await getImageAttribute(image))})();
+    }, [image, expanded]);
+
     return (
         <div className="expanded-drink-description--wrapper">
             <p className="title">
@@ -11,6 +19,7 @@ const ExpandedDrinkDescription = ({name, location, description, date}) => {
                 <br />
                 <span>@{location}</span>
             </p>
+            {imageAttr && <img src={imageAttr} className="user-uploaded" alt="user-upload" />}
             <br />
             <p className="description">
                 {description}

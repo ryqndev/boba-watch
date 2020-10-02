@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import {useTranslation} from 'react-i18next';
 import 'date-fns'; 
 import Swal from 'sweetalert2';
@@ -8,20 +8,25 @@ import {withRouter} from 'react-router-dom';
 import {MuiPickersUtilsProvider, DateTimePicker} from '@material-ui/pickers';
 import {add, edit} from '../../controller';
 import {TextInput, Card, StarRating} from '../../components';
-import {database as db} from '../../libs/firestore';
+import {database as db, firebase} from '../../libs/firestore';
 import Select from 'react-select';
 import './Add.scss';
 import AuthUserContext from '../../controller/contexts/AuthUserContext';
+import { onError } from '../../libs/analytics';
 
 const Add = ({pageTitle, buttonTitle, editData, history}) => {
     const [authUser] = useContext(AuthUserContext);
     const {t} = useTranslation();
     const [name, setName] = useState(editData?.name ?? '');
+    const [image, setImage] = useState(editData?.image ?? '');
+    const [imagePreview, setImagePreview] = useState('');
     const [location, setLocation] = useState(editData?.location ?? '');
     const [price, setPrice] = useState(editData?.price ?? '');
     const [date, setDate] = useState(editData?.date ?? new Date());
     const [rating, setRating] = useState(editData?.rating ?? 0);
     const [description, setDescription] = useState(editData?.description ?? '');
+    const upload = useRef(null);
+    const [uploadProgress, setUploadProgress] = useState(-1);
     const [autofill, setAutofill] = useState([]);
     const [canAdd, setCanAdd] = useState(true);
     const [canSave, setCanSave] = useState(true);
@@ -29,25 +34,15 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
     useEffect(() => {
         setAutofill(JSON.parse(localStorage.getItem('autofill') ?? '[]'));
     }, []);
-
     useEffect(() => {
         setName(editData?.name ?? '');
         setLocation(editData?.location ?? '');
         setPrice(editData?.price == null ? '' : (editData.price / 100));
         setDate(editData?.date ?? new Date());
+        setImage(editData?.image ?? '');
         setRating(editData?.rating ?? 0);
         setDescription(editData?.description ?? '');
     }, [editData]);
-
-    const clearForm = () => {
-        setName('');
-        setLocation('');
-        setPrice('');
-        setDate(new Date());
-        setRating(0);
-        setDescription('');
-    }
-
     const handleTextChange = setInput => e => {
         e.preventDefault();
         if(e.target.value.length >= 80) return;
@@ -58,9 +53,8 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
         if(e.target.value.length >= 300) return;
         setInput(e.target.value);
     }
-    const handlePriceChange = e => {if((e.target.value).match(/^-?\d*\.?\d*$/) && e.target.value.length < 8) setPrice(e.target.value)}
+    const handlePriceChange = e => {if((e.target.value).match(/^-?\d*\.?\d*$/) && e.target.value.length < 10) setPrice(e.target.value)}
     const handleDateChange = (date) => {setDate(date)}
-
     const addDrink = async(e) => {
         e.preventDefault();
         setCanAdd(false);
@@ -69,6 +63,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             location: location,
             price: parseInt(parseFloat(price) * 100),
             date: new Date(date).toISOString(),
+            image: image,
             description: description,
             rating: rating
         }} 
@@ -79,12 +74,18 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
         if(editData?.id === undefined || editData?.id === null) await add(data, authUser.uid);
         else await edit(data, editData.id, authUser.uid);
 
-        clearForm();
+        setName('');
+        setLocation('');
+        setPrice('');
+        setDate(new Date());
+        setRating(0);
+        setDescription('');
+        setImage('');
+        setUploadProgress(-1);
         setCanSave(true);
         setCanAdd(true);
         history.push('/history');
     };
-
     const saveDrink = (e) => {
         e.preventDefault();
         if(name === '') return alertEmptyDrinkName();
@@ -111,6 +112,29 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             alertDefaultError(err);
         });
     }
+    const imageUpload = async(e) => {
+        let file = upload?.current?.files?.[0];
+        if(file.size > 2000000){
+            Swal.fire('File too large', 'Try a smaller image less than 2MB. Appreciate the high quality images but to keep Boba Watch free, we gotta do it like this. :(','error');
+            upload.current.value = '';
+            return;
+        }
+        const serverFilePath = `drinks/${authUser.uid}/post-${new Date().valueOf()}`;
+        let uploadTask = firebase.storage().ref().child(serverFilePath).put(file);
+
+        uploadTask.on(
+            'state_changed', 
+            snapshot => {setUploadProgress(parseInt((snapshot.bytesTransferred / snapshot.totalBytes) * 100))}, 
+            error => {error.code === 'storage/canceled' ? setUploadProgress(-1) : onError(JSON.stringify(error))},
+            () => {
+                setImage(serverFilePath);
+                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                    setImagePreview(downloadURL);
+                });
+                
+            }
+        );
+    }
     const autofillSelect = (data) => {
         Swal.fire({
             showCancelButton: true,
@@ -136,9 +160,16 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             }
         })
     }
+    const uploadStatus = (startState='', progressState='', finishedState='') => {
+        if(uploadProgress < 0)
+            return startState;
+        if(uploadProgress < 100)
+            return progressState;
+        return finishedState;
+    }
     
     return (
-        <form className="add-modal">
+        <form className="add-modal" onSubmit={addDrink}>
             <h4 className="bw title">{t(pageTitle ?? 'Add a Purchase')}</h4>
             <Card className="add-holder">
                 <h5>{t("WHAT'S THE TEA?")}</h5>
@@ -168,6 +199,13 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
                 </div>
                 <StarRating rating={rating} setRating={setRating} />
                 <div className="content">
+                    <label className={`upload-image ${uploadStatus('', 'uploading', 'uploaded')}`}>
+                        {imagePreview !== '' && <img className="upload-preview" src={imagePreview} alt="upload-preview" />}
+                        {uploadStatus('UPLOAD AN IMAGE', 'UPLOADING...')}
+                        <input type="file" ref={upload} onChange={imageUpload} accept="image/png,image/jpeg"/>
+                        <br />
+                        {uploadStatus('', <progress max="100" value={uploadStatus(0, uploadProgress, 100)}></progress>, '')}
+                    </label>
                     <textarea
                         value={description}
                         rows={10}
@@ -180,7 +218,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
                             {canSave ? t('SAVE') : t('SAVED')}
                         </button>
                         <div></div>
-                        <button disabled={!canAdd} onClick={addDrink} className="text">
+                        <button type="submit" disabled={!canAdd} className="text">
                             {t(buttonTitle ?? 'ADD')}
                         </button>
                     </div>

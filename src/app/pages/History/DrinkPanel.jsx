@@ -77,7 +77,7 @@ const DrinkPanel = ({data, history, triggerUpdate}) => {
                 </p>
             </div>
             <div className={'collapsed-info' + (expanded ? ' expanded' : '')}>
-                <ExpandedDrinkDescription {...data} date={drinkDate}/>
+                <ExpandedDrinkDescription {...data} expanded={expanded} date={drinkDate}/>
                 <div className="options">
                     <button className="text" onClick={publish} disabled={!canPublish}>{t('PUBLISH')}</button>
                     <button className="text" onClick={edit}>{t('EDIT')}</button>

@@ -30,9 +30,16 @@ const getImageAttribute = async(path, type='original') => {
             }        
     }
 }
+const checkIfResizeExists = async(path) => {
+    try{
+        return await storage.ref(getThumbnail(path)).getDownloadURL();
+    }catch(e){
+        return e;
+    }
+}
 
 const deleteImage = async(path) => {
-    storage.child(path);
+    storage.ref(path);
     let allImageResizes = [path, getThumbnail(path), getOriginal(path)];
     return Promise.all(allImageResizes.map(path => storage.ref(path).delete()));
 }
@@ -40,4 +47,5 @@ const deleteImage = async(path) => {
 export {
     getImageAttribute,
     deleteImage,
+    checkIfResizeExists,
 }

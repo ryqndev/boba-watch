@@ -13,6 +13,7 @@ import Select from 'react-select';
 import './Add.scss';
 import AuthUserContext from '../../controller/contexts/AuthUserContext';
 import { onError } from '../../libs/analytics';
+import { checkIfResizeExists, deleteImage } from '../../libs/cloud-storage';
 
 const Add = ({pageTitle, buttonTitle, editData, history}) => {
     const [authUser] = useContext(AuthUserContext);
@@ -114,11 +115,14 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
     }
     const imageUpload = async(e) => {
         let file = upload?.current?.files?.[0];
-        if(file.size > 2000000){
-            Swal.fire('File too large', 'Try a smaller image less than 2MB. Appreciate the high quality images but to keep Boba Watch free, we gotta do it like this. :(','error');
-            upload.current.value = '';
-            return;
-        }
+        console.log(file);
+        // if(file.size > 5000000){
+        //     Swal.fire('File too large', 'Try a smaller image less than 5MB. Appreciate the high quality images but to keep Boba Watch free, we gotta do it like this. :(','error');
+        //     upload.current.value = '';
+        //     return;
+        // }
+        if(imagePreview !== '') deleteImage(image);
+
         const serverFilePath = `drinks/${authUser.uid}/post-${new Date().valueOf()}`;
         let uploadTask = firebase.storage().ref().child(serverFilePath).put(file);
 
@@ -128,10 +132,9 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             error => {error.code === 'storage/canceled' ? setUploadProgress(-1) : onError(JSON.stringify(error))},
             () => {
                 setImage(serverFilePath);
-                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
                     setImagePreview(downloadURL);
                 });
-                
             }
         );
     }

@@ -24,7 +24,7 @@ const Start = ({history}) => {
             setAuthUser(user);
             history.push(user ? '/app' : '/login');
         });
-        console.log("v2.07");
+        console.log("v2.8.0");
     }, [history]);
 
     return (

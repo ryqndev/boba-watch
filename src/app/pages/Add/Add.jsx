@@ -115,12 +115,11 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
     }
     const imageUpload = async(e) => {
         let file = upload?.current?.files?.[0];
-        console.log(file);
-        // if(file.size > 5000000){
-        //     Swal.fire('File too large', 'Try a smaller image less than 5MB. Appreciate the high quality images but to keep Boba Watch free, we gotta do it like this. :(','error');
-        //     upload.current.value = '';
-        //     return;
-        // }
+        if(file.size > 5000000){
+            Swal.fire('File too large', 'Try a smaller image less than 5MB. Appreciate the high quality images but to keep Boba Watch free, we gotta do it like this. :(','error');
+            upload.current.value = '';
+            return;
+        }
         if(imagePreview !== '') deleteImage(image);
 
         const serverFilePath = `drinks/${authUser.uid}/post-${new Date().valueOf()}`;

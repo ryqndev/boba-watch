@@ -41,7 +41,6 @@ const Popular = ({displayCount, setDisplayCount, expand}) => {
                             <FeedItemWithAvatar
                                 key={feedContent.id}
                                 place={feedContent.location}
-                                isLiked={feedContent?.fave ?? false}
                                 setExpand={expand}
                                 {...feedContent}
                             />

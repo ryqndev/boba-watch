@@ -1,18 +1,13 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {toMoney, ellipsisText} from '../../components/textUtil.js';
 import {getUserBlog} from '../../libs/firestore';
 import {Card} from '../../components';
 import {useTranslation} from 'react-i18next';
 import {withRouter} from 'react-router-dom'
-import {add, remove, exists} from '../../libs/dexie';
 import StarRatingComponent from 'react-star-rating-component';
 import {ReactComponent as StarEmptyIcon} from './star_empty.svg';
 import {ReactComponent as StarFilledIcon} from './star_filled.svg';
-import {likeBlogPost} from '../../libs/firestore';
-import HeartEmptyIcon from '@material-ui/icons/FavoriteBorderRounded';
-import HeartFilledIcon from '@material-ui/icons/FavoriteRounded';
 import Filter from 'bad-words';
-import AuthUserContext from '../../controller/contexts/AuthUserContext.js';
 import { getImageAttribute } from '../../libs/cloud-storage.js';
 
 let filter = new Filter();
@@ -41,29 +36,9 @@ const WithAvatar = ({uid, history, ...data}) => {
         </div>
     );
 }
-const FeedItem = ({match, location, children, staticContext, expandable=true, person, isLiked=false, setExpand, ...post}) => {
-    const [authUser] = useContext(AuthUserContext);
+const FeedItem = ({match, location, children, staticContext, expandable=true, person, setExpand, ...post}) => {
     const {t} = useTranslation();
-    const [liked, setLiked] = useState(isLiked);
     const [imageAttr, setImageAttr] = useState(false);
-    const [likeDisplay, setLikeDisplay] = useState(post?.likes ?? 0);
-    const toggleFavorite = () => {
-        likeBlogPost(authUser.uid, post.id, post, !liked).then(() => {
-            setLikeDisplay(likeDisplay + (liked ? -1 : 1));
-            liked ? remove(post) : add(post);
-            setLiked(!liked);
-        }).catch(err => {
-            remove(post);
-            setLiked(false);
-        });
-    }
-    useEffect(() => {
-        if(!isLiked){
-            exists(post.id).then(found => { 
-                if(found) setLiked(true);
-            });
-        }
-    }, [isLiked, post.id]);
     useEffect(() => {
         if(!post?.image) return;
         (async() => {setImageAttr(await getImageAttribute(post.image, 'thumbnail'))})();
@@ -74,10 +49,8 @@ const FeedItem = ({match, location, children, staticContext, expandable=true, pe
             <div className="header">
                 <span>{filter.clean(post.name)}</span>
                 <p className="favorite-amount">
-                    {isLiked ? '' : likeDisplay > 999 ? ((likeDisplay / 100) >> 0) + 'k' : (likeDisplay < 0 ? 0 : likeDisplay) }
                 </p>
-                <div className="favorite" onClick={toggleFavorite}>
-                    {liked ? <HeartFilledIcon /> : <HeartEmptyIcon/>}
+                <div className="favorite" >
                 </div>
             </div>
             <div className={`feed-item-content--base item-content${imageAttr ? '--with-image' : ''}`}>

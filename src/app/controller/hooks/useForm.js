@@ -6,7 +6,7 @@ const useForm = (inputs) => {
 
     const handleTextChange = e => {
         e.preventDefault();
-        if(e.target.value.length >= maxLength) return;
+        // if(e.target.value.length >= maxLength) return;
         setFormData(e.target.value);
     }
 

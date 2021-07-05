@@ -16,7 +16,7 @@ import { onError } from '../../libs/analytics';
 import { checkIfResizeExists, deleteImage } from '../../libs/cloud-storage';
 
 const Add = ({pageTitle, buttonTitle, editData, history}) => {
-    const [authUser] = useContext(AuthUserContext);
+    const [user] = useContext(AuthUserContext);
     const {t} = useTranslation();
     const [name, setName] = useState(editData?.name ?? '');
     const [image, setImage] = useState(editData?.image ?? '');
@@ -72,8 +72,8 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             alertInvalidDrinkPrice();
             return setCanAdd(true);
         }
-        if(editData?.id === undefined || editData?.id === null) await add(data, authUser.uid);
-        else await edit(data, editData.id, authUser.uid);
+        if(editData?.id === undefined || editData?.id === null) await add(data, user.uid);
+        else await edit(data, editData.id, user.uid);
 
         setName('');
         setLocation('');
@@ -104,7 +104,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             }
         ];
         setCanSave(false);
-        db.collection(`users/${authUser.uid}/user`).doc('autofill').set({data: JSON.stringify(data)}).then(() => {
+        db.collection(`users/${user.uid}/user`).doc('autofill').set({data: JSON.stringify(data)}).then(() => {
             setAutofill(data);
             localStorage.setItem('autofill', JSON.stringify(data));
             alertAutofillSuccess();
@@ -122,7 +122,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
         }
         if(imagePreview !== '') deleteImage(image);
 
-        const serverFilePath = `drinks/${authUser.uid}/post-${new Date().valueOf()}`;
+        const serverFilePath = `drinks/${user.uid}/post-${new Date().valueOf()}`;
         let uploadTask = firebase.storage().ref().child(serverFilePath).put(file);
 
         uploadTask.on(
@@ -155,7 +155,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
             }else if(result.dismiss === 'cancel'){
                 let updated = [...autofill];
                 updated.splice(updated.findIndex(e => e.value === data.value), 1);
-                db.collection(`users/${authUser.uid}/user`).doc('autofill').set({data: JSON.stringify(updated)}).then(() => {
+                db.collection(`users/${user.uid}/user`).doc('autofill').set({data: JSON.stringify(updated)}).then(() => {
                     localStorage.setItem('autofill', JSON.stringify(updated));
                     setAutofill(updated);
                 }).catch(alertDefaultError);

@@ -122,6 +122,13 @@ h6.bw{
     &.with-user{
         position: fixed;
     }
+    @media screen and (min-width: 950px) {
+        position: relative;
+        top: 0;
+        left: 100px;
+        width: calc(100vw - 100px);
+        height: 100%;
+    }
 }
 .avatar-button{
     height: 37px;

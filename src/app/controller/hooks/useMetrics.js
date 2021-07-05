@@ -6,10 +6,10 @@ import stats from '../calculateStatistics';
 
 const useMetrics = (uid) => {
     const [metrics, setMetrics] = useState(stats.getDefaultMetrics());
-    const [authUser] = useContext(AuthUserContext);
+    const [user] = useContext(AuthUserContext);
 
     useEffect(() => {
-        if(uid === undefined || authUser.uid === uid) 
+        if(uid === undefined || user.uid === uid) 
             return setMetrics(JSON.parse(localStorage.getItem('metrics')));
 
         setMetrics({});
@@ -18,7 +18,7 @@ const useMetrics = (uid) => {
             setMetrics(resp.data());
         }).catch(onError);
 
-    }, [uid, authUser.uid]);
+    }, [uid, user.uid]);
 
     return metrics;
 }

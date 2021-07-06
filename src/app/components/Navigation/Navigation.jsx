@@ -3,7 +3,8 @@ import { Link, withRouter } from 'react-router-dom';
 import ExploreIcon from '@material-ui/icons/ExploreRounded';
 import DashboardIcon from '@material-ui/icons/HomeRounded';
 import AddIcon from '@material-ui/icons/AddRounded';
-import HistoryIcon from '@material-ui/icons/AttachMoneyRounded';
+import {ReactComponent as Logo} from '../../../assets/logo-shadow.svg';
+import HistoryIcon from '@material-ui/icons/ListAltRounded';
 import PublicIcon from '@material-ui/icons/FaceRounded';
 import { onPageView } from '../../libs/analytics';
 import AuthUserContext from '../../controller/contexts/AuthUserContext';
@@ -22,6 +23,9 @@ const Navigation = ({ history }) => {
 
 	return (
 		<nav className={cn.wrapper}>
+            <div className={cn.logo}>
+                <Logo />
+            </div>
 			<div className={cn['icon-holder']}>
 				<Link to='/'>
 					<div className={cn['icon'] + isTab('/')}>

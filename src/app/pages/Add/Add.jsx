@@ -216,7 +216,7 @@ const Add = ({pageTitle, buttonTitle, editData, history}) => {
                         placeholder={t("How was your drink?")}
                     />
                     <div className="add-button-holder">
-                        <button disabled={!canSave} onClick={saveDrink} className={`text save ${canSave ? '' : 'saved'}`}>
+                        <button type="button" disabled={!canSave} onClick={saveDrink} className={`text save ${canSave ? '' : 'saved'}`}>
                             {canSave ? t('SAVE') : t('SAVED')}
                         </button>
                         <div></div>

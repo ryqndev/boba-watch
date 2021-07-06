@@ -1,6 +1,7 @@
 import React from 'react';
 import {XYPlot, XAxis, YAxis, HeatmapSeries} from 'react-vis';
 import {Card} from '../../../components';
+import clsx from 'clsx';
 import 'react-vis/dist/style.css';
 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -9,7 +10,7 @@ const times = [
     "1 PM", "2 PM", "3 PM", "4 PM", "5 PM", "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM", "12 PM"
 ];
 
-const DailyHeatMap = ({data, width}) => {
+const DailyHeatMap = ({className, data, width}) => {
     const parseTimeData = (weeklyTimeData) => {
         let dailyGraph = [];
         let maxes = [];
@@ -30,7 +31,7 @@ const DailyHeatMap = ({data, width}) => {
     }
 
     return (
-        <Card className="daily-chart">
+        <Card className={clsx(className)}>
             <XYPlot xType="ordinal" yType="ordinal" margin={60} width={width} height={1.8*width}>
                 <XAxis orientation="top" />
                 <YAxis />

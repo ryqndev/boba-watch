@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {Modal} from '../../components';
+import {Modal} from '../../../components';
 import Carousel, {Dots} from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
-import data from '../../../assets/data/help.json';
+import data from '../../../../assets/data/help.json';
 import {useTranslation} from 'react-i18next';
 import './Help.scss';
 
@@ -30,7 +30,7 @@ const Help = ({open, setOpen}) => {
 const HelpSlide = ({img, title, path, desc}) => {
     return (
         <div className="slide">
-            {img === undefined ? '' : <img alt="" src={require('../../../assets/help/' + img)} />}
+            {img === undefined ? '' : <img alt="" src={require('../../../../assets/help/' + img)} />}
             <h3>{title}</h3>
             <span>{(path ?? []).join(' > ')}</span>
             <p>{desc}</p>

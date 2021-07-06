@@ -1,0 +1,28 @@
+.wrapper{
+    z-index: 100;
+    position: absolute;
+    right: 20px;
+    top: 45px;
+    height: 54px;
+    border-radius: 26px;
+    display: grid;
+    grid-template-columns: auto 54px;
+    grid-template-areas: "date avatar";
+    background-color: var(--avatar-border);
+
+    &>time.date {
+        padding: 0px 10px 0px 20px;
+        font-size: 1.3em;
+        font-weight: bold;
+        place-self: center;
+        color: var(--text-accent);
+    }
+
+    &>.avatar {
+        place-self: center;
+        grid-area: avatar;
+        height: 48px;
+        width: 48px;
+        border-radius: 50%;
+    }
+}

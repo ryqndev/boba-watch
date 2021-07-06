@@ -125,21 +125,12 @@ h6.bw{
     @media screen and (min-width: 950px) {
         position: relative;
         top: 0;
-        left: 100px;
-        width: calc(100vw - 100px);
+        left: 120px;
+        width: calc(100vw - 120px);
         height: 100%;
     }
 }
-.avatar-button{
-    height: 37px;
-    width: 37px;
-    border-radius: 50%;
-    position: absolute;
-    right: 40px;
-    top: 36px;
-    border: 2px solid var(--avatar-border);
-    transition: border-color 350ms;
-}
+
 .login-page{
     height: 100%;
     width: 100vw;

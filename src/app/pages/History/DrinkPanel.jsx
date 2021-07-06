@@ -13,7 +13,7 @@ import {alertDefaultError, alertDrinkDeletedSuccess, alertDrinkNotDeleted, alert
 import AuthUserContext from '../../controller/contexts/AuthUserContext';
 import {addSeconds, format} from 'date-fns';
 
-const DrinkPanel = ({data, history, triggerUpdate}) => {
+const DrinkPanel = ({data, history, triggerUpdate, expandable=true}) => {
     const [authUser] = useContext(AuthUserContext);
     const {t} = useTranslation();
     const [expanded, setExpanded] = useState(false);
@@ -66,8 +66,13 @@ const DrinkPanel = ({data, history, triggerUpdate}) => {
                 <p className="price">
                     {t('$')}{toMoney(data.price)}
                 </p>
+                
                 <div className="expand-icon">
-                    {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                    {
+                        expandable && (expanded 
+                            ? <ExpandMoreIcon /> 
+                            : <ExpandLessIcon />)
+                    }
                 </div>
                 <p className="name">
                     {data.name}

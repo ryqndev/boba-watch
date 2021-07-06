@@ -1,4 +1,4 @@
-.dashboard-page{
+.wrapper{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 50px calc(100vw - 84px) 150px 120px auto auto;
@@ -6,8 +6,16 @@
     column-gap: 15px;
     padding: 40px 40px 100px 40px;
     background: var(--bg-blend);
+    @media screen and (min-width: 950px) {
+        background: var(--nav-bg);
+    }
     background-size: 100vw 190px;
     background-repeat: no-repeat;
+    & h4.bw {
+        color: var(--text-primary);
+        font-size: 24px;
+        margin: 0;
+    }
     & .title{
         grid-column: 1/4;
         grid-row: 1/2;
@@ -18,20 +26,20 @@
         touch-action: pan-y;
         grid-column: 1/4;
         grid-row: 2/3;
-        & .description{
-            font-family: 'Poppins';
-            position: absolute;
-            text-align: center;
-            margin-top: calc(50vw - 80px);
-            z-index: 1;
-            width: calc(100vw - 84px);
-            font-size: 11px;
-            color: var(--text-secondary);
-            & span{
-                font-weight: bold;
-                font-size: 40px;
-                line-height: 40px;
-            }
+    }
+    & .description{
+        font-family: 'Poppins';
+        position: absolute;
+        text-align: center;
+        margin-top: calc(50vw - 80px);
+        z-index: 1;
+        width: calc(100vw - 84px);
+        font-size: 11px;
+        color: var(--text-secondary);
+        & span{
+            font-weight: bold;
+            font-size: 40px;
+            line-height: 40px;
         }
     }
     & .budget{
@@ -45,6 +53,8 @@
             padding: 15px 20px 10px 20px;
         }
         & h2{
+            margin: 0px;
+            font-size: 48px;
             color: var(--dash-text-secondary);
         }
     }
@@ -63,6 +73,7 @@
             font-size: 12px;
         }
         & h3{
+            font-size: 20px;
             color: var(--blog-text-primary);
         }        
     }
@@ -75,6 +86,8 @@
             color: var(--text-accent);
         }
         & > h2 {
+            margin: 0px;
+            font-size: 48px;
             color: var(--text-accent);
         }
     }

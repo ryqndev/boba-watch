@@ -8,6 +8,9 @@
         padding: 40px 20px 130px 20px;
     }
     background: var(--bg-blend);
+    @media screen and (min-width: 950px) {
+        background: var(--nav-bg);
+    }
     background-size: 100vw 190px;
     background-repeat: no-repeat;
     & .add-holder{

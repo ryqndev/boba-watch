@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
+import clsx from 'clsx';
 import DrinkPanel from './DrinkPanel';
 import {toMoney} from '../../components/textUtil.js';
 import {useTranslation} from 'react-i18next';
 import {Searchbar} from '../../components';
-import './History.scss';
+import cn from './History.module.scss';
 
 const LoadMore = ({click}) => {
     return (
-        <div className="thaman-color">
-            <div className="history-load-more" onClick={click}>
+        <div className={cn['thaman-color']}>
+            <div className={cn['load-more']} onClick={click}>
                 • • •
             </div>
         </div>
@@ -18,7 +19,7 @@ const LoadMore = ({click}) => {
 const NoDrinksLabel = ({label}) => {
     const {t} = useTranslation();
     return (
-        <div className="thaman-color none-label">
+        <div className={clsx(cn['thaman-color'], cn['none-label'])}>
             <h3 className="bw none-label">
                 {t(label)}
             </h3>
@@ -74,28 +75,34 @@ const History = () => {
     }
 
     return (
-        <div className="history-page">
-            <h3 className="bw">{t('Drink History')}</h3>
-            <Searchbar 
-                placeholder={t('Search your history...')}
-                data={expandedDrinklistData}
-                keys={['description', 'location', 'name', 'price']}
-                Result={DrinkSearchResult}
-            />
-            <h3 className="bw">{t('Monthly Spending')}</h3>
-            <div className="history-spending">
-                {monthly}
+        <div className={cn.wrapper}>
+            <div className={cn.header}>
+                <h3 className={cn.bw}>{t('Drink History')}</h3>
             </div>
-            <h3 className="bw history-total">
-                <span>{t('Monthly Total')}:</span> {t('$')}{toMoney(metrics.tc)}
-            </h3>
-            <h3 className="bw">{t('Overall Spending')}</h3>
-            <div className="history-spending">
-                {total}
+            <div className={cn.search}>
+                <Searchbar 
+                    placeholder={t('Search your history...')}
+                    data={expandedDrinklistData}
+                    keys={['description', 'location', 'name', 'price']}
+                    Result={DrinkSearchResult}
+                />
             </div>
-            <h3 className="bw history-total">
-                <span>{t('Complete Total')}:</span> {t('$')}{toMoney(metrics.ctc)}
-            </h3>
+            <div className={cn.list}>
+                <h3 className={cn.bw}>{t('Monthly Spending')}</h3>
+                <div className="history-spending">
+                    {monthly}
+                </div>
+                <h3 className={clsx(cn.bw, cn.total)}>
+                    <span>{t('Monthly Total')}:</span> {t('$')}{toMoney(metrics.tc)}
+                </h3>
+                <h3 className={cn.bw}>{t('Overall Spending')}</h3>
+                <div className="history-spending">
+                    {total}
+                </div>
+                <h3 className={clsx(cn.bw, cn.total)}>
+                    <span>{t('Complete Total')}:</span> {t('$')}{toMoney(metrics.ctc)}
+                </h3>
+            </div>
         </div>
     );
 }

@@ -1,9 +1,9 @@
-import React from 'react';
+import clsx from 'clsx';
 import './Card.css';
 
 const Card = ({className, children, ...attrs}) => {
     return (
-        <div className={`card ${className}`} {...attrs}>
+        <div className={clsx('card', className)} {...attrs}>
             {children}
         </div>
     );

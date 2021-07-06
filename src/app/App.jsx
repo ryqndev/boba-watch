@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import {
 	Add,
 	Edit,
@@ -7,14 +7,15 @@ import {
 	Dashboard,
 	Feed,
 	History,
-	User,
 	Login,
 } from './pages';
+import { MobileUserIcon, DesktopUserIcon } from './components/UserIcon';
 import { Navigation } from './components';
 import Theme from './components/globals/theme';
 import init from './controller/LoginFlow';
 import AuthUserContext from './controller/contexts/AuthUserContext';
 import useAuth from './controller/hooks/useAuth';
+import useDevice from './controller/hooks/useDevice';
 
 const App = () => {
 	const [user, setUser] = useState(null);
@@ -40,28 +41,28 @@ const Page = ({ path, children }) => (
 );
 
 const AuthenticatedRoutes = () => {
-	const [userModal, setUserModal] = useState(false);
 	const { user } = useAuth();
+	const device = useDevice();
 
 	if (!user) return <div>Loading...</div>;
 
 	return (
 		<>
+			{device === 'phone' 
+				? <MobileUserIcon />
+				: <DesktopUserIcon />}
+            
 			<Page path='/'>
 				<Dashboard />
-				<UserIcon setUser={setUserModal} />
 			</Page>
 			<Page path='/history'>
 				<History />
-				<UserIcon setUser={setUserModal} />
 			</Page>
 			<Page path='/add'>
 				<Add />
-				<UserIcon setUser={setUserModal} />
 			</Page>
 			<Page path='/edit/:drinkid'>
 				<Edit />
-				<UserIcon setUser={setUserModal} />
 			</Page>
 			<Route strict path='/feed'>
 				<div className='page'>
@@ -73,22 +74,8 @@ const AuthenticatedRoutes = () => {
 					<Blog />
 				</div>
 			</Route>
-			<User open={userModal} setOpen={setUserModal} />
 			<Navigation />
 		</>
-	);
-};
-
-const UserIcon = ({ setUser }) => {
-	const [user] = useContext(AuthUserContext);
-
-	return (
-		<img
-			src={user.photoURL}
-			alt='user settings'
-			className='avatar-button'
-			onClick={setUser.bind(null, true)}
-		/>
 	);
 };
 

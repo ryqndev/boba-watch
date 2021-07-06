@@ -14,8 +14,24 @@ nav.wrapper{
     @media screen and (min-width: 950px) {
         top: 0;
         height: 100vh;
-        width: 100px;
-        padding: 0 10px;
+        width: 120px;
+        padding: 0px 0px;
+        z-index: 90;
+    }
+
+    &>.logo {
+        display: none;
+        height: auto;
+        width: 50px;
+        margin: 30px auto 0px;
+        
+        &>svg {
+            height: 100%;
+            width: 100%;
+        }
+        @media screen and (min-width: 950px) {
+            display: block;
+        }
     }
 
     &>.icon-holder {
@@ -26,11 +42,18 @@ nav.wrapper{
         margin:  0 auto;
 
         @media screen and (min-width: 950px) {
-            padding-top: 100px;
+            padding-top: 40px;
             grid-template-columns: 1fr;
-            grid-template-rows: repeat(5, 1fr);
-            row-gap: 40px;
+            grid-template-rows: repeat(5, 80px);
+            row-gap: 10px;
             margin:  0 auto;
+            &>a>div {
+                border: 0px solid white;
+                transition: border-width 350ms;
+            }
+            & .selected {
+                border-left-width: 6px;
+            }
         }
     }
     & .add-icon{
@@ -54,6 +77,7 @@ nav.wrapper{
         }
 
         @media screen and (min-width: 950px) {
+            border-radius: 0%;
             padding: 0px;
             height: 100%;
             width: 100%;
@@ -84,7 +108,6 @@ nav.wrapper{
             padding: 0px;
             height: 100%;
             width: 100%;
-            border: none;
             display: grid;
             place-content: center;
             box-sizing: border-box;

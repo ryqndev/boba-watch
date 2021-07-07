@@ -1,7 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import AuthUserContext from '../../controller/contexts/AuthUserContext';
-import useMetrics from '../../controller/hooks/useMetrics';
+import {memo} from 'react';
 import useDevice from '../../controller/hooks/useDevice.js';
 import MobileDashboard from './MobileDashboard';
 import DesktopDashboard from './DesktopDashboard';
@@ -18,4 +15,4 @@ const Dashboard = () => {
     }
 };
 
-export default Dashboard;
+export default memo(Dashboard);

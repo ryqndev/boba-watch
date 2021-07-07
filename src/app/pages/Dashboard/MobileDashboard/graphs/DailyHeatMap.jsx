@@ -1,6 +1,5 @@
-import React from 'react';
 import {XYPlot, XAxis, YAxis, HeatmapSeries} from 'react-vis';
-import {Card} from '../../../components';
+import {Card} from '../../../../components';
 import clsx from 'clsx';
 import 'react-vis/dist/style.css';
 

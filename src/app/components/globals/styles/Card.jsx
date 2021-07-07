@@ -1,9 +1,9 @@
 import clsx from 'clsx';
-import './Card.css';
+import cn from './Card.module.css';
 
 const Card = ({className, children, ...attrs}) => {
     return (
-        <div className={clsx('card', className)} {...attrs}>
+        <div className={clsx(cn.card, className)} {...attrs}>
             {children}
         </div>
     );

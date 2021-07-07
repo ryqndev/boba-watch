@@ -1,0 +1,21 @@
+.user {
+    filter: brightness(0.75);
+}
+
+button.button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    z-index: 400;
+    height: 50px;
+    width: 60px;
+    display: grid;
+    place-content: center;
+    background-color: var(--bg-primary);
+    filter: brightness(0.75);
+    &>svg {
+        height: 30px;
+        width: 30px;
+        fill: var(--text-primary);
+    }
+}

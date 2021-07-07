@@ -1,16 +1,21 @@
 div.wrapper {
-    background-color: var(--nav-bg);
+    position: relative;
+    top: 0;
+    left: 120px;
     height: 100%;
-    width: 100%;
+    width: calc(100vw - 120px);
     display: grid;
     grid-template-columns: 1fr auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--nav-bg);
 
-    &>.content {
-        overflow-y: scroll;
-        padding: 30px 0px 0px 20px;
-
+    &>main {
         &>header {
-            padding-bottom: 30px;
+            height: 145px;
+            box-sizing: border-box;
+            padding: 30px 0 30px 20px;
+
             &>h1.title {
                 text-transform: capitalize;
                 color: var(--text-primary);
@@ -19,54 +24,46 @@ div.wrapper {
             }
         }
 
-        &>.map {
-            height: 600px;
-
-            &>.fake {
-                background-color: #f68080;
-                object-position: 0px 0px;
-                object-fit: cover;
-                width: 100%;
+        &>.content {
+            height: calc(100vh - 165px);
+            display: grid;
+            row-gap: 20px;
+            overflow-y: scroll;
+            padding: 0px 20px;
+            &>.map {
+                height: calc(100vh - 300px);
             }
         }
+
     }
     
     &>aside.sidebar {
-        height: 100vh;
+        height: calc(100vh - 145px);
+        margin-top: 145px;
         box-sizing: border-box;
-        padding: 145px 0px 0px 0px;
         width: 450px;
+        padding: 0px 20px 20px 20px;
+        overflow-y: scroll;
+        &>.container {
+            width: 100%;
+            display: grid;
+            grid-template-rows: auto auto 1fr;
+            row-gap: 20px;
 
-        &>.scrollable {
-            box-sizing: border-box;
-            overflow-y: scroll;
-            height: 100%;
-            padding: 0px 20px 20px 20px;
-            &>.container {
-                display: grid;
-                grid-template-rows: auto auto 1fr;
-                row-gap: 20px;
+            & h2 {
+                margin: 0;
+                font-size: 2em;
+                color: var(--text-accent);
+            }
 
-                &>h2 {
-                    color: white;
-                    font-size: 2.3em;
-                    margin: 0;
-                }
-                &>.recent {
-                    padding: 30px 30px 40px;
-                    &>h2 {
-                        margin: 0;
-                        font-size: 2em;
-                        color: var(--text-accent);
-                    }
-                }
-                &>.search {
-                    padding: 20px 30px 20px;
-                    &>h2 {
-                        margin: 0;
-                        font-size: 2em;
-                        color: var(--text-accent);
-                    }
+            &>.recent {
+                padding: 30px 30px 40px;
+            }
+
+            &>.search {
+                padding: 20px 30px 20px;
+                &>span {
+                    color: grey;
                 }
             }
         }

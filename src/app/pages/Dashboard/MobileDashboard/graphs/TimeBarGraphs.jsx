@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import { XYPlot, XAxis, YAxis, VerticalGridLines, HorizontalGridLines, VerticalBarSeries, DiscreteColorLegend } from 'react-vis';
 import {useTranslation} from 'react-i18next';
-import {Card} from '../../../components';
+import {Card} from '../../../../components';
 import 'react-vis/dist/style.css';
 import './styles/timebargraphs.css'
 

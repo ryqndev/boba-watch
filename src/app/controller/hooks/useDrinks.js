@@ -5,11 +5,11 @@ const useDrinks = () => {
     const [drinks, setDrinks] = useState([]);
 
     useEffect(() => {
-        setDrinksids(JSON.parse(localStorage.get('drinkids')));
+        setDrinksids(JSON.parse(localStorage.getItem('drinkids')));
     }, []);
 
     useEffect(() => {
-        setDrinks(drinkids.map(id => JSON.parse(localStorage(id))));
+        setDrinks(drinkids.map(id => JSON.parse(localStorage.getItem(id))));
     }, [drinkids]);
 
     return {

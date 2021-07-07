@@ -5,8 +5,6 @@ import Feed from './Feed';
 import History from './History';
 import Login from './Login.jsx';
 
-import User from './User';
-
 export {
     Add,
     Edit,
@@ -14,6 +12,5 @@ export {
     Dashboard,
     Feed,
     History,
-    User,
     Login,
 }

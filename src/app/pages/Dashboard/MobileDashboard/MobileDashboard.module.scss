@@ -1,3 +1,7 @@
+.scrollable {
+    overflow-y: scroll;
+    height: 100vh;
+}
 .wrapper{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -6,9 +10,6 @@
     column-gap: 15px;
     padding: 40px 40px 100px 40px;
     background: var(--bg-blend);
-    @media screen and (min-width: 950px) {
-        background: var(--nav-bg);
-    }
     background-size: 100vw 190px;
     background-repeat: no-repeat;
     & h4.bw {
@@ -29,7 +30,7 @@
     }
     & .description{
         font-family: 'Poppins';
-        position: absolute;
+        position: relative;
         text-align: center;
         margin-top: calc(50vw - 80px);
         z-index: 1;
@@ -94,5 +95,8 @@
     & .daily-chart{
         touch-action: pan-y;
         grid-column: 1/4;
+        &>div>div {
+            transform: translateY(calc(-50vw));
+        }
     }
 }

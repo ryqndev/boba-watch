@@ -1,4 +1,3 @@
-import React from 'react';
 import {Sunburst} from 'react-vis';
 
 const UserSunburst = ({spent, budget, width}) => {

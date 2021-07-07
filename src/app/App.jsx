@@ -52,9 +52,7 @@ const AuthenticatedRoutes = () => {
 				? <MobileUserIcon />
 				: <DesktopUserIcon />}
             
-			<Page path='/'>
-				<Dashboard />
-			</Page>
+			<Route exact path='/' component={Dashboard} />
 			<Page path='/history'>
 				<History />
 			</Page>

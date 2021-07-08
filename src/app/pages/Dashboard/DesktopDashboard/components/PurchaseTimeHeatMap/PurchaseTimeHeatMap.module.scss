@@ -1,5 +1,17 @@
 .wrapper {
-
+    padding: 0px 20px 10px;
+    // width: 100%;
 }
-
-
+.tick {
+    &>line {
+        width: 1px;
+    }
+}
+.tick-label {
+    fill: var(--text-secondary);
+    font-size: 7px;
+}
+.wrapped {
+    height: 100%;
+    width: 100%;
+}

@@ -25,12 +25,8 @@ const PurchaseTimeHeatMap = ({ data }) => {
 			};
 		})
 	}));
-	const xScale = e => {
-		return 26.5 * e + 4;
-	};
-	const yScale = e => {
-		return 16 * e + 12;
-	};
+	const xScale = e => 26.5 * e + 4;
+	const yScale = e => 16 * e + 12;
 
 	const colorScale = count =>
 		`rgba(246, 128, 128, ${count === 0 ? (max > 5 ? 0.01 : 0.1) : count / max})`;

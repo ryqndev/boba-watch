@@ -29,8 +29,19 @@ const DesktopDashboard = () => {
 						<h2>Drink Frequency</h2>
 						<PurchaseTimeHeatMap data={metrics.d} />
 					</Card>
-					<div></div>
-					<div></div>
+					<div className={cn.stats}>
+						<Card className={cn.budget}>
+							<p>This is how much you’ve spent on drinks so far:</p>
+							<h2 className={cn.bw}>
+								${(metrics.ctc/100).toFixed(2)}
+							</h2>
+						</Card>
+						<Card className={cn.total}>
+							<h2 className={cn.bw}>{metrics.td}</h2>
+							<p>drink{metrics.td === 1 ? '' : 's'} this month</p>
+						</Card>
+					</div>
+					<Card className={cn.xy}></Card>
 				</div>
 			</main>
 			<aside className={cn.sidebar}>

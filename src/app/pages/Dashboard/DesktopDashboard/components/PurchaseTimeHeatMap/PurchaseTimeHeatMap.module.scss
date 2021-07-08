@@ -1,6 +1,5 @@
 .wrapper {
-    padding: 0px 20px 10px;
-    // width: 100%;
+    padding: 0px 20px 20px;
 }
 .tick {
     &>line {
@@ -10,8 +9,4 @@
 .tick-label {
     fill: var(--text-secondary);
     font-size: 7px;
-}
-.wrapped {
-    height: 100%;
-    width: 100%;
 }

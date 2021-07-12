@@ -1,11 +1,23 @@
 div.wrapper {
     position: relative;
+    box-sizing: border-box;
     top: 0;
     left: 120px;
     height: 100%;
     width: calc(100vw - 120px);
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr 450px;
+    @media screen and (max-width: 1500px) {
+        grid-template-columns: 1fr 370px;
+    }
+    @media screen and (max-width: 1450px) {
+        font-size: 0.9em;
+    }
+    @media screen and (max-width: 1300px) {
+        font-size: 1em;
+        grid-template-columns: 1fr 0px;
+        padding-right: 20px;
+    }
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     background-color: var(--nav-bg);
@@ -79,6 +91,7 @@ div.wrapper {
                 }
                 &>.budget {
                     background-color: var(--dash-bg-secondary);
+                    font-size: 0.9em;
                     & p{
                         color: var(--text-primary);
                         font-size: 1.2em;
@@ -86,7 +99,7 @@ div.wrapper {
                     }
                     & h2{
                         margin: 0px;
-                        font-size: 4em;
+                        font-size: 3.5em;
                         color: var(--dash-text-secondary);
                     }
                 }
@@ -116,7 +129,7 @@ div.wrapper {
         height: calc(100vh - 145px);
         margin-top: 145px;
         box-sizing: border-box;
-        width: 450px;
+        width: 100%;
         padding: 0px 20px 20px 20px;
         overflow-y: scroll;
 

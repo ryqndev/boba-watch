@@ -1,0 +1,9 @@
+.popup {
+    font-size: 1.6em;
+    display: grid;
+    padding: 20px;
+    row-gap: 20px;
+    &>h3 {
+        margin: 0;
+    }
+}

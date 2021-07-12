@@ -4,15 +4,14 @@
 
 button.button {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
+    bottom: 10px;
+    right: 10px;
     z-index: 400;
     height: 50px;
     width: 60px;
     display: grid;
     place-content: center;
-    background-color: var(--bg-primary);
-    filter: brightness(0.75);
+    background-color: var(--nav-bg);
     &>svg {
         height: 30px;
         width: 30px;

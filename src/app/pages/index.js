@@ -4,6 +4,7 @@ import Dashboard from './Dashboard';
 import Feed from './Feed';
 import History from './History';
 import Login from './Login.jsx';
+import Locator from './Locator';
 
 export {
     Add,
@@ -13,4 +14,5 @@ export {
     Feed,
     History,
     Login,
+    Locator,
 }

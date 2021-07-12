@@ -7,6 +7,7 @@ import {
 	Dashboard,
 	Feed,
 	History,
+	Locator,
 	Login,
 } from './pages';
 import { MobileUserIcon, DesktopUserIcon } from './components/UserIcon';
@@ -62,6 +63,7 @@ const AuthenticatedRoutes = () => {
 			<Page path='/edit/:drinkid'>
 				<Edit />
 			</Page>
+			<Route exact path='/map' component={Locator} />
 			<Route strict path='/feed'>
 				<div className='page'>
 					<Feed />

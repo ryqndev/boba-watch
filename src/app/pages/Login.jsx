@@ -25,6 +25,7 @@ const Login = () => {
 			// tosUrl: '<your-tos-url>',
 		});
 	});
+	
 	return (
 		<div className='login-page'>
 			<div className='login-logo'></div>

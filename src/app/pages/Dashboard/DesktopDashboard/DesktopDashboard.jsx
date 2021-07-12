@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import useDrinks from '../../../controller/hooks/useDrinks.js';
 import { Card, Searchbar } from '../../../components';
-import { Map, BudgetPieChart, PurchaseTimeHeatMap } from './components';
+import Map from '../../../components/Map';
+import { BudgetPieChart, PurchaseTimeHeatMap } from './components';
 import DrinkPanel from '../../History/DrinkPanel';
 import cn from './DesktopDashboard.module.scss';
 
@@ -23,7 +24,7 @@ const DesktopDashboard = () => {
 				</header>
 				<div className={cn.content}>
 					<Card className={cn.map}>
-						<Map />
+						<Map scrollWheelZoom={false} zoom={2.5}/>
 					</Card>
 					<Card className={cn.heatmap}>
 						<h2>Drink Frequency</h2>
@@ -33,7 +34,7 @@ const DesktopDashboard = () => {
 						<Card className={cn.budget}>
 							<p>This is how much you’ve spent on drinks so far:</p>
 							<h2 className={cn.bw}>
-								${(metrics.ctc/100).toFixed(2)}
+								${metrics.ctc >= 100 ? (metrics.ctc/100).toFixed(2) : parseInt(metrics.ctc/100)}
 							</h2>
 						</Card>
 						<Card className={cn.total}>

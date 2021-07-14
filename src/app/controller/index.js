@@ -1,8 +1,8 @@
-import stats from './calculateStatistics';
 import Swal from 'sweetalert2';
 import i18next from 'i18next';
 import { database, firebase } from '../libs/firestore';
 import { alertDefaultError } from '../libs/swal';
+import {deleteDrink, addDrink} from './calculateStatistics';
 
 const add = async(data, uid) => {
     try{
@@ -28,7 +28,7 @@ const edit = async(data, id, uid) => {
             edited: firebase.firestore.FieldValue.serverTimestamp(),
             ...data
         });
-        stats.deleteDrink(id);
+        deleteDrink(id);
         return syncMetrics({id: id, ...data.drink}, uid, true);
     }catch(err){
         return alertDefaultError(err);
@@ -36,7 +36,7 @@ const edit = async(data, id, uid) => {
 }
 
 const syncMetrics = (drink, uid, isEdit=false) => {
-    let metrics = stats.addDrink(drink, drink.id);
+    let metrics = addDrink(drink, drink.id);
 
     metrics.d = JSON.stringify(metrics.d);
 

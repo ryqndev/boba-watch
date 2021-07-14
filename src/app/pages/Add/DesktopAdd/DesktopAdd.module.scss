@@ -1,0 +1,33 @@
+.wrapper {
+    position: relative;
+    left: 120px;
+    background-color: var(--nav-bg);
+    height: 100%;
+    width: calc(100vw - 120px);
+    transition: background-color 350ms;
+
+    &>main {
+        padding-left: 20px;
+        &>header {
+            height: 145px;
+            box-sizing: border-box;
+            padding: 30px 0 30px 20px;
+
+            &>h1.title {
+                text-transform: uppercase;
+                color: var(--text-primary);
+                font-size: 3.5em;
+                margin: 0;
+                transition: color 350ms;
+            }
+        }
+
+        &>form {
+            &>fieldset {
+                display: grid;
+                row-gap: 20px;
+                border: none;
+            }
+        }
+    }
+}

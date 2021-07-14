@@ -10,6 +10,7 @@ nav.wrapper{
     width: 120px;
     padding: 0px 0px;
     z-index: 90;
+    transition: background-color 350ms;
 
     &>.logo {
         height: auto;

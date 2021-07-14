@@ -1,15 +1,15 @@
-import {useState, useEffect, useContext} from 'react';
-import {database} from '../../libs/firestore';
-import {onError} from '../../libs/analytics';
+import { useState, useEffect, useContext } from 'react';
+import { database } from '../../libs/firestore';
+import { onError } from '../../libs/analytics';
 import AuthUserContext from '../contexts/AuthUserContext';
-import stats from '../calculateStatistics';
+import { getDefaultMetrics } from '../calculateStatistics';
 
 const useMetrics = (uid) => {
-    const [metrics, setMetrics] = useState(stats.getDefaultMetrics());
+    const [metrics, setMetrics] = useState(getDefaultMetrics());
     const [user] = useContext(AuthUserContext);
 
     useEffect(() => {
-        if(uid === undefined || user.uid === uid) 
+        if (uid === undefined || user.uid === uid)
             return setMetrics(JSON.parse(localStorage.getItem('metrics')));
 
         setMetrics({});

@@ -1,7 +1,7 @@
 import {firebase, database as db} from '../libs/firestore';
 import {onLogin as logLoginToAnalytics} from '../libs/analytics';
 import {profile as defaultProfile, metrics as defaultStats} from '../defaults';
-import stats from './calculateStatistics';
+import {getDefaultMetrics, recalculateMetrics} from './calculateStatistics';
   
 const init = (callback) => {
     firebase.auth().onAuthStateChanged(user => {
@@ -30,7 +30,7 @@ const init = (callback) => {
 const newUserSetup = (user, callback) => {
     localStorage.setItem('autofill', '[]');
     localStorage.setItem('drinkids', '[]');
-    localStorage.setItem('metrics', JSON.stringify(stats.getDefaultMetrics()));
+    localStorage.setItem('metrics', JSON.stringify(getDefaultMetrics()));
 
     user.profile = {...defaultProfile};
 
@@ -63,7 +63,7 @@ const newSignInLocation = (user, callback) => {
 
         localStorage.setItem('autofill', autofill?.data()?.data ?? '[]');
         localStorage.setItem('drinkids', JSON.stringify(drinkids));
-        stats.recalculateMetrics();
+        recalculateMetrics();
 
         user.profile = {sharing: profile?.sharing ?? profile?.public ?? false , ...profile.data()};
 
@@ -83,7 +83,7 @@ const syncUserData = (user, callback) => {
             db.collection(`users/${user.uid}/user`).doc('profile').get(),
         ]
     ).then(([autofill, profile]) => {
-        stats.recalculateMetrics();
+        recalculateMetrics();
         localStorage.setItem('autofill', autofill?.data()?.data ?? '[]');
         user.profile = {sharing: profile?.sharing ?? profile?.public ?? false , ...profile.data()};
         callback(user);

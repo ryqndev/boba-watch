@@ -1,22 +1,23 @@
-import { memo, useEffect, useCallback } from 'react';
+import { memo, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { onPageView } from '../../../libs/analytics';
 import clsx from 'clsx';
 import { ReactComponent as Logo } from '../../../../assets/logo-shadow.svg';
 import DashboardIcon from '@material-ui/icons/HomeRounded';
-// import AddIcon from '@material-ui/icons/AddRounded';
 import AddIcon from '@material-ui/icons/AddCircleRounded';
 import HistoryIcon from '@material-ui/icons/ListAltRounded';
 import MapIcon from '@material-ui/icons/PlaceRounded';
 import cn from './DesktopNavigation.module.scss';
 
+const tabs = [
+	{ path: '/', icon: <DashboardIcon /> },
+	{ path: '/history', icon: <HistoryIcon /> },
+	{ path: '/add', icon: <AddIcon /> },
+	{ path: '/map', icon: <MapIcon /> },
+];
+
 const DesktopNavigation = () => {
 	let { pathname } = useLocation();
-
-	const tabClassNames = useCallback(
-		path => clsx(cn['icon'], path === pathname && cn['selected']),
-		[pathname]
-	);
 
 	useEffect(() => {
 		onPageView(pathname);
@@ -28,18 +29,18 @@ const DesktopNavigation = () => {
 				<Logo />
 			</div>
 			<div className={cn['icon-holder']}>
-				<Link to='/' className={tabClassNames('/')}>
-					<DashboardIcon />
-				</Link>
-				<Link to='/history' className={tabClassNames('/history')}>
-					<HistoryIcon />
-				</Link>
-				<Link to='/add' className={tabClassNames('/add')}>
-					<AddIcon />
-				</Link>
-				<Link to='/map' className={tabClassNames('/map')}>
-					<MapIcon />
-				</Link>
+				{tabs.map(({ path, icon }) => (
+					<Link
+						key={path}
+						to={path}
+						className={clsx(
+							cn['icon'],
+							path === pathname && cn['selected']
+						)}
+					>
+						{icon}
+					</Link>
+				))}
 			</div>
 		</nav>
 	);

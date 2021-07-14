@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { memo, useEffect, useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import ExploreIcon from '@material-ui/icons/ExploreRounded';
 import DashboardIcon from '@material-ui/icons/HomeRounded';
 import AddIcon from '@material-ui/icons/AddRounded';
@@ -9,16 +9,14 @@ import { onPageView } from '../../../libs/analytics';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import cn from './MobileNavigation.module.scss';
 
-const MobileNavigation = ({ history }) => {
-	const [tab, setTab] = useState(history.location.pathname);
-	const isTab = path => (path === tab ? ' ' + cn['selected'] : '');
+const MobileNavigation = () => {
+	const { pathname } = useLocation();
+	const isTab = path => (path === pathname ? ' ' + cn['selected'] : '');
 	const [authUser] = useContext(AuthUserContext);
 
 	useEffect(() => {
-		let path = history.location.pathname;
-		setTab(path);
-		onPageView(path);
-	}, [history.location.pathname]);
+		onPageView(pathname);
+	}, [pathname]);
 
 	return (
 		<nav className={cn.wrapper}>
@@ -47,7 +45,9 @@ const MobileNavigation = ({ history }) => {
 					</div>
 				</Link>
 				<Link to={'/blog/' + authUser.uid}>
-					<div className={cn['icon'] + isTab('/blog/' + authUser.uid)}>
+					<div
+						className={cn['icon'] + isTab('/blog/' + authUser.uid)}
+					>
 						<PublicIcon />
 						<p className={cn['label']}>blog</p>
 					</div>
@@ -57,4 +57,4 @@ const MobileNavigation = ({ history }) => {
 	);
 };
 
-export default withRouter(MobileNavigation);
+export default memo(MobileNavigation);

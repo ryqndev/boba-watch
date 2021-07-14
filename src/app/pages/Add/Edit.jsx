@@ -1,20 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import { memo, useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Add from './Add';
-import {withRouter} from 'react-router-dom';
 
-const Edit = ({match}) => {
-    const [data, setData] = useState(null);
-    useEffect(() => {
-        if(!match?.params?.drinkid) return;
-        setData(JSON.parse(localStorage.getItem(match.params.drinkid)));
-    }, [match]);
-    return (
-        <Add
-            pageTitle='Edit a Purchase'
-            buttonTitle='UPDATE'
-            editData={data}
-        />
-    );
-}
+const Edit = () => {
+	const [data, setData] = useState(null);
+	const { drinkid } = useParams();
 
-export default withRouter(Edit);
+	useEffect(() => {
+		if (!drinkid) return;
+		setData(JSON.parse(localStorage.getItem(drinkid)));
+	}, [drinkid]);
+	return <Add editData={data} />;
+};
+
+export default memo(Edit);

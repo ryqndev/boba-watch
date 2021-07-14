@@ -4,11 +4,10 @@ import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import useDrinks from '../../../controller/hooks/useDrinks.js';
 import { Card, Searchbar } from '../../../components';
 import Map from '../../../components/Map';
-import { BudgetPieChart, PurchaseTimeHeatMap } from './components';
-import DrinkPanel from '../../History/DrinkPanel';
+import { DrinkPanel, BudgetPieChart, PurchaseTimeHeatMap } from './components';
 import cn from './DesktopDashboard.module.scss';
 
-const DesktopDashboard = () => {
+const DesktopDashboard = ({ theme }) => {
 	const { t } = useTranslation();
 	const { drinks } = useDrinks();
 	const [user] = useContext(AuthUserContext);
@@ -24,7 +23,7 @@ const DesktopDashboard = () => {
 				</header>
 				<div className={cn.content}>
 					<Card className={cn.map}>
-						<Map scrollWheelZoom={false} zoom={2.5}/>
+						<Map scrollWheelZoom={false} zoom={2.5} theme={theme}/>
 					</Card>
 					<Card className={cn.heatmap}>
 						<h2>Drink Frequency</h2>
@@ -32,9 +31,14 @@ const DesktopDashboard = () => {
 					</Card>
 					<div className={cn.stats}>
 						<Card className={cn.budget}>
-							<p>This is how much you’ve spent on drinks so far:</p>
+							<p>
+								This is how much you’ve spent on drinks so far:
+							</p>
 							<h2 className={cn.bw}>
-								${metrics.ctc >= 100 ? (metrics.ctc/100).toFixed(2) : parseInt(metrics.ctc/100)}
+								$
+								{metrics.ctc >= 100
+									? (metrics.ctc / 100).toFixed(2)
+									: parseInt(metrics.ctc / 100)}
 							</h2>
 						</Card>
 						<Card className={cn.total}>
@@ -42,7 +46,9 @@ const DesktopDashboard = () => {
 							<p>drink{metrics.td === 1 ? '' : 's'} this month</p>
 						</Card>
 					</div>
-					<Card className={cn.xy}></Card>
+					<Card className={cn.xy}>
+						<h3 style={{display: 'grid', color: 'var(--text-secondary)', fontSize: '3em', textAlign: 'center'}}>COMING SOON</h3>
+					</Card>
 				</div>
 			</main>
 			<aside className={cn.sidebar}>
@@ -59,22 +65,13 @@ const DesktopDashboard = () => {
 						<span>Search your past uploads</span>
 						<Searchbar
 							data={drinks}
-							Result={({ item }) => (
-								<DrinkPanel
-									triggerUpdate={() => {}}
-									data={item}
-								/>
-							)}
+							Result={({ item }) => <DrinkPanel data={item} />}
 						/>
 					</Card>
 					<Card className={cn.recent}>
 						<h2>Recent Purchases</h2>
 						{drinks.slice(0, 5).map(drink => (
-							<DrinkPanel
-								key={drink.id}
-								data={drink}
-								expandable={false}
-							/>
+							<DrinkPanel key={drink.id} data={drink} />
 						))}
 					</Card>
 				</div>

@@ -1,25 +1,26 @@
-import { useState, useContext } from 'react';
+import {  memo,useState, useContext } from 'react';
 import { Card } from '../../';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
-import User from '../User';
+import ExpandedUserIcon from './ExpandedUserIcon.jsx';
 import cn from './DesktopUserIcon.module.scss';
+import clsx from 'clsx';
 
-const DesktopUserIcon = () => {
-	const [userModal, setUserModal] = useState(false);
+const DesktopUserIcon = ({theme}) => {
+	const [expanded, setExpanded] = useState(false);
 	const [user] = useContext(AuthUserContext);
 
 	return (
-		<Card className={cn.wrapper}>
+		<Card className={clsx(cn.wrapper, expanded && cn.expanded)}>
 			<time className={cn.date}>{new Date().toDateString()}</time>
 			<img
 				src={user.photoURL}
 				alt='user settings'
 				className={cn.avatar}
-				onClick={() => setUserModal(true)}
+				onClick={() => setExpanded(prev => !prev)}
 			/>
-			<User open={userModal} setOpen={setUserModal} />
+			<ExpandedUserIcon className={clsx(cn.details, expanded && cn.expanded)} theme={theme}/>
 		</Card>
 	);
 };
 
-export default DesktopUserIcon;
+export default memo(DesktopUserIcon);

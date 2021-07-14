@@ -1,15 +1,13 @@
-import { useMap, Popup, CircleMarker } from 'react-leaflet';
+import { memo } from 'react';
+import { Popup, CircleMarker } from 'react-leaflet';
 import cn from './StoreMarker.module.scss';
 
-const StoreMarker = ({ data }) => {
+const StoreMarker = ({ data, setCenter, setSelected }) => {
 	const position = data.venue.location;
-	const map = useMap();
 
 	const select = () => {
-		map.flyTo([position.lat, position.lng], 17, {
-			animate: true,
-			duration: 1,
-		});
+		setCenter([position.lat, position.lng]);
+		setSelected(data.venue.id);
 	};
 
 	return (
@@ -25,14 +23,14 @@ const StoreMarker = ({ data }) => {
 				click: select,
 			}}
 		>
-            <Popup>
-                <div className={cn.popup}>
-                    <h3>{data.venue.name}</h3>
-                    <span>{data.venue.location.address}</span>
-                </div>
-            </Popup>
-        </CircleMarker>
+			<Popup>
+				<div className={cn.popup}>
+					<h3>{data.venue.name}</h3>
+					<span>{data.venue.location.address}</span>
+				</div>
+			</Popup>
+		</CircleMarker>
 	);
 };
 
-export default StoreMarker;
+export default memo(StoreMarker);

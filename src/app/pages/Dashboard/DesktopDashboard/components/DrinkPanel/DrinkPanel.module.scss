@@ -1,0 +1,72 @@
+.wrapper{
+    padding-top: 10px;
+    border-bottom: 2px solid var(--text-accent);
+    cursor: pointer;
+
+    &>.basic-details{
+        display: grid;
+        grid-template-columns: 2fr 1fr auto;
+        grid-template-rows: 25px 35px;
+
+        &>.place{
+            color: var(--text-accent);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        &>.time{
+            text-align: right;
+            color: grey;
+            font-size: 12px;
+            padding-top: 8px;
+            white-space: nowrap;
+        }
+        &>.price{
+            font-size: 24px;
+            text-align: right;
+            color: var(--text-accent);
+        }
+        &>.name{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        &>.expand-icon{
+            margin-top: 10px;
+            color: var(--text-accent);
+        }
+    }
+    &>.collapsed-info{
+        max-width: 400px;
+        margin: 0 auto;
+        text-align: center;
+        max-height: 0px;
+        transition: max-height 350ms cubic-bezier(0, 1, 0, 1);
+        overflow: hidden;
+
+        &.expanded{
+            transition: max-height 1s ease-in-out;            
+            max-height: 3000px;
+        }
+        & .description{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        & .options{
+            box-sizing: border-box;
+            padding: 0 5px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto;
+            column-gap: 10px;
+            margin-bottom: 5px;
+            
+            & button{
+                background-color: var(--text-accent);
+                color: var(--text-primary);
+                padding: 5px 10px;
+                margin: 15px 0px 20px 0px;
+            }
+        }
+    }
+}

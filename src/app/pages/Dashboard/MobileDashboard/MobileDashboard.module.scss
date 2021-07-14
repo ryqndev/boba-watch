@@ -92,6 +92,14 @@
             color: var(--text-accent);
         }
     }
+    &>.heatmap {
+        grid-column: 1/4;
+        touch-action: pan-y;
+        &>h2 {
+            padding-left: 20px;
+            color: var(--text-secondary);
+        }
+    }
     & .daily-chart{
         touch-action: pan-y;
         grid-column: 1/4;

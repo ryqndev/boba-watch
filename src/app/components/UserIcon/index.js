@@ -1,7 +1,3 @@
-import DesktopUserIcon from './DesktopUserIcon';
-import MobileUserIcon from './MobileUserIcon';
+import UserIcon from './UserIcon.jsx';
 
-export {
-    DesktopUserIcon,
-    MobileUserIcon,
-}
+export default UserIcon;

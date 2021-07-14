@@ -33,11 +33,8 @@ const logout = () => {
         let theme = localStorage.getItem('theme');
         localStorage.clear();
         localStorage.setItem('theme', theme);
-        // window.location.reload();
     }).catch(alertDefaultError);      
 }
-
-window.logout = logout;
 
 const publishGetUser = (uid, limit=5, callback) => {
     return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).onSnapshot(callback);

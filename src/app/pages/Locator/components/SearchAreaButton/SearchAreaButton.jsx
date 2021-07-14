@@ -1,12 +1,11 @@
 import { memo, useEffect, useCallback } from 'react';
 import { useMap } from 'react-leaflet';
-import SAMPLE_ARCADIA_SHOPS from './TestData.json';
 import cn from './SearchAreaButton.module.scss';
 
 const SERVER_ENDPOINT =
 	'https://us-central1-boba-watch-firebase.cloudfunctions.net/locator';
 
-const SearchAreaButton = ({ position, setStores }) => {
+const SearchAreaButton = ({ position, setStores, filters }) => {
 	const map = useMap();
 
 	const search = useCallback(
@@ -21,16 +20,25 @@ const SearchAreaButton = ({ position, setStores }) => {
 					center = map.getCenter();
 					break;
 			}
-			fetch(SERVER_ENDPOINT + '?lat=' + center.lat + '&lng=' + center.lng)
+			const query = {
+				lat: center.lat,
+				lng: center.lng,
+				open: filters.openNow ? 'true' : 'false',
+				coffee: filters.coffee ? 'true' : 'false',
+			}
+			setStores(null);
+
+			fetch(SERVER_ENDPOINT + '?' + new URLSearchParams(query).toString())
 			.then(res => res.json())
 			.then(res => {
 			    setStores(res.response.groups[0].items);
+			})
+			.catch(err => {
+				console.error('ERROR:', err);
+				setStores([]);
 			});
-			// setTimeout(() => {
-			// 	setStores(SAMPLE_ARCADIA_SHOPS);
-			// }, [800]);
 		},
-		[map, position, setStores]
+		[map, position, setStores, filters]
 	);
 
 	useEffect(() => {

@@ -12,7 +12,7 @@ const splitMetrics = (metrics) => {
         'd': metrics.d, //time of drinks
     };
     metrics.d = Array(7).fill(Array(24).fill(0));
-    let mmetrics = {...metrics};
+    let mmetrics = { ...metrics };
     return [mmetrics, cmetrics];
 }
 const joinMetrics = (mmetrics, cmetrics) => {
@@ -65,10 +65,10 @@ function recalculateMetrics() {
     drinkids.forEach(drinkid => {
         let drink = JSON.parse(localStorage.getItem(drinkid));
         let drinkDate = new Date(drink.date);
-        if(
+        if (
             drinkDate.getMonth() === todayMonth &&
             drinkDate.getFullYear() === todayYear
-        ){
+        ) {
             updateMetrics(drink, mmetrics);
         }
         updateMetrics(drink, cmetrics);
@@ -78,7 +78,7 @@ function recalculateMetrics() {
     localStorage.setItem('metrics', JSON.stringify(metrics));
     return metrics;
 }
-function deleteDrink(id){
+function deleteDrink(id) {
     let drinkids = JSON.parse(localStorage.getItem('drinkids'));
     let [mmetrics, cmetrics] = splitMetrics(JSON.parse(localStorage.getItem('metrics')));
     let deletedDrink = JSON.parse(localStorage.getItem(id)),
@@ -86,10 +86,10 @@ function deleteDrink(id){
         todayMonth = today.getMonth(),
         todayYear = today.getFullYear();
     let drinkDate = new Date(deletedDrink.date);
-    if(
+    if (
         drinkDate.getMonth() === todayMonth &&
         drinkDate.getFullYear() === todayYear
-    ){
+    ) {
         updateMetrics(deletedDrink, mmetrics, false);
     }
     updateMetrics(deletedDrink, cmetrics, false);
@@ -106,33 +106,33 @@ function deleteDrink(id){
  * the newly created drink at correctly sorted time recursively. 
  * Couldn't find a way to retrieve the local data
  */
-function insertDrinkSorted(id, toInsertDate, drinks, lo, hi){
-    if( hi <= lo ) {
+function insertDrinkSorted(id, toInsertDate, drinks, lo, hi) {
+    if (hi <= lo) {
         return drinks.splice(toInsertDate < new Date(JSON.parse(localStorage.getItem(drinks[lo])).date) ? lo + 1 : lo, 0, id);
     }
-    let mid = parseInt( (hi - lo) / 2 + lo );
+    let mid = parseInt((hi - lo) / 2 + lo);
     let midDate = new Date(JSON.parse(localStorage.getItem(drinks[mid])).date);
-    if(toInsertDate.getTime() === midDate.getTime()){
+    if (toInsertDate.getTime() === midDate.getTime()) {
         return drinks.splice(mid + 1, 0, id);
     }
-    if(toInsertDate < midDate){
-        return insertDrinkSorted(id, toInsertDate, drinks, mid + 1, hi); 
+    if (toInsertDate < midDate) {
+        return insertDrinkSorted(id, toInsertDate, drinks, mid + 1, hi);
     }
-    return insertDrinkSorted(id, toInsertDate, drinks, lo, mid - 1); 
+    return insertDrinkSorted(id, toInsertDate, drinks, lo, mid - 1);
 }
-function resetMonthly(drinkids){
+function resetMonthly(drinkids) {
     let mmetrics = getDefaultMetrics(),
         today = new Date(),
         todayMonth = today.getMonth(),
         todayYear = today.getFullYear();
-        
+
     drinkids.forEach(drinkid => {
         let drink = JSON.parse(localStorage.getItem(drinkid));
         let drinkDate = new Date(drink.date);
-        if(
+        if (
             drinkDate.getMonth() !== todayMonth ||
             drinkDate.getFullYear() !== todayYear
-        ){
+        ) {
             localStorage.setItem('metrics', JSON.stringify(mmetrics));
             return mmetrics;
         }
@@ -140,12 +140,14 @@ function resetMonthly(drinkids){
     });
     let metrics = JSON.parse(localStorage.getItem('metrics'));
 
-    localStorage.setItem('metrics', JSON.stringify({...mmetrics, 'ctd': metrics.ctd,
-    'ctc': metrics.ctc,
-    'cad': metrics.cad}));
+    localStorage.setItem('metrics', JSON.stringify({
+        ...mmetrics, 'ctd': metrics.ctd,
+        'ctc': metrics.ctc,
+        'cad': metrics.cad
+    }));
     return metrics;
 }
-function addDrink(data, id){
+function addDrink(data, id) {
     let drinkids = JSON.parse(localStorage.getItem('drinkids'));
     let [mmetrics, cmetrics] = splitMetrics(JSON.parse(localStorage.getItem('metrics')));
 
@@ -153,17 +155,17 @@ function addDrink(data, id){
         todayMonth = today.getMonth(),
         todayYear = today.getFullYear(),
         drinkDate = new Date(data.date);
-        
-    if(drinkids.length){
-        insertDrinkSorted(id, drinkDate, drinkids, 0, drinkids.length - 1 );
-    }else{
+
+    if (drinkids.length) {
+        insertDrinkSorted(id, drinkDate, drinkids, 0, drinkids.length - 1);
+    } else {
         drinkids.push(id);
     }
-    
-    if(
+
+    if (
         drinkDate.getMonth() === todayMonth &&
         drinkDate.getFullYear() === todayYear
-    ){
+    ) {
         updateMetrics(data, mmetrics);
     }
     updateMetrics(data, cmetrics);
@@ -179,7 +181,7 @@ function addDrink(data, id){
  * @param {*} drinkObject - single drink object to be included in calculations
  * @param {*} metrics - metrics object to be updated
  */
-function updateMetrics(drinkObject, metrics, add=true) {
+function updateMetrics(drinkObject, metrics, add = true) {
     let value = add ? 1 : -1;
     metrics.td += value;
     metrics.tc += parseFloat(drinkObject.price) * value;
@@ -188,11 +190,11 @@ function updateMetrics(drinkObject, metrics, add=true) {
     metrics.d[date.getDay()][date.getHours() - 1] += value;
 }
 
-export default {
-    'getDefaultMetrics': getDefaultMetrics,
-    'recalculateMetrics': recalculateMetrics,
-    'updateMetrics': updateMetrics,
-    'addDrink': addDrink,
-    'deleteDrink': deleteDrink,
-    'resetMonthly': resetMonthly
+export {
+    getDefaultMetrics,
+    recalculateMetrics,
+    updateMetrics,
+    addDrink,
+    deleteDrink,
+    resetMonthly,
 }

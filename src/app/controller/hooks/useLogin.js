@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthUserContext from '../contexts/AuthUserContext';
 
 /**
@@ -7,12 +7,12 @@ import AuthUserContext from '../contexts/AuthUserContext';
  * do nothing. Otherwise, it will redirect to the dashboard page.
  */
 const useLogin = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [user] = useContext(AuthUserContext);
 
     useEffect(() => {
-        if (user) history.push('/');
-    }, [user, history]);
+        if (user) navigate('/');
+    }, [user, navigate]);
 }
 
 export default useLogin;

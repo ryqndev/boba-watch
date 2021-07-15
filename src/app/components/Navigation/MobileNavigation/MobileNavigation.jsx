@@ -19,7 +19,7 @@ const MobileNavigation = () => {
 	}, [pathname]);
 
 	return (
-		<nav className={cn.wrapper}>
+		<nav className={cn.container}>
 			<div className={cn['icon-holder']}>
 				<Link to='/'>
 					<div className={cn['icon'] + isTab('/')}>

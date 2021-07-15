@@ -4,7 +4,7 @@ import cn from './Listing.module.scss';
 
 const EmptyListingNote = () => {
 	return (
-		<Card className={cn.wrapper}>
+		<Card className={cn.container}>
 			<h3>Loading....</h3>
 			<p className={cn.distance}>
 				Trying to find places near you. If this is taking too long,

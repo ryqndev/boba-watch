@@ -10,7 +10,7 @@ const DesktopUserIcon = ({theme}) => {
 	const [user] = useContext(AuthUserContext);
 
 	return (
-		<Card className={clsx(cn.wrapper, expanded && cn.expanded)}>
+		<Card className={clsx(cn.container, expanded && cn.expanded)}>
 			<time className={cn.date}>{new Date().toDateString()}</time>
 			<img
 				src={user.photoURL}

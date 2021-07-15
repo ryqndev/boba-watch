@@ -121,7 +121,7 @@ const History = () => {
 
 	return (
 		<div className='page with-user'>
-			<div className={cn.wrapper}>
+			<div className={cn.container}>
 				<div className={cn.header}>
 					<h3 className={cn.bw}>{t('Drink History')}</h3>
 				</div>

@@ -24,7 +24,7 @@ const Listing = ({ data, selected, setCenter }) => {
 
 	return (
 		<Card
-			className={cn.wrapper}
+			className={cn.container}
 			forwardedref={scrollToRef}
 		>
 			<h3>{data.venue.name}</h3>

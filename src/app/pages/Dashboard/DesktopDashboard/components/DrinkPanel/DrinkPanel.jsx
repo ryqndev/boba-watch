@@ -14,7 +14,7 @@ const DrinkPanel = ({ data }) => {
 	const drinkDate = new Date(data.date);
 
 	return (
-		<div className={cn.wrapper}>
+		<div className={cn.container}>
 			<div
 				className={cn['basic-details']}
 				onClick={() => {

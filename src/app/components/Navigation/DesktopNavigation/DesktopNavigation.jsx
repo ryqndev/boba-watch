@@ -24,7 +24,7 @@ const DesktopNavigation = () => {
 	}, [pathname]);
 
 	return (
-		<nav className={cn.wrapper}>
+		<nav className={cn.container}>
 			<div className={cn.logo}>
 				<Logo />
 			</div>

@@ -22,7 +22,7 @@ const ExpandedDrinkDescription = ({
 	}, [image, expanded]);
 
 	return (
-		<div className={cn.wrapper}>
+		<div className={cn.container}>
 			<p className={cn.title}>
 				{name}
 				<span> @ {location}</span>

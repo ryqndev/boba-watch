@@ -109,11 +109,12 @@ const FeedItem = ({
 				)}
 				<p className='date'>{new Date(post.date).toDateString()}</p>
 				<p className='description'>
-					{filter.clean(
-						expandable
-							? ellipsisText(post.description, 50)
-							: post.description
-					)}
+					{post.description !== '' &&
+						filter.clean(
+							expandable
+								? ellipsisText(post?.description ?? '', 50)
+								: post?.description ?? ''
+						)}
 				</p>
 				{expandable && (
 					<div className='expand-wrapper'>

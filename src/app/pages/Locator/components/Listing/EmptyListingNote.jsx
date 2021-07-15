@@ -5,7 +5,7 @@ import cn from './Listing.module.scss';
 const EmptyListingNote = () => {
     return (
 		<Card
-			className={cn.wrapper}
+			className={cn.container}
 		>
 			<h3>no places nearby :(</h3>
 			<p className={cn.distance}>

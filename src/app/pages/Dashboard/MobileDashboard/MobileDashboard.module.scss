@@ -2,7 +2,7 @@
     overflow-y: scroll;
     height: 100vh;
 }
-.wrapper{
+.container{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 50px calc(100vw - 84px) 150px 120px auto auto;

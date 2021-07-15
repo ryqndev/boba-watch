@@ -16,7 +16,7 @@ const DesktopDashboard = ({ theme }) => {
 	);
 
 	return (
-		<div className={cn.wrapper}>
+		<div className={cn.container}>
 			<main>
 				<header>
 					<h1 className={cn.title}>{t('dashboard')}</h1>
@@ -52,7 +52,7 @@ const DesktopDashboard = ({ theme }) => {
 				</div>
 			</main>
 			<aside className={cn.sidebar}>
-				<div className={cn.container}>
+				<div className={cn['aside-container']}>
 					<Card className={cn.search}>
 						<h2>Monthly Budget</h2>
 						<BudgetPieChart

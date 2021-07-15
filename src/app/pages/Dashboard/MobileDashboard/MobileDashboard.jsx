@@ -40,7 +40,7 @@ const MobileDashboard = () => {
 
 	return (
 		<div className={cn.scrollable}>
-			<main className={cn.wrapper}>
+			<main className={cn.container}>
 				<h4 className={clsx(cn.bw, cn.title)}>
 					{t('Monthly Spending')}
 				</h4>

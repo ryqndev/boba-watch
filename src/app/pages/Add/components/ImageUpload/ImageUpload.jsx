@@ -74,7 +74,7 @@ const ImageUpload = ({ image, setImage, className }) => {
 	return (
 		<label
 			className={clsx(
-				cn.wrapper,
+				cn.container,
 				status('', 'uploading', 'uploaded'),
 				className
 			)}

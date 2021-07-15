@@ -25,7 +25,7 @@ const Locator = ({ theme }) => {
 	};
 
 	return (
-		<main className={cn.wrapper}>
+		<main className={cn.container}>
 			<header>
 				<h1 className={cn.title}>Boba Locator</h1>
 			</header>

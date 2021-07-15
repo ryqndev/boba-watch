@@ -44,7 +44,7 @@ const ExpandedUserIcon = ({ className, theme }) => {
 
 	return (
 		<div className={clsx(className)}>
-			<div className={cn.wrapper}>
+			<div className={cn.container}>
 				<label className={cn['theme-label']}>Theme:</label>
 				<Select
 					options={theme.THEME_SELECT_OPTIONS}

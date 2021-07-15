@@ -1,15 +1,15 @@
-.wrapper {
+.container {
+    display: inline-block;
+    margin-bottom: 10px;
     border: 2px dashed var(--text-accent);
     border-radius: 3px;
-    font-size: 0.9rem;
     box-sizing: border-box;
+    width: 100%;
+    padding: 5px;
+    font-size: 0.9rem;
     text-align: center;
     color: var(--text-accent);
-    display: inline-block;
-    padding: 5px;
-    width: 100%;
     cursor: pointer;
-    margin-bottom: 10px;
 
     &.uploading {
         border: 2px solid var(--text-accent);
@@ -27,6 +27,3 @@
         object-fit: contain;
     }
 }
-
-
-

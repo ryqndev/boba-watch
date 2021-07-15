@@ -80,7 +80,7 @@ const PurchaseTimeHeatMap = ({ data }) => {
 		})`;
 
 	return (
-		<svg ref={containerRef} className={cn.wrapper} viewBox='0 0 214 400'>
+		<svg ref={containerRef} className={cn.container} viewBox='0 0 214 400'>
 			<AxisTop
 				scale={scaleBand({
 					domain: DATE_LABELS,

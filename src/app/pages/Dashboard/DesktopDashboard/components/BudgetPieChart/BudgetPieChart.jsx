@@ -5,7 +5,7 @@ import cn from './BudgetPieChart.module.scss';
 
 const BudgetPieChart = ({ spent = 0, budget = 1 }) => {
 	return (
-		<div className={cn.wrapper}>
+		<div className={cn.container}>
 			<div className={cn.description}>
 				MONTHLY LIMIT: ${budget / 100}
 				<br />

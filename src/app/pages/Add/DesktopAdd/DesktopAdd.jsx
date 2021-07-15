@@ -20,7 +20,7 @@ const defaultForm = {
  * Component uses {id} variable passed in from parameter to distinguish
  * between edit and add pages
  */
-const DesktopAdd = ({ editData }) => {
+const DesktopAdd = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -65,17 +65,18 @@ const DesktopAdd = ({ editData }) => {
 	}, [id]);
 
 	return (
-		<div className={cn.wrapper}>
+		<div className={cn.container}>
 			<main>
 				<header>
 					<h1 className={cn.title}>
 						{id ? 'EDIT' : 'ADD'} A PURCHASE
 					</h1>
 				</header>
-				<div className={cn['form-wrapper']}>
-					<Card>
-						<form onSubmit={submit}>
-							<fieldset disabled={disabled}>
+				<form onSubmit={submit} className={cn['form-container']}>
+					<fieldset disabled={disabled} className={cn['layout']}>
+						<div className={cn.left}>
+							<Card className={cn.fields}>
+								<h2>details</h2>
 								<TextInput
 									value={form.location ?? ''}
 									onChange={handleChange('location', 250)}
@@ -107,24 +108,32 @@ const DesktopAdd = ({ editData }) => {
 										inputProps={{ maxLength: 100 }}
 									/>
 								</MuiPickersUtilsProvider>
+							</Card>
+							<Card className={cn.upload}>
+								<h2>image</h2>
 								<ImageUpload
-									className={cn['image-upload']}
+									className={cn.state}
 									image={form.image}
 									setImage={link => editForm('image', link)}
 								/>
+							</Card>
+						</div>
+						<div className={cn.right}>
+							<Card className={cn.description}>
+								<h2>description</h2>
 								<textarea
-									className={cn.description}
 									value={form.description ?? ''}
 									rows={10}
 									onChange={handleChange('description', 1000)}
 									placeholder={'How was your drink?'}
 								/>
-								<button>{id ? 'UPDATE' : 'ADD'}</button>
-							</fieldset>
-						</form>
-					</Card>
-				</div>
+							</Card>
+							<button>{id ? 'UPDATE' : 'ADD'}</button>
+						</div>
+					</fieldset>
+				</form>
 			</main>
+			<aside></aside>
 		</div>
 	);
 };

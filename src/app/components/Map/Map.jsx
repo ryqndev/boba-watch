@@ -11,7 +11,7 @@ const Map = ({ children = () => {}, center, theme, ...options }) => {
 
 	return (
 		<MapContainer
-			className={cn.wrapper}
+			className={cn.container}
 			center={MIDDLE_OF_WORLD_COORDS}
 			minZoom={2.5}
 			attributionControl={false}

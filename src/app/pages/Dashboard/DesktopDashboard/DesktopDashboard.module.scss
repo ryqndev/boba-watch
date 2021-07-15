@@ -1,4 +1,4 @@
-div.wrapper {
+.container {
     position: relative;
     box-sizing: border-box;
     top: 0;
@@ -143,7 +143,7 @@ div.wrapper {
             height: 0;
         }
 
-        &>.container {
+        &>.aside-container {
             width: 100%;
             display: grid;
             grid-template-rows: auto auto 1fr;

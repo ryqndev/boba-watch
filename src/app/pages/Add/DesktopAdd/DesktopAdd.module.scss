@@ -1,50 +1,98 @@
-.wrapper {
+.container {
     position: relative;
     left: 120px;
-    background-color: var(--nav-bg);
     height: 100%;
     width: calc(100vw - 120px);
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 450px;
+    background-color: var(--nav-bg);
     transition: background-color 350ms;
+
+    & h2 {
+        font-size: 3em;
+        margin: 0 0 20px;
+        color: var(--text-accent);
+        text-transform: capitalize;
+    }
 
     &>main {
         padding: 0px 20px;
+
         &>header {
-            height: 145px;
             box-sizing: border-box;
-            padding: 30px 0 30px 20px;
+            height: 145px;
+            padding: 30px 0px;
 
             &>h1.title {
+                margin: 0;
                 text-transform: uppercase;
                 color: var(--text-primary);
                 font-size: 3.5em;
-                margin: 0;
                 transition: color 350ms;
             }
         }
 
-        & .form-wrapper {
+        & .form-container {
             height: calc(100vh - 140px);
             overflow: scroll;
-            & fieldset {
-                display: grid;
-                padding: 20px;
-                row-gap: 20px;
-                border: none;
 
-                &>.image-upload {
-                    padding: 20px;
+            & fieldset.layout {
+                border: none;
+                display: grid;
+                grid-template-columns: 400px 1fr;
+                column-gap: 20px;
+                padding: 0px;
+                margin: 0px;
+
+                &>.left,
+                &>.right {
+                    display: grid;
+                    row-gap: 20px;
+                    height: min-content;
                 }
-                &>.description {
-                    background-color: transparent;
-                    color: var(--text-primary);
-                    resize: vertical;
-                    padding: 10px;
-                    border: 1px solid rgb(243, 243, 243);
-                    border-radius: 4px;
+
+                &>.left {
+                    &>.fields {
+                        padding: 20px;
+                    }
+
+                    &>.upload {
+                        padding: 20px;
+
+                        & .state {
+                            padding: 20px;
+                            font-size: 1.3em;
+                            margin: 0;
+                            display: grid;
+                            place-content: center;
+                        }
+                    }
+                }
+
+                &>.right {
+                    &>.description {
+                        padding: 20px;
+                        height: max-content;
+
+                        &>textarea {
+                            box-sizing: border-box;
+                            height: 100%;
+                            width: 100%;
+                            border: 1px solid rgb(243, 243, 243);
+                            border-radius: 4px;
+                            padding: 10px;
+                            background-color: transparent;
+                            color: var(--text-primary);
+                            resize: vertical;
+                        }
+                    }
                 }
             }
         }
+    }
+
+    &>aside {
+        background-color: var(--blog-bg-secondary);
+        padding-right: 20px;
     }
 }

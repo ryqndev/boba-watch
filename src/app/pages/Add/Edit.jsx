@@ -4,12 +4,13 @@ import Add from './Add';
 
 const Edit = () => {
 	const [data, setData] = useState(null);
-	const { drinkid } = useParams();
+	const { id } = useParams();
 
 	useEffect(() => {
-		if (!drinkid) return;
-		setData(JSON.parse(localStorage.getItem(drinkid)));
-	}, [drinkid]);
+		if (!id) return;
+		setData(JSON.parse(localStorage.getItem(id)));
+	}, [id]);
+	
 	return <Add editData={data} />;
 };
 

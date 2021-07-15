@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import { memo, useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import 'date-fns';
 import Swal from 'sweetalert2';
@@ -9,112 +9,80 @@ import {
 	alertDefaultError,
 } from '../../../libs/swal';
 import DateFnsUtils from '@date-io/date-fns';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import { add, edit } from '../../../controller';
 import { TextInput, Card, StarRating } from '../../../components';
-import { database as db, firebase } from '../../../libs/firestore';
+import { database as db } from '../../../libs/firestore';
 import Select from 'react-select';
 import './MobileAdd.scss';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
-import { onError } from '../../../libs/analytics';
-import { deleteImage } from '../../../libs/cloud-storage';
+import { ImageUpload } from '../components';
 
-const MobileAdd = ({ pageTitle, buttonTitle, editData }) => {
+const defaultForm = {
+	image: '',
+	price: 0,
+	date: new Date().toISOString(),
+};
+
+const MobileAdd = ({ pageTitle, buttonTitle }) => {
 	const [user] = useContext(AuthUserContext);
 	const { t } = useTranslation();
-	const [name, setName] = useState(editData?.name ?? '');
-	const [image, setImage] = useState(editData?.image ?? '');
-	const [imagePreview, setImagePreview] = useState('');
-	const [location, setLocation] = useState(editData?.location ?? '');
-	const [price, setPrice] = useState(editData?.price ?? '');
-	const [date, setDate] = useState(editData?.date ?? new Date());
-	const [rating, setRating] = useState(editData?.rating ?? 0);
-	const [description, setDescription] = useState(editData?.description ?? '');
-	const upload = useRef(null);
-	const [uploadProgress, setUploadProgress] = useState(-1);
+	const {id} = useParams();
+	const [form, setForm] = useState(defaultForm);
+	const [disabled, setDisabled] = useState(false);
 	const [autofill, setAutofill] = useState([]);
-	const [canAdd, setCanAdd] = useState(true);
 	const [canSave, setCanSave] = useState(true);
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		setAutofill(JSON.parse(localStorage.getItem('autofill') ?? '[]'));
 	}, []);
-	useEffect(() => {
-		setName(editData?.name ?? '');
-		setLocation(editData?.location ?? '');
-		setPrice(editData?.price == null ? '' : editData.price / 100);
-		setDate(editData?.date ?? new Date());
-		setImage(editData?.image ?? '');
-		setRating(editData?.rating ?? 0);
-		setDescription(editData?.description ?? '');
-	}, [editData]);
-	const handleTextChange = setInput => e => {
-		e.preventDefault();
-		if (e.target.value.length >= 80) return;
-		setInput(e.target.value);
-	};
-	const handleTextChangeDescription = setInput => e => {
-		e.preventDefault();
-		if (e.target.value.length >= 300) return;
-		setInput(e.target.value);
-	};
-	const handlePriceChange = e => {
-		if (e.target.value.match(/^-?\d*\.?\d*$/) && e.target.value.length < 10)
-			setPrice(e.target.value);
-	};
-	const handleDateChange = date => {
-		setDate(date);
-	};
-	const addDrink = async e => {
-		e.preventDefault();
-		setCanAdd(false);
-		let data = {
-			drink: {
-				name: name,
-				location: location,
-				price: parseInt(parseFloat(price) * 100),
-				date: new Date(date).toISOString(),
-				image: image,
-				description: description,
-				rating: rating,
-			},
-		};
-		if (isNaN(data.drink.price)) {
-			alertInvalidDrinkPrice();
-			return setCanAdd(true);
-		}
-		if (editData?.id === undefined || editData?.id === null)
-			await add(data, user.uid);
-		else await edit(data, editData.id, user.uid);
 
-		setName('');
-		setLocation('');
-		setPrice('');
-		setDate(new Date());
-		setRating(0);
-		setDescription('');
-		setImage('');
-		setUploadProgress(-1);
-		setCanSave(true);
-		setCanAdd(true);
+	useEffect(() => {
+		if(id) setForm(JSON.parse(localStorage.getItem(id)));
+	}, [id]);
+
+	const handleChange = (key, limit) => e => {
+		e.preventDefault();
+		editForm(key, e.target.value, limit);
+	};
+
+	const editForm = (key, value, limit = 80) => {
+		if(typeof limit === 'function'){
+			if(!limit(value)) return;
+		}else{
+			if (value.length >= limit) return;
+		}
+		setForm(prev => ({ ...prev, [key]: value }));
+	};
+
+	const submit = async e => {
+		e.preventDefault();
+		setDisabled(true);
+
+		if (!id) await add({ drink: form }, user.uid);
+		else await edit({ drink: form }, id, user.uid);
+
+		setForm(defaultForm);
+		setDisabled(false);
 		navigate('/history');
 	};
+
 	const saveDrink = e => {
 		e.preventDefault();
-		if (name === '') return alertEmptyDrinkName();
+		if (form.name === '') return alertEmptyDrinkName();
 		if (!canSave) return;
 		let data = [
 			...autofill,
 			{
-				name: name,
-				location: location,
-				price: parseInt(parseFloat(price) * 100),
-				description: description,
-				rating: rating,
-				label: name,
-				value: name + new Date().toISOString(),
+				name: form.name,
+				location: form.location,
+				price: parseInt(parseFloat(form.price) * 100),
+				description: form.description,
+				rating: form.rating,
+				label: form.name,
+				value: form.name + new Date().toISOString(),
 			},
 		];
 		setCanSave(false);
@@ -131,52 +99,6 @@ const MobileAdd = ({ pageTitle, buttonTitle, editData }) => {
 				alertDefaultError(err);
 			});
 	};
-	const imageUpload = async e => {
-		let file = upload?.current?.files?.[0];
-		if (file.size > 5000000) {
-			Swal.fire(
-				'File too large',
-				'Try a smaller image less than 5MB. Appreciate the high quality images but to keep Boba Watch free, we gotta do it like this. :(',
-				'error'
-			);
-			upload.current.value = '';
-			return;
-		}
-		if (imagePreview !== '') deleteImage(image);
-
-		const serverFilePath = `drinks/${
-			user.uid
-		}/post-${new Date().valueOf()}`;
-		let uploadTask = firebase
-			.storage()
-			.ref()
-			.child(serverFilePath)
-			.put(file);
-
-		uploadTask.on(
-			'state_changed',
-			snapshot => {
-				setUploadProgress(
-					parseInt(
-						(snapshot.bytesTransferred / snapshot.totalBytes) * 100
-					)
-				);
-			},
-			error => {
-				error.code === 'storage/canceled'
-					? setUploadProgress(-1)
-					: onError(JSON.stringify(error));
-			},
-			() => {
-				setImage(serverFilePath);
-				uploadTask.snapshot.ref
-					.getDownloadURL()
-					.then(function (downloadURL) {
-						setImagePreview(downloadURL);
-					});
-			}
-		);
-	};
 	const autofillSelect = data => {
 		Swal.fire({
 			showCancelButton: true,
@@ -187,11 +109,7 @@ const MobileAdd = ({ pageTitle, buttonTitle, editData }) => {
 			reverseButtons: true,
 		}).then(result => {
 			if (result.value) {
-				setName(data.name);
-				setLocation(data.location);
-				setPrice(data.price / 100);
-				setRating(data.rating);
-				setDescription(data.description);
+				setForm(data);
 			} else if (result.dismiss === 'cancel') {
 				let updated = [...autofill];
 				updated.splice(
@@ -212,20 +130,10 @@ const MobileAdd = ({ pageTitle, buttonTitle, editData }) => {
 			}
 		});
 	};
-	
-	const uploadStatus = (
-		startState = '',
-		progressState = '',
-		finishedState = ''
-	) => {
-		if (uploadProgress < 0) return startState;
-		if (uploadProgress < 100) return progressState;
-		return finishedState;
-	};
 
 	return (
 		<div className='page with-user'>
-			<form className='add-modal' onSubmit={addDrink}>
+			<form className='add-modal' onSubmit={submit}>
 				<h4 className='bw title'>{t(pageTitle ?? 'Add a Purchase')}</h4>
 				<Card className='add-holder'>
 					<h5>{t("WHAT'S THE TEA?")}</h5>
@@ -243,77 +151,42 @@ const MobileAdd = ({ pageTitle, buttonTitle, editData }) => {
 							or add a new drink:
 						</div>
 						<TextInput
-							value={location}
-							onChange={handleTextChange(setLocation)}
-							label={t('Location')}
-							id='location-input'
+							value={form.location ?? ''}
+							onChange={handleChange('location', 250)}
+							label={'Location'}
 						/>
 						<TextInput
-							value={name}
-							onChange={handleTextChange(setName)}
-							label={t('Drink Name')}
-							id='name-input'
+							value={form.name ?? ''}
+							onChange={handleChange('name', 150)}
+							label={'Drink Name'}
 						/>
 						<TextInput
-							value={price}
-							onChange={handlePriceChange}
-							label={t('Price')}
-							id='price-input'
+							value={form.price ?? 0}
+							onChange={handleChange('price', val => val.match(/^-?\d*\.?\d*$/) && val.length < 10)}
+							label={'Price'}
 							type='text'
 						/>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 							<DateTimePicker
-								id='date-value'
-								className='add-input'
-								format='M/d/yyyy h:mm'
-								label={t('Date')}
-								value={date}
-								onChange={handleDateChange}
+								label={'Date'}
+								value={form.date}
+								onChange={date => editForm('date', date, 30)}
 								inputProps={{ maxLength: 100 }}
 							/>
 						</MuiPickersUtilsProvider>
 					</div>
-					<StarRating rating={rating} setRating={setRating} />
+					<StarRating rating={form.rating} setRating={val => editForm('rating', val)} />
 					<div className='content'>
-						<label
-							className={`upload-image ${uploadStatus(
-								'',
-								'uploading',
-								'uploaded'
-							)}`}
-						>
-							{imagePreview !== '' && (
-								<img
-									className='upload-preview'
-									src={imagePreview}
-									alt='upload-preview'
-								/>
-							)}
-							{uploadStatus('UPLOAD AN IMAGE', 'UPLOADING...')}
-							<input
-								type='file'
-								ref={upload}
-								onChange={imageUpload}
-								accept='image/png,image/jpeg'
-							/>
-							<br />
-							{uploadStatus(
-								'',
-								<progress
-									max='100'
-									value={uploadStatus(0, uploadProgress, 100)}
-								></progress>,
-								''
-							)}
-						</label>
+						<ImageUpload
+							image={form.image}
+							setImage={link => editForm('image', link)}
+						/>
 						<textarea
-							value={description}
-							rows={10}
-							onChange={handleTextChangeDescription(
-								setDescription
-							)}
 							id='description-input'
-							placeholder={t('How was your drink?')}
+							value={form.description ?? ''}
+							rows={10}
+							onChange={handleChange('description', 1000)}
+							placeholder={'How was your drink?'}
 						/>
 						<div className='add-button-holder'>
 							<button
@@ -329,7 +202,7 @@ const MobileAdd = ({ pageTitle, buttonTitle, editData }) => {
 							<div></div>
 							<button
 								type='submit'
-								disabled={!canAdd}
+								disabled={disabled}
 								className='text'
 							>
 								{t(buttonTitle ?? 'ADD')}
@@ -342,4 +215,4 @@ const MobileAdd = ({ pageTitle, buttonTitle, editData }) => {
 	);
 };
 
-export default MobileAdd;
+export default memo(MobileAdd);

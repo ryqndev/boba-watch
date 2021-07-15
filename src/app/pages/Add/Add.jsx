@@ -3,13 +3,13 @@ import useDevice from '../../controller/hooks/useDevice';
 import MobileAdd from './MobileAdd';
 import DesktopAdd from './DesktopAdd';
 
-const Add = props => {
+const Add = () => {
 	const device = useDevice();
 
 	return device === 'phone' ? (
-		<MobileAdd {...props} />
+		<MobileAdd />
 	) : (
-		<DesktopAdd {...props} />
+		<DesktopAdd />
 	);
 };
 

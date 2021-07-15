@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import {
 	Add,
-	Edit,
 	Blog,
 	Dashboard,
 	Feed,
@@ -48,7 +47,7 @@ const AuthenticatedRoutes = () => {
 				<Route path='/' element={<Dashboard theme={theme}/>} />
 				<Route path='history' element={<History />} />
 				<Route path='add' element={<Add />} />
-				<Route path='edit/:drinkid' element={<Edit />} />
+				<Route path='edit/:id' element={<Add />} />
 				<Route path='map' element={<Locator theme={theme}/>} />
 				<Route
 					path='feed'

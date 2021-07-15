@@ -4,10 +4,12 @@
     background-color: var(--nav-bg);
     height: 100%;
     width: calc(100vw - 120px);
+    display: grid;
+    grid-template-columns: 1fr 400px;
     transition: background-color 350ms;
 
     &>main {
-        padding-left: 20px;
+        padding: 0px 20px;
         &>header {
             height: 145px;
             box-sizing: border-box;
@@ -22,11 +24,26 @@
             }
         }
 
-        &>form {
-            &>fieldset {
+        & .form-wrapper {
+            height: calc(100vh - 140px);
+            overflow: scroll;
+            & fieldset {
                 display: grid;
+                padding: 20px;
                 row-gap: 20px;
                 border: none;
+
+                &>.image-upload {
+                    padding: 20px;
+                }
+                &>.description {
+                    background-color: transparent;
+                    color: var(--text-primary);
+                    resize: vertical;
+                    padding: 10px;
+                    border: 1px solid rgb(243, 243, 243);
+                    border-radius: 4px;
+                }
             }
         }
     }

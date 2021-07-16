@@ -1,5 +1,6 @@
 .container{
     padding-bottom: 15px;
+    
     &>.title{
         font-weight: bold;
         text-align: center;
@@ -24,5 +25,9 @@
             color: grey;
             text-transform: uppercase;
         }
+    }
+    #preview {
+        background-color: transparent;
+        border: none;
     }
 }

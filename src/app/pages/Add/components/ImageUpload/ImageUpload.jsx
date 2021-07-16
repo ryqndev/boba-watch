@@ -1,6 +1,6 @@
-import { memo, useState, useRef, useContext } from 'react';
+import { memo, useState, useRef, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
-import { deleteImage } from '../../../../libs/cloud-storage.js';
+import { deleteImage, getImageAttribute } from '../../../../libs/cloud-storage.js';
 import { firebase } from '../../../../libs/firestore.js';
 import AuthUserContext from '../../../../controller/contexts/AuthUserContext.js';
 import { onError } from '../../../../libs/analytics';
@@ -12,6 +12,15 @@ const ImageUpload = ({ image, setImage, className }) => {
 	const [imagePreview, setImagePreview] = useState('');
 	const [uploadProgress, setUploadProgress] = useState(-1);
 	const upload = useRef(null);
+
+	useEffect(() => {
+		if(!image) return;
+		(async() => {
+			let imgsrc = await getImageAttribute(image);
+			setUploadProgress(100);
+			setImagePreview(imgsrc);
+		})();
+	}, [image]);
 
 	const imageUpload = async e => {
 		let file = upload?.current?.files?.[0];

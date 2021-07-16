@@ -12,8 +12,8 @@ span.text-input {
         border-radius: 0;
         -webkit-appearance: none;
         // margin-top: 1em;
-        padding: 1.1rem 0 1rem 0;
-        font-size: 1.1rem;
+        padding: 1.1em 0 1em 0;
+        font-size: 1.1em;
         font-weight: bold;
         width: 100%;
         background: transparent;
@@ -26,8 +26,8 @@ span.text-input {
         color: #82888f;
         user-select: none;
         position: absolute;
-        font-size: 1rem;
-        bottom: 1rem;
+        font-size: 1em;
+        bottom: 1em;
         left: 0;
         width: 100%;
         height: calc(100% - 1.3em);
@@ -35,7 +35,7 @@ span.text-input {
         &::after, &::before{
             content: '';
             position: absolute;
-            top: 1rem;
+            top: 1em;
             left: 0;
             width: 100%;
             height: calc(100% - 10px);
@@ -61,7 +61,7 @@ input:focus + label::after,
 
 input:focus + label span,
 .input--filled span {
-    font-size: 0.7rem;
+    font-size: 0.7em;
 	animation: anim-1 0.3s forwards;
 }
 @keyframes anim-1 {

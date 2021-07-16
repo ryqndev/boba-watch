@@ -22,11 +22,13 @@ const DesktopDashboard = ({ theme }) => {
 					<h1 className={cn.title}>{t('dashboard')}</h1>
 				</header>
 				<div className={cn.content}>
-					<Card className={cn.map}>
-						<Map scrollWheelZoom={false} zoom={2.5} theme={theme}/>
-					</Card>
-					<Card className={cn.heatmap}>
-						<h2>Drink Frequency</h2>
+					<Map
+						className={cn.map}
+						scrollWheelZoom={false}
+						zoom={2.5}
+						theme={theme}
+					/>
+					<Card className={cn.heatmap} title='drink frequency'>
 						<PurchaseTimeHeatMap data={metrics.d} />
 					</Card>
 					<div className={cn.stats}>
@@ -47,14 +49,22 @@ const DesktopDashboard = ({ theme }) => {
 						</Card>
 					</div>
 					<Card className={cn.xy}>
-						<h3 style={{display: 'grid', color: 'var(--text-secondary)', fontSize: '3em', textAlign: 'center'}}>COMING SOON</h3>
+						<h3
+							style={{
+								display: 'grid',
+								color: 'var(--text-secondary)',
+								fontSize: '3em',
+								textAlign: 'center',
+							}}
+						>
+							COMING SOON
+						</h3>
 					</Card>
 				</div>
 			</main>
 			<aside className={cn.sidebar}>
 				<div className={cn['aside-container']}>
-					<Card className={cn.search}>
-						<h2>Monthly Budget</h2>
+					<Card className={cn.search} title='monthly budget'>
 						<BudgetPieChart
 							budget={user.profile.budget}
 							spent={metrics.tc}
@@ -68,8 +78,7 @@ const DesktopDashboard = ({ theme }) => {
 							Result={({ item }) => <DrinkPanel data={item} />}
 						/>
 					</Card>
-					<Card className={cn.recent}>
-						<h2>Recent Purchases</h2>
+					<Card className={cn.recent} title='recent purchases'>
 						{drinks.slice(0, 5).map(drink => (
 							<DrinkPanel key={drink.id} data={drink} />
 						))}

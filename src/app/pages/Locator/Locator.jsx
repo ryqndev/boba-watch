@@ -29,21 +29,22 @@ const Locator = ({ theme }) => {
 			<header>
 				<h1 className={cn.title}>Boba Locator</h1>
 			</header>
-			<Card className={cn.map}>
-				<Map
-					zoom={12}
-					center={center}
-					setCenter={setCenter}
-					theme={theme}
-				>
-					{position => (
-						<>
-							<SearchAreaButton
-								position={position}
-								setStores={setStores}
-								filters={filters}
-							/>
-							{stores && stores.map(store => (
+			<Map
+				className={cn.map}
+				zoom={12}
+				center={center}
+				setCenter={setCenter}
+				theme={theme}
+			>
+				{position => (
+					<>
+						<SearchAreaButton
+							position={position}
+							setStores={setStores}
+							filters={filters}
+						/>
+						{stores &&
+							stores.map(store => (
 								<StoreMarker
 									key={store.venue.id}
 									data={store}
@@ -51,13 +52,11 @@ const Locator = ({ theme }) => {
 									setCenter={setCenter}
 								/>
 							))}
-						</>
-					)}
-				</Map>
-			</Card>
+					</>
+				)}
+			</Map>
 			<div className={cn.details}>
-				<Card className={cn.filters}>
-					<h3>Locations</h3>
+				<Card className={cn.filters} title='locations'>
 					<button
 						className={clsx(filters.openNow && cn.selected)}
 						onClick={() => {
@@ -85,14 +84,15 @@ const Locator = ({ theme }) => {
 					<div className={cn.list}>
 						{!stores && <LoadingListingNote />}
 						{stores && stores.length === 0 && <EmptyListingNote />}
-						{stores && stores.map(store => (
-							<Listing
-								key={store.venue.id}
-								data={store}
-								selected={selected}
-								setCenter={setCenter}
-							/>
-						))}
+						{stores &&
+							stores.map(store => (
+								<Listing
+									key={store.venue.id}
+									data={store}
+									selected={selected}
+									setCenter={setCenter}
+								/>
+							))}
 					</div>
 				</div>
 			</div>

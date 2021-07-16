@@ -1,0 +1,42 @@
+import {memo} from 'react';
+import 'date-fns';
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import { TextInput, StarRating } from '../../../../components';
+import cn from './BasicFields.module.scss';
+
+const BasicFields = ({form, handleChange, editForm}) => {
+	return (
+		<div className={cn.container}>
+			<TextInput
+				value={form.location ?? ''}
+				onChange={handleChange('location', 250)}
+				label={'Location'}
+			/>
+			<TextInput
+				value={form.name ?? ''}
+				onChange={handleChange('name', 150)}
+				label={'Drink Name'}
+			/>
+			<TextInput
+				value={form.price ?? 0}
+				onChange={handleChange(
+					'price',
+					val => val.match(/^-?\d*\.?\d*$/) && val.length < 10
+				)}
+				label={'Price'}
+				type='text'
+			/>
+			<MuiPickersUtilsProvider utils={DateFnsUtils}>
+				<DateTimePicker
+					label={'Date'}
+					value={form.date}
+					onChange={date => editForm('date', date, 30)}
+					inputProps={{ maxLength: 100 }}
+				/>
+			</MuiPickersUtilsProvider>
+		</div>
+	);
+};
+
+export default memo(BasicFields);

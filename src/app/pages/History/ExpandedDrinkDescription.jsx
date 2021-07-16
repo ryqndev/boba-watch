@@ -1,5 +1,7 @@
 import { useEffect, useState, memo } from 'react';
 import { useTranslation } from 'react-i18next';
+import MdEditor from 'react-markdown-editor-lite';
+import MarkdownIt from 'markdown-it';
 import { getImageAttribute } from '../../libs/cloud-storage';
 import './ExpandedDrinkDescription.scss';
 
@@ -13,6 +15,7 @@ const ExpandedDrinkDescription = ({
 }) => {
 	const { t } = useTranslation();
 	const [imageAttr, setImageAttr] = useState(false);
+	const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 	useEffect(() => {
 		if (!expanded || !image) return;
@@ -36,7 +39,25 @@ const ExpandedDrinkDescription = ({
 				/>
 			)}
 			<br />
-			<p className='description'>{description}</p>
+			<p className='description'>
+				<MdEditor
+					id="preview"
+					view={{
+						menu: false,
+						md: false,
+					}}
+					readOnly={true}
+					renderHTML={text => mdParser.render(text)}
+					canView={{
+						menu: false,
+						md: false,
+						html: false,
+						fullScreen: false,
+						hideMenu: false,
+					}}
+					value={description}
+				/>
+			</p>
 			<br />
 			<p className='date'>
 				<span>{t('on')}</span> {date.toString()}

@@ -4,15 +4,12 @@
     height: 100%;
     width: calc(100vw - 120px);
     display: grid;
-    grid-template-columns: 1fr 450px;
+    grid-template-columns: 1fr 360px;
     background-color: var(--nav-bg);
     transition: background-color 350ms;
 
-    & h2 {
-        font-size: 3em;
-        margin: 0 0 20px;
-        color: var(--text-accent);
-        text-transform: capitalize;
+    @media screen and (min-width: 1400px) {
+        grid-template-columns: 1fr 450px;
     }
 
     &>main {
@@ -27,7 +24,7 @@
                 margin: 0;
                 text-transform: uppercase;
                 color: var(--text-primary);
-                font-size: 3.5em;
+                font-size: 3em;
                 transition: color 350ms;
             }
         }
@@ -39,10 +36,21 @@
             & fieldset.layout {
                 border: none;
                 display: grid;
-                grid-template-columns: 400px 1fr;
-                column-gap: 20px;
-                padding: 0px;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+                row-gap: 20px;
+                padding: 0px 0px 20px;
                 margin: 0px;
+
+                @media screen and (min-width: 1200px) {
+                    grid-template-columns: 340px 1fr;
+                    column-gap: 20px;
+                    padding: 0px;
+                }
+
+                @media screen and (min-width: 1500px) {
+                    grid-template-columns: 400px 1fr;
+                }
 
                 &>.left,
                 &>.right {
@@ -53,7 +61,7 @@
 
                 &>.left {
                     &>.fields {
-                        padding: 20px;
+                        padding: 20px 20px 35px;
                     }
 
                     &>.upload {
@@ -74,17 +82,23 @@
                         padding: 20px;
                         height: max-content;
 
-                        &>textarea {
-                            box-sizing: border-box;
-                            height: 100%;
-                            width: 100%;
-                            border: 1px solid rgb(243, 243, 243);
-                            border-radius: 4px;
-                            padding: 10px;
-                            background-color: transparent;
-                            color: var(--text-primary);
-                            resize: vertical;
-                        }
+                    }
+
+                    &>button {
+                        margin-left: auto;
+                        display: grid;
+                        place-content: center;
+                        padding: 0px 40px;
+                        width: auto;
+
+                        height: 80px;
+                        font-size: 2em;
+                        border-top-left-radius: 40px;
+                        border-bottom-right-radius: 40px;
+                        box-shadow:
+                            0px 2px 1px -1px #00000033,
+                            0px 1px 1px #00000024,
+                            0px 1px 3px #0000001f;
                     }
                 }
             }
@@ -92,7 +106,15 @@
     }
 
     &>aside {
+        color: white;
         background-color: var(--blog-bg-secondary);
-        padding-right: 20px;
+        padding: 145px 20px 20px;
+
+        & h2 {
+            font-size: 2.5em;
+            margin: 0;
+            color: var(--text-accent);
+            text-transform: capitalize;
+        }
     }
 }

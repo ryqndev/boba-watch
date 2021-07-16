@@ -18,4 +18,8 @@
     & img.user-uploaded{
         width: 100%;
     }
+    & #preview {
+        background-color: transparent;
+        border: none;
+    }
 }

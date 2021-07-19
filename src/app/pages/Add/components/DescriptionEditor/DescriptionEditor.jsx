@@ -1,6 +1,7 @@
 import { memo } from 'react';
-import MdEditor from 'react-markdown-editor-lite';
+import MdEditor, { Plugins } from 'react-markdown-editor-lite';
 import MarkdownIt from 'markdown-it';
+import { Card } from '../../../../components';
 import cn from './DescriptionEditor.module.scss';
 import 'react-markdown-editor-lite/lib/index.css';
 
@@ -10,22 +11,33 @@ const DescriptionEditor = ({ description, setDescription }) => {
 		setDescription(text);
 	};
 
+	MdEditor.unuse(Plugins.Image);
+	MdEditor.unuse(Plugins.Link);
+	MdEditor.unuse(Plugins.Clear);
+	MdEditor.unuse(Plugins.ModeToggle);
+	MdEditor.unuse(Plugins.BlockCodeBlock);
+	MdEditor.unuse(Plugins.BlockCodeInline);
+	MdEditor.unuse(Plugins.FontUnderline);
+
 	return (
 		<div className={cn.container}>
-			<MdEditor
-				id={cn.editor}
-				renderHTML={text => text}
-				view={{
-					html: false,
-				}}
-				canView={{
-					hideMenu: false,
-				}}
-				value={description}
-				onChange={handleChange}
-			/>
+			<Card>
+				<MdEditor
+					id={cn.editor}
+					renderHTML={text => text}
+					view={{
+						html: false,
+					}}
+					canView={{
+						hideMenu: false,
+					}}
+					value={description}
+					onChange={handleChange}
+					placeholder={'How was your drink?'}
+				/>
+			</Card>
 			<h2>preview</h2>
-			<div className={cn.preview}>
+			<Card className={cn.preview}>
 				<MdEditor
 					id={cn.preview}
 					view={{
@@ -43,7 +55,7 @@ const DescriptionEditor = ({ description, setDescription }) => {
 					}}
 					value={description}
 				/>
-			</div>
+			</Card>
 		</div>
 	);
 };

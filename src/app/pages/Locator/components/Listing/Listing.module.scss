@@ -1,10 +1,13 @@
 .container {
     color: var(--text-secondary);
     padding: 20px;
+    user-select: text;
+
     &>h3 {
         margin: 0;
         font-size: 2em;
     }
+
     &>span.center {
         display: block;
         color: grey;
@@ -12,15 +15,18 @@
         text-decoration: underline;
         cursor: pointer;
     }
+
     &>p {
         &.distance {
             display: block;
             padding: 5px 0px 10px;
             color: grey;
+
             &>span {
                 color: var(--text-accent);
             }
         }
+
         &.address {
             font-size: 1.2em;
         }

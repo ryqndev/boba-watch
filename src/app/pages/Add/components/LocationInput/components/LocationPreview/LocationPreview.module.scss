@@ -1,0 +1,35 @@
+.wrapper {
+    padding: 20px;
+    & .name {
+        height: 1.5em;
+        border-radius: 4px;
+        background-color: black;
+        font-size: 1.2em;
+    }
+
+    & .actions {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas: "cancel spacer confirm";
+        padding-top: 20px;
+
+        &>button {
+            display: grid;
+            place-content: center;
+
+            & path {
+                fill: white;
+            }
+
+            &.cancel {
+                grid-area: cancel;
+                background-color: #f63e3e;
+            }
+
+            &.confirm {
+                grid-area: confirm;
+                background-color: #4ad651;
+            }
+        }
+    }
+}

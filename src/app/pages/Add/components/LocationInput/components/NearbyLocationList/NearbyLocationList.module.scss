@@ -1,0 +1,37 @@
+.wrapper {
+    height: 100%;
+    width: 100%;
+
+    &>input[type=text] {
+        box-sizing: border-box;
+        width: calc(100% - 40px);
+        border-radius: 4px;
+        font-size: 1.1em;
+        margin: 15px 20px 5px;
+
+    }
+    & .awaiting-location {
+        padding: 20px;
+    }
+    &>.scrollable {
+        overflow-y: scroll;
+        height: calc(100% - 100px);
+        padding: 20px;
+
+        &>.list {
+            display: grid;
+            row-gap: 20px;
+
+            &>.listing {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 20px;
+                min-height: max-content;
+        
+                &>h4 {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}

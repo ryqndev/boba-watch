@@ -1,17 +1,17 @@
-import {memo} from 'react';
+import { memo } from 'react';
 import 'date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { TextInput, StarRating } from '../../../../components';
 import cn from './BasicFields.module.scss';
+import { LocationInput } from '../';
 
-const BasicFields = ({form, handleChange, editForm}) => {
+const BasicFields = ({ form, handleChange, editForm }) => {
 	return (
 		<div className={cn.container}>
-			<TextInput
+			<LocationInput
 				value={form.location ?? ''}
 				onChange={handleChange('location', 250)}
-				label={'Location'}
 			/>
 			<TextInput
 				value={form.name ?? ''}

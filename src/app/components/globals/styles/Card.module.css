@@ -7,7 +7,7 @@
         0px 1px 1px #00000024,
         0px 1px 3px #0000001f;
     transition: color 350ms, background-color 350ms;
-
+    color: var(--text-secondary);
 }
 
 .card>h2 {

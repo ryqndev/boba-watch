@@ -36,6 +36,7 @@ nav.container{
         }
         & .selected {
             border-left-width: 6px;
+
         }
     }
     & .icon{
@@ -59,7 +60,8 @@ nav.container{
         &.selected{
             padding-top: 0px;
             & svg {
-                filter: brightness(5);
+                // filter: drop-shadow(0 0 5px var(--text-accent));
+                filter: drop-shadow(0 0 5px var(--bg-secondary));
             }
         }
         & p.label {

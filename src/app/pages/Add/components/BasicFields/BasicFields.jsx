@@ -3,15 +3,15 @@ import 'date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { TextInput, StarRating } from '../../../../components';
-import cn from './BasicFields.module.scss';
 import { LocationInput } from '../';
+import cn from './BasicFields.module.scss';
 
 const BasicFields = ({ form, handleChange, editForm }) => {
 	return (
 		<div className={cn.container}>
 			<LocationInput
 				value={form.location ?? ''}
-				onChange={handleChange('location', 250)}
+				onChange={editForm}
 			/>
 			<TextInput
 				value={form.name ?? ''}

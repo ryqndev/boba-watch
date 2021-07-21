@@ -1,13 +1,15 @@
 import { memo } from 'react';
+import clsx from 'clsx';
 import './TextInput.scss';
 
 const TextInput = props => {
 	let { value, id, label, autoFocus, onFocus } = props;
 	return (
 		<span
-			className={
-				'text-input' + (value.length === 0 ? '' : ' input--filled')
-			}
+			className={clsx(
+				'text-input',
+				value.length !== 0 && 'input--filled'
+			)}
 		>
 			<input
 				{...props}

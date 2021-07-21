@@ -1,16 +1,46 @@
-.wrapper {
-    padding: 20px;
-    & .name {
-        height: 1.5em;
-        border-radius: 4px;
-        background-color: black;
-        font-size: 1.2em;
+.container {
+    &>.divider {
+        padding-top: 10px;
+        border-bottom: 3px dotted var(--blog-accent);
     }
 
-    & .actions {
+    &>.select {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        cursor: pointer;
+
+        &>.expand {
+            display: grid;
+            place-self: center;
+        }
+
+        &>h5 {
+            margin: 0;
+            font-size: 1em;
+            font-weight: normal;
+            transition: color 350ms;
+        }
+
+        &.selected {
+            &>h5 {
+                color: var(--text-accent);
+                font-weight: bold;
+            }
+        }
+    }
+
+    &>h4 {
+        font-weight: normal;
+        color: rgb(92, 92, 92);
+        margin: 10px 0px;
+        font-size: 0.65em;
+    }
+
+    &>.actions {
         display: grid;
         grid-template-columns: auto 1fr auto;
         grid-template-areas: "cancel spacer confirm";
+        column-gap: 20px;
         padding-top: 20px;
 
         &>button {

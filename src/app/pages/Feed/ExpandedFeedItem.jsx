@@ -1,5 +1,5 @@
 import { memo, useContext, useState } from 'react';
-import ExpandedDrinkDescription from '../History/ExpandedDrinkDescription';
+import { ExpandedDrinkDescription } from '../History/MobileHistory/components';
 import { database } from '../../libs/firestore';
 import { useNavigate } from 'react-router-dom';
 import Reviews from '../Blog/Reviews';

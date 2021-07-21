@@ -182,12 +182,18 @@ function addDrink(data, id) {
  * @param {*} metrics - metrics object to be updated
  */
 function updateMetrics(drinkObject, metrics, add = true) {
-    let value = add ? 1 : -1;
-    metrics.td += value;
-    metrics.tc += parseFloat(drinkObject.price) * value;
-    metrics.ad = parseFloat(metrics.tc) / parseFloat(metrics.td);
-    let date = new Date(drinkObject.date);
-    metrics.d[date.getDay()][date.getHours() - 1] += value;
+    try{
+        let value = add ? 1 : -1;
+        metrics.td += value;
+        metrics.tc += parseFloat(drinkObject.price) * value;
+        metrics.ad = parseFloat(metrics.tc) / parseFloat(metrics.td);
+        let date = new Date(drinkObject.date);
+        metrics.d[date.getDay()][date.getHours() - 1] += value;
+    }catch(e) {
+        console.error("BROKE: ", e);
+        console.error(drinkObject);
+    }
+
 }
 
 export {

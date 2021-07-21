@@ -1,8 +1,8 @@
-import { useEffect, useState, memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import MdEditor from 'react-markdown-editor-lite';
 import MarkdownIt from 'markdown-it';
-import { getImageAttribute } from '../../libs/cloud-storage';
+import { getImageAttribute } from '../../../../../libs/cloud-storage';
 import './ExpandedDrinkDescription.scss';
 
 const ExpandedDrinkDescription = ({
@@ -39,7 +39,7 @@ const ExpandedDrinkDescription = ({
 				/>
 			)}
 			<br />
-			<p className='description'>
+			<div className='description'>
 				<MdEditor
 					id="preview"
 					view={{
@@ -57,7 +57,7 @@ const ExpandedDrinkDescription = ({
 					}}
 					value={description}
 				/>
-			</p>
+			</div>
 			<br />
 			<p className='date'>
 				<span>{t('on')}</span> {date.toString()}

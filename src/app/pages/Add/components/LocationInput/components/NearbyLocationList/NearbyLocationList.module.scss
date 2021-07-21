@@ -1,17 +1,12 @@
-.wrapper {
-    height: 100%;
-    width: 100%;
-
-    &>input[type=text] {
+.container {
+    & .search {
         box-sizing: border-box;
-        width: calc(100% - 40px);
         border-radius: 4px;
-        font-size: 1.1em;
-        margin: 15px 20px 5px;
-
+        font-size: 0.8em;
+        padding: 0px 20px;
     }
     & .awaiting-location {
-        padding: 20px;
+        color: grey;
     }
     &>.scrollable {
         overflow-y: scroll;
@@ -27,7 +22,8 @@
                 box-sizing: border-box;
                 padding: 20px;
                 min-height: max-content;
-        
+                background-color: var(--blog-bg-secondary);
+                
                 &>h4 {
                     margin: 0;
                 }

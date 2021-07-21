@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 const useDrinks = () => {
     const [drinkids, setDrinksids] = useState([]);
@@ -18,4 +18,4 @@ const useDrinks = () => {
     };
 }
 
-export default useDrinks
+export default useDrinks;

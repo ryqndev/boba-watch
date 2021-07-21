@@ -37,6 +37,7 @@ const useAddForm = () => {
 
         const data = {
             ...form,
+            date: new Date(form.date).toISOString(),
             price: parseInt(parseFloat(form.price) * 100),
         };
 

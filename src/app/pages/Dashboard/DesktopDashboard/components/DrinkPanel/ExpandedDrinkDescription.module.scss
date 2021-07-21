@@ -22,6 +22,9 @@
     }
     &>.description {
         &>span {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
             color: grey;
             text-transform: uppercase;
         }

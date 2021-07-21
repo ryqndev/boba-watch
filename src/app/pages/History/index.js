@@ -1,2 +1,3 @@
-import History from './History';
+import History from './History.jsx';
+
 export default History;

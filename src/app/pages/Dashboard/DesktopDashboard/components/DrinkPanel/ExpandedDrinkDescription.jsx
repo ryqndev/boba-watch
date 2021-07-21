@@ -15,7 +15,7 @@ const ExpandedDrinkDescription = ({
 }) => {
 	const { t } = useTranslation();
 	const [imageAttr, setImageAttr] = useState(false);
-	const mdParser = new MarkdownIt(/* Markdown-it options */);
+	const mdParser = new MarkdownIt();
 
 	useEffect(() => {
 		if (!expanded || !image) return;
@@ -38,7 +38,7 @@ const ExpandedDrinkDescription = ({
 				/>
 			)}
 			<br />
-			<p className={cn.description}>
+			<div className={cn.description}>
 				{!description || description === '' ? (
 					<span>[no description]</span>
 				) : (
@@ -60,7 +60,7 @@ const ExpandedDrinkDescription = ({
 					value={description}
 				/>
 				)}
-			</p>
+			</div>
 			<br />
 			<p className={cn.date}>
 				<span>{t('on')}</span> {date.toString()}

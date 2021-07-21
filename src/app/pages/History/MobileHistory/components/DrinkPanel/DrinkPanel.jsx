@@ -2,13 +2,11 @@ import { memo, useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import ExpandedDrinkDescription from './ExpandedDrinkDescription';
-import { toMoney } from '../../components/textUtil.js';
-import {
-	deleteDrink
-} from '../../controller/calculateStatistics';
+import { ExpandedDrinkDescription } from '../';
+import { toMoney } from '../../../../../components/textUtil.js';
+import { deleteDrink } from '../../../../../controller/calculateStatistics';
 import { isAfter } from 'date-fns';
-import { database, firebase } from '../../libs/firestore';
+import { database, firebase } from '../../../../../libs/firestore';
 import { useNavigate } from 'react-router-dom';
 import {
 	alertDefaultError,
@@ -16,8 +14,8 @@ import {
 	alertDrinkNotDeleted,
 	alertPublishSuccess,
 	alertRestriction,
-} from '../../libs/swal.js';
-import AuthUserContext from '../../controller/contexts/AuthUserContext';
+} from '../../../../../libs/swal.js';
+import AuthUserContext from '../../../../../controller/contexts/AuthUserContext';
 import { addSeconds, format } from 'date-fns';
 import './DrinkPanel.scss';
 

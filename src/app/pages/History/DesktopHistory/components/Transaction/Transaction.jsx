@@ -5,17 +5,16 @@ import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import { Card } from '../../../../../components';
 import cn from './Transaction.module.scss';
 
-const Transaction = ({
-	className,
-	price,
-	name,
-	location,
-	rating,
-	date,
-	header = false,
-}) => {
+const Transaction = ({ className, selected, setDetailed, header = false, ...drink }) => {
+	const { date, location, name, rating, price } = drink;
+
+	const view = () => {
+		if (header) return;
+		setDetailed(drink);
+	};
+
 	return (
-		<Card className={clsx(className, cn.container)}>
+		<Card className={clsx(className, cn.container, selected === drink.id && cn.selected)} onClick={view}>
 			<div className={cn.date}>
 				{!header ? new Date(date).toString() : 'date'}
 			</div>
@@ -25,7 +24,8 @@ const Transaction = ({
 				{rating ?? '-'} <StarRateRoundedIcon />
 			</div>
 			<div className={cn.price}>
-				{!header && '$'}{!header ? (price / 100).toFixed(2) : 'price'}
+				{!header && '$'}
+				{!header ? (price / 100).toFixed(2) : 'price'}
 			</div>
 			{!header && (
 				<div className={cn['expand-icon']}>

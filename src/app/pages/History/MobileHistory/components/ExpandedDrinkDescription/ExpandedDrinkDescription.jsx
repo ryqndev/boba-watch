@@ -15,7 +15,7 @@ const ExpandedDrinkDescription = ({
 }) => {
 	const { t } = useTranslation();
 	const [imageAttr, setImageAttr] = useState(false);
-	const mdParser = new MarkdownIt(/* Markdown-it options */);
+	const mdParser = new MarkdownIt();
 
 	useEffect(() => {
 		if (!expanded || !image) return;

@@ -24,6 +24,7 @@
         "--add-header": "#FFF1EF",
         "--dash-bg-secondary": "#F68080",
         "--dash-text-secondary": "#FFFFFF",
-        "--editor-background": "#FFFFFF"
+        "--editor-background": "#FFFFFF",
+        "--table-header--text": "#FFFFFF"
     }
 }

@@ -37,7 +37,7 @@
         }
     }
 
-    &:hover {
+    &:hover, &.selected {
         background-color: var(--text-accent);
         &>.expand-icon {
             padding-left: 5px;
@@ -45,5 +45,9 @@
                 fill: var(--text-secondary);
             }
         }
+    }
+    &:hover {
+        background-color: transparent;
+
     }
 }

@@ -31,7 +31,13 @@ const DesktopHistory = () => {
 					<h1 className={cn.title}>History</h1>
 				</header>
 				<div className={cn.content}>
-					<Transaction className={cn['table-header']} header name='drink name' location='location' />,
+					<Transaction
+						className={cn['table-header']}
+						header
+						name='drink name'
+						location='location'
+					/>
+					,
 					<div className={cn.scrollable}>
 						<div className={cn.transactions}>
 							{drinks.reduce((acc, drink) => {
@@ -55,12 +61,19 @@ const DesktopHistory = () => {
 										</div>,
 										<Transaction
 											key={drink.id}
+											selected={detailed?.id}
+											setDetailed={setDetailed}
 											{...drink}
 										/>,
 									];
 								return [
 									...acc,
-									<Transaction key={drink.id} {...drink} />,
+									<Transaction
+										key={drink.id}
+										selected={detailed?.id}
+										setDetailed={setDetailed}
+										{...drink}
+									/>,
 								];
 							}, [])}
 						</div>
@@ -68,7 +81,7 @@ const DesktopHistory = () => {
 				</div>
 			</main>
 			<aside>
-				<DrinkDetails data={detailed} />
+				{detailed && <DrinkDetails {...detailed} />}
 				<Card className={cn.search}>
 					<h2>Search</h2>
 					<span>Search your past uploads</span>

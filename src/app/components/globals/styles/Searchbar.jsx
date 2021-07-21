@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { memo, useState, useEffect } from 'react';
 import './Searchbar.scss';
 import Fuse from 'fuse.js';
 
@@ -45,4 +45,4 @@ const Searchbar = ({
 	);
 };
 
-export default Searchbar;
+export default memo(Searchbar);

@@ -1,11 +1,11 @@
 import Swal from 'sweetalert2';
 import i18next from 'i18next';
 import { database, firebase } from '../libs/firestore';
-import { alertDefaultError } from '../libs/swal';
-import {deleteDrink, addDrink} from './calculateStatistics';
+import { alertDefaultError, alertDrinkDeletedSuccess, alertDrinkNotDeleted } from '../libs/swal';
+import { deleteDrink, addDrink } from './calculateStatistics';
 
-const add = async(data, uid) => {
-    try{
+const add = async (data, uid) => {
+    try {
         let firebaseAddAction = await database.collection(`users/${uid}/drinks`).add({
             created: firebase.firestore.FieldValue.serverTimestamp(),
             edited: firebase.firestore.FieldValue.serverTimestamp(),
@@ -17,25 +17,51 @@ const add = async(data, uid) => {
             ...firebaseReturnedResult.data().drink
         };
         return syncMetrics(drink, uid);
-    }catch(err){
+    } catch (err) {
         return alertDefaultError(err);
     }
 }
 
-const edit = async(data, id, uid) => {
-    try{
+const edit = async (data, id, uid) => {
+    try {
         await database.collection(`users/${uid}/drinks`).doc(id).set({
             edited: firebase.firestore.FieldValue.serverTimestamp(),
             ...data
         });
         deleteDrink(id);
-        return syncMetrics({id: id, ...data.drink}, uid, true);
-    }catch(err){
+        return syncMetrics({ id: id, ...data.drink }, uid, true);
+    } catch (err) {
         return alertDefaultError(err);
     }
 }
+const remove = (id, uid, callback = () => { }) => {
+    try {
+        database
+            .collection(`users/${uid}/drinks`)
+            .doc(id)
+            .delete()
+            .then(() => {
+                let metrics = deleteDrink(id);
+                metrics.d = JSON.stringify(metrics.d);
+                database
+                    .collection(`users/${uid}/user`)
+                    .doc('stats')
+                    .set(metrics)
+                    .finally(() => {
+                        alertDrinkDeletedSuccess();
+                        callback();
+                    });
+            })
+            .catch(err => {
+                alertDrinkNotDeleted(err);
+            });
+    } catch (err) {
+        return alertDefaultError(err);
+    }
 
-const syncMetrics = (drink, uid, isEdit=false) => {
+};
+
+const syncMetrics = (drink, uid, isEdit = false) => {
     let metrics = addDrink(drink, drink.id);
 
     metrics.d = JSON.stringify(metrics.d);
@@ -48,4 +74,5 @@ const syncMetrics = (drink, uid, isEdit=false) => {
 export {
     add,
     edit,
+    remove,
 }

@@ -2,26 +2,11 @@ import { memo, useState } from 'react';
 import useDrinks from '../../../controller/hooks/useDrinks.js';
 import { Card, Searchbar } from '../../../components';
 import { DrinkPanel } from '../../../pages/Dashboard/DesktopDashboard/components';
-import { Transaction, DrinkDetails } from './components';
+import { Transaction, DrinkDetails, TransactionsByMonth } from './components';
 import cn from './DesktopHistory.module.scss';
 
-const MONTH_NAMES = [
-	'January',
-	'February',
-	'March',
-	'April',
-	'May',
-	'June',
-	'July',
-	'August',
-	'September',
-	'October',
-	'November',
-	'December',
-];
-
 const DesktopHistory = () => {
-	const { drinks } = useDrinks();
+	const { drinks, update } = useDrinks();
 	const [detailed, setDetailed] = useState(null);
 
 	return (
@@ -37,51 +22,14 @@ const DesktopHistory = () => {
 						name='drink name'
 						location='location'
 					/>
-					,
 					<div className={cn.scrollable}>
-						<div className={cn.transactions}>
-							{drinks.reduce((acc, drink) => {
-								const date = new Date(drink.date);
-								if (
-									acc.length === 0 ||
-									new Date(
-										acc[acc.length - 1].props.date
-									).getMonth() !== date.getMonth()
-								)
-									return [
-										...acc,
-										<div
-											className={cn.month}
-											key={date.toDateString()}
-										>
-											{MONTH_NAMES[date.getMonth()]}{' '}
-											{new Date().getFullYear() !==
-												date.getFullYear() &&
-												date.getFullYear()}
-										</div>,
-										<Transaction
-											key={drink.id}
-											selected={detailed?.id}
-											setDetailed={setDetailed}
-											{...drink}
-										/>,
-									];
-								return [
-									...acc,
-									<Transaction
-										key={drink.id}
-										selected={detailed?.id}
-										setDetailed={setDetailed}
-										{...drink}
-									/>,
-								];
-							}, [])}
-						</div>
+						<TransactionsByMonth
+							{...{ drinks, detailed, setDetailed }}
+						/>
 					</div>
 				</div>
 			</main>
 			<aside>
-				{detailed && <DrinkDetails {...detailed} />}
 				<Card className={cn.search}>
 					<h2>Search</h2>
 					<span>Search your past uploads</span>
@@ -90,6 +38,8 @@ const DesktopHistory = () => {
 						Result={({ item }) => <DrinkPanel data={item} />}
 					/>
 				</Card>
+				{detailed && <DrinkDetails {...detailed} update={update} setDetailed={setDetailed} />}
+
 			</aside>
 		</div>
 	);

@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const useDrinks = () => {
     const [drinkids, setDrinksids] = useState([]);
     const [drinks, setDrinks] = useState([]);
 
-    useEffect(() => {
+    const update = useCallback(() => {
+        console.log('updating')
         setDrinksids(JSON.parse(localStorage.getItem('drinkids')));
     }, []);
+
+    useEffect(update, [update]);
 
     useEffect(() => {
         setDrinks(drinkids.map(id => JSON.parse(localStorage.getItem(id))));
@@ -15,6 +18,7 @@ const useDrinks = () => {
     return {
         drinkids,
         drinks,
+        update,
     };
 }
 

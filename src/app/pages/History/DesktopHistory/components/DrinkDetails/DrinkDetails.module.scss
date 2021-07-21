@@ -1,10 +1,11 @@
 .container {
     display: grid;
     row-gap: 20px;
-    padding: 20px;
+    padding: 30px 20px;
 
     &>h1 {
-        font-size: 6em;
+        font-size: 4em;
+        line-height: 1em;
         margin: 0;
         text-align: center;
         color: var(--text-accent);
@@ -32,5 +33,15 @@
         color: grey;
         font-size: 1.2em;
         text-align: center;
+    }
+    &>.actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 20px;
+        
+        & button {
+            width: 100%;
+            cursor: pointer;
+        }
     }
 }

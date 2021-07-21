@@ -1,0 +1,10 @@
+.container {
+    display: grid;
+    row-gap: 15px;
+
+    &>.month {
+        font-size: 2em;
+        font-weight: bold;
+        color: var(--text-accent);
+    }
+}

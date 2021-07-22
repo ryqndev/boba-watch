@@ -1,3 +1,16 @@
 .container {
     font-size: 1.2em;
+
+    &>.divider {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        column-gap: 20px;
+
+        & .rating {
+            transform: translateY(10px);
+            border-radius: 4px;
+            background-color: var(--blog-bg-secondary);
+            transition: background-color 350ms;
+        }
+    }
 }

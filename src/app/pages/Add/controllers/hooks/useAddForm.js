@@ -61,6 +61,7 @@ const useAddForm = () => {
         form,
         id,
 
+        setForm,
         editForm,
         handleChange,
         submit,

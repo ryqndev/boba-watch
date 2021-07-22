@@ -7,7 +7,7 @@ import en from './translations/en.json';
 // import zh from './translations/zh.json';
 // import zhTW from './translations/zh-tw.json';
 
-const resources = { 
+const resources = {
     en: en,
     // "en-US": en,
     // "en-GB": enGB,
@@ -26,7 +26,7 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
     resources,
     detection: detectOptions,
     lng: "en",
-    fallbackLng: "en", 
+    fallbackLng: "en",
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
         escapeValue: false // react already safes from xss

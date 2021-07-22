@@ -1,0 +1,42 @@
+.container {
+    display: grid;
+    row-gap: 20px;
+
+    &>.create {
+        padding: 30px 60px;
+        color: grey;
+        border: 4px dashed var(--nav-bg);
+        border-radius: 4px;
+        text-align: center;
+        font-size: 1.6em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background-color 350ms, color 350ms;
+
+        &:hover {
+            background-color: #ffffff11;
+            color: var(--text-secondary);
+        }
+    }
+
+    &>.item {
+        padding: 20px;
+
+        &>p {
+            font-size: 1.8em;
+            font-weight: bold;
+
+            &>span {
+                color: var(--text-accent);
+                font-size: 0.6em;
+                font-weight: normal;
+                text-transform: uppercase;
+            }
+            &>.star {
+                & path {
+                    fill: gold;
+                }
+            }
+        }
+    }
+}

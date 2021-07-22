@@ -39,7 +39,6 @@ const DesktopHistory = () => {
 					/>
 				</Card>
 				{detailed && <DrinkDetails {...detailed} update={update} setDetailed={setDetailed} />}
-
 			</aside>
 		</div>
 	);

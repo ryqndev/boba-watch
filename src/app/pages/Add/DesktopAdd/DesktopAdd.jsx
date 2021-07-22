@@ -1,8 +1,12 @@
 import { memo } from 'react';
-import { BasicFields, DescriptionEditor, ImageUpload } from '../components';
+import {
+	BasicFields,
+	DescriptionEditor,
+	ImageUpload,
+	AutofillManager,
+} from '../components';
 import { Card } from '../../../components';
 import { useAddForm } from '../controllers';
-import { alertAutofillSuccess, alertDefaultError } from '../../../libs/swal';
 import cn from './DesktopAdd.module.scss';
 
 /**
@@ -15,6 +19,7 @@ const DesktopAdd = () => {
 		form,
 		id,
 
+		setForm,
 		editForm,
 		handleChange,
 		submit,
@@ -65,6 +70,7 @@ const DesktopAdd = () => {
 			</main>
 			<aside>
 				<h2>saved drinks</h2>
+				<AutofillManager form={form} setForm={setForm} />
 			</aside>
 		</div>
 	);

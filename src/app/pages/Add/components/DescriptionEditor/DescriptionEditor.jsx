@@ -28,6 +28,7 @@ const DescriptionEditor = ({ description, setDescription }) => {
 					view={{
 						html: false,
 					}}
+					table={{ maxRow: 12, maxCol: 8 }}
 					canView={{
 						hideMenu: false,
 					}}
@@ -44,7 +45,7 @@ const DescriptionEditor = ({ description, setDescription }) => {
 						menu: false,
 						md: false,
 					}}
-					readOnly={true}
+					readOnly
 					renderHTML={text => mdParser.render(text)}
 					canView={{
 						menu: false,

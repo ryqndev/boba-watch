@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 import i18next from 'i18next';
 import { database, firebase } from '../libs/firestore';
-import { alertDefaultError, alertDrinkDeletedSuccess, alertDrinkNotDeleted } from '../libs/swal';
+import { alertDefaultError, alertDrinkDeletedSuccess, alertDrinkNotDeleted, alertAutofillSuccess } from '../libs/swal';
 import { deleteDrink, addDrink } from './calculateStatistics';
 
 const add = async (data, uid) => {
@@ -61,6 +61,24 @@ const remove = (id, uid, callback = () => { }) => {
 
 };
 
+const updateAutofill = (data, uid, callback = () => { }) => {
+    try {
+        database.collection(`users/${uid}/user`)
+            .doc('autofill')
+            .set({ data: JSON.stringify(data) })
+            .then(() => {
+                localStorage.setItem('autofill', JSON.stringify(data));
+                alertAutofillSuccess();
+                callback();
+            })
+            .catch(err => {
+                alertDefaultError(err);
+            })
+    } catch (err) {
+        return alertDefaultError(err);
+    }
+};
+
 const syncMetrics = (drink, uid, isEdit = false) => {
     let metrics = addDrink(drink, drink.id);
 
@@ -75,4 +93,5 @@ export {
     add,
     edit,
     remove,
+    updateAutofill,
 }

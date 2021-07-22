@@ -80,10 +80,11 @@
 }
 
 .MuiPickersClockPointer-thumb {
-    // background-color: var(--blog-bg-secondary) !important;
     border-color: var(--blog-bg-secondary) !important;
 }
 
-.BrainhubCarousel__dots .BrainhubCarousel__dot {
-    padding: 3px;
+.rc-md-navigation, .rc-md-editor .editor-container .sec-md .input{
+    background-color: var(--editor-background) !important;
+    color: var(--text-secondary) !important;
+    transition: background-color 350ms, color 350ms;
 }

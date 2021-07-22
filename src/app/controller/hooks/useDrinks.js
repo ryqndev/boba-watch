@@ -5,7 +5,6 @@ const useDrinks = () => {
     const [drinks, setDrinks] = useState([]);
 
     const update = useCallback(() => {
-        console.log('updating')
         setDrinksids(JSON.parse(localStorage.getItem('drinkids')));
     }, []);
 

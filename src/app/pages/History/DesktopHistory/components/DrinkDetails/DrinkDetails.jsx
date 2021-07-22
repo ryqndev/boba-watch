@@ -1,6 +1,6 @@
 import { memo, useContext } from 'react';
 import { format } from 'date-fns';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
 	Card,
 	FirebaseStorageImage,
@@ -22,7 +22,6 @@ const DrinkDetails = ({
 	setDetailed,
 }) => {
 	const [user] = useContext(AuthUserContext);
-	const navigate = useNavigate();
 	
 	const del = () => {
 		// TODO prompt user for delete confirmation

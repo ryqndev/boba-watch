@@ -9,10 +9,7 @@ import cn from './BasicFields.module.scss';
 const BasicFields = ({ form, handleChange, editForm }) => {
 	return (
 		<div className={cn.container}>
-			<LocationInput
-				value={form.location ?? ''}
-				onChange={editForm}
-			/>
+			<LocationInput value={form.location ?? ''} onChange={editForm} />
 			<TextInput
 				value={form.name ?? ''}
 				onChange={handleChange('name', 150)}
@@ -27,14 +24,21 @@ const BasicFields = ({ form, handleChange, editForm }) => {
 				label={'Price'}
 				type='text'
 			/>
-			<MuiPickersUtilsProvider utils={DateFnsUtils}>
-				<DateTimePicker
-					label={'Date'}
-					value={form.date}
-					onChange={date => editForm('date', date, 30)}
-					inputProps={{ maxLength: 100 }}
+			<div className={cn.divider}>
+				<MuiPickersUtilsProvider utils={DateFnsUtils}>
+					<DateTimePicker
+						label={'Date'}
+						value={form.date}
+						onChange={date => editForm('date', date, 30)}
+						inputProps={{ maxLength: 100 }}
+					/>
+				</MuiPickersUtilsProvider>
+				<StarRating
+					className={cn.rating}
+					rating={form.rating}
+					setRating={val => editForm('rating', val)}
 				/>
-			</MuiPickersUtilsProvider>
+			</div>
 		</div>
 	);
 };

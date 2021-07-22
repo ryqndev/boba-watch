@@ -1,6 +1,7 @@
 .star-rating--wrapper{
     width: 100%;
     direction: rtl;
+
     & .rating-select{
         direction: ltr;
         display: grid;
@@ -8,7 +9,8 @@
         grid-template-columns: auto 90px;
         border-radius: 20px 0px 0px 20px;
         background-color: var(--blog-accent);
-        max-width: 160px;
+        max-width: 180px;
+
         & p{
             color: white;
             font-weight: bold;

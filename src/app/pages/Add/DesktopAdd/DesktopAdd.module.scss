@@ -106,14 +106,14 @@
     }
 
     &>aside {
-        color: white;
         background-color: var(--blog-bg-secondary);
         padding: 145px 20px 20px;
+        transition: background-color 350ms;
 
         & h2 {
-            font-size: 2.5em;
+            font-size: 2.8em;
             margin: 0;
-            color: var(--text-accent);
+            color: var(--nav-text);
             text-transform: capitalize;
         }
     }

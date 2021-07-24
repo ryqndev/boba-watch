@@ -3,6 +3,7 @@ import Collapse from './globals/styles/Collapse.jsx';
 import FirebaseStorageImage from './FirebaseStorageImage';
 import MarkdownDisplay from './MarkdownDisplay';
 import Modal from './globals/styles/Modal.jsx';
+import Map from './Map';
 import Navigation from './Navigation';
 import Searchbar from './globals/styles/Searchbar';
 import StarRating from './globals/styles/StarRating';
@@ -14,6 +15,7 @@ export {
     Card,
     Collapse,
     FirebaseStorageImage,
+    Map,
     MarkdownDisplay,
     Modal,
     Navigation,

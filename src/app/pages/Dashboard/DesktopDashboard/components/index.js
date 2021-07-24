@@ -1,9 +1,11 @@
 import BudgetPieChart from './BudgetPieChart';
-import PurchaseTimeHeatMap from './PurchaseTimeHeatMap';
 import DrinkPanel from './DrinkPanel';
+import PurchaseTimeHeatMap from './PurchaseTimeHeatMap';
+import VisitedMap from './VisitedMap';
 
 export {
     BudgetPieChart,
-    PurchaseTimeHeatMap,
     DrinkPanel,
+    PurchaseTimeHeatMap,
+    VisitedMap,
 }

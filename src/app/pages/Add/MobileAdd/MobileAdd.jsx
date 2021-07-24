@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next';
 import 'date-fns';
 import Swal from 'sweetalert2';
 import {
-	alertInvalidDrinkPrice,
 	alertEmptyDrinkName,
-	alertAutofillSuccess,
+	alertAutofillAdd,
 	alertDefaultError,
 } from '../../../libs/swal';
 import DateFnsUtils from '@date-io/date-fns';
@@ -15,9 +14,9 @@ import { add, edit } from '../../../controller';
 import { TextInput, Card, StarRating } from '../../../components';
 import { database as db } from '../../../libs/firestore';
 import Select from 'react-select';
-import './MobileAdd.scss';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import { ImageUpload } from '../components';
+import './MobileAdd.scss';
 
 const defaultForm = {
 	image: '',
@@ -92,7 +91,7 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 			.then(() => {
 				setAutofill(data);
 				localStorage.setItem('autofill', JSON.stringify(data));
-				alertAutofillSuccess();
+				alertAutofillAdd();
 			})
 			.catch(err => {
 				setCanSave(true);

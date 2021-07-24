@@ -37,8 +37,11 @@ const alertSettingsUpdateSuccess = () => {
     
     Swal.fire(i18next.t('Success!'), i18next.t('Your settings have been updated'), 'success');
 }
-const alertAutofillSuccess = () => {
+const alertAutofillAdd = () => {
     Swal.fire(i18next.t('Saved!'), i18next.t('You can now autofill your next purchase with these drink details.'), 'success');
+}
+const alertAutofillDelete = () => {
+    Swal.fire(i18next.t('Deleted!'), i18next.t('Deleted this saved entry.'), 'success');
 }
 const alertDrinkDeletedSuccess = () => {
     Swal.fire(i18next.t('Deleted!'), i18next.t('Drink has been deleted'), 'success'); 
@@ -108,7 +111,8 @@ export {
 
     alertLinkCopiedSuccess,
     alertSettingsUpdateSuccess,
-    alertAutofillSuccess,
+    alertAutofillAdd,
+    alertAutofillDelete,
     alertDrinkDeletedSuccess,
     alertBlogPostDeletedSuccess,
     alertBioUpdateSuccess,

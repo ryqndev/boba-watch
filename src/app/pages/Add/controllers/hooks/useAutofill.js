@@ -1,6 +1,7 @@
 import { useState, useCallback, useContext } from 'react';
 import { updateAutofill } from '../../../../controller';
 import AuthUserContext from '../../../../controller/contexts/AuthUserContext';
+import { alertAutofillAdd, alertAutofillDelete } from '../../../../libs/swal';
 
 const useAutofill = () => {
     const [user] = useContext(AuthUserContext);
@@ -18,12 +19,26 @@ const useAutofill = () => {
             },
             ...autofill,
         ];
-        updateAutofill(data, user.uid, update);
+        updateAutofill(data, user.uid, () => {
+            alertAutofillAdd();
+            update();
+        });
+
+    }, [autofill, user.uid, update]);
+
+    const remove = useCallback(value => {
+        let data = [...autofill].filter(entry => entry.value !== value);
+
+        updateAutofill(data, user.uid, () => {
+            alertAutofillDelete();
+            update();
+        });
     }, [autofill, user.uid, update]);
 
     return {
         autofill,
         add,
+        remove,
     }
 }
 

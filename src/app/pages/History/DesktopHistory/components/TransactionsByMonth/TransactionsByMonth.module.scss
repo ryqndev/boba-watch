@@ -2,6 +2,11 @@
     display: grid;
     row-gap: 15px;
 
+    &>.empty {
+        padding: 20px;
+        font-size: 1.3em;
+    }
+
     &>.month {
         font-size: 2em;
         font-weight: bold;

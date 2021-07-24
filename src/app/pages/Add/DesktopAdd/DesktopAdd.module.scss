@@ -106,6 +106,9 @@
     }
 
     &>aside {
+        min-height: 0px;
+        height: 100%;
+        box-sizing: border-box;
         background-color: var(--blog-bg-secondary);
         padding: 145px 20px 20px;
         transition: background-color 350ms;

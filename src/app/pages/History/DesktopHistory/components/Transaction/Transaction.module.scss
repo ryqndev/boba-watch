@@ -5,7 +5,7 @@
     padding: 20px;
     font-size: 1.2em;
     cursor: pointer;
-    transition: background-color 350ms;
+    transition: background-color 150ms;
 
     &>div {
         overflow: hidden;
@@ -35,6 +35,21 @@
                 fill: grey;
             }
         }
+        &.location {
+            display: grid;
+            place-content: center start;
+            grid-auto-flow: column;
+            column-gap: 10px;
+
+
+            &>.globe {
+                transform: translateY(2px);
+                display: grid;
+                place-content: center;
+                fill: rgb(49, 209, 49);
+            }
+        }
+        
     }
 
     &:hover, &.selected {

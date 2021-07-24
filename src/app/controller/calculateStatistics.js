@@ -56,6 +56,8 @@ function getDefaultMetrics() {
  * TODO can make this better since chronological order is a given, just duplicate the mmetrics at certain point
  */
 function recalculateMetrics() {
+
+
     let drinkids = JSON.parse(localStorage.getItem('drinkids'));
     let mmetrics = getDefaultMetrics(),
         cmetrics = getDefaultMetrics(),
@@ -63,20 +65,27 @@ function recalculateMetrics() {
         todayMonth = today.getMonth(),
         todayYear = today.getFullYear();
     drinkids.forEach(drinkid => {
-        let drink = JSON.parse(localStorage.getItem(drinkid));
-        let drinkDate = new Date(drink.date);
-        if (
-            drinkDate.getMonth() === todayMonth &&
-            drinkDate.getFullYear() === todayYear
-        ) {
-            updateMetrics(drink, mmetrics);
+        try {
+            let drink = JSON.parse(localStorage.getItem(drinkid));
+            let drinkDate = new Date(drink.date);
+            if (
+                drinkDate.getMonth() === todayMonth &&
+                drinkDate.getFullYear() === todayYear
+            ) {
+                updateMetrics(drink, mmetrics);
+            }
+            updateMetrics(drink, cmetrics);
         }
-        updateMetrics(drink, cmetrics);
+        catch (e) {
+            console.log('error', e);
+            console.log(drinkid)
+        }
     });
 
     let metrics = joinMetrics(mmetrics, cmetrics);
     localStorage.setItem('metrics', JSON.stringify(metrics));
     return metrics;
+
 }
 function deleteDrink(id) {
     let drinkids = JSON.parse(localStorage.getItem('drinkids'));
@@ -182,14 +191,14 @@ function addDrink(data, id) {
  * @param {*} metrics - metrics object to be updated
  */
 function updateMetrics(drinkObject, metrics, add = true) {
-    try{
+    try {
         let value = add ? 1 : -1;
         metrics.td += value;
         metrics.tc += parseFloat(drinkObject.price) * value;
         metrics.ad = parseFloat(metrics.tc) / parseFloat(metrics.td);
         let date = new Date(drinkObject.date);
         metrics.d[date.getDay()][date.getHours() - 1] += value;
-    }catch(e) {
+    } catch (e) {
         console.error("BROKE: ", e);
         console.error(drinkObject);
     }

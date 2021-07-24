@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import useDrinks from '../../../controller/hooks/useDrinks.js';
 import { Card, Searchbar } from '../../../components';
-import Map from '../../../components/Map';
-import { DrinkPanel, BudgetPieChart, PurchaseTimeHeatMap } from './components';
+import { DrinkPanel, BudgetPieChart, PurchaseTimeHeatMap, VisitedMap } from './components';
 import cn from './DesktopDashboard.module.scss';
 
 const DesktopDashboard = ({ theme }) => {
@@ -22,12 +21,7 @@ const DesktopDashboard = ({ theme }) => {
 					<h1 className={cn.title}>{t('dashboard')}</h1>
 				</header>
 				<div className={cn.content}>
-					<Map
-						className={cn.map}
-						scrollWheelZoom={false}
-						zoom={2.5}
-						theme={theme}
-					/>
+					<VisitedMap className={cn.map} theme={theme} drinks={drinks}/>
 					<Card className={cn.heatmap} title='drink frequency'>
 						<PurchaseTimeHeatMap data={metrics.d} />
 					</Card>

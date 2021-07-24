@@ -1,4 +1,6 @@
 import { memo } from 'react';
+import { Link } from 'react-router-dom';
+import { Card } from '../../../../../components';
 import { Transaction } from '../';
 import cn from './TransactionsByMonth.module.scss';
 
@@ -20,7 +22,13 @@ const MONTH_NAMES = [
 const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 	return (
 		<div className={cn.container}>
-			{drinks.reduce((acc, drink) => {
+			{drinks.length === 0 && (
+				<Card className={cn.empty}>
+					No drinks found. Let's get started by{' '}
+					<Link to='/add'>adding</Link> a drink!
+				</Card>
+			)}
+			{drinks.slice(0, 50).reduce((acc, drink) => {
 				const date = new Date(drink.date);
 				if (
 					acc.length === 0 ||

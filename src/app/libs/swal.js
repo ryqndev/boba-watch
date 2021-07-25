@@ -84,6 +84,18 @@ const promptLocationUpdate = async() => {
     });
 }
 
+const confirmDownloadData = async() => {
+    return Swal.fire({
+        title: i18next.t('Download Data'),
+        text: i18next.t("Would you like to download all your drink data? (in JSON format)"),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: i18next.t('Yes, download ALL of it!'),
+    });
+}
+
 /**
  * confirm messages
  */
@@ -122,4 +134,5 @@ export {
     promptLocationUpdate,
 
     confirmDelete,
+    confirmDownloadData,
 }

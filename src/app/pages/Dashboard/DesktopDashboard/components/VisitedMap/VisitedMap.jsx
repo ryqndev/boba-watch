@@ -30,7 +30,7 @@ const VisitedMap = ({ className, theme, drinks }) => {
 							<div className={cn.popup}>
                                 <h2>{location}</h2>
                                 Visited {drinks.length} times
-                                {drinks.splice(0,5).map(({date}) => (
+                                {drinks.slice(0, 5).map(({date}) => (
                                     <div>{new Date(date).toString().substring(4, 21)}</div>
                                 ))}
 							</div>

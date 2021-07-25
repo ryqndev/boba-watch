@@ -30,37 +30,61 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 					<Link to='/add'>adding</Link> a drink!
 				</Card>
 			)}
-			{drinks.slice(0, itemsToDisplay).reduce((acc, drink) => {
-				const date = new Date(drink.date);
-				if (
-					acc.length === 0 ||
-					new Date(acc[acc.length - 1].props.date).getMonth() !==
-						date.getMonth()
-				)
-					return [
-						...acc,
-						<div className={cn.month} key={date.toDateString()}>
-							{MONTH_NAMES[date.getMonth()]}{' '}
-							{new Date().getFullYear() !== date.getFullYear() &&
-								date.getFullYear()}
-						</div>,
-						<Transaction
-							key={drink.id}
-							selected={detailed?.id}
-							setDetailed={setDetailed}
-							{...drink}
-						/>,
-					];
-				return [
-					...acc,
-					<Transaction
-						key={drink.id}
-						selected={detailed?.id}
-						setDetailed={setDetailed}
-						{...drink}
-					/>,
-				];
-			}, [])}
+			{
+				drinks.slice(0, itemsToDisplay).reduce(
+					(acc, drink) => {
+						const date = new Date(drink.date);
+						if (
+							acc.display.length === 0 ||
+							new Date(
+								acc.display[acc.display.length - 1].props.date
+							).getMonth() !== date.getMonth()
+						)
+							return {
+								display: [
+									...acc.display,
+									acc.display.length !== 0 && (
+										<div
+											className={cn['monthly-total']}
+											key={date.toDateString() + 'total'}
+										>
+											Monthly Total: <span>${(acc.monthlyTotal/100).toFixed(2)}</span>
+										</div>
+									),
+									<div
+										className={cn.month}
+										key={date.toDateString()}
+									>
+										{MONTH_NAMES[date.getMonth()]}{' '}
+										{new Date().getFullYear() !==
+											date.getFullYear() &&
+											date.getFullYear()}
+									</div>,
+									<Transaction
+										key={drink.id}
+										selected={detailed?.id}
+										setDetailed={setDetailed}
+										{...drink}
+									/>,
+								],
+								monthlyTotal: 0,
+							};
+						return {
+							display: [
+								...acc.display,
+								<Transaction
+									key={drink.id}
+									selected={detailed?.id}
+									setDetailed={setDetailed}
+									{...drink}
+								/>,
+							],
+							monthlyTotal: acc.monthlyTotal + drink.price,
+						};
+					},
+					{ display: [], monthlyTotal: 0 }
+				).display
+			}
 			{itemsToDisplay < drinks.length && (
 				<div
 					className={cn['see-more']}

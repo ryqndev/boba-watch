@@ -5,6 +5,7 @@ import { Card, Searchbar } from '../../../components';
 import { DrinkPanel } from '../../../pages/Dashboard/DesktopDashboard/components';
 import { Transaction, DrinkDetails, TransactionsByMonth } from './components';
 import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
+import { confirmDownloadData } from '../../../libs/swal.js';
 import cn from './DesktopHistory.module.scss';
 
 const DesktopHistory = () => {
@@ -12,10 +13,14 @@ const DesktopHistory = () => {
 	const [detailed, setDetailed] = useState(null);
 
 	const download = () => {
-		var blob = new Blob([JSON.stringify(drinks)], {
-			type: 'application/json;charset=utf-8',
+		confirmDownloadData().then(res => {
+			if (res.value) {
+				const blob = new Blob([JSON.stringify(drinks)], {
+					type: 'application/json;charset=utf-8',
+				});
+				saveAs(blob, 'Boba_Watch_user_drink_data.json');
+			}
 		});
-		saveAs(blob, 'Boba_Watch_user_drink_data.json');
 	};
 
 	return (

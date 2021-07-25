@@ -26,4 +26,14 @@
         font-weight: bold;
         color: var(--text-accent);
     }
+    &>.monthly-total {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: var(--text-accent);
+        text-align: right;
+
+        &>span {
+            color: var(--text-secondary);
+        }
+    }
 }

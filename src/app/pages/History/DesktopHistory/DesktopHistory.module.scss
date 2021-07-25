@@ -18,12 +18,25 @@
             box-sizing: border-box;
             padding: 30px 0px 0px 20px;
             grid-column: 1/3;
+            display: grid;
+            column-gap: 20px;
+            grid-template-columns: auto 1fr;
 
             &>h1.title {
                 text-transform: uppercase;
                 color: var(--text-primary);
                 font-size: 3.5em;
                 margin: 0;
+            }
+
+            &>.download {
+                display: grid;
+                place-self: center start;
+                cursor: pointer;
+
+                & path {
+                    fill: grey;
+                }
             }
         }
 

@@ -20,7 +20,7 @@ const MONTH_NAMES = [
 ];
 
 const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
-	const [itemsToDisplay, setItemsToDisplay] = useState(25);
+	const [itemsToDisplay, setItemsToDisplay] = useState(30);
 
 	return (
 		<div className={cn.container}>
@@ -65,7 +65,7 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 				<div
 					className={cn['see-more']}
 					onClick={() => {
-						setItemsToDisplay(prev => prev + 40);
+						setItemsToDisplay(prev => prev + 50);
 					}}
 				>
 					Show More

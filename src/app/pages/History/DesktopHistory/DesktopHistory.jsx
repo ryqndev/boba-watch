@@ -1,19 +1,32 @@
 import { memo, useState } from 'react';
+import { saveAs } from 'file-saver';
 import useDrinks from '../../../controller/hooks/useDrinks.js';
 import { Card, Searchbar } from '../../../components';
 import { DrinkPanel } from '../../../pages/Dashboard/DesktopDashboard/components';
 import { Transaction, DrinkDetails, TransactionsByMonth } from './components';
+import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
 import cn from './DesktopHistory.module.scss';
 
 const DesktopHistory = () => {
 	const { drinks, update } = useDrinks();
 	const [detailed, setDetailed] = useState(null);
 
+	const download = () => {
+		var blob = new Blob([JSON.stringify(drinks)], {
+			type: 'application/json;charset=utf-8',
+		});
+		saveAs(blob, 'Boba_Watch_user_drink_data.json');
+	};
+
 	return (
 		<div className={cn.container}>
 			<main>
 				<header>
 					<h1 className={cn.title}>History</h1>
+					<GetAppRoundedIcon
+						className={cn.download}
+						onClick={download}
+					/>
 				</header>
 				<div className={cn.content}>
 					<Transaction

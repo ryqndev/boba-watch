@@ -1,6 +1,7 @@
 import Card from './globals/styles/Card.jsx';
 import Collapse from './globals/styles/Collapse.jsx';
 import FirebaseStorageImage from './FirebaseStorageImage';
+import LocationTagIndicator from './LocationTagIndicator';
 import MarkdownDisplay from './MarkdownDisplay';
 import Modal from './globals/styles/Modal.jsx';
 import Map from './Map';
@@ -15,6 +16,7 @@ export {
     Card,
     Collapse,
     FirebaseStorageImage,
+    LocationTagIndicator,
     Map,
     MarkdownDisplay,
     Modal,

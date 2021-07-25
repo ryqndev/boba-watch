@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import clsx from 'clsx';
-import { Card } from '../../../../../../components';
+import { Card, LocationTagIndicator } from '../../../../../../components';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
@@ -18,7 +18,9 @@ const SavedItemCard = ({ entry, set, remove }) => {
 			)}
 			{entry.location && (
 				<p>
-					<span>location </span> {entry.location}
+					<span>location </span>{' '}
+					<LocationTagIndicator className={cn.tag} address={entry?.address} />
+					{entry.location}
 				</p>
 			)}
 			{entry.price && (

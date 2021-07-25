@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { Popup, CircleMarker } from 'react-leaflet';
+import { Link } from 'react-router-dom';
 import cn from './StoreMarker.module.scss';
 
 const StoreMarker = ({ data, setCenter, setSelected }) => {
@@ -27,6 +28,9 @@ const StoreMarker = ({ data, setCenter, setSelected }) => {
 				<div className={cn.popup}>
 					<h3>{data.venue.name}</h3>
 					<span>{data.venue.location.address}</span>
+					<Link to='/add' state={{ address: data.venue.location, location: data.venue.name }}>
+						Add drink for this location
+					</Link>
 				</div>
 			</Popup>
 		</CircleMarker>

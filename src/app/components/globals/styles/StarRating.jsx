@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 import clsx from 'clsx';
 import { ReactComponent as StarEmptyIcon } from './star_empty.svg';
@@ -29,4 +29,4 @@ const StarRating = ({ rating, setRating, className }) => {
 	);
 };
 
-export default StarRating;
+export default memo(StarRating);

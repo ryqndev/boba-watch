@@ -7,6 +7,7 @@ import cn from './PurchaseTimeHeatMap.module.scss';
 
 import { useTooltip, useTooltipInPortal } from '@visx/tooltip';
 import { localPoint } from '@visx/event';
+import Bin from './Bin/Bin';
 
 const DATE_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const TIME_LABELS = [
@@ -128,21 +129,8 @@ const PurchaseTimeHeatMap = ({ data }) => {
 					{heatmap =>
 						heatmap.map(heatmapBins =>
 							heatmapBins.map(bin => (
-								<rect
-									key={`heatmap-rect-${bin.row}-${bin.column}`}
-									width={bin.width}
-									height={bin.height}
-									x={bin.x}
-									y={bin.y}
-									fill={bin.color}
-									fillOpacity={bin.opacity}
-									data-bin={JSON.stringify({
-										row: bin.row,
-										column: bin.column,
-										count: bin.count,
-									})}
-									onMouseOver={handleMouseOver}
-									onMouseOut={hideTooltip}
+								<Bin
+									{...{ bin, handleMouseOver, hideTooltip }}
 								/>
 							))
 						)
@@ -158,11 +146,12 @@ const PurchaseTimeHeatMap = ({ data }) => {
 					<div className={cn.tooltip}>
 						<time>
 							{DATE_LABELS[tooltipData.column]}
-							{' | '} 
+							{' | '}
 							{TIME_LABELS[tooltipData.row]}
 						</time>
-						<p><strong>{tooltipData.count} </strong>drink
-						{tooltipData === 1 ? '' : 's'} purchased
+						<p>
+							<strong>{tooltipData.count} </strong>drink
+							{tooltipData === 1 ? '' : 's'} purchased
 						</p>
 					</div>
 				</TooltipInPortal>

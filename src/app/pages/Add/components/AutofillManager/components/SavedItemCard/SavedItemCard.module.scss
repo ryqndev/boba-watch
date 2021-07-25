@@ -12,6 +12,11 @@
             font-weight: normal;
             text-transform: uppercase;
         }
+        &>.tag {
+            display: inline-block;
+            margin: 0px 7px 0px 3px;
+            transform: translateY(2px);
+        }
 
         &>.star {
             & path {

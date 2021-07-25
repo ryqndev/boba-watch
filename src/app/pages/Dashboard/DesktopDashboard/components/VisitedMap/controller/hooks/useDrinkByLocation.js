@@ -15,7 +15,7 @@ const useDrinkByLocation = (drinks) => {
                 coordinates: [drink.address.lat, drink.address.lng],
                 location: drink?.location,
                 drinks: [
-                    ...(locationMap?.[coordinateKey]?.drinks ?? []),
+                    ...(locationMap[coordinateKey]?.drinks ?? []),
                     {
                         id: drink.id,
                         date: drink?.date,
@@ -25,7 +25,7 @@ const useDrinkByLocation = (drinks) => {
         });
 
         setLocations(Object.values(locationMap));
-    }, [drinks])
+    }, [drinks]);
 
     return {
         locations,

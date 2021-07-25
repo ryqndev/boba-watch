@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '../../../../../components';
 import { Transaction } from '../';
@@ -20,6 +20,8 @@ const MONTH_NAMES = [
 ];
 
 const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
+	const [itemsToDisplay, setItemsToDisplay] = useState(25);
+
 	return (
 		<div className={cn.container}>
 			{drinks.length === 0 && (
@@ -28,7 +30,7 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 					<Link to='/add'>adding</Link> a drink!
 				</Card>
 			)}
-			{drinks.slice(0, 50).reduce((acc, drink) => {
+			{drinks.slice(0, itemsToDisplay).reduce((acc, drink) => {
 				const date = new Date(drink.date);
 				if (
 					acc.length === 0 ||
@@ -59,6 +61,16 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 					/>,
 				];
 			}, [])}
+			{itemsToDisplay < drinks.length && (
+				<div
+					className={cn['see-more']}
+					onClick={() => {
+						setItemsToDisplay(prev => prev + 40);
+					}}
+				>
+					Show More
+				</div>
+			)}
 		</div>
 	);
 };

@@ -3,8 +3,7 @@ import clsx from 'clsx';
 import {format} from 'date-fns';
 import ArrowRightIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
-import PublicRoundedIcon from '@material-ui/icons/PublicRounded';
-import { Card } from '../../../../../components';
+import { Card, LocationTagIndicator } from '../../../../../components';
 import cn from './Transaction.module.scss';
 
 const Transaction = ({
@@ -21,8 +20,6 @@ const Transaction = ({
 		setDetailed(drink);
 	};
 
-	const hasCoordinates = () => drink?.address?.lat && drink?.address?.lng;
-
 	return (
 		<Card
 			className={clsx(
@@ -36,7 +33,7 @@ const Transaction = ({
 				{!header ? format(new Date(date), 'ccc M/dd h:mm a') : 'date'}
 			</div>
 			<div className={cn.location}>
-				{hasCoordinates() && <PublicRoundedIcon className={cn.globe} />}
+				<LocationTagIndicator className={cn.tag} address={drink?.address}/>
 				{location}
 			</div>
 			<div className={cn.name}>{name}</div>

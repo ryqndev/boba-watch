@@ -6,6 +6,7 @@ import {
 	FirebaseStorageImage,
 	MarkdownDisplay,
 } from '../../../../../components';
+import { confirmDelete } from '../../../../../libs/swal';
 import cn from './DrinkDetails.module.scss';
 import { remove } from '../../../../../controller';
 import AuthUserContext from '../../../../../controller/contexts/AuthUserContext';
@@ -22,12 +23,15 @@ const DrinkDetails = ({
 	setDetailed,
 }) => {
 	const [user] = useContext(AuthUserContext);
-	
+
 	const del = () => {
-		// TODO prompt user for delete confirmation
-		remove(id, user.uid, () => {
-			update();
-			setDetailed(null);
+		confirmDelete().then(res => {
+			if (res.value) {
+				remove(id, user.uid, () => {
+					update();
+					setDetailed(null);
+				});
+			}
 		});
 	};
 
@@ -44,7 +48,9 @@ const DrinkDetails = ({
 			)}
 			<MarkdownDisplay description={description} />
 			<div className={cn.actions}>
-				<Link to={'/edit/' + id}><button>EDIT</button></Link>
+				<Link to={'/edit/' + id}>
+					<button>EDIT</button>
+				</Link>
 				<button onClick={del}>DELETE</button>
 			</div>
 		</Card>

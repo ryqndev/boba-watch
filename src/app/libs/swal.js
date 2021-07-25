@@ -27,9 +27,6 @@ const alertDefaultError = (error) => {
     Swal.fire(i18next.t('Oops...'), JSON.stringify(error), 'error');
 }
 
-/**
- * success messages
- */
 const alertLinkCopiedSuccess = () => {
     Swal.fire(i18next.t('Link Copied!'), i18next.t(''), 'success');
 }
@@ -90,7 +87,7 @@ const promptLocationUpdate = async() => {
 /**
  * confirm messages
  */
-const confirmBlogPostDelete = async() => {
+const confirmDelete = async() => {
     return Swal.fire({
         title: i18next.t('Are you sure?'),
         text: i18next.t("Once you delete this you can't get it back!"),
@@ -124,5 +121,5 @@ export {
     promptBioUpdate,
     promptLocationUpdate,
 
-    confirmBlogPostDelete,
+    confirmDelete,
 }

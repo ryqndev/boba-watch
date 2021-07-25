@@ -1,6 +1,13 @@
 .container {
     font-size: 1.2em;
+    position: relative;
 
+    &>.tag {
+        position: absolute;
+        top: 30px;
+        right: 0px;
+    }
+    
     &>.divider {
         display: grid;
         grid-template-columns: 1fr auto;

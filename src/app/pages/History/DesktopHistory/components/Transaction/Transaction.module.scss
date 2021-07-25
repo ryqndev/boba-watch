@@ -20,49 +20,51 @@
             display: grid;
             grid-template-columns: 1fr auto;
             text-align: right;
+
             &>svg {
                 fill: gold;
                 place-self: center;
             }
         }
+
         &.expand-icon {
             display: grid;
             place-content: center;
             padding-left: 0px;
             transition: padding-left 350ms;
+
             & path {
                 transition: fill 350ms;
                 fill: grey;
             }
         }
+
         &.location {
             display: grid;
             place-content: center start;
             grid-auto-flow: column;
             column-gap: 10px;
 
-
-            &>.globe {
+            &>.tag {
                 transform: translateY(2px);
-                display: grid;
-                place-content: center;
-                fill: rgb(49, 209, 49);
             }
         }
-        
     }
 
-    &:hover, &.selected {
+    &:hover,
+    &.selected {
         background-color: var(--text-accent);
+
         &>.expand-icon {
             padding-left: 5px;
+
             & path {
                 fill: var(--text-secondary);
             }
         }
     }
+
     &:hover {
         background-color: transparent;
-
     }
 }

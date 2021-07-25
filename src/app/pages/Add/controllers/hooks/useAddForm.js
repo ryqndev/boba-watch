@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import AuthUserContext from '../../../../controller/contexts/AuthUserContext.js';
 import { add, edit } from '../../../../controller';
 
@@ -10,6 +10,7 @@ const defaultForm = {
 };
 
 const useAddForm = () => {
+    const { state } = useLocation()
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -55,6 +56,11 @@ const useAddForm = () => {
         data.price = data.price / 100;
         setForm(data);
     }, [id]);
+
+    useEffect(() => {
+        if (!state?.address || !state?.location) return;
+        setForm({...defaultForm, address: state.address, location: state.location});
+    }, [state]);
 
     return {
         disabled,

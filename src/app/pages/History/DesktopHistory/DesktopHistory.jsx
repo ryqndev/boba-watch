@@ -38,7 +38,13 @@ const DesktopHistory = () => {
 						Result={({ item }) => <DrinkPanel data={item} />}
 					/>
 				</Card>
-				{detailed && <DrinkDetails {...detailed} update={update} setDetailed={setDetailed} />}
+				{detailed && (
+					<DrinkDetails
+						{...detailed}
+						update={update}
+						setDetailed={setDetailed}
+					/>
+				)}
 			</aside>
 		</div>
 	);

@@ -2,13 +2,14 @@ import { memo } from 'react';
 import 'date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { TextInput, StarRating } from '../../../../components';
+import { TextInput, StarRating, LocationTagIndicator } from '../../../../components';
 import { LocationInput } from '../';
 import cn from './BasicFields.module.scss';
 
 const BasicFields = ({ form, handleChange, editForm }) => {
 	return (
 		<div className={cn.container}>
+			<LocationTagIndicator className={cn.tag} address={form?.address} />
 			<LocationInput value={form.location ?? ''} onChange={editForm} />
 			<TextInput
 				value={form.name ?? ''}

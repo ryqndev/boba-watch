@@ -23,7 +23,7 @@ const SavedItemCard = ({ entry, set, remove }) => {
 					{entry.location}
 				</p>
 			)}
-			{entry.price && (
+			{(entry.price === 0 || entry.price) && (
 				<p>
 					<span>price </span> ${(entry.price / 100).toFixed(2)}
 				</p>

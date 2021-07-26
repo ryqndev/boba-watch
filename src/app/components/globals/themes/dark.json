@@ -25,6 +25,9 @@
         "--dash-bg-secondary": "#0b0b0b",
         "--dash-text-secondary": "#FFDCDC",
         "--editor-background": "#101015",
-        "--table-header--text": "#F68080"
+        "--table-header--text": "#F68080",
+        "--overlay-background": "#000000aa",
+        "--autofill-title": "#ffffff",
+        "--autofill-text": "#7F91A8"
     }
 }

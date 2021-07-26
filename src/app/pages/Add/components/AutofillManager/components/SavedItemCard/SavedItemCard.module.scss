@@ -1,17 +1,20 @@
 .container {
     position: relative;
     padding: 20px;
+    background-color: var(--blog-bg-primary);
 
     &>p {
         font-size: 1.8em;
         font-weight: bold;
+        color: var(--autofill-text);
 
         &>span {
-            color: var(--text-accent);
+            color: var(--autofill-title);
             font-size: 0.6em;
             font-weight: normal;
             text-transform: uppercase;
         }
+        
         &>.tag {
             display: inline-block;
             margin: 0px 7px 0px 3px;
@@ -26,7 +29,7 @@
     }
 
     &>.actions {
-        background-color: #000000aa;
+        background-color: var(--overlay-background);
         position: absolute;
         top: 0;
         left: 0;
@@ -38,6 +41,7 @@
         column-gap: 20px;
         opacity: 0;
         transition: opacity 350ms;
+        
 
         &.show {
             opacity: 1;

@@ -30,7 +30,8 @@ const AutofillManager = ({ form, setForm }) => {
 		<div className={cn.scrollable}>
 			<div className={cn.container}>
 				<div className={cn.create} onClick={save}>
-					Save Form
+					<h3>+ Create</h3>
+					<p>Click here to save the current form for future use</p>
 				</div>
 				{autofill?.length === 0 && (
 					<Card className={cn.empty}>No drinks currently saved</Card>

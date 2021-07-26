@@ -7,14 +7,12 @@
         font-size: 1.4em;
         color: var(--text-accent);
         text-align: center;
-        // background-color: var(--blog-bg-secondary);
         background-color: var(--text-light);
         border-radius: 4px;
         transition: background-color 350ms;
         cursor: pointer;
 
         &:hover {
-            // background-color: var(--bg-primary);
             background-color: var(--bg-secondary);
         }
     }
@@ -36,7 +34,6 @@
 
         &>span {
             color: var(--add-header);
-
         }
     }
 }

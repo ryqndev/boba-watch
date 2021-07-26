@@ -1,5 +1,7 @@
 .scrollable {
-    height: calc(100% - 68px);
+    height: calc(100% - 53px);
+    box-sizing: border-box;
+    padding-bottom: 20px;
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -15,12 +17,22 @@
         &>.create {
             padding: 30px 60px;
             color: grey;
-            border: 4px dashed var(--nav-bg);
+            border: 2px dashed var(--autofill-text);
             border-radius: 4px;
             text-align: center;
             font-size: 1.6em;
             cursor: pointer;
             transition: background-color 350ms, color 350ms;
+
+            h3 {
+                font-size: 1.5em;
+                color: #FFDCDC;
+                margin: 0;
+            }
+            p {
+                font-size: 0.7em;
+                color: #FFDCDC;
+            }
 
             &:hover {
                 background-color: #ffffff11;

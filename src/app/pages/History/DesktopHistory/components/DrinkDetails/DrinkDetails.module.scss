@@ -1,24 +1,28 @@
 .container {
     display: grid;
     row-gap: 20px;
-    padding: 30px 20px;
+    padding: 30px;
 
     &>h1 {
         font-size: 4em;
         line-height: 1em;
         margin: 0;
-        text-align: center;
-        color: var(--text-accent);
+        color: #F68080;
     }
+
     &>h2 {
-        text-align: center;
-        font-size: 1.8em;
+        font-size: 2em;
+        line-height: 1.1em;
         color: var(--text-secondary);
+        text-transform: uppercase;
         margin: 0;
 
         &>span {
+            display: block;
+            margin-top: 5px;
             color: var(--text-accent);
             font-size: 0.8em;
+            text-transform: capitalize;
         }
     }
 
@@ -31,17 +35,19 @@
 
     &>time {
         color: grey;
-        font-size: 1.2em;
-        text-align: center;
+        font-size: 1em;
+        text-align: right;
     }
+
     &>.actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
         column-gap: 20px;
-        
+
         & button {
             width: 100%;
             cursor: pointer;
+            background-color: var(--text-accent);
         }
     }
 }

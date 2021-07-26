@@ -63,6 +63,11 @@ const DesktopHistory = () => {
 						setDetailed={setDetailed}
 					/>
 				)}
+				{!detailed && (
+					<Card className={cn['not-selected']}>
+						Select a drink from your history to view it's details
+					</Card>
+				)}
 			</aside>
 		</div>
 	);

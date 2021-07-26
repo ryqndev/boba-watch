@@ -11,23 +11,17 @@ const useDrinkByLocation = (drinks) => {
 
             const coordinateKey = `${drink.address.lat}${drink.address.lng}${drink?.location}`;
 
-            if (locationMap.hasOwnProperty(coordinateKey)) {
-                locationMap[coordinateKey].drinks = [...locationMap[coordinateKey].drinks, {
-                    id: drink.id,
-                    date: drink?.date,
-                },]
-            } else {
-                locationMap[coordinateKey] = {
-                    coordinates: [drink.address.lat, drink.address.lng],
-                    location: drink?.location,
-                    drinks: [
-                        {
-                            id: drink.id,
-                            date: drink?.date,
-                        },
-                    ]
-                };
-            }
+            locationMap[coordinateKey] = {
+                coordinates: [drink.address.lat, drink.address.lng],
+                location: drink?.location,
+                drinks: [
+                    ...(locationMap?.[coordinateKey]?.drinks ?? []),
+                    {
+                        id: drink.id,
+                        date: drink?.date,
+                    },
+                ]
+            };
         });
 
         setLocations(Object.values(locationMap));

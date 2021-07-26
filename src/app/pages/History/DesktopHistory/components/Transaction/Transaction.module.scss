@@ -11,6 +11,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        transition: color 150ms;
 
         &.price {
             text-align: right;
@@ -34,7 +35,7 @@
             transition: padding-left 350ms;
 
             & path {
-                transition: fill 350ms;
+                transition: fill 150ms;
                 fill: grey;
             }
         }
@@ -55,6 +56,14 @@
     &.selected {
         background-color: var(--text-accent);
 
+        &>.location {
+            &>.tag {
+                & path {
+                    fill: white;
+                }
+            }
+        }
+
         &>.expand-icon {
             padding-left: 5px;
 
@@ -65,6 +74,16 @@
     }
 
     &:hover {
+        color: var(--text-primary);
+
+        &>.expand-icon {
+            & path {
+                fill: white;
+            }
+        }
+    }
+
+    &.selected {
         background-color: transparent;
     }
 }

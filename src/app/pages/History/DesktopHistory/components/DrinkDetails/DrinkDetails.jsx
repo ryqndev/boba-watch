@@ -7,9 +7,9 @@ import {
 	MarkdownDisplay,
 } from '../../../../../components';
 import { confirmDelete } from '../../../../../libs/swal';
-import cn from './DrinkDetails.module.scss';
 import { remove } from '../../../../../controller';
 import AuthUserContext from '../../../../../controller/contexts/AuthUserContext';
+import cn from './DrinkDetails.module.scss';
 
 const DrinkDetails = ({
 	description,
@@ -37,16 +37,20 @@ const DrinkDetails = ({
 
 	return (
 		<Card className={cn.container}>
+			{image && (
+				<FirebaseStorageImage className={cn.image} image={image} />
+			)}
 			<h2>
 				{name}
 				<span> @{location}</span>
 			</h2>
-			<time>{format(new Date(date), 'ccc. LLL dd, yyyy h:mm a')}</time>
+
 			<h1>${(price / 100).toFixed(2)}</h1>
-			{image && (
-				<FirebaseStorageImage className={cn.image} image={image} />
-			)}
+
 			<MarkdownDisplay description={description} />
+
+			<time>{format(new Date(date), 'ccc. LLL dd, yyyy h:mm a')}</time>
+
 			<div className={cn.actions}>
 				<Link to={'/edit/' + id}>
 					<button>EDIT</button>

@@ -87,4 +87,11 @@
     background-color: var(--editor-background) !important;
     color: var(--text-secondary) !important;
     transition: background-color 350ms, color 350ms;
+    
+}
+td {
+    color: var(--text-secondary);
+}
+table {
+    margin-top: 8px;
 }

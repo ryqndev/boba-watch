@@ -7,12 +7,14 @@
         font-size: 1.4em;
         color: var(--text-accent);
         text-align: center;
-        background-color: var(--blog-bg-secondary);
+        // background-color: var(--blog-bg-secondary);
+        background-color: var(--text-light);
         border-radius: 4px;
         transition: background-color 350ms;
         cursor: pointer;
 
         &:hover {
+            // background-color: var(--bg-primary);
             background-color: var(--bg-secondary);
         }
     }
@@ -24,16 +26,17 @@
     &>.month {
         font-size: 2em;
         font-weight: bold;
-        color: var(--text-accent);
+        color: var(--add-header);
     }
     &>.monthly-total {
         font-size: 1.8em;
         font-weight: bold;
-        color: var(--text-accent);
+        color: var(--blog-text-primary);
         text-align: right;
 
         &>span {
-            color: var(--text-secondary);
+            color: var(--add-header);
+
         }
     }
 }

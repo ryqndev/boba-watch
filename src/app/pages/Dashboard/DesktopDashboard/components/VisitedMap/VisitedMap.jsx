@@ -10,7 +10,7 @@ const VisitedMap = ({ className, theme, drinks }) => {
 
 	return (
 		<Map
-			className={clsx(className)}
+			className={clsx(className, cn.container)}
 			scrollWheelZoom={false}
 			zoom={2.5}
 			theme={theme}
@@ -26,10 +26,12 @@ const VisitedMap = ({ className, theme, drinks }) => {
 						fillColor={'#F68080'}
 						fillOpacity={'0.5'}
 					>
-						<Popup>
+						<Popup >
 							<div className={cn.popup}>
                                 <h2>{location}</h2>
-                                Visited {drinks.length} times
+                                <p>Visited <span>{drinks.length}</span> times</p>
+
+								<p>Recent visits:</p>
                                 {drinks.slice(0, 5).map(({date}) => (
                                     <div>{new Date(date).toString().substring(4, 21)}</div>
                                 ))}

@@ -6,6 +6,7 @@ import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import { logout, database } from '../../../libs/firestore';
 import clsx from 'clsx';
 import cn from './ExpandedUserIcon.module.scss';
+import { alertSettingsUpdateSuccess } from '../../../libs/swal';
 
 const ExpandedUserIcon = ({ className, theme }) => {
 	const { t } = useTranslation();
@@ -20,25 +21,26 @@ const ExpandedUserIcon = ({ className, theme }) => {
 		setLimit(user.profile.limit);
 		setSharing(user.profile.sharing);
 	}, [user]);
-    
+
 	const handleChange = setUserInfo => event => {
 		setUserInfo(event.target.value);
 	};
 	const updateFirebase = () => {
-			let data = {
-				budget: parseInt(parseFloat(budget) * 100),
-				limit: parseInt(limit),
-				sharing: sharing,
-			};
-			database
-				.collection(`users/${user.uid}/user`)
-				.doc('profile')
-				.set(data)
-				.then(() => {
-					setAuthUser(state => ({ ...state, profile: data }));
-				});
+		let data = {
+			budget: parseInt(parseFloat(budget) * 100),
+			limit: parseInt(limit),
+			sharing: sharing,
+		};
+		database
+			.collection(`users/${user.uid}/user`)
+			.doc('profile')
+			.set(data)
+			.then(() => {
+				setAuthUser(state => ({ ...state, profile: data }));
+				alertSettingsUpdateSuccess();
+			});
 	};
-	const themeSelect = ({label}) => {
+	const themeSelect = ({ label }) => {
 		theme.setTheme(label);
 	};
 

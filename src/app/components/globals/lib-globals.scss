@@ -89,9 +89,20 @@
     transition: background-color 350ms, color 350ms;
     
 }
+
 td {
     color: var(--text-secondary);
 }
+
 table {
     margin-top: 8px;
+}
+
+.leaflet-popup-content-wrapper{
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+}
+
+.leaflet-popup-tip {
+    background-color: var(--bg-secondary);
 }

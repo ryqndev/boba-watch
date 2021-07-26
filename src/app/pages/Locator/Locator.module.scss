@@ -53,6 +53,7 @@ main.container {
                 border: 2px solid var(--btn-bg);
             }
             & button {
+                margin: 0px;
                 &:hover, &:active, &:focus { 
                     transform: none;
                 }
@@ -84,7 +85,6 @@ main.container {
         }
 
         &>.list-holder {
-            height: 100%;
             overflow-y: scroll;
 
             &>.list {

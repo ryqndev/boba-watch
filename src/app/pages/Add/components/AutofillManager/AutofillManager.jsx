@@ -37,7 +37,12 @@ const AutofillManager = ({ form, setForm }) => {
 					<Card className={cn.empty}>No drinks currently saved</Card>
 				)}
 				{autofill.map(entry => (
-					<SavedItemCard key={entry.value} entry={entry} set={set} remove={remove} />
+					<SavedItemCard
+						key={entry.value}
+						entry={entry}
+						set={set}
+						remove={remove}
+					/>
 				))}
 			</div>
 		</div>

@@ -10,6 +10,11 @@
     text-align: center;
     color: var(--text-accent);
     cursor: pointer;
+    transition: background-color 350ms;
+
+    &:hover {
+        background-color: #88888811;
+    }
 
     &.uploading {
         border: 2px solid var(--text-accent);

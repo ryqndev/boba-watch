@@ -97,6 +97,7 @@
                             0px 2px 1px -1px #00000033,
                             0px 1px 1px #00000024,
                             0px 1px 3px #0000001f;
+                        cursor: pointer;
                     }
                 }
             }
@@ -111,11 +112,16 @@
         padding: 145px 20px 20px;
         transition: background-color 350ms;
 
-        & h2 {
+        &>h2 {
             font-size: 2.8em;
             margin: 0;
             color: var(--nav-text);
             text-transform: capitalize;
+        }
+        &>p {
+            font-size: 1.1em;
+            color: #edd;
+            padding: 0px 0px 30px;
         }
     }
 }

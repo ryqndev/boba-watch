@@ -1,7 +1,7 @@
 .scrollable {
-    height: calc(100% - 53px);
+    height: calc(100% - 188px);
     box-sizing: border-box;
-    padding-bottom: 20px;
+    padding: 20px 0px;
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -15,7 +15,7 @@
         row-gap: 20px;
 
         &>.create {
-            padding: 30px 60px;
+            padding: 40px 60px 50px;
             color: grey;
             border: 2px dashed var(--autofill-text);
             border-radius: 4px;

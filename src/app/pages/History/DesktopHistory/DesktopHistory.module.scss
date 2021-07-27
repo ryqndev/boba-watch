@@ -44,7 +44,7 @@
             height: calc(100vh - 135px);
 
             &>.table-header {
-                margin: 20px;
+                margin: 20px 20px 1px;
                 text-transform: uppercase;
                 background-color: var(--blog-bg-secondary);
                 color: var(--table-header--text);
@@ -58,7 +58,7 @@
             &>.scrollable {
                 height: calc(100% - 100px);
                 box-sizing: border-box;
-                padding: 0px 20px 20px;
+                padding: 19px 20px 20px;
                 overflow-y: scroll;
                 scrollbar-width: none;
                 -ms-overflow-style: none;
@@ -77,6 +77,7 @@
         margin-top: 145px;
         height: min-content;
         max-height: calc(100vh - 145px);
+        padding: 0px 20px 0px 5px;
         overflow-y: scroll;
         scrollbar-width: none;
         -ms-overflow-style: none;
@@ -84,7 +85,6 @@
             width: 0;
             height: 0;
         }
-        padding: 0px 20px 0px 5px;
 
         &:after {
             content: "";

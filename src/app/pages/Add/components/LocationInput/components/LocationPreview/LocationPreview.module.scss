@@ -1,7 +1,20 @@
 .container {
+    position: relative;
+
     &>.divider {
         padding-top: 10px;
         border-bottom: 3px dotted var(--blog-accent);
+    }
+
+    &>.name-container {
+        position: relative;
+        &>.tag {
+            position: absolute;
+            bottom: 35px;
+            right: 0;
+            z-index: 100;
+            background-color: var(--bg-secondary);
+        }
     }
 
     &>.select {
@@ -12,6 +25,9 @@
         &>.expand {
             display: grid;
             place-self: center;
+            & path {
+                fill: var(--blog-accent);
+            }
         }
 
         &>h5 {
@@ -46,6 +62,7 @@
         &>button {
             display: grid;
             place-content: center;
+            cursor: pointer;
 
             & path {
                 fill: white;

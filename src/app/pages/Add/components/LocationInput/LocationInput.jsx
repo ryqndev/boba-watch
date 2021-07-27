@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { Card, Modal, TextInput } from '../../../../components';
+import { Card, LocationTagIndicator, Modal, TextInput } from '../../../../components';
 import {
 	LocationPreview,
 	NearbyLocationList,
@@ -7,9 +7,9 @@ import {
 } from './components';
 import cn from './LocationInput.module.scss';
 
-const LocationInput = ({ value, onChange }) => {
+const LocationInput = ({ form, onChange }) => {
 	const [show, setShow] = useState(false);
-	const [tab, setTab] = useState('previous');
+	const [tab, setTab] = useState('nearby');
 
 	return (
 		<div className={cn.container}>
@@ -17,7 +17,7 @@ const LocationInput = ({ value, onChange }) => {
 				<div className={cn['input-container']}>
 					<Card className={cn.preview}>
 						<h3>Location</h3>
-						<LocationPreview value={value} setShow={setShow} tab={tab} setTab={setTab}/>
+						<LocationPreview form={form} setShow={setShow} tab={tab} setTab={setTab}/>
 					</Card>
 					<Card className={cn.select}>
 						<h3>{tab}</h3>
@@ -30,8 +30,7 @@ const LocationInput = ({ value, onChange }) => {
 				</div>
 			</Modal>
 			<TextInput
-				value={value}
-				readOnly
+				value={form?.location ?? ''}
 				label={'Location'}
 				onFocus={() => setShow(true)}
 			/>

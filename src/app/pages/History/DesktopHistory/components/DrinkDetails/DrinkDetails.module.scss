@@ -2,6 +2,7 @@
     display: grid;
     row-gap: 20px;
     padding: 30px;
+    user-select: text;
 
     &>h1 {
         font-size: 4em;

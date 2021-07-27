@@ -10,12 +10,13 @@
     }
     &>.scrollable {
         overflow-y: scroll;
-        height: calc(100% - 100px);
+        height: 398px;
         padding: 20px;
+        font-size: 0.7em;
 
         &>.list {
             display: grid;
-            row-gap: 20px;
+            row-gap: 15px;
 
             &>.listing {
                 width: 100%;
@@ -23,6 +24,7 @@
                 padding: 20px;
                 min-height: max-content;
                 background-color: var(--blog-bg-secondary);
+                cursor: pointer;
                 
                 &>h4 {
                     margin: 0;

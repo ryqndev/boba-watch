@@ -2,6 +2,7 @@ import { memo } from 'react';
 import clsx from 'clsx';
 import { CircleMarker, Popup } from 'react-leaflet';
 import { Map } from '../../../../../components';
+import { format } from 'date-fns';
 import { useDrinkByLocation } from './controller';
 import cn from './VisitedMap.module.scss';
 
@@ -18,6 +19,7 @@ const VisitedMap = ({ className, theme, drinks }) => {
 			{position =>
 				locations.map(({ coordinates, drinks, location }) => (
 					<CircleMarker
+						key={JSON.stringify(coordinates) + location}
 						center={coordinates}
 						radius={10}
 						fill={true}
@@ -26,15 +28,19 @@ const VisitedMap = ({ className, theme, drinks }) => {
 						fillColor={'#F68080'}
 						fillOpacity={'0.5'}
 					>
-						<Popup >
+						<Popup>
 							<div className={cn.popup}>
-                                <h2>{location}</h2>
-                                <p>Visited <span>{drinks.length}</span> times</p>
+								<h2>{location}</h2>
+								<p>
+									Visited <span>{drinks.length}</span> times
+								</p>
 
 								<p>Recent visits:</p>
-                                {drinks.slice(0, 5).map(({date}) => (
-                                    <div>{new Date(date).toString().substring(4, 21)}</div>
-                                ))}
+								{drinks.slice(0, 5).map(({ date }) => (
+									<div>
+										{format(new Date(date), 'MMM d, yyyy h:mm a')}
+									</div>
+								))}
 							</div>
 						</Popup>
 					</CircleMarker>

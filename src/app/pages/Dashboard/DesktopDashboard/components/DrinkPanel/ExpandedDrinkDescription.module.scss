@@ -1,25 +1,32 @@
-.container{
+.container {
+    cursor: initial;
+    user-select: text;
     padding-bottom: 15px;
-    
-    &>.title{
+
+    &>.title {
         font-weight: bold;
         text-align: center;
     }
-    &>.title span{
+
+    &>.title span {
         color: #8888FF;
         text-align: center;
     }
-    &>.date{
+
+    &>.date {
         text-align: center;
     }
-    &>.date span{
+
+    &>.date span {
         color: #8888FF;
         font-weight: bold;
         font-size: 14px;
     }
-    &>img.user-uploaded{
+
+    &>img.user-uploaded {
         width: 100%;
     }
+
     &>.description {
         &>span {
             display: inline-block;
@@ -29,6 +36,7 @@
             text-transform: uppercase;
         }
     }
+
     #preview {
         background-color: transparent;
         border: none;

@@ -10,7 +10,7 @@ const BasicFields = ({ form, handleChange, editForm }) => {
 	return (
 		<div className={cn.container}>
 			<LocationTagIndicator className={cn.tag} address={form?.address} />
-			<LocationInput value={form.location ?? ''} onChange={editForm} />
+			<LocationInput form={form} onChange={editForm} />
 			<TextInput
 				value={form.name ?? ''}
 				onChange={handleChange('name', 150)}

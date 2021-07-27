@@ -4,6 +4,7 @@ import './TextInput.scss';
 
 const TextInput = props => {
 	let { value, id, label, autoFocus, onFocus } = props;
+
 	return (
 		<span
 			className={clsx(

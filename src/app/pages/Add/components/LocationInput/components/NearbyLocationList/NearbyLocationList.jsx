@@ -62,9 +62,10 @@ const NearbyLocationList = ({ onChange }) => {
 
 	return (
 		<div className={cn.container}>
+			<h3>Nearby Locations</h3>
 			<div className={cn.search}>
 				<TextInput
-					label='Name'
+					label='Search'
 					value={search}
 					onChange={handleChange}
 				/>

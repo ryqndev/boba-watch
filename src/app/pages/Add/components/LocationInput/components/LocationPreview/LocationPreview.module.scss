@@ -1,13 +1,14 @@
 .container {
-    position: relative;
+    font-size: 1.1em;
 
     &>.divider {
-        padding-top: 10px;
+        padding-top: 20px;
         border-bottom: 3px dotted var(--blog-accent);
     }
 
     &>.name-container {
         position: relative;
+        font-size: 0.9em;
         &>.tag {
             position: absolute;
             bottom: 35px;
@@ -48,8 +49,8 @@
     &>h4 {
         font-weight: normal;
         color: rgb(92, 92, 92);
-        margin: 10px 0px;
-        font-size: 0.65em;
+        margin: 20px 0px 0px;
+        font-size: 0.7em;
     }
 
     &>.actions {

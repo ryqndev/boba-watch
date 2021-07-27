@@ -1,22 +1,44 @@
 .container {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    box-sizing: border-box;
+    padding: 30px 30px 0px;
+    height: 100%;
+
+    &>h3 {
+        font-size: 1.5em;
+        color: var(--text-accent);
+        margin: 0;
+        text-transform: capitalize;
+    }
+
     & .search {
         box-sizing: border-box;
         border-radius: 4px;
+        padding: 0px 2px;
         font-size: 0.8em;
-        padding: 0px 20px;
     }
+
     & .awaiting-location {
         color: grey;
     }
+
     &>.scrollable {
-        overflow-y: scroll;
-        height: 398px;
-        padding: 20px;
+        height: 100%;
         font-size: 0.7em;
+        overflow-y: scroll;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
 
         &>.list {
             display: grid;
             row-gap: 15px;
+            padding: 10px 0px 30px;
 
             &>.listing {
                 width: 100%;
@@ -25,7 +47,7 @@
                 min-height: max-content;
                 background-color: var(--blog-bg-secondary);
                 cursor: pointer;
-                
+
                 &>h4 {
                     margin: 0;
                 }

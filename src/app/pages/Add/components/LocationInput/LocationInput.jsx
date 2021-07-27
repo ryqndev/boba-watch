@@ -20,7 +20,6 @@ const LocationInput = ({ form, onChange }) => {
 						<LocationPreview form={form} setShow={setShow} tab={tab} setTab={setTab}/>
 					</Card>
 					<Card className={cn.select}>
-						<h3>{tab}</h3>
 						{tab === 'nearby' ? (
 							<NearbyLocationList onChange={onChange} />
 						) : (

@@ -2,32 +2,25 @@
     & .input-container {
         place-self: center;
         height: 80vh;
-        max-height: 600px;
-        height: 1200px;
+        max-height: 700px;
 
         display: grid;
-        grid-template-columns: 300px 350px;
+        grid-template-columns: 380px 420px;
         column-gap: 20px;
         font-size: 1.2em;
 
-        & h3 {
-            margin: 0;
-            font-size: 1.5em;
-            color: var(--text-secondary);
-            text-transform: capitalize;
-        }
         &>.preview {
             height: max-content;
-            padding: 20px;
+            padding: 30px 35px;
             
             &>h3 {
+                font-size: 1.5em;
+                color: var(--text-accent);
                 margin: 0 0 10px;
             }
         }
+
         &>.select {
-            &>h3 {
-                padding: 20px 20px 10px;
-            }
         }
     }
 }

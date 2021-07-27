@@ -130,6 +130,7 @@ const PurchaseTimeHeatMap = ({ data }) => {
 						heatmap.map(heatmapBins =>
 							heatmapBins.map(bin => (
 								<Bin
+									key={`heatmap-rect-${bin.row}-${bin.column}`}
 									{...{ bin, handleMouseOver, hideTooltip }}
 								/>
 							))

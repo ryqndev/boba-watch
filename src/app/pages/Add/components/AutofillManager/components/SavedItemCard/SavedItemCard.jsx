@@ -17,11 +17,11 @@ const SavedItemCard = ({ entry, set, remove }) => {
 				</p>
 			)}
 			{entry.location && (
-				<p>
+				<div>
 					<span>location </span>{' '}
 					<LocationTagIndicator className={cn.tag} address={entry?.address} />
 					{entry.location}
-				</p>
+				</div>
 			)}
 			{(entry.price === 0 || entry.price) && (
 				<p>

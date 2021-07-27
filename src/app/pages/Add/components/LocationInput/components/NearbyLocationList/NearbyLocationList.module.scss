@@ -15,7 +15,7 @@
     & .search {
         box-sizing: border-box;
         border-radius: 4px;
-        padding: 0px 2px;
+        padding: 0px 3px;
         font-size: 0.8em;
     }
 
@@ -25,7 +25,7 @@
 
     &>.scrollable {
         height: 100%;
-        font-size: 0.7em;
+        font-size: 0.85em;
         overflow-y: scroll;
         scrollbar-width: none;
         -ms-overflow-style: none;
@@ -47,6 +47,11 @@
                 min-height: max-content;
                 background-color: var(--blog-bg-secondary);
                 cursor: pointer;
+
+                &.awaiting-location {
+                    user-select: text;
+                    cursor: initial;
+                }
 
                 &>h4 {
                     margin: 0;

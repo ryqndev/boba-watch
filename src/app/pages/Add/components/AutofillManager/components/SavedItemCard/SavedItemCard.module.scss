@@ -3,7 +3,7 @@
     padding: 20px;
     background-color: var(--blog-bg-primary);
 
-    &>p {
+    &>p, &>div {
         font-size: 1.8em;
         font-weight: bold;
         color: var(--autofill-text);

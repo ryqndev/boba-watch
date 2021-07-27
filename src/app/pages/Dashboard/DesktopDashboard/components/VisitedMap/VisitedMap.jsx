@@ -19,7 +19,6 @@ const VisitedMap = ({ className, theme, drinks }) => {
 			{position =>
 				locations.map(({ coordinates, drinks, location }) => (
 					<CircleMarker
-						key={JSON.stringify(coordinates) + location}
 						center={coordinates}
 						radius={10}
 						fill={true}
@@ -34,7 +33,6 @@ const VisitedMap = ({ className, theme, drinks }) => {
 								<p>
 									Visited <span>{drinks.length}</span> times
 								</p>
-
 								<p>Recent visits:</p>
 								{drinks.slice(0, 5).map(({ date }) => (
 									<div>

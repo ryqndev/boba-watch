@@ -31,6 +31,7 @@ const LocationInput = ({ form, onChange }) => {
 			<TextInput
 				value={form?.location ?? ''}
 				label={'Location'}
+				readOnly
 				onFocus={() => setShow(true)}
 			/>
 		</div>

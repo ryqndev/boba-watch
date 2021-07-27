@@ -10,19 +10,19 @@ const NearbyLocationList = ({ onChange }) => {
 	const [listings, setListings] = useState(null);
 	const [search, setSearch] = useState('');
 
-	const { getLocationsByText } = useFoursquare();
+	const { getLocationsByText, getLocationsNearby } = useFoursquare();
 
-	// useEffect(() => {
-	// 	if (!position.lat || !position.lng) return;
-	// 	const query = {
-	// 		lat: position.lat,
-	// 		lng: position.lng,
-	// 		input: search,
-	// 	};
-	// 	getLocationsNearby(query, res => {
-
-	// 	});
-	// }, [getLocationsNearby]);
+	useEffect(() => {
+		if (!position.lat || !position.lng || listings) return;
+		const query = {
+			lat: position.lat,
+			lng: position.lng,
+		};
+		getLocationsNearby(query, res => {
+			// console.log(res.response.groups[0].items);
+			setListings(res.response.groups[0].items.map(e => e.venue));
+		});
+	}, [getLocationsNearby, position, listings, search]);
 
 	useEffect(() => {
 		if (!position.lat || !position.lng || listings) return;
@@ -65,7 +65,7 @@ const NearbyLocationList = ({ onChange }) => {
 			<h3>Nearby Locations</h3>
 			<div className={cn.search}>
 				<TextInput
-					label='Search'
+					label='Search by name'
 					value={search}
 					onChange={handleChange}
 				/>
@@ -76,7 +76,7 @@ const NearbyLocationList = ({ onChange }) => {
 					{listings &&
 						listings.map(({ name, location }) => (
 							<Card
-								key={name + JSON.stringify(location)}
+								key={JSON.stringify(name) + JSON.stringify(location)}
 								className={cn.listing}
 								onClick={() => select(name, location)}
 							>

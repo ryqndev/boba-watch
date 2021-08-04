@@ -12,12 +12,16 @@
         &>.preview {
             height: max-content;
             padding: 30px 35px;
-            
+
             &>h3 {
                 font-size: 1.5em;
                 color: var(--text-accent);
                 margin: 0 0 10px;
             }
+        }
+
+        &>.select {
+            overflow: hidden;
         }
     }
 }

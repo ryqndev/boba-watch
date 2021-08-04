@@ -17,9 +17,9 @@ const NearbyLocationList = ({ onChange }) => {
 		const query = {
 			lat: position.lat,
 			lng: position.lng,
+			coffee: true,
 		};
 		getLocationsNearby(query, res => {
-			// console.log(res.response.groups[0].items);
 			setListings(res.response.groups[0].items.map(e => e.venue));
 		});
 	}, [getLocationsNearby, position, listings, search]);

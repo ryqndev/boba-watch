@@ -42,6 +42,7 @@
 
         &.location {
             display: grid;
+            overflow: visible;
             place-content: center start;
             grid-auto-flow: column;
             column-gap: 10px;

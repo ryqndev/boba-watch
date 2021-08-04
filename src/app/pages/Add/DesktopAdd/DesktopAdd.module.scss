@@ -29,9 +29,9 @@
             }
         }
 
-        & .form-container {
+        & form.form-container {
             height: calc(100vh - 140px);
-            overflow: scroll;
+            overflow-y: scroll;
             scrollbar-width: none;
             -ms-overflow-style: none;
             &::-webkit-scrollbar { 

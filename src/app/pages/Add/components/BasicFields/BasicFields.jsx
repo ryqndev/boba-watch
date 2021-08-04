@@ -6,11 +6,11 @@ import { TextInput, StarRating, LocationTagIndicator } from '../../../../compone
 import { LocationInput } from '../';
 import cn from './BasicFields.module.scss';
 
-const BasicFields = ({ form, handleChange, editForm }) => {
+const BasicFields = ({ form, setForm, handleChange, editForm }) => {
 	return (
 		<div className={cn.container}>
 			<LocationTagIndicator className={cn.tag} address={form?.address} />
-			<LocationInput form={form} onChange={editForm} />
+			<LocationInput form={form} onChange={editForm} setForm={setForm} />
 			<TextInput
 				value={form.name ?? ''}
 				onChange={handleChange('name', 150)}

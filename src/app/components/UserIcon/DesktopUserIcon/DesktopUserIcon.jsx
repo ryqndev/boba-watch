@@ -14,7 +14,7 @@ const DesktopUserIcon = ({theme}) => {
 			<time className={cn.date}>{new Date().toDateString()}</time>
 			<img
 				src={user.photoURL}
-				alt='user settings'
+				alt=""
 				className={cn.avatar}
 				onClick={() => setExpanded(prev => !prev)}
 			/>

@@ -6,7 +6,17 @@ import clsx from 'clsx';
 import cn from './LocationPreview.module.scss';
 import { LocationTagIndicator, TextInput } from '../../../../../../components';
 
-const LocationPreview = ({ form, setShow, tab, setTab }) => {
+const LocationPreview = ({ form, setForm, setShow, tab, setTab }) => {
+	const clear = () => {
+		setForm(prevForm => {
+			const updateForm = {...prevForm};
+			delete updateForm.address;
+			delete updateForm.location;
+			return updateForm;
+		});
+		setShow(false);
+	}
+
 	return (
 		<div className={cn.container}>
 			<h4>Select a location from:</h4>
@@ -43,7 +53,7 @@ const LocationPreview = ({ form, setShow, tab, setTab }) => {
 				<button
 					type='button'
 					className={cn.cancel}
-					onClick={() => setShow(false)}
+					onClick={clear}
 				>
 					<CloseRoundedIcon />
 				</button>

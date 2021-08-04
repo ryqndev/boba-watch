@@ -10,6 +10,7 @@ import Searchbar from './globals/styles/Searchbar';
 import StarRating from './globals/styles/StarRating';
 import TextInput from './globals/styles/TextInput.jsx';
 import TextClipboard from './globals/styles/TextClipboard.jsx';
+import ToolTip from './Tooltip';
 import UserIcon from './UserIcon';
 
 export {
@@ -25,5 +26,6 @@ export {
     StarRating,
     TextInput,
     TextClipboard,
+    ToolTip,
     UserIcon,
 }

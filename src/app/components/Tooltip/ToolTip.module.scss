@@ -1,0 +1,26 @@
+.container {
+    display: none;
+
+    &.show {
+        display: block;
+    }
+
+    &>div {
+        left: 12px;
+        z-index: 10;
+        bottom: calc(100% + 10px);
+        font-size: 0.85rem;
+        white-space: normal;
+        font-weight: normal;
+        text-transform: none;
+        border-radius: 4px;
+        text-align: center;
+        transform: translateX(-50%);
+        width: 200px;
+        position: absolute;
+        background-color: var(--bg-primary);
+        color: var(--text-secondary);
+        padding: 15px;
+        box-shadow: 0px 0px 5px var(--text-light);
+    }
+}

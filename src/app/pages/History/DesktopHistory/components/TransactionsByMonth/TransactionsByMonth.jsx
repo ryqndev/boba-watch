@@ -67,7 +67,7 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 										{...drink}
 									/>,
 								],
-								monthlyTotal: 0,
+								monthlyTotal: drink.price,
 							};
 						return {
 							display: [

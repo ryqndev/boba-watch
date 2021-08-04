@@ -1,5 +1,9 @@
 import { memo, useState } from 'react';
-import { Card, LocationTagIndicator, Modal, TextInput } from '../../../../components';
+import {
+	Card,
+	Modal,
+	TextInput,
+} from '../../../../components';
 import {
 	LocationPreview,
 	NearbyLocationList,
@@ -7,7 +11,7 @@ import {
 } from './components';
 import cn from './LocationInput.module.scss';
 
-const LocationInput = ({ form, onChange }) => {
+const LocationInput = ({ form, onChange, setForm }) => {
 	const [show, setShow] = useState(false);
 	const [tab, setTab] = useState('nearby');
 
@@ -17,7 +21,9 @@ const LocationInput = ({ form, onChange }) => {
 				<div className={cn['input-container']}>
 					<Card className={cn.preview}>
 						<h3>Location</h3>
-						<LocationPreview form={form} setShow={setShow} tab={tab} setTab={setTab}/>
+						<LocationPreview
+							{...{ form, setForm, tab, setTab, setShow }}
+						/>
 					</Card>
 					<Card className={cn.select}>
 						{tab === 'nearby' ? (
@@ -39,3 +45,5 @@ const LocationInput = ({ form, onChange }) => {
 };
 
 export default memo(LocationInput);
+
+// form={form} onChange={onChange} setShow={setShow} tab={tab} setTab={setTab}

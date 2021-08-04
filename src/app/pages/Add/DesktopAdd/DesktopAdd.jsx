@@ -39,6 +39,7 @@ const DesktopAdd = () => {
 							<Card className={cn.fields} title='details'>
 								<BasicFields
 									form={form}
+									setForm={setForm}
 									editForm={editForm}
 									handleChange={handleChange}
 								/>

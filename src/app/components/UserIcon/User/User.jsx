@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { memo, useState, useEffect, useContext } from 'react';
 import CloseButton from '@material-ui/icons/Cancel';
 import HelpButton from '@material-ui/icons/HelpOutlineOutlined';
 import { useTranslation } from 'react-i18next';
 import { Modal, TextInput } from '../../';
 import { logout, database } from '../../../libs/firestore';
-import {
-	setTheme,
-	getTheme,
-	THEME_SELECT_OPTIONS,
-} from '../../../components/globals/theme';
 import Select from 'react-select';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import './User.scss';
@@ -20,7 +15,7 @@ import 'react-toggle/style.css';
  * try and convert a singular value on the firebase so I'm going to keep the database value
  * different from stored value.
  */
-const User = ({ open, setOpen }) => {
+const User = ({ open, setOpen, theme }) => {
 	const { t } = useTranslation();
 	const [authUser, setAuthUser] = useContext(AuthUserContext);
 	const [budget, setBudget] = useState(
@@ -53,14 +48,14 @@ const User = ({ open, setOpen }) => {
 				close();
 			});
 	};
-	const themeSelect = ({ value }) => {
-		setTheme(value);
+	const themeSelect = ({ label }) => {
+		theme.setTheme(label);
 	};
 	const close = () => {
 		setOpen(false);
 	};
 	return (
-		<React.Fragment>
+		<>
 			<Modal open={open} setOpen={setOpen}>
 				<div className='user-modal'>
 					<img
@@ -106,8 +101,8 @@ const User = ({ open, setOpen }) => {
 
 					<label className='theme-label'>Theme:</label>
 					<Select
-						options={THEME_SELECT_OPTIONS}
-						defaultValue={THEME_SELECT_OPTIONS[getTheme()]}
+						options={theme.THEME_SELECT_OPTIONS}
+						defaultValue={theme.THEME_SELECT_OPTIONS[theme.getTheme()]}
 						name='theme'
 						onChange={themeSelect}
 						className='theme-select'
@@ -123,8 +118,8 @@ const User = ({ open, setOpen }) => {
 					</div>
 				</div>
 			</Modal>
-		</React.Fragment>
+		</>
 	);
 };
 
-export default User;
+export default memo(User);

@@ -16,6 +16,7 @@ import { database as db } from '../../../libs/firestore';
 import Select from 'react-select';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import { ImageUpload } from '../components';
+import { DescriptionEditor } from '../components';
 import './MobileAdd.scss';
 
 const defaultForm = {
@@ -180,12 +181,18 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 							image={form.image}
 							setImage={link => editForm('image', link)}
 						/>
-						<textarea
+						{/* <textarea
 							id='description-input'
 							value={form.description ?? ''}
 							rows={10}
 							onChange={handleChange('description', 1000)}
 							placeholder={'How was your drink?'}
+						/> */}
+						<DescriptionEditor
+							description={form.description ?? ''}
+							setDescription={val =>
+								editForm('description', val, 2500)
+							}
 						/>
 						<div className='add-button-holder'>
 							<button

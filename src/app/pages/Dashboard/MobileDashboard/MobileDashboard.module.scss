@@ -96,8 +96,11 @@
     &>.heatmap {
         grid-column: 1/4;
         touch-action: pan-y;
+        
         &>h2 {
-            padding-left: 20px;
+            padding: 20px 0px 0px 0px;
+            text-align: center;
+            font-size: 1.5em;
             color: var(--text-secondary);
         }
     }

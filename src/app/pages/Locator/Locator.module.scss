@@ -27,6 +27,10 @@ main.container {
         }
     }
 
+    &>.map {
+        overflow: hidden;
+    }
+
     &>.details {
         height: calc(100vh - 165px);
         width: 400px;

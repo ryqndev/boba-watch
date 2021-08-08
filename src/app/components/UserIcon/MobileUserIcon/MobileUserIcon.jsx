@@ -4,7 +4,7 @@ import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import User from '../User';
 import cn from './MobileUserIcon.module.scss';
 
-const MobileUserIcon = () => {
+const MobileUserIcon = ({theme}) => {
 	const location = useLocation();
 	const [userModal, setUserModal] = useState(false);
 	const [user] = useContext(AuthUserContext);
@@ -19,7 +19,7 @@ const MobileUserIcon = () => {
 					onClick={() => setUserModal(true)}
 				/>
 			)}
-			<User open={userModal} setOpen={setUserModal} />
+			<User open={userModal} setOpen={setUserModal} theme={theme}/>
 		</>
 	);
 };

@@ -13,6 +13,8 @@ const VisitedMap = ({ className, theme, drinks }) => {
 		<Map
 			className={clsx(className, cn.container)}
 			scrollWheelZoom={false}
+			touchZoom={true}
+			dragging={true}
 			zoom={2.5}
 			theme={theme}
 		>

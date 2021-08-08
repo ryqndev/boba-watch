@@ -40,6 +40,11 @@
         text-align: right;
     }
 
+    &>.map {
+        overflow: hidden;
+        height: 250px;
+    }
+
     &>.actions {
         display: grid;
         grid-template-columns: 1fr 1fr;

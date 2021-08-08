@@ -36,9 +36,7 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 						const date = new Date(drink.date);
 						if (
 							acc.display.length === 0 ||
-							new Date(
-								acc.display[acc.display.length - 1].props.date
-							).getMonth() !== date.getMonth()
+							(acc.currentPeriod.month !== date.getMonth() || acc.currentPeriod.year !== date.getFullYear())
 						)
 							return {
 								display: [
@@ -48,7 +46,13 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 											className={cn['monthly-total']}
 											key={date.toDateString() + 'total'}
 										>
-											Monthly Total: <span>${(acc.monthlyTotal/100).toFixed(2)}</span>
+											Monthly Total:{' '}
+											<span>
+												$
+												{(
+													acc.monthlyTotal / 100
+												).toFixed(2)}
+											</span>
 										</div>
 									),
 									<div
@@ -68,6 +72,10 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 									/>,
 								],
 								monthlyTotal: drink.price,
+								currentPeriod: {
+									month: date.getMonth(),
+									year: date.getFullYear(),
+								},
 							};
 						return {
 							display: [
@@ -80,9 +88,14 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 								/>,
 							],
 							monthlyTotal: acc.monthlyTotal + drink.price,
+							currentPeriod: acc.currentPeriod,
 						};
 					},
-					{ display: [], monthlyTotal: 0 }
+					{
+						display: [],
+						monthlyTotal: 0,
+						currentPeriod: { month: -1, year: -1 },
+					}
 				).display
 			}
 			{itemsToDisplay < drinks.length && (

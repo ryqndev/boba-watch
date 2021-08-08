@@ -3,9 +3,9 @@
     row-gap: 25px;
     grid-template-rows: auto auto;
     grid-template-columns: 1fr;
-    padding: 40px 40px 130px 40px;
+    padding: 40px 20px 110px 20px;
     @media screen and (max-width: 350px){
-        padding: 40px 20px 130px 20px;
+        padding: 40px 20px 110px 20px;
     }
     background: var(--bg-blend);
     @media screen and (min-width: 950px) {
@@ -16,6 +16,8 @@
     & .add-holder{
         border: 3px solid var(--blog-accent);
         border-radius: 8px;
+        overflow: hidden;
+
         & .autofill-divider{
             font-size: 16px;
             color: var(--text-accent);

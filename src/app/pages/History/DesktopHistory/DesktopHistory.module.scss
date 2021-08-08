@@ -6,9 +6,13 @@
     width: calc(100vw - 120px);
 
     display: grid;
-    grid-template-columns: 1fr 450px;
+    grid-template-columns: 1fr 400px;
     background-color: var(--nav-bg);
     transition: background-color 350ms;
+
+    @media screen and (min-width: 1300px) {
+        grid-template-columns: 1fr 450px;
+    }
 
     &>main {
         height: 100%;

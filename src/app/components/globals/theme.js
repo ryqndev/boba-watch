@@ -55,10 +55,10 @@ const setTheme = (value) => {
  */
 const getTheme = () => Number(localStorage.getItem('theme') ?? THEME_SELECT_DEFAULT_VALUE);
 
-export default Theme;
-export {
-    setTheme,
-    getTheme,
-    THEME_SELECT_OPTIONS,
-    THEME_SELECT_DEFAULT_VALUE,
-}
+// export default Theme;
+// export {
+//     setTheme,
+//     getTheme,
+//     THEME_SELECT_OPTIONS,
+//     THEME_SELECT_DEFAULT_VALUE,
+// }

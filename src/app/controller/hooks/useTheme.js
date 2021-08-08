@@ -20,13 +20,13 @@ const THEMES = {
     'default': 0,
     'dark': 1,
 }
-const getTheme = () => Number(localStorage.getItem('theme') ?? THEME_SELECT_DEFAULT_VALUE);
+const getTheme = () =>  localStorage.getItem('theme') ?? 'default';
 
 const useTheme = () => {
-    const [theme, setTheme] = useState('dark');
+    const [theme, setTheme] = useState(getTheme());
 
     useEffect(() => {
-        localStorage.setItem('theme', THEMES[theme]);
+        localStorage.setItem('theme', theme);
         let styles = themeStyles[THEMES[theme]].themeStyles;
         for(let style in styles){
             document.documentElement.style.setProperty(style, styles[style]);

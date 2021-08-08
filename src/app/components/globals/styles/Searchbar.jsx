@@ -1,6 +1,6 @@
 import { memo, useState, useEffect } from 'react';
-import './Searchbar.scss';
 import Fuse from 'fuse.js';
+import cn from './Searchbar.module.scss';
 
 const DEFAULT_KEYS = ['description', 'location', 'name', 'price'];
 
@@ -29,14 +29,14 @@ const Searchbar = ({
 	}, [query, data, data.length]);
 
 	return (
-		<div className='search-wrapper'>
+		<div className={cn.container}>
 			<input
 				type='text'
 				value={query}
 				placeholder={placeholder}
 				onChange={handleInput}
 			/>
-			<div className='results'>
+			<div className={cn.results}>
 				{results.map(result => (
 					<Result key={result.item.id} {...result} />
 				))}

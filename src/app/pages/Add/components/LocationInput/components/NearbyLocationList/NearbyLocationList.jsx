@@ -8,6 +8,7 @@ import cn from './NearbyLocationList.module.scss';
 const NearbyLocationList = ({ onChange }) => {
 	const position = useGeolocation();
 	const [listings, setListings] = useState(null);
+	const [searching, setSearching] = useState(false);
 	const [search, setSearch] = useState('');
 
 	const { getLocationsByText, getLocationsNearby } = useFoursquare();
@@ -25,30 +26,28 @@ const NearbyLocationList = ({ onChange }) => {
 	}, [getLocationsNearby, position, listings, search]);
 
 	useEffect(() => {
-		if (!position.lat || !position.lng || listings) return;
+		if (!position.lat || !position.lng) return;
 
-		if (search.length < 3) {
+		if (!searching && listings) {
+			const query = {
+				lat: position.lat,
+				lng: position.lng,
+				input: search,
+			};
+			getLocationsByText(
+				query,
+				res => {
+					setListings(res.response.minivenues);
+				},
+				err => {
+					console.error('ERROR:', err);
+					setListings([]);
+				}
+			);
+			setSearching(true);
 			return;
 		}
-
-		const query = {
-			lat: position.lat,
-			lng: position.lng,
-			input: search,
-		};
-		setListings(null);
-
-		getLocationsByText(
-			query,
-			res => {
-				setListings(res.response.minivenues);
-			},
-			err => {
-				console.error('ERROR:', err);
-				setListings([]);
-			}
-		);
-	}, [position, search, getLocationsByText, listings]);
+	}, [position, search, listings, getLocationsByText, searching]);
 
 	const select = (name, location) => {
 		onChange('location', name, 250);
@@ -76,7 +75,10 @@ const NearbyLocationList = ({ onChange }) => {
 					{listings &&
 						listings.map(({ name, location }) => (
 							<Card
-								key={JSON.stringify(name) + JSON.stringify(location)}
+								key={
+									JSON.stringify(name) +
+									JSON.stringify(location)
+								}
 								className={cn.listing}
 								onClick={() => select(name, location)}
 							>

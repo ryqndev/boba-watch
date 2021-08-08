@@ -1,10 +1,10 @@
 import { memo } from 'react';
+import clsx from 'clsx';
+import { LocationTagIndicator, TextInput } from '../../../../../../components';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import ArrowRightIcon from '@material-ui/icons/ArrowForwardIosRounded';
-import clsx from 'clsx';
 import cn from './LocationPreview.module.scss';
-import { LocationTagIndicator, TextInput } from '../../../../../../components';
 
 const LocationPreview = ({ form, setForm, setShow, tab, setTab }) => {
 	const clear = () => {

@@ -4,8 +4,10 @@ import { Link } from 'react-router-dom';
 import {
 	Card,
 	FirebaseStorageImage,
+	Map,
 	MarkdownDisplay,
 } from '../../../../../components';
+import { CircleMarker } from 'react-leaflet';
 import { confirmDelete } from '../../../../../libs/swal';
 import { remove } from '../../../../../controller';
 import AuthUserContext from '../../../../../controller/contexts/AuthUserContext';
@@ -20,7 +22,9 @@ const DrinkDetails = ({
 	image,
 	id,
 	update,
+	address,
 	setDetailed,
+	theme,
 }) => {
 	const [user] = useContext(AuthUserContext);
 
@@ -37,13 +41,37 @@ const DrinkDetails = ({
 
 	return (
 		<Card className={cn.container}>
-			{image && (
-				<FirebaseStorageImage className={cn.image} image={image} />
+			{address && (
+				<Map
+					className={cn.map}
+					theme={theme}
+					scrollWheelZoom={false}
+					hasCenterButton={false}
+					zoom={10}
+					center={[address.lat, address.lng]}
+				>
+					{() => (
+						<CircleMarker
+							center={[address.lat, address.lng]}
+							radius={10}
+							fill={true}
+							weight={1}
+							color={'#F68080'}
+							fillColor={'#F68080'}
+							fillOpacity={'0.5'}
+						></CircleMarker>
+					)}
+				</Map>
 			)}
+
 			<h2>
 				{name}
 				<span> @{location}</span>
 			</h2>
+
+			{image && (
+				<FirebaseStorageImage className={cn.image} image={image} />
+			)}
 
 			<h1>${(price / 100).toFixed(2)}</h1>
 

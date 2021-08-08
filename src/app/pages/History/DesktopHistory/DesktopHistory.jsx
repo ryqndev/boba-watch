@@ -8,7 +8,7 @@ import GetAppRoundedIcon from '@material-ui/icons/GetAppRounded';
 import { confirmDownloadData } from '../../../libs/swal.js';
 import cn from './DesktopHistory.module.scss';
 
-const DesktopHistory = () => {
+const DesktopHistory = ({ theme }) => {
 	const { drinks, update } = useDrinks();
 	const [detailed, setDetailed] = useState(null);
 
@@ -58,6 +58,7 @@ const DesktopHistory = () => {
 				</Card>
 				{detailed && (
 					<DrinkDetails
+						theme={theme}
 						{...detailed}
 						update={update}
 						setDetailed={setDetailed}

@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
 import { Card, Map } from '../../../components';
 import { SearchAreaButton, StoreMarker } from '../components';
-import FilterIcon from '@material-ui/icons/TuneRounded';
+import { Filter } from './components';
 import cn from './MobileLocator.module.scss';
 
 const MobileLocator = ({ theme }) => {
@@ -21,7 +21,7 @@ const MobileLocator = ({ theme }) => {
 			>
 				{position => (
 					<>
-                        <TuneRounded />
+                        <Filter />
 						<SearchAreaButton
 							position={position}
 							setStores={setStores}

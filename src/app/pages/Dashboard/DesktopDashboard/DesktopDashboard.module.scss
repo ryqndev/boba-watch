@@ -18,7 +18,7 @@
     @media screen and (max-width: 1450px) {
         font-size: 0.9em;
     }
-    @media screen and (max-width: 1300px) {
+    @media screen and (max-width: 1400px) {
         font-size: 1em;
         grid-template-columns: 1fr 0px;
         padding-right: 20px;
@@ -85,12 +85,14 @@
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 column-gap: 20px;
+
                 &>div {
                     padding: 30px;
                     display: grid;
                     place-content: center;
                     text-align: center;
                 }
+
                 &>.budget {
                     background-color: var(--dash-bg-secondary);
                     font-size: 0.9em;
@@ -104,6 +106,7 @@
                         color: var(--dash-text-secondary);
                     }
                 }
+                
                 &>.total {
                     & > p{
                         font-size: 1.7em;
@@ -150,6 +153,7 @@
             row-gap: 20px;
 
             &>.recent {
+                overflow: hidden;
                 padding: 30px 30px 40px;
             }
 

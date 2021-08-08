@@ -1,3 +1,12 @@
 .container {
-
+    position: absolute;
+    z-index: 500;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 40px;
+    padding: 0px;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
 }

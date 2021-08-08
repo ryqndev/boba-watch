@@ -12,7 +12,6 @@ const App = () => {
 	const [user, setUser] = useState(null);
 
 	useEffect(() => {
-		// Theme();
 		init(setUser);
 	}, []);
 

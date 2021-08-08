@@ -1,0 +1,9 @@
+.container {
+    &>.map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: calc(100vh - 56px);
+        width: 100vw;
+    }
+}

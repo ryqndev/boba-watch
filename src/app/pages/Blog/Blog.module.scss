@@ -1,0 +1,7 @@
+.container {
+    &>h2 {
+        font-size: 1.7em;
+        color: var(--text-accent);
+    }
+    padding: 20px;
+}

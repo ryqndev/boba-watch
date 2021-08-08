@@ -2,6 +2,7 @@
     & .title{
         font-weight: bold;
         text-align: center;
+        font-size: 1.5em;
     }
     & .title span{
         color: #8888FF;
@@ -16,6 +17,7 @@
         font-size: 14px;
     }
     & img.user-uploaded{
+        padding-top: 30px;
         width: 100%;
     }
     & #preview {

@@ -123,7 +123,7 @@ const MobileHistory = () => {
 		<div className='page with-user'>
 			<div className={cn.container}>
 				<div className={cn.header}>
-					<h3 className={cn.bw}>{t('Drink History')}</h3>
+					<h3 className={cn.title}>{t('Drink History')}</h3>
 				</div>
 				<div className={cn.search}>
 					<Searchbar

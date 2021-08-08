@@ -1,6 +1,6 @@
 import { memo, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import ExploreIcon from '@material-ui/icons/ExploreRounded';
+import MapIcon from '@material-ui/icons/PlaceRounded';
 import DashboardIcon from '@material-ui/icons/HomeRounded';
 import AddIcon from '@material-ui/icons/AddRounded';
 import HistoryIcon from '@material-ui/icons/ListAltRounded';
@@ -38,10 +38,10 @@ const MobileNavigation = () => {
 						<AddIcon className={cn['add']} />
 					</div>
 				</Link>
-				<Link to='/feed'>
-					<div className={cn['icon'] + isTab('/feed')}>
-						<ExploreIcon />
-						<p className={cn['label']}>feed</p>
+				<Link to='/map'>
+					<div className={cn['icon'] + isTab('/map')}>
+						<MapIcon />
+						<p className={cn['label']}>locator</p>
 					</div>
 				</Link>
 				<Link to={'/blog/' + authUser.uid}>

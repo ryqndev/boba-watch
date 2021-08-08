@@ -1,6 +1,5 @@
 import { memo, useState, useEffect, useContext } from 'react';
 import CloseButton from '@material-ui/icons/Cancel';
-import HelpButton from '@material-ui/icons/HelpOutlineOutlined';
 import { useTranslation } from 'react-i18next';
 import { Modal, TextInput } from '../../';
 import { logout, database } from '../../../libs/firestore';
@@ -23,7 +22,6 @@ const User = ({ open, setOpen, theme }) => {
 	);
 	const [limit, setLimit] = useState(authUser.profile.limit ?? 15);
 	const [sharing, setSharing] = useState(authUser.profile.sharing ?? false);
-	const [help, setHelp] = useState(false);
 
 	useEffect(() => {
 		setBudget(authUser.profile.budget / 100);
@@ -65,14 +63,6 @@ const User = ({ open, setOpen, theme }) => {
 					/>
 					<button className='close-button' onClick={close}>
 						<CloseButton />
-					</button>
-					<button
-						className='help-button'
-						onClick={() => {
-							setHelp(!help);
-						}}
-					>
-						<HelpButton />
 					</button>
 
 					<h1>{t('User Settings')}</h1>

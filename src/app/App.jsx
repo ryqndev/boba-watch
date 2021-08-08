@@ -37,26 +37,11 @@ const AuthenticatedRoutes = () => {
 			<UserIcon theme={{ theme, ...themeOptions }} />
 			<Routes>
 				<Route path='/' element={<Dashboard theme={theme} />} />
-				<Route path='history' element={<History theme={theme}/>} />
+				<Route path='history' element={<History theme={theme} />} />
 				<Route path='add' element={<Add />} />
 				<Route path='edit/:id' element={<Add />} />
 				<Route path='map' element={<Locator theme={theme} />} />
-				<Route
-					path='feed'
-					element={
-						<div className='page'>
-							<Feed />
-						</div>
-					}
-				/>
-				<Route
-					path='blog/:userid'
-					element={
-						<div className='page'>
-							<Blog />
-						</div>
-					}
-				/>
+				<Route path='blog/:userid' element={<Blog />} />
 			</Routes>
 			<Navigation />
 		</>

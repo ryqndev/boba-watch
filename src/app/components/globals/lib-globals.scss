@@ -89,6 +89,9 @@
     transition: background-color 350ms, color 350ms;
     
 }
+div.MuiDialogActions-root button > span {
+    color: var(--text-secondary);
+}
 
 td {
     color: var(--text-secondary);

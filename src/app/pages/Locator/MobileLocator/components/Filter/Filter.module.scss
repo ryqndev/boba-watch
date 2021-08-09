@@ -1,10 +1,11 @@
 .container {
     position: absolute;
+    box-sizing: border-box;
     z-index: 500;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 40px;
+    top: 40px;
+    right: 90px;
+    width: 37px;
+    height: 37px;
     padding: 0px;
     display: grid;
     place-content: center;

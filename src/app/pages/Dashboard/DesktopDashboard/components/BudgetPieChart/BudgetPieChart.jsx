@@ -20,7 +20,7 @@ const BudgetPieChart = ({ spent = 0, budget = 1 }) => {
 							{ label: 'spent', value: spent },
 							{ label: 'unspent', value: budget - spent },
 						]}
-						pieSortValues={() => -1}
+						pieSortValues={() => 1}
 						pieValue={e => e.value}
 						fill={({ data }) =>
 							data.label === 'spent' ? '#14e33a' : '#aaa'

@@ -23,7 +23,6 @@ const DrinkPanel = ({ data, triggerUpdate, expandable = true }) => {
 	const [authUser] = useContext(AuthUserContext);
 	const { t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
-	const [canPublish, setCanPublish] = useState(true);
 	const navigate = useNavigate();
 
 	const remove = () => {
@@ -51,49 +50,6 @@ const DrinkPanel = ({ data, triggerUpdate, expandable = true }) => {
 	};
 	const edit = () => {
 		navigate('/edit/' + data.id);
-	};
-	const publish = async () => {
-		setCanPublish(false);
-		try {
-			let allowed = await database
-				.collection(`users/${authUser.uid}/blog`)
-				.doc('user')
-				.get();
-			allowed = allowed.data()?.restrictedUntil;
-			if (
-				allowed !== undefined &&
-				isAfter(new Date(allowed), new Date())
-			) {
-				setCanPublish(true);
-				return alertRestriction(
-					format(new Date(allowed), 'eee. LLLL d, yyyy h:mm:ss aaaa')
-				);
-			}
-			const { id, ...publishableData } = data;
-			await database.collection('blogs').add({
-				uid: authUser.uid,
-				likes: 0,
-				published: firebase.firestore.FieldValue.serverTimestamp(),
-				edited: firebase.firestore.FieldValue.serverTimestamp(),
-				...publishableData,
-			});
-			database
-				.collection(`users/${authUser.uid}/blog`)
-				.doc('user')
-				.set(
-					{
-						restrictedUntil: addSeconds(
-							new Date(),
-							30
-						).toISOString(),
-					},
-					{ merge: true }
-				);
-			alertPublishSuccess();
-		} catch (err) {
-			setCanPublish(true);
-			alertDefaultError(err);
-		}
 	};
 	const drinkDate = new Date(data.date);
 	return (
@@ -124,13 +80,6 @@ const DrinkPanel = ({ data, triggerUpdate, expandable = true }) => {
 					date={drinkDate}
 				/>
 				<div className='options'>
-					<button
-						className='text'
-						onClick={publish}
-						disabled={!canPublish}
-					>
-						{t('PUBLISH')}
-					</button>
 					<button className='text' onClick={edit}>
 						{t('EDIT')}
 					</button>

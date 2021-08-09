@@ -92,7 +92,7 @@ const User = ({ open, setOpen, theme }) => {
 					<label className='theme-label'>Theme:</label>
 					<Select
 						options={theme.THEME_SELECT_OPTIONS}
-						defaultValue={theme.THEME_SELECT_OPTIONS[theme.getTheme()]}
+						defaultValue={theme.THEME_SELECT_OPTIONS[theme.THEMES[theme.theme]]}
 						name='theme'
 						onChange={themeSelect}
 						className='theme-select'

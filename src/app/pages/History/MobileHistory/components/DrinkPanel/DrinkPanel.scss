@@ -35,7 +35,7 @@
         }
     }
     & .collapsed-info{
-        max-width: 400px;
+        max-width: 500px;
         margin: 0 auto;
         max-height: 0px;
         transition: max-height 350ms cubic-bezier(0, 1, 0, 1);
@@ -52,7 +52,7 @@
             box-sizing: border-box;
             padding: 0 5px;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             grid-template-rows: auto;
             column-gap: 10px;
             margin-bottom: 5px;

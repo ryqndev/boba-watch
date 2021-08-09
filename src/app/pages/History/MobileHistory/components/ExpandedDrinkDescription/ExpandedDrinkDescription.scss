@@ -17,8 +17,16 @@
         font-size: 14px;
     }
     & img.user-uploaded{
-        padding-top: 30px;
+        display: block;
+        margin: 30px auto 0px;
         width: 100%;
+        border-radius: 4px;
+        max-width: 300px;
+        overflow: hidden;
+    }
+    & table {
+        margin: 0 auto;
+        // display: block;
     }
     & #preview {
         background-color: transparent;

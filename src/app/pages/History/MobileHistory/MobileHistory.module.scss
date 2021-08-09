@@ -1,5 +1,5 @@
 .container {
-    padding: 30px 40px 90px 40px;
+    padding: 30px 30px 90px 30px;
 
     & .title {
         font-size: 2em;
@@ -19,7 +19,7 @@
     }
 
     @media screen and (max-width: 350px) {
-        padding: 40px 25px 230px 25px;
+        padding: 30px 25px 230px 25px;
     }
 
     &>.search {
@@ -31,6 +31,7 @@
     }
 
     & h3.bw {
+        font-size: 1.4em;
         color: var(--btn-bg);
 
         &.total {

@@ -8,10 +8,13 @@
     grid-template-rows: 50px calc(100vw - 84px) 150px 120px auto auto;
     row-gap: 15px;
     column-gap: 15px;
-    padding: 40px 40px 150px 40px;
+    padding: 40px 30px 150px 30px;
     background: var(--bg-blend);
     background-size: 100vw 190px;
     background-repeat: no-repeat;
+    @media screen and (max-width: 360px) {
+        padding: 40px 20px 150px 20px;
+    }
     
     & h4.bw {
         color: var(--text-primary);
@@ -107,8 +110,8 @@
     & .daily-chart{
         touch-action: pan-y;
         grid-column: 1/4;
-        &>div>div {
-            transform: translateY(calc(-50vw));
-        }
+
+        padding: 10px 40px 30px 40px;
+        position: relative;
     }
 }

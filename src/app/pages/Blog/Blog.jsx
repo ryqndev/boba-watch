@@ -1,11 +1,7 @@
 import { memo } from 'react';
-import { useParams } from 'react-router-dom';
 import cn from './Blog.module.scss';
 
-
 const Blog = () => {
-	const { userid } = useParams();
-
 	return (
 		<div className={cn.container}>
 			<h2>Check back soon!</h2>

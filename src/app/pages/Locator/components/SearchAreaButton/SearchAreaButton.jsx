@@ -1,9 +1,10 @@
 import { memo, useEffect, useCallback } from 'react';
 import { useMap } from 'react-leaflet';
-import useFoursquare from '../../../../controller/hooks/useFoursquare';
+import clsx from 'clsx';
+import { useFoursquare } from '../../../../controller/hooks';
 import cn from './SearchAreaButton.module.scss';
 
-const SearchAreaButton = ({ position, setStores, filters }) => {
+const SearchAreaButton = ({ className, position, setStores, filters }) => {
 	const map = useMap();
 	const { getLocationsNearby } = useFoursquare();
 
@@ -46,7 +47,7 @@ const SearchAreaButton = ({ position, setStores, filters }) => {
 	}, [position, search]);
 
 	return (
-		<button className={cn.button} onClick={search}>
+		<button className={clsx(cn.button, className)} onClick={search}>
 			Search this area
 		</button>
 	);

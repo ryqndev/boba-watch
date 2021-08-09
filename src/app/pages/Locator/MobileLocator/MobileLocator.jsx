@@ -18,11 +18,14 @@ const MobileLocator = ({ theme }) => {
 				center={center}
 				setCenter={setCenter}
 				theme={theme}
+				zoomControl={false}
+				hasCenterButton={false}
 			>
 				{position => (
 					<>
-                        <Filter />
+						<Filter />
 						<SearchAreaButton
+							className={cn['search-area--btn']}
 							position={position}
 							setStores={setStores}
 							filters={filters}

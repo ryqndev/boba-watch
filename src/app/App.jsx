@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Add, Blog, Dashboard, Feed, History, Locator, Login } from './pages';
+import { Add, Blog, Dashboard, History, Locator, Login } from './pages';
 import { Navigation, UserIcon } from './components';
-// import Theme from './components/globals/theme';
 import init from './controller/LoginFlow';
 import AuthUserContext from './controller/contexts/AuthUserContext';
 import useAuth from './controller/hooks/useAuth';

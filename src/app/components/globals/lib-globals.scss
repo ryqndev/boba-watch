@@ -97,11 +97,16 @@ td {
     color: var(--text-secondary);
 }
 
+thead {
+    color: black;
+}
+
 table {
     margin-top: 8px;
 }
 
 .leaflet-popup-content-wrapper{
+    max-width: calc(80vw - 40px);
     background-color: var(--bg-secondary);
     color: var(--text-secondary);
 }

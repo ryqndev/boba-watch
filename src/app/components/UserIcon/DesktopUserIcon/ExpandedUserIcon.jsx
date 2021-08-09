@@ -25,6 +25,7 @@ const ExpandedUserIcon = ({ className, theme }) => {
 	const handleChange = setUserInfo => event => {
 		setUserInfo(event.target.value);
 	};
+	
 	const updateFirebase = () => {
 		let data = {
 			budget: parseInt(parseFloat(budget) * 100),
@@ -50,7 +51,7 @@ const ExpandedUserIcon = ({ className, theme }) => {
 				<label className={cn['theme-label']}>Theme:</label>
 				<Select
 					options={theme.THEME_SELECT_OPTIONS}
-					defaultValue={theme.THEME_SELECT_OPTIONS[theme.getTheme()]}
+					defaultValue={theme.THEME_SELECT_OPTIONS[theme.THEMES[theme.theme]]}
 					name='theme'
 					onChange={themeSelect}
 					className={cn['theme-select']}

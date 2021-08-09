@@ -2,7 +2,15 @@ import { memo, useState, useEffect } from 'react';
 import Fuse from 'fuse.js';
 import cn from './Searchbar.module.scss';
 
-const DEFAULT_KEYS = ['description', 'location', 'name', 'price'];
+const DEFAULT_KEYS = ['description', 'location', 'name', 'price', 'address.address', 'address.city', 'address.crossStreet'];
+
+const options = {
+	includeMatches: true,
+	distance: 100,
+	maxPatternLength: 30,
+	minMatchCharLength: 1,
+	keys: DEFAULT_KEYS,
+}
 
 const Searchbar = ({
 	placeholder = 'Search your history...',
@@ -12,21 +20,20 @@ const Searchbar = ({
 }) => {
 	const [query, setQuery] = useState('');
 	const [results, setResults] = useState([]);
+	const [fuse, setFuse] = useState(() => new Fuse([], options));
 
 	const handleInput = e => {
 		setQuery(e.target.value);
 	};
-	const fuse = new Fuse(data, {
-		includeMatches: true,
-		distance: 100,
-		maxPatternLength: 30,
-		minMatchCharLength: 1,
-		keys: keys,
-	});
+
+	useEffect(() => {
+		setFuse(new Fuse(data, {...options, keys: keys}));
+	}, [data, keys]);
+
 	useEffect(() => {
 		let res = fuse.search(query);
 		setResults(res.slice(0, 25));
-	}, [query, data, data.length]);
+	}, [fuse, query]);
 
 	return (
 		<div className={cn.container}>

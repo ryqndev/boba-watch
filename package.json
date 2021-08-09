@@ -33,7 +33,6 @@
     "react-star-rating-component": "^1.4.1",
     "react-toggle": "^4.1.1",
     "react-transition-group": "^4.4.1",
-    "react-vis": "^1.11.7",
     "sass": "^1.35.1",
     "sweetalert2": "^9.17.2"
   },

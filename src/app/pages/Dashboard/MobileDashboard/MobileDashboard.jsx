@@ -1,4 +1,4 @@
-import { memo, useState, useEffect, useContext } from 'react';
+import { memo, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { toMoney } from '../../../components/textUtil.js';
@@ -6,28 +6,16 @@ import {
 	PurchaseTimeHeatMap,
 	BudgetPieChart,
 } from '../DesktopDashboard/components';
-import TimeBarGraphs from './graphs/TimeBarGraphs';
-import UserSunburst from './graphs/UserSunburst';
 import { Card } from '../../../components';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import useMetrics from '../../../controller/hooks/useMetrics';
 import cn from './MobileDashboard.module.scss';
-import 'react-vis/dist/style.css';
 
 const MobileDashboard = () => {
 	const { t } = useTranslation();
 	const metrics = useMetrics();
 
 	const [user] = useContext(AuthUserContext);
-
-	const [hourlyMetric, setHourlyMetric] = useState(
-		Array(7).fill(Array(24).fill(0))
-	);;
-
-	useEffect(() => {
-		if (!metrics?.d) return;
-		setHourlyMetric(metrics.d);
-	}, [metrics]);
 
 	return (
 		<div className={cn.scrollable}>

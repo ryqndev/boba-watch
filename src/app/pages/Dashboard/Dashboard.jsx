@@ -7,7 +7,7 @@ const Dashboard = ({ theme }) => {
 	const device = useDevice();
 
 	return device === 'phone' ? (
-		<MobileDashboard />
+		<MobileDashboard theme={theme}/>
 	) : (
 		<DesktopDashboard theme={theme} />
 	);

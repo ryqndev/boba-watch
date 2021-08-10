@@ -69,6 +69,7 @@ const DesktopDashboard = ({ theme }) => {
 						<BudgetPieChart
 							budget={user.profile.budget}
 							spent={metrics.tc}
+							theme={theme}
 						/>
 					</Card>
 					<Card className={cn.search}>

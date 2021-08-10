@@ -11,7 +11,7 @@ import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import useMetrics from '../../../controller/hooks/useMetrics';
 import cn from './MobileDashboard.module.scss';
 
-const MobileDashboard = () => {
+const MobileDashboard = ({theme}) => {
 	const { t } = useTranslation();
 	const metrics = useMetrics();
 
@@ -27,6 +27,7 @@ const MobileDashboard = () => {
 					<BudgetPieChart
 						budget={user.profile.budget}
 						spent={metrics.tc}
+						theme={theme}
 					/>
 				</Card>
 				<Card className={cn.budget}>

@@ -3,7 +3,7 @@ import Pie from '@visx/shape/lib/shapes/Pie';
 import { Group } from '@visx/group';
 import cn from './BudgetPieChart.module.scss';
 
-const BudgetPieChart = ({ spent = 0, budget = 1 }) => {
+const BudgetPieChart = ({ spent = 0, budget = 1, theme }) => {
 	return (
 		<div className={cn.container}>
 			<div className={cn.description}>
@@ -23,7 +23,11 @@ const BudgetPieChart = ({ spent = 0, budget = 1 }) => {
 						pieSortValues={() => 1}
 						pieValue={e => e.value}
 						fill={({ data }) =>
-							data.label === 'spent' ? '#14e33a' : '#aaa'
+							data.label === 'spent'
+								? '#14e33a'
+								: theme === 'default'
+									? '#d8d8d8'
+									: '#000000'
 						}
 						outerRadius={48}
 						innerRadius={32}

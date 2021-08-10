@@ -114,6 +114,9 @@ table {
 .leaflet-popup-tip {
     background-color: var(--bg-secondary);
 }
+.leaflet-container {
+    background-color: var(--bg-primary);
+}
 
 .custom-html-style {
     color: var(--text-secondary);

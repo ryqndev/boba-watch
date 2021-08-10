@@ -14,7 +14,7 @@ import {
 import AuthUserContext from '../../../../../controller/contexts/AuthUserContext';
 import './DrinkPanel.scss';
 
-const DrinkPanel = ({ data, triggerUpdate, expandable = true }) => {
+const DrinkPanel = ({ data, triggerUpdate }) => {
 	const [authUser] = useContext(AuthUserContext);
 	const { t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
@@ -43,10 +43,13 @@ const DrinkPanel = ({ data, triggerUpdate, expandable = true }) => {
 				alertDrinkNotDeleted(err);
 			});
 	};
+
 	const edit = () => {
 		navigate('/edit/' + data.id);
 	};
+
 	const drinkDate = new Date(data.date);
+
 	return (
 		<div className='drink-panel'>
 			<div
@@ -62,8 +65,7 @@ const DrinkPanel = ({ data, triggerUpdate, expandable = true }) => {
 				</p>
 
 				<div className='expand-icon'>
-					{expandable &&
-						(expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />)}
+					{expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
 				</div>
 				<p className='name'>{data.name}</p>
 				<p className='time'>{drinkDate.toDateString().substr(4)}</p>

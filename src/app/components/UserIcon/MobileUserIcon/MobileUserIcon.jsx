@@ -11,7 +11,7 @@ const MobileUserIcon = ({ theme }) => {
 		<>
 			<img
 				src={user.photoURL}
-				alt='user settings'
+				alt=''
 				className={cn.avatar}
 				onClick={() => setUserModal(true)}
 			/>

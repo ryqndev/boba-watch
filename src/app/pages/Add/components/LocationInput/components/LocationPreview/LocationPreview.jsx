@@ -17,6 +17,14 @@ const LocationPreview = ({ form, setForm, setShow, tab, setTab }) => {
 		setShow(false);
 	}
 
+	const handleChange = (e) => {
+		setForm(prevForm => {
+			const updateForm = {...prevForm, location: e.target.value};
+			delete updateForm.address;
+			return updateForm;
+		});
+	}
+
 	return (
 		<div className={cn.container}>
 			<h4>Select a location from:</h4>
@@ -44,8 +52,8 @@ const LocationPreview = ({ form, setForm, setShow, tab, setTab }) => {
 				<TextInput
 					label='Name'
 					value={form?.location ?? ''}
+					onChange={handleChange}
 					className={cn.name}
-					readOnly
 				/>
 			</div>
 

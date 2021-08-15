@@ -59,7 +59,7 @@ const User = ({ open, setOpen, theme }) => {
 					<img
 						src={authUser.photoURL}
 						className='avatar'
-						alt='user'
+						alt=''
 					/>
 					<button className='close-button' onClick={close}>
 						<CloseButton />

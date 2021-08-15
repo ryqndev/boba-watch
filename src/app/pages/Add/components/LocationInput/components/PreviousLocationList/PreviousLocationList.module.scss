@@ -38,14 +38,13 @@
         &>.list {
             display: grid;
             row-gap: 15px;
-            padding: 10px 0px 40px;
+            padding: 10px 1px 40px;
 
             &>.listing {
                 width: 100%;
                 box-sizing: border-box;
                 padding: 20px;
                 min-height: max-content;
-                background-color: var(--blog-bg-secondary);
                 cursor: pointer;
 
                 &.awaiting-location {

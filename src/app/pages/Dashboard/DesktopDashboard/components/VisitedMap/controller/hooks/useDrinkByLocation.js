@@ -14,6 +14,7 @@ const useDrinkByLocation = (drinks) => {
             locationMap[coordinateKey] = {
                 coordinates: [drink.address.lat, drink.address.lng],
                 location: drink?.location,
+                address: drink?.address,
                 drinks: [
                     ...(locationMap?.[coordinateKey]?.drinks ?? []),
                     {

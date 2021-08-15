@@ -23,9 +23,7 @@ const THEMES = {
 
 const useTheme = () => {
     const getTheme = () => localStorage.getItem('theme') ?? 'default';
-
     const [theme, setTheme] = useState(() => getTheme());
-
 
     useEffect(() => {
         localStorage.setItem('theme', theme);

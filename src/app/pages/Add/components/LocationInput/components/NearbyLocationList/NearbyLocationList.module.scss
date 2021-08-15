@@ -27,6 +27,7 @@
         height: 100%;
         font-size: 0.85em;
         overflow-y: scroll;
+        overflow-x: visible;
         scrollbar-width: none;
         -ms-overflow-style: none;
 
@@ -38,15 +39,15 @@
         &>.list {
             display: grid;
             row-gap: 15px;
-            padding: 10px 0px 40px;
+            padding: 10px 2px 40px;
+
 
             &>.listing {
-                overflow: hidden;
                 width: 100%;
                 box-sizing: border-box;
                 padding: 20px;
                 min-height: max-content;
-                background-color: var(--blog-bg-secondary);
+                // background-color: var(--blog-bg-secondary);
                 cursor: pointer;
 
                 &.awaiting-location {

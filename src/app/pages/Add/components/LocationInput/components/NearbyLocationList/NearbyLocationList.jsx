@@ -8,46 +8,35 @@ import cn from './NearbyLocationList.module.scss';
 const NearbyLocationList = ({ onChange }) => {
 	const position = useGeolocation();
 	const [listings, setListings] = useState(null);
-	const [searching, setSearching] = useState(false);
 	const [search, setSearch] = useState('');
+	const [searchable, setSearchable] = useState(false);
 
 	const { getLocationsByText, getLocationsNearby } = useFoursquare();
 
 	useEffect(() => {
-		if (!position.lat || !position.lng || listings) return;
-		const query = {
-			lat: position.lat,
-			lng: position.lng,
-			coffee: true,
-		};
-		getLocationsNearby(query, res => {
-			setListings(res.response.groups[0].items.map(e => e.venue));
-		});
-	}, [getLocationsNearby, position, listings, search]);
+		const wait = setTimeout(() => setSearchable(true), 400);
+		return () => clearTimeout(wait);
+	}, [search]);
 
 	useEffect(() => {
-		if (!position.lat || !position.lng) return;
+		if (!searchable || !position.lat || !position.lng) return;
+		const query = { lat: position.lat, lng: position.lng };
+		setSearchable(false);
 
-		if (!searching && listings) {
-			const query = {
-				lat: position.lat,
-				lng: position.lng,
-				input: search,
-			};
-			getLocationsByText(
-				query,
-				res => {
-					setListings(res.response.minivenues);
-				},
-				err => {
-					console.error('ERROR:', err);
-					setListings([]);
-				}
+		if (search.length === 0)
+			getLocationsNearby(
+				{ coffee: true, ...query },
+				res =>
+					setListings(res.response.groups[0].items.map(e => e.venue)),
+				() => setListings([])
 			);
-			setSearching(true);
-			return;
-		}
-	}, [position, search, listings, getLocationsByText, searching]);
+		else
+			getLocationsByText(
+				{ input: search, ...query },
+				res => setListings(res.response.minivenues),
+				() => setListings([])
+			);
+	}, [search, searchable, position, getLocationsByText, getLocationsNearby]);
 
 	const select = (name, location) => {
 		onChange('location', name, 250);
@@ -90,14 +79,16 @@ const NearbyLocationList = ({ onChange }) => {
 							</Card>
 						))}
 
-					{!listings && (
+					{(!listings || !listings.length) && (
 						<Card
 							className={clsx(
 								cn.listing,
 								cn['awaiting-location']
 							)}
 						>
-							Allow location access to get nearby locations
+							{!listings
+								? 'Allow location access to get nearby locations.'
+								: 'Nothing found matching your search'}
 						</Card>
 					)}
 				</div>

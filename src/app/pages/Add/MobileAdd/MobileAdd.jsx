@@ -11,11 +11,16 @@ import DateFnsUtils from '@date-io/date-fns';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import { add, edit } from '../../../controller';
-import { TextInput, Card, StarRating } from '../../../components';
+import {
+	TextInput,
+	Card,
+	StarRating,
+	LocationTagIndicator,
+} from '../../../components';
 import { database as db } from '../../../libs/firestore';
 import Select from 'react-select';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
-import { ImageUpload } from '../components';
+import { ImageUpload, LocationInput } from '../components';
 import { DescriptionEditor } from '../components';
 import './MobileAdd.scss';
 
@@ -28,7 +33,7 @@ const defaultForm = {
 const MobileAdd = ({ pageTitle, buttonTitle }) => {
 	const [user] = useContext(AuthUserContext);
 	const { t } = useTranslation();
-	const {id} = useParams();
+	const { id } = useParams();
 	const [form, setForm] = useState(defaultForm);
 	const [disabled, setDisabled] = useState(false);
 	const [autofill, setAutofill] = useState([]);
@@ -40,7 +45,7 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 	}, []);
 
 	useEffect(() => {
-		if(id) setForm(JSON.parse(localStorage.getItem(id)));
+		if (id) setForm(JSON.parse(localStorage.getItem(id)));
 	}, [id]);
 
 	const handleChange = (key, limit) => e => {
@@ -49,9 +54,9 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 	};
 
 	const editForm = (key, value, limit = 80) => {
-		if(typeof limit === 'function'){
-			if(!limit(value)) return;
-		}else{
+		if (typeof limit === 'function') {
+			if (!limit(value)) return;
+		} else {
 			if (value.length >= limit) return;
 		}
 		setForm(prev => ({ ...prev, [key]: value }));
@@ -150,11 +155,17 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 						<div className='autofill-divider'>
 							or add a new drink:
 						</div>
-						<TextInput
-							value={form.location ?? ''}
-							onChange={handleChange('location', 250)}
-							label={'Location'}
-						/>
+						<div className='holder'>
+							<LocationTagIndicator
+								className='tag'
+								address={form?.address}
+							/>
+							<LocationInput
+								form={form}
+								onChange={editForm}
+								setForm={setForm}
+							/>
+						</div>
 						<TextInput
 							value={form.name ?? ''}
 							onChange={handleChange('name', 150)}
@@ -162,7 +173,12 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 						/>
 						<TextInput
 							value={form.price ?? 0}
-							onChange={handleChange('price', val => val.match(/^-?\d*\.?\d*$/) && val.length < 10)}
+							onChange={handleChange(
+								'price',
+								val =>
+									val.match(/^-?\d*\.?\d*$/) &&
+									val.length < 10
+							)}
 							label={'Price'}
 							type='text'
 						/>
@@ -175,19 +191,15 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 							/>
 						</MuiPickersUtilsProvider>
 					</div>
-					<StarRating rating={form.rating} setRating={val => editForm('rating', val)} />
+					<StarRating
+						rating={form.rating}
+						setRating={val => editForm('rating', val)}
+					/>
 					<div className='content'>
 						<ImageUpload
 							image={form.image}
 							setImage={link => editForm('image', link)}
 						/>
-						{/* <textarea
-							id='description-input'
-							value={form.description ?? ''}
-							rows={10}
-							onChange={handleChange('description', 1000)}
-							placeholder={'How was your drink?'}
-						/> */}
 						<DescriptionEditor
 							description={form.description ?? ''}
 							setDescription={val =>

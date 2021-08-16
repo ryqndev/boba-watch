@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { memo, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import './Modal.scss';
@@ -11,7 +12,7 @@ const Modal = ({ open, setOpen, children }) => {
 	return (
 		<CSSTransition in={open} timeout={100} classNames='fade-quick'>
 			<div
-				className={'modal-backdrop ' + (open ? 'open' : '')}
+				className={clsx('modal-backdrop', open && 'open')}
 				onClick={toggleClose}
 				ref={ref}
 			>

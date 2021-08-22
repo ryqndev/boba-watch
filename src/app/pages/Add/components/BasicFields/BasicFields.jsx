@@ -25,6 +25,7 @@ const BasicFields = ({ form, setForm, handleChange, editForm }) => {
 				label={'Price'}
 				type='text'
 			/>
+			
 			<div className={cn.divider}>
 				<MuiPickersUtilsProvider utils={DateFnsUtils}>
 					<DateTimePicker

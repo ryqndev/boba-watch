@@ -1,109 +1,48 @@
-import { memo, useState, useEffect, useContext } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import 'date-fns';
-import Swal from 'sweetalert2';
-import {
-	alertEmptyDrinkName,
-	alertAutofillAdd,
-	alertDefaultError,
-} from '../../../libs/swal';
 import DateFnsUtils from '@date-io/date-fns';
-import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import Select from 'react-select';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
-import { add, edit } from '../../../controller';
+import { useAddForm, useAutofill } from '../controllers';
 import {
 	TextInput,
 	Card,
 	StarRating,
 	LocationTagIndicator,
 } from '../../../components';
-import { database as db } from '../../../libs/firestore';
-import Select from 'react-select';
-import AuthUserContext from '../../../controller/contexts/AuthUserContext';
+
 import { ImageUpload, LocationInput } from '../components';
 import { DescriptionEditor } from '../components';
 import './MobileAdd.scss';
 
-const defaultForm = {
-	image: '',
-	price: 0,
-	date: new Date().toISOString(),
-};
-
-const MobileAdd = ({ pageTitle, buttonTitle }) => {
-	const [user] = useContext(AuthUserContext);
+const MobileAdd = () => {
 	const { t } = useTranslation();
-	const { id } = useParams();
-	const [form, setForm] = useState(defaultForm);
-	const [disabled, setDisabled] = useState(false);
-	const [autofill, setAutofill] = useState([]);
-	const [canSave, setCanSave] = useState(true);
-	const navigate = useNavigate();
+	const {
+		disabled,
+		form,
+		id,
+
+		setForm,
+		editForm,
+		handleChange,
+		submit,
+	} = useAddForm();
+
+	const { autofill, add, remove } = useAutofill();
+
+	const [labelledAutofill, setLabelledAutofill] = useState([]);
 
 	useEffect(() => {
-		setAutofill(JSON.parse(localStorage.getItem('autofill') ?? '[]'));
-	}, []);
+		setLabelledAutofill(
+			autofill.map(entry => ({
+				label: (entry?.name ?? '') + '@' + (entry?.location ?? ''),
+				...entry,
+			}))
+		);
+	}, [autofill]);
 
-	useEffect(() => {
-		if (id) setForm(JSON.parse(localStorage.getItem(id)));
-	}, [id]);
-
-	const handleChange = (key, limit) => e => {
-		e.preventDefault();
-		editForm(key, e.target.value, limit);
-	};
-
-	const editForm = (key, value, limit = 80) => {
-		if (typeof limit === 'function') {
-			if (!limit(value)) return;
-		} else {
-			if (value.length >= limit) return;
-		}
-		setForm(prev => ({ ...prev, [key]: value }));
-	};
-
-	const submit = async e => {
-		e.preventDefault();
-		setDisabled(true);
-
-		if (!id) await add({ drink: form }, user.uid);
-		else await edit({ drink: form }, id, user.uid);
-
-		setForm(defaultForm);
-		setDisabled(false);
-		navigate('/history');
-	};
-
-	const saveDrink = e => {
-		e.preventDefault();
-		if (form.name === '') return alertEmptyDrinkName();
-		if (!canSave) return;
-		let data = [
-			...autofill,
-			{
-				name: form.name,
-				location: form.location,
-				price: parseInt(parseFloat(form.price) * 100),
-				description: form.description,
-				rating: form.rating,
-				label: form.name,
-				value: form.name + new Date().toISOString(),
-			},
-		];
-		setCanSave(false);
-		db.collection(`users/${user.uid}/user`)
-			.doc('autofill')
-			.set({ data: JSON.stringify(data) })
-			.then(() => {
-				setAutofill(data);
-				localStorage.setItem('autofill', JSON.stringify(data));
-				alertAutofillAdd();
-			})
-			.catch(err => {
-				setCanSave(true);
-				alertDefaultError(err);
-			});
-	};
 	const autofillSelect = data => {
 		Swal.fire({
 			showCancelButton: true,
@@ -114,32 +53,33 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 			reverseButtons: true,
 		}).then(result => {
 			if (result.value) {
-				setForm(data);
+				setForm(prevForm => ({
+					...prevForm,
+					...data,
+					price: data?.price ? data.price / 100 : prevForm.price,
+				}));
 			} else if (result.dismiss === 'cancel') {
-				let updated = [...autofill];
-				updated.splice(
-					updated.findIndex(e => e.value === data.value),
-					1
-				);
-				db.collection(`users/${user.uid}/user`)
-					.doc('autofill')
-					.set({ data: JSON.stringify(updated) })
-					.then(() => {
-						localStorage.setItem(
-							'autofill',
-							JSON.stringify(updated)
-						);
-						setAutofill(updated);
-					})
-					.catch(alertDefaultError);
+				remove(data.value);
 			}
 		});
+	};
+
+	const save = e => {
+		e.preventDefault();
+		const savedData = { ...form, price: form.price * 100 };
+		delete savedData.id;
+		delete savedData.date;
+		delete savedData.edited;
+		delete savedData.created;
+		add(savedData);
 	};
 
 	return (
 		<div className='page with-user'>
 			<form className='add-modal' onSubmit={submit}>
-				<h4 className='bw title'>{t(pageTitle ?? 'Add a Purchase')}</h4>
+				<h4 className='bw title'>
+					{t(`${id ? 'EDIT' : 'ADD'} A PURCHASE`)}
+				</h4>
 				<Card className='add-holder'>
 					<h5>{t("WHAT'S THE TEA?")}</h5>
 					<div className='content'>
@@ -147,7 +87,7 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 							Autofill with saved entry:
 						</label>
 						<Select
-							options={autofill}
+							options={labelledAutofill}
 							name='autofill'
 							onChange={autofillSelect}
 							className='autofill-select'
@@ -209,13 +149,10 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 						<div className='add-button-holder'>
 							<button
 								type='button'
-								disabled={!canSave}
-								onClick={saveDrink}
-								className={`text save ${
-									canSave ? '' : 'saved'
-								}`}
+								onClick={save}
+								className={'text save'}
 							>
-								{canSave ? t('SAVE') : t('SAVED')}
+								{t('SAVE')}
 							</button>
 							<div></div>
 							<button
@@ -223,7 +160,7 @@ const MobileAdd = ({ pageTitle, buttonTitle }) => {
 								disabled={disabled}
 								className='text'
 							>
-								{t(buttonTitle ?? 'ADD')}
+								{t(id ? 'EDIT' : 'ADD')}
 							</button>
 						</div>
 					</div>

@@ -9,24 +9,25 @@ import cn from './LocationPreview.module.scss';
 const LocationPreview = ({ form, setForm, setShow, tab, setTab }) => {
 	const clear = () => {
 		setForm(prevForm => {
-			const updateForm = {...prevForm};
+			const updateForm = { ...prevForm };
 			delete updateForm.address;
 			delete updateForm.location;
 			return updateForm;
 		});
 		setShow(false);
-	}
+	};
 
-	const handleChange = (e) => {
+	const handleChange = e => {
 		setForm(prevForm => {
-			const updateForm = {...prevForm, location: e.target.value};
+			const updateForm = { ...prevForm, location: e.target.value };
 			delete updateForm.address;
 			return updateForm;
 		});
-	}
+	};
 
 	return (
 		<div className={cn.container}>
+			<h3 className={cn.title}>Location</h3>
 			<h4>Select a location from:</h4>
 			<div
 				className={clsx(cn.select, tab === 'nearby' && cn.selected)}
@@ -58,11 +59,7 @@ const LocationPreview = ({ form, setForm, setShow, tab, setTab }) => {
 			</div>
 
 			<div className={cn.actions}>
-				<button
-					type='button'
-					className={cn.cancel}
-					onClick={clear}
-				>
+				<button type='button' className={cn.cancel} onClick={clear}>
 					<CloseRoundedIcon />
 				</button>
 				<button

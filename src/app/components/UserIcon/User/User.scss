@@ -2,7 +2,9 @@
     position: fixed;
     box-sizing: border-box;
     width: calc( 100vw - 50px);
-    place-self: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     max-width: 400px;
     color: var(--text-secondary);
     background-color: var(--bg-primary);

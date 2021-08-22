@@ -1,4 +1,4 @@
-import useDrinkByLocation from './useDrinkByLocation';
+import useDrinkByLocation from './useDrinkByLocation.js';
 
 export {
     useDrinkByLocation,

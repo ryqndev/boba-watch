@@ -5,17 +5,20 @@ import { toMoney } from '../../../components/textUtil.js';
 import {
 	PurchaseTimeHeatMap,
 	BudgetPieChart,
+	VisitedMap,
 } from '../DesktopDashboard/components';
 import { Card } from '../../../components';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
+import { useDrinks } from '../../../controller/hooks';
 import useMetrics from '../../../controller/hooks/useMetrics';
 import cn from './MobileDashboard.module.scss';
 
-const MobileDashboard = ({theme}) => {
+const MobileDashboard = ({ theme }) => {
 	const { t } = useTranslation();
 	const metrics = useMetrics();
 
 	const [user] = useContext(AuthUserContext);
+	const { drinks } = useDrinks();
 
 	return (
 		<div className={cn.scrollable}>
@@ -63,6 +66,14 @@ const MobileDashboard = ({theme}) => {
 				<Card className={cn.heatmap}>
 					<h2>Drink Frequency</h2>
 					<PurchaseTimeHeatMap data={metrics.d} />
+				</Card>
+				<h3 style={{gridColumn: '1/4', fontSize: '2em', color: 'var(--text-accent)', marginBottom: '10px'}}>Visited Locations</h3>
+				<Card className={cn.map}>
+					<VisitedMap
+						className={cn['visible-map']}
+						theme={theme}
+						drinks={drinks}
+					/>
 				</Card>
 			</main>
 		</div>

@@ -11,9 +11,11 @@
         padding-top: 20px;
         text-align: center;
         font-family: 'Poppins';
-        font-size: 1em;
-        color: var(--text-accent);
 
+        &>p {
+            font-size: 1em;
+            color: var(--text-accent);
+        }
         & span{
             font-weight: bold;
             color: var(--text-secondary);

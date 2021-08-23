@@ -1,11 +1,13 @@
 .container {
     & .input-container {
         place-self: center;
-        height: calc(100vh - 20px);
-        width: calc(100vw - 20px);
+        height: calc(100vh - 40px);
+        width: calc(100vw - 40px);
         font-size: 1.2em;
+        display: grid;
 
         &>.preview {
+            place-self: center;
             height: max-content;
             padding: 30px 35px;
 
@@ -20,8 +22,8 @@
             overflow: hidden;
 
             &>button.back {
-                margin-top: 20px;
-                margin-left: 20px;
+                margin-top: 30px;
+                margin-left: 30px;
             }
         }
     }

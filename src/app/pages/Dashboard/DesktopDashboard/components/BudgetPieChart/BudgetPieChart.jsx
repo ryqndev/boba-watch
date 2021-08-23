@@ -7,11 +7,9 @@ const BudgetPieChart = ({ spent = 0, budget = 1, theme }) => {
 	return (
 		<div className={cn.container}>
 			<div className={cn.description}>
-				MONTHLY LIMIT: ${budget / 100}
-				<br />
+				<p>MONTHLY LIMIT: ${budget / 100}</p>
 				<span>${(spent / 100).toFixed(2)}</span>
-				<br />
-				REMAINING: ${(budget - spent) / 100}
+				<p>REMAINING: ${(budget - spent) / 100}</p>
 			</div>
 			<svg className={cn.chart} viewBox='0 0 100 100'>
 				<Group className={cn.full} left={50} top={50}>
@@ -27,7 +25,7 @@ const BudgetPieChart = ({ spent = 0, budget = 1, theme }) => {
 								? '#14e33a'
 								: theme === 'default'
 									? '#d8d8d8'
-									: '#000000'
+									: '#223242'
 						}
 						outerRadius={48}
 						innerRadius={32}

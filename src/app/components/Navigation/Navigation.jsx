@@ -6,13 +6,7 @@ import DesktopNavigation from './DesktopNavigation';
 const Navigation = () => {
 	const device = useDevice();
 
-	switch (device) {
-		case 'desktop':
-			return <DesktopNavigation />;
-		case 'phone':
-		default:
-			return <MobileNavigation />;
-	}
+	return device === 'phone' ? <MobileNavigation /> : <DesktopNavigation />;
 };
 
 export default memo(Navigation);

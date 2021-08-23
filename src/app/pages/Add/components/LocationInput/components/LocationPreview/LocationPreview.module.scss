@@ -30,6 +30,10 @@
         grid-template-columns: 1fr auto;
         cursor: pointer;
 
+        @media screen and (max-width: 950px) {
+            margin-top: 10px;
+        }
+
         &>.expand {
             display: grid;
             place-self: center;

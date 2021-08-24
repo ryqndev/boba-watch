@@ -13,6 +13,7 @@ import { remove } from '../../../../../controller';
 import AuthUserContext from '../../../../../controller/contexts/AuthUserContext';
 import cn from './DrinkDetails.module.scss';
 
+
 const DrinkDetails = ({
 	description,
 	name,

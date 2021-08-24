@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
@@ -23,8 +23,7 @@ const DrinkPanel = ({ data }) => {
 			>
 				<p className={cn.place}>{data.location}</p>
 				<p className={cn.price}>
-					{t('$')}
-					{toMoney(data.price)}
+					{t('$')}{toMoney(data.price)}
 				</p>
 				<div className={cn['expand-icon']}>
 					{expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
@@ -45,4 +44,4 @@ const DrinkPanel = ({ data }) => {
 	);
 };
 
-export default DrinkPanel;
+export default memo(DrinkPanel);

@@ -1,7 +1,7 @@
-import { memo } from 'react';
+import { lazy, memo } from 'react';
 import useDevice from '../../controller/hooks/useDevice';
-import MobileNavigation from './MobileNavigation';
-import DesktopNavigation from './DesktopNavigation';
+const MobileNavigation = lazy(() => import('./MobileNavigation'));
+const DesktopNavigation = lazy(() => import('./DesktopNavigation'));
 
 const Navigation = () => {
 	const device = useDevice();

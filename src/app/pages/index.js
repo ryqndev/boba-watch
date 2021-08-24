@@ -1,4 +1,4 @@
-import { Add, Edit } from './Add';
+import Add from './Add';
 import Blog from './Blog';
 import Dashboard from './Dashboard';
 import History from './History';
@@ -7,7 +7,6 @@ import Locator from './Locator';
 
 export {
     Add,
-    Edit,
     Blog,
     Dashboard,
     History,

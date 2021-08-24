@@ -1,7 +1,8 @@
-import { memo } from 'react';
+import { memo, lazy } from 'react';
 import useDevice from '../../controller/hooks/useDevice';
-import MobileAdd from './MobileAdd';
-import DesktopAdd from './DesktopAdd';
+
+const MobileAdd = lazy(() => import('./MobileAdd'));
+const DesktopAdd = lazy(() => import('./DesktopAdd'));
 
 const Add = () => {
 	const device = useDevice();

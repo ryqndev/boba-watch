@@ -1,13 +1,14 @@
-import { memo } from 'react';
+import { memo, lazy } from 'react';
 import useDevice from '../../controller/hooks/useDevice.js';
-import MobileDashboard from './MobileDashboard';
-import DesktopDashboard from './DesktopDashboard';
+
+const MobileDashboard = lazy(() => import('./MobileDashboard'));
+const DesktopDashboard = lazy(() => import('./DesktopDashboard'));
 
 const Dashboard = ({ theme }) => {
 	const device = useDevice();
 
 	return device === 'phone' ? (
-		<MobileDashboard theme={theme}/>
+		<MobileDashboard theme={theme} />
 	) : (
 		<DesktopDashboard theme={theme} />
 	);

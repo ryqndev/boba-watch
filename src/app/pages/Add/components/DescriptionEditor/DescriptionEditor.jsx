@@ -3,7 +3,6 @@ import MdEditor, { Plugins } from 'react-markdown-editor-lite';
 import MarkdownIt from 'markdown-it';
 import { Card } from '../../../../components';
 import cn from './DescriptionEditor.module.scss';
-import 'react-markdown-editor-lite/lib/index.css';
 
 const DescriptionEditor = ({ description, setDescription }) => {
 	const mdParser = new MarkdownIt();

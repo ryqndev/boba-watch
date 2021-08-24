@@ -1,7 +1,8 @@
-import { memo } from 'react';
-import MdEditor from 'react-markdown-editor-lite';
+import { memo, Suspense, lazy } from 'react';
 import MarkdownIt from 'markdown-it';
 import cn from './MarkdownDisplay.module.scss';
+
+const MdEditor = lazy(() => import('react-markdown-editor-lite'));
 
 const MarkdownDisplay = ({description}) => {
     const mdParser = new MarkdownIt();
@@ -11,6 +12,7 @@ const MarkdownDisplay = ({description}) => {
 			{!description || description === '' ? (
 				<span>[no description]</span>
 			) : (
+				<Suspense fallback={<div></div>}>
 				<MdEditor
 					id={cn.preview}
 					view={{
@@ -28,6 +30,7 @@ const MarkdownDisplay = ({description}) => {
 					}}
 					value={description}
 				/>
+				</Suspense>
 			)}
 		</div>
 	);

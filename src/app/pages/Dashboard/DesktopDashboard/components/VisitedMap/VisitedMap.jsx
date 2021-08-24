@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import clsx from 'clsx';
 import { CircleMarker, Popup } from 'react-leaflet';
-import { Map } from '../../../../../components';
+import Map from '../../../../../components/Map';
 import { format } from 'date-fns';
 import { useDrinkByLocation } from './controller';
 import cn from './VisitedMap.module.scss';

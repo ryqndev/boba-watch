@@ -18,5 +18,5 @@ const ellipsisText = (text, characterLengthCutoff=80) => {
 }
 export {
     toMoney,
-    ellipsisText
+    ellipsisText,
 }

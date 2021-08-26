@@ -1,11 +1,16 @@
-import {lazy} from 'react';
+import { lazy } from 'react';
 import useDevice from '../../controller/hooks/useDevice';
 const MobileLocator = lazy(() => import('./MobileLocator'));
 const DesktopLocator = lazy(() => import('./DesktopLocator'));
 
-const Locator = ({theme}) => {
+const Locator = ({ theme }) => {
 	const device = useDevice();
 
-	return device === 'phone' ? <MobileLocator theme={theme}/> : <DesktopLocator theme={theme} />;}
+	return device === 'phone' ? (
+		<MobileLocator theme={theme} />
+	) : (
+		<DesktopLocator theme={theme} />
+	);
+};
 
 export default Locator;

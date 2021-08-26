@@ -1,4 +1,4 @@
-.add-modal{
+.container{
     display: grid;
     row-gap: 25px;
     grid-template-rows: auto auto;
@@ -76,11 +76,11 @@
                     border: 2px solid rgb(15, 207, 15);
                 }
             }
-            & img.upload-preview{
+            & img{
                 width: 100%;
                 object-fit: contain;
             }
-            & input[type="file"] {
+            & input[type=file] {
                 display: none;
             }            
             & textarea{

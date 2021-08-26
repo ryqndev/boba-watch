@@ -15,7 +15,8 @@ import {
 
 import { ImageUpload, LocationInput } from '../components';
 import { DescriptionEditor } from '../components';
-import './MobileAdd.scss';
+import cn from './MobileAdd.module.scss';
+import clsx from 'clsx';
 
 const MobileAdd = () => {
 	const { t } = useTranslation();
@@ -37,7 +38,7 @@ const MobileAdd = () => {
 	useEffect(() => {
 		setLabelledAutofill(
 			autofill.map(entry => ({
-				label: (entry?.name ?? '') + '@' + (entry?.location ?? ''),
+				label: (entry?.name ?? '[NO DRINK NAME]') + ' @ ' + (entry?.location ?? '[NO DRINK LOCATION]'),
 				...entry,
 			}))
 		);
@@ -76,28 +77,28 @@ const MobileAdd = () => {
 
 	return (
 		<div className='page with-user'>
-			<form className='add-modal' onSubmit={submit}>
+			<form className={cn.container} onSubmit={submit}>
 				<h4 className='bw title'>
 					{t(`${id ? 'EDIT' : 'ADD'} A PURCHASE`)}
 				</h4>
-				<Card className='add-holder'>
+				<Card className={cn['add-holder']}>
 					<h5>{t("WHAT'S THE TEA?")}</h5>
-					<div className='content'>
-						<label className='autofill-label'>
+					<div className={cn.content}>
+						<label className={cn['autofill-label']}>
 							Autofill with saved entry:
 						</label>
 						<Select
 							options={labelledAutofill}
 							name='autofill'
 							onChange={autofillSelect}
-							className='autofill-select'
+							className={cn['autofill-select']}
 						/>
-						<div className='autofill-divider'>
+						<div className={cn['autofill-divider']}>
 							or add a new drink:
 						</div>
 						<div className='holder'>
 							<LocationTagIndicator
-								className='tag'
+								className={cn.tag}
 								address={form?.address}
 							/>
 							<LocationInput
@@ -135,7 +136,7 @@ const MobileAdd = () => {
 						rating={form.rating}
 						setRating={val => editForm('rating', val)}
 					/>
-					<div className='content'>
+					<div className={cn.content}>
 						<ImageUpload
 							image={form.image}
 							setImage={link => editForm('image', link)}
@@ -146,11 +147,11 @@ const MobileAdd = () => {
 								editForm('description', val, 2500)
 							}
 						/>
-						<div className='add-button-holder'>
+						<div className={cn['add-button-holder']}>
 							<button
 								type='button'
 								onClick={save}
-								className={'text save'}
+								className={clsx(cn.save, 'text')}
 							>
 								{t('SAVE')}
 							</button>
@@ -158,7 +159,7 @@ const MobileAdd = () => {
 							<button
 								type='submit'
 								disabled={disabled}
-								className='text'
+								className={cn['text']}
 							>
 								{t(id ? 'EDIT' : 'ADD')}
 							</button>

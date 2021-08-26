@@ -2,7 +2,15 @@ import { memo, useState, useEffect } from 'react';
 import Fuse from 'fuse.js';
 import cn from './Searchbar.module.scss';
 
-const DEFAULT_KEYS = ['description', 'location', 'name', 'price', 'address.address', 'address.city', 'address.crossStreet'];
+const DEFAULT_KEYS = [
+	'description',
+	'location',
+	'name',
+	'price',
+	'address.address',
+	'address.city',
+	'address.crossStreet',
+];
 
 const options = {
 	includeMatches: true,
@@ -10,7 +18,7 @@ const options = {
 	maxPatternLength: 30,
 	minMatchCharLength: 1,
 	keys: DEFAULT_KEYS,
-}
+};
 
 const Searchbar = ({
 	placeholder = 'Search your history...',
@@ -27,7 +35,7 @@ const Searchbar = ({
 	};
 
 	useEffect(() => {
-		setFuse(new Fuse(data, {...options, keys: keys}));
+		setFuse(new Fuse(data, { ...options, keys: keys }));
 	}, [data, keys]);
 
 	useEffect(() => {
@@ -47,6 +55,9 @@ const Searchbar = ({
 				{results.map(result => (
 					<Result key={result.item.id} {...result} />
 				))}
+				{query.length !== 0 && results.length === 0 && (
+					<div className={cn.empty}>No results found.</div>
+				)}
 			</div>
 		</div>
 	);

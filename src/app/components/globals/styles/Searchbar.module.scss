@@ -17,5 +17,16 @@
     &>.results{
         position: relative;
         width: 100%;
+
+        &>.empty {
+            font-size: 0.9em;
+            color: grey;
+            font-weight: bold;
+            text-align: center;
+            border: 2px solid #00000011;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+        }
     }
 }

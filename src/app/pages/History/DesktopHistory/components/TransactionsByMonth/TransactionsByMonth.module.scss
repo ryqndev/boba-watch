@@ -19,6 +19,18 @@
     &>.empty {
         padding: 20px;
         font-size: 1.3em;
+        font-weight: bold;
+        color: grey;
+        text-align: center;
+        &>a {
+            text-decoration: underline;
+            color: var(--text-accent);
+            transition: color 250ms;
+            
+            &:hover {
+                color: var(--text-secondary);
+            }
+        }
     }
 
     &>.month {

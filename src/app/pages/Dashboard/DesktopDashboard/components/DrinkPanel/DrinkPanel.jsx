@@ -17,9 +17,7 @@ const DrinkPanel = ({ data }) => {
 		<div className={cn.container}>
 			<div
 				className={cn['basic-details']}
-				onClick={() => {
-					setExpanded(!expanded);
-				}}
+				onClick={() => setExpanded(prev => !prev)}
 			>
 				<p className={cn.place}>{data.location}</p>
 				<p className={cn.price}>

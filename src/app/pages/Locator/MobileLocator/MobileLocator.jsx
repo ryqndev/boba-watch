@@ -1,5 +1,5 @@
 import { memo, useState } from 'react';
-import { Card, Map } from '../../../components';
+import { Map } from '../../../components';
 import { SearchAreaButton, StoreMarker } from '../components';
 import { Filter } from './components';
 import cn from './MobileLocator.module.scss';
@@ -19,7 +19,7 @@ const MobileLocator = ({ theme }) => {
 				setCenter={setCenter}
 				theme={theme}
 				zoomControl={false}
-				hasCenterButton={false}
+				// hasCenterButton={false}
 			>
 				{position => (
 					<>

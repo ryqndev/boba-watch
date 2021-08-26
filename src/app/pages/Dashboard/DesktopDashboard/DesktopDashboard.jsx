@@ -84,6 +84,11 @@ const DesktopDashboard = ({ theme }) => {
 						{drinks.slice(0, 5).map(drink => (
 							<DrinkPanel key={drink.id} data={drink} />
 						))}
+						{drinks.length === 0 && (
+							<div className={cn['empty-recent-purchases']}>
+								You don't have any drinks recorded!
+							</div>
+						)}
 					</Card>
 				</div>
 			</aside>

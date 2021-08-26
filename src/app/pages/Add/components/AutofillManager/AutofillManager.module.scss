@@ -46,6 +46,10 @@
             padding: 40px 60px;
             font-size: 1.8em;
             text-align: center;
+            background-color: var(--blog-bg-primary);
+            text-transform: uppercase;
+            font-weight: bold;
+            color: var(--autofill-text);
         }
     }
 }

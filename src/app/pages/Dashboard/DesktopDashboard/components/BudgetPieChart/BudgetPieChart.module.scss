@@ -15,6 +15,9 @@
         &>p {
             font-size: 1em;
             color: var(--text-accent);
+            @media screen and (max-width: 950px) {
+                font-size: 0.8em;
+            }
         }
         & span{
             font-weight: bold;

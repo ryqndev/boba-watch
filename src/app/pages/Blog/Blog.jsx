@@ -14,6 +14,10 @@ const Blog = () => {
 				location tagging feature. We plan on publishing new features and
 				charts as soon as they're tested and ready!
 			</p>
+			<br />
+			<br />
+			<br />
+			<p>boba watch v. {process.env.REACT_APP_VERSION}</p>
 		</div>
 	);
 };

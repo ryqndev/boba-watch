@@ -5,6 +5,11 @@
     {
       "src": "logo-no-bg.png",
       "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "logo-no-bg.png",
+      "type": "image/png",
       "purpose": "maskable",
       "sizes": "144x144"
     },

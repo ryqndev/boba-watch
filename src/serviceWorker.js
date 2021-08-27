@@ -9,7 +9,7 @@ const isLocalhost = Boolean(
 );
 window.isUpdateAvailable = new Promise(function(resolve, reject) {
 	if ('serviceWorker' in navigator) {
-		navigator.serviceWorker.register('service-worker.js')
+		navigator.serviceWorker.register('/service-worker.js')
         .then(reg => {
             reg.onupdatefound = () => {
                 const installingWorker = reg.installing;
@@ -55,8 +55,7 @@ export function register(config) {
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
           console.log(
-            'This web app is being served cache-first by a service ' +
-              'worker. To learn more, visit https://bit.ly/CRA-PWA'
+            'Service Worker Ready.'
           );
         });
       } else {

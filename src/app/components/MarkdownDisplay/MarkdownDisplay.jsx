@@ -1,14 +1,15 @@
 import { memo, Suspense, lazy } from 'react';
 import MarkdownIt from 'markdown-it';
 import cn from './MarkdownDisplay.module.scss';
+import clsx from 'clsx';
 
 const MdEditor = lazy(() => import('react-markdown-editor-lite'));
 
-const MarkdownDisplay = ({description}) => {
+const MarkdownDisplay = ({description, card=true}) => {
     const mdParser = new MarkdownIt();
 
 	return (
-		<div className={cn.container}>
+		<div className={clsx(cn.container, card && cn.card)}>
 			{!description || description === '' ? (
 				<span>[no description]</span>
 			) : (

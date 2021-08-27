@@ -14,7 +14,7 @@ import {
 import AuthUserContext from '../../../../../controller/contexts/AuthUserContext';
 import './DrinkPanel.scss';
 
-const DrinkPanel = ({ data, triggerUpdate }) => {
+const DrinkPanel = ({ data, triggerUpdate, theme }) => {
 	const [authUser] = useContext(AuthUserContext);
 	const { t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
@@ -73,6 +73,7 @@ const DrinkPanel = ({ data, triggerUpdate }) => {
 			<div className={'collapsed-info' + (expanded ? ' expanded' : '')}>
 				<ExpandedDrinkDescription
 					{...data}
+					theme={theme}
 					expanded={expanded}
 					date={drinkDate}
 				/>

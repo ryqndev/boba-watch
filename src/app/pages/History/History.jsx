@@ -7,7 +7,7 @@ const DesktopHistory = lazy(() => import('./DesktopHistory'));
 const History = ({ theme }) => {
 	const device = useDevice();
 
-	return device === 'phone' ? <MobileHistory /> : <DesktopHistory theme={theme} />;
+	return device === 'phone' ? <MobileHistory theme={theme}/> : <DesktopHistory theme={theme} />;
 };
 
 export default memo(History);

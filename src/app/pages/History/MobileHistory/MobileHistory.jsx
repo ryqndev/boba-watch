@@ -25,7 +25,7 @@ const NoDrinksLabel = ({ label }) => {
 	);
 };
 
-const MobileHistory = () => {
+const MobileHistory = ({theme}) => {
 	const { t } = useTranslation();
 	const [monthly, setMonthly] = useState([]);
 	const [total, setTotal] = useState([]);
@@ -58,6 +58,7 @@ const MobileHistory = () => {
 			if (recent && rec > 0) {
 				monthly.push(
 					<DrinkPanel
+						theme={theme}
 						triggerUpdate={setDrinkidsCopy}
 						key={drink.id}
 						data={drink}
@@ -67,6 +68,7 @@ const MobileHistory = () => {
 			} else if (!recent && com > 0) {
 				total.push(
 					<DrinkPanel
+						theme={theme}
 						triggerUpdate={setDrinkidsCopy}
 						key={drink.id}
 						data={drink}
@@ -113,10 +115,11 @@ const MobileHistory = () => {
 		setTotal([...total]);
 
 		setExpandedDrinklistData(tempExpandedDrinkListData);
-	}, [drinkidsCopy.length, drinkidsCopy, show, show.recent, show.complete]);
+	}, [drinkidsCopy.length, theme, drinkidsCopy, show, show.recent, show.complete]);
 
 	const DrinkSearchResult = ({ item, matches }) => {
-		return <DrinkPanel triggerUpdate={setDrinkidsCopy} data={item} />;
+		return <DrinkPanel
+			theme={theme} triggerUpdate={setDrinkidsCopy} data={item} />;
 	};
 
 	return (

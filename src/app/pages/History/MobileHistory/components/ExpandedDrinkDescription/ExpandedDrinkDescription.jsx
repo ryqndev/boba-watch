@@ -1,21 +1,22 @@
 import { memo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import MdEditor from 'react-markdown-editor-lite';
-import MarkdownIt from 'markdown-it';
 import { getImageAttribute } from '../../../../../libs/cloud-storage';
+import { Map, MarkdownDisplay } from '../../../../../components';
+import { CircleMarker } from 'react-leaflet';
 import './ExpandedDrinkDescription.scss';
 
 const ExpandedDrinkDescription = ({
 	name,
 	location,
 	description,
+	theme,
 	expanded,
+	address,
 	image,
 	date,
 }) => {
 	const { t } = useTranslation();
 	const [imageAttr, setImageAttr] = useState(false);
-	const mdParser = new MarkdownIt();
 
 	useEffect(() => {
 		if (!expanded || !image) return;
@@ -26,6 +27,28 @@ const ExpandedDrinkDescription = ({
 
 	return (
 		<div className='expanded-drink-description--wrapper'>
+			{address && (
+				<Map
+					className='map'
+					theme={theme}
+					scrollWheelZoom={false}
+					hasCenterButton={false}
+					zoom={10}
+					center={[address.lat, address.lng]}
+				>
+					{() => (
+						<CircleMarker
+							center={[address.lat, address.lng]}
+							radius={10}
+							fill={true}
+							weight={1}
+							color={'#F68080'}
+							fillColor={'#F68080'}
+							fillOpacity={'0.5'}
+						></CircleMarker>
+					)}
+				</Map>
+			)}
 			<p className='title'>
 				{name}
 				<br />
@@ -40,23 +63,7 @@ const ExpandedDrinkDescription = ({
 			)}
 			<br />
 			<div className='description'>
-				<MdEditor
-					id="preview"
-					view={{
-						menu: false,
-						md: false,
-					}}
-					readOnly={true}
-					renderHTML={text => mdParser.render(text)}
-					canView={{
-						menu: false,
-						md: false,
-						html: false,
-						fullScreen: false,
-						hideMenu: false,
-					}}
-					value={description}
-				/>
+				<MarkdownDisplay card={false} description={description} />
 			</div>
 			<br />
 			<p className='date'>

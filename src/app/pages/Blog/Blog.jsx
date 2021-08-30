@@ -15,6 +15,12 @@ const Blog = () => {
 				charts as soon as they're tested and ready!
 			</p>
 			<br />
+			(If some colors are missing, try changing the theme and toggle back. im working on a fix asap i promise)
+			<br />
+			<br />
+			If something is broken or you have any suggestions or just wanna chat, send me an{' '}
+			<a href='mailto:ryanqyang@gmail.com'>email</a>
+			!
 			<br />
 			<br />
 			<p>boba watch v. {process.env.REACT_APP_VERSION}</p>

@@ -67,14 +67,14 @@ const MobileDashboard = ({ theme }) => {
 					<h2>Drink Frequency</h2>
 					<PurchaseTimeHeatMap data={metrics.d} />
 				</Card>
-				<h3 style={{gridColumn: '1/4', fontSize: '2em', color: 'var(--text-accent)', marginBottom: '10px'}}>Visited Locations</h3>
+				{/* <h3 style={{gridColumn: '1/4', fontSize: '2em', color: 'var(--text-accent)', marginBottom: '10px'}}>Visited Locations</h3>
 				<Card className={cn.map}>
 					<VisitedMap
 						className={cn['visible-map']}
 						theme={theme}
 						drinks={drinks}
 					/>
-				</Card>
+				</Card> */}
 			</main>
 		</div>
 	);

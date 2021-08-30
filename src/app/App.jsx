@@ -50,7 +50,7 @@ const AuthenticatedRoutes = () => {
 					<Route path='add' element={<Add />} />
 					<Route path='edit/:id' element={<Add />} />
 					<Route path='map' element={<Locator theme={theme} />} />
-					<Route path='blog/:userid' element={<Blog />} />
+					<Route path='blog' element={<Blog />} />
 				</Routes>
 			</Suspense>
 			<Navigation />

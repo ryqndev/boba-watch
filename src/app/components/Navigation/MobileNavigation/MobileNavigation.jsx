@@ -1,4 +1,4 @@
-import { memo, useEffect, useContext } from 'react';
+import { memo, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import MapIcon from '@material-ui/icons/PlaceRounded';
 import DashboardIcon from '@material-ui/icons/HomeRounded';
@@ -6,13 +6,11 @@ import AddIcon from '@material-ui/icons/AddRounded';
 import HistoryIcon from '@material-ui/icons/ListAltRounded';
 import PublicIcon from '@material-ui/icons/FaceRounded';
 import { onPageView } from '../../../libs/analytics';
-import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import cn from './MobileNavigation.module.scss';
 
 const MobileNavigation = () => {
 	const { pathname } = useLocation();
 	const isTab = path => (path === pathname ? ' ' + cn.selected : '');
-	const [authUser] = useContext(AuthUserContext);
 
 	useEffect(() => {
 		onPageView(pathname);
@@ -44,9 +42,9 @@ const MobileNavigation = () => {
 						<p className={cn.label}>locator</p>
 					</div>
 				</Link>
-				<Link to={'/blog/' + authUser.uid}>
+				<Link to={'/blog'}>
 					<div
-						className={cn.icon + isTab('/blog/' + authUser.uid)}
+						className={cn.icon + isTab('/blog')}
 					>
 						<PublicIcon />
 						<p className={cn.label}>blog</p>

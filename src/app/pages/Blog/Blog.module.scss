@@ -4,4 +4,14 @@
         color: var(--text-accent);
     }
     padding: 20px;
+
+    @media screen and (min-width: 950px) {
+        position: absolute;
+        left: 120px;
+        top: 0px;
+        height: 100%;
+        background-color: var(--nav-bg);
+        font-size: 1.4em;
+        color: var(--text-primary);
+    }
 }

@@ -23,7 +23,7 @@ const MobileLocator = ({ theme }) => {
 			>
 				{position => (
 					<>
-						<Filter />
+						{/* <Filter /> */}
 						<SearchAreaButton
 							className={cn['search-area--btn']}
 							position={position}

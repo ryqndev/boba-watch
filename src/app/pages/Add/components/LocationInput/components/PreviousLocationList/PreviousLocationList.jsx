@@ -35,6 +35,11 @@ const PreviousLocationList = ({ onChange }) => {
 								{address?.country ?? ''}
 							</Card>
 						))}
+					{locations.length === 0 && (
+						<Card className={cn.empty}>
+							You have no previous drinks with a tagged location
+						</Card>
+					)}
 				</div>
 			</div>
 		</div>

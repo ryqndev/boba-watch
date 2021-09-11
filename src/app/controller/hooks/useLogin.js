@@ -11,7 +11,7 @@ const useLogin = () => {
     const [user] = useContext(AuthUserContext);
 
     useEffect(() => {
-        if (user) navigate('/');
+        if (user && user !== 'logging-in') navigate('/');
     }, [user, navigate]);
 }
 

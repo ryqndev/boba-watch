@@ -13,7 +13,7 @@ const DesktopUserIcon = ({theme}) => {
 		<Card className={clsx(cn.container, expanded && cn.expanded)}>
 			<time className={cn.date}>{new Date().toDateString()}</time>
 			<img
-				src={user.photoURL}
+				src={user?.photoURL}
 				alt=""
 				className={cn.avatar}
 				onClick={() => setExpanded(prev => !prev)}

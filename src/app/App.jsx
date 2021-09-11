@@ -9,6 +9,8 @@ import Navigation from './components/Navigation';
 import UserIcon from './components/UserIcon';
 import cn from './App.module.scss';
 import 'react-markdown-editor-lite/lib/index.css';
+import { logout } from './libs/firestore';
+import clsx from 'clsx';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const History = lazy(() => import('./pages/History'));
@@ -16,7 +18,7 @@ const Add = lazy(() => import('./pages/Add'));
 const Locator = lazy(() => import('./pages/Locator'));
 
 const App = () => {
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState('logging-in');
 
 	useEffect(() => {
 		init(setUser);
@@ -38,7 +40,15 @@ const AuthenticatedRoutes = () => {
 	const { user } = useAuth();
 	const { theme, ...themeOptions } = useTheme();
 
-	if (!user) return <div>Loading...</div>;
+	if (!user || user === 'logging-in')
+		return (
+			<div className={clsx(cn['page-background'], cn['loading-message'])}>
+				Logging you in...
+				<div className={cn['center-btn']}>
+					<button onClick={logout}>cancel</button>
+				</div>
+			</div>
+		);
 
 	return (
 		<>

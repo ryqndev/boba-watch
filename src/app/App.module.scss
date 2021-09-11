@@ -6,4 +6,20 @@
     @media screen and (max-width: 950px) {
         background-color: transparent;
     }
+
+    &.loading-message {
+        display: grid;
+        place-content: center;
+        row-gap: 20px;
+        font-size: 1.5em;
+        text-transform: lowercase;
+
+        & .center-btn {
+            text-align: center;
+
+            &>button {
+                cursor: pointer;
+            }
+        }
+    }
 }

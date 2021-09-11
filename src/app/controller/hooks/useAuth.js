@@ -12,7 +12,6 @@ const useAuth = () => {
 
     useEffect(() => {
         if (!user){
-            // TODO: attempt login from here first before redirecting to login page
             navigate('/login');
         }
     }, [user, navigate]);

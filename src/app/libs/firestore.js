@@ -3,9 +3,9 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
 import 'firebase/storage';
-import {alertDefaultError} from '../libs/swal';
+import { alertDefaultError } from '../libs/swal';
 import * as firebaseui from 'firebaseui';
-import {subWeeks, subMonths} from 'date-fns';
+import { subWeeks, subMonths } from 'date-fns';
 
 const firebaseConfig = {
     apiKey: "AIzaSyBePNJQYVteyh1Ll9fqnXbXc-S8fmJlbTQ",
@@ -19,29 +19,29 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-let database, 
+let database,
     analytics = firebase.analytics(),
-    storage = firebase.storage(), 
+    storage = firebase.storage(),
     ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
 
-database = firebase.firestore(); 
-// database.enablePersistence().catch(err => {console.error(err)});
+database = firebase.firestore();
+// database.enablePersistence().catch(err => { console.error(err) });
 
 const logout = () => {
-    firebase.auth().signOut().then(function(){
+    firebase.auth().signOut().then(function () {
         analytics.logEvent('logout');
         let theme = localStorage.getItem('theme');
         localStorage.clear();
         localStorage.setItem('theme', theme);
-    }).catch(alertDefaultError);      
+    }).catch(alertDefaultError);
 }
 
-const publishGetUser = (uid, limit=5, callback) => {
+const publishGetUser = (uid, limit = 5, callback) => {
     return database.collection('blogs').where('uid', '==', uid).orderBy('date', 'desc').limit(limit).onSnapshot(callback);
 }
-const publishGetFeed = (limit=1, orderBy='published', time='all', callback) => {
+const publishGetFeed = (limit = 1, orderBy = 'published', time = 'all', callback) => {
     let date = new Date();
-    switch(time){
+    switch (time) {
         case 'week':
             date = subWeeks(date, 1);
             break;
@@ -54,23 +54,23 @@ const publishGetFeed = (limit=1, orderBy='published', time='all', callback) => {
             break;
     }
     date = firebase.firestore.Timestamp.fromDate(date);
-    if(orderBy === 'published')
+    if (orderBy === 'published')
         return database.collection('blogs').orderBy('published', 'desc').where('published', '>=', date).limit(limit).onSnapshot(callback);
     return database.collection('blogs').orderBy('published').where('published', '>=', date).orderBy(orderBy, 'desc').limit(limit).onSnapshot(callback);
 }
-const getFeed = async(limit=1, startAfter=0) => {
+const getFeed = async (limit = 1, startAfter = 0) => {
     return database.collection('blogs').orderBy('published').startAfter(startAfter).limit(limit).get();
 }
-const deleteBlogPost = async(blogid) => {
+const deleteBlogPost = async (blogid) => {
     return database.collection('blogs').doc(blogid).delete();
 }
-const getBlogPost = async(blogid) => {
+const getBlogPost = async (blogid) => {
     return database.collection('blogs').doc(blogid).get();
 }
 const getUserStats = (uid) => {
     return database.collection(`users/${uid}/user`).doc('stats').get();
 }
-const getUserBlog = async(uid) => {
+const getUserBlog = async (uid) => {
     return database.collection(`users/${uid}/blog`).doc('user').get();
 }
 

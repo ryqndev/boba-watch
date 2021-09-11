@@ -12,9 +12,12 @@ const add = async (data, uid) => {
             ...data
         });
         let firebaseReturnedResult = await firebaseAddAction.get(); //get drink + generated id
+        const tempDataHolder = firebaseReturnedResult.data();
         let drink = {
             id: firebaseReturnedResult.id,
-            ...firebaseReturnedResult.data().drink
+            edited: tempDataHolder?.edited,
+            created: tempDataHolder?.created,
+            ...tempDataHolder.drink,
         };
         return syncMetrics(drink, uid);
     } catch (err) {

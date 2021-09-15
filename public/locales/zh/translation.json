@@ -1,0 +1,47 @@
+{
+    "dashboard": "仪表盘",
+    "drink frequency": "波霸日程",
+    "drinks this month": "波霸本月",
+    "this is how much you’ve spent on drinks so far": "从一开始，你花了",
+    "coming soon": "敬请期待",
+
+    "monthly budget": "每月预算",
+    "monthly limit": "每月限额",
+    "remaining": "其余的",
+    "search": "検索",
+    "search your past uploads": "検索你的记录",
+
+    "recent purchases": "近日买的",
+    "no drinks recorded": "你还没有记录任何饮料!",
+
+
+    "history": "历史",
+    "date": "日期",
+    "location": "店",
+    "drink name": "饮料名称",
+    "price": "价钱",
+    "no drink recorded": "No drinks found. Let's get started by adding a drink",
+    "show more": "展示更多",
+
+    "no drink selected": "Select a drink from your history to view it's details",
+
+
+    "add a purchase": "记录",
+    "edit a purchase": "编辑",
+    "details": "信息",
+    "rating": "评分",
+    "photo": "照片",
+    "upload an image": "上载照片",
+    "description": "观点",
+    "preview": "预览",
+    "how was your drink": "你喝的怎么样",
+    "add": "记录",
+    "update": "编辑",
+
+    "saved drinks": "保存的饮料",
+    "saved drinks description": "saved drinks description",
+    "create": "create",
+    "create button description": "create button description",
+    "no drinks saved": "no drinks saved"
+
+}

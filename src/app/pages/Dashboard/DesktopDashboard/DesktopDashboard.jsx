@@ -29,13 +29,16 @@ const DesktopDashboard = ({ theme }) => {
 						theme={theme}
 						drinks={drinks}
 					/>
-					<Card className={cn.heatmap} title='drink frequency'>
+					<Card className={cn.heatmap} title={t('drink frequency')}>
 						<PurchaseTimeHeatMap data={metrics.d} />
 					</Card>
 					<div className={cn.stats}>
 						<Card className={cn.budget}>
 							<p>
-								This is how much you’ve spent on drinks so far:
+								{t(
+									'this is how much you’ve spent on drinks so far'
+								)}
+								:
 							</p>
 							<h2 className={cn.bw}>
 								$
@@ -46,7 +49,9 @@ const DesktopDashboard = ({ theme }) => {
 						</Card>
 						<Card className={cn.total}>
 							<h2 className={cn.bw}>{metrics.td}</h2>
-							<p>drink{metrics.td === 1 ? '' : 's'} this month</p>
+							<p>
+								{t('drinks this month', { count: metrics.td })}
+							</p>
 						</Card>
 					</div>
 					<Card className={cn.xy}>
@@ -58,14 +63,14 @@ const DesktopDashboard = ({ theme }) => {
 								textAlign: 'center',
 							}}
 						>
-							COMING SOON
+							{t('coming soon')}
 						</h3>
 					</Card>
 				</div>
 			</main>
 			<aside className={cn.sidebar}>
 				<div className={cn['aside-container']}>
-					<Card className={cn.search} title='monthly budget'>
+					<Card className={cn.search} title={t('monthly budget')}>
 						<BudgetPieChart
 							budget={user.profile.budget}
 							spent={metrics.tc}
@@ -73,20 +78,20 @@ const DesktopDashboard = ({ theme }) => {
 						/>
 					</Card>
 					<Card className={cn.search}>
-						<h2>Search</h2>
-						<span>Search your past uploads</span>
+						<h2>{t('search')}</h2>
+						<span>{t('search your past uploads')}</span>
 						<Searchbar
 							data={drinks}
 							Result={({ item }) => <DrinkPanel data={item} />}
 						/>
 					</Card>
-					<Card className={cn.recent} title='recent purchases'>
+					<Card className={cn.recent} title={t('recent purchases')}>
 						{drinks.slice(0, 5).map(drink => (
 							<DrinkPanel key={drink.id} data={drink} />
 						))}
 						{drinks.length === 0 && (
 							<div className={cn['empty-recent-purchases']}>
-								You don't have any drinks recorded!
+								{t("no drinks recorded")}
 							</div>
 						)}
 					</Card>

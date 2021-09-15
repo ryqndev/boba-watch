@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
 	BasicFields,
 	DescriptionEditor,
@@ -14,6 +15,8 @@ import cn from './DesktopAdd.module.scss';
  * between edit and add pages
  */
 const DesktopAdd = () => {
+	const { t } = useTranslation();
+
 	const {
 		disabled,
 		form,
@@ -30,13 +33,13 @@ const DesktopAdd = () => {
 			<main>
 				<header>
 					<h1 className={cn.title}>
-						{id ? 'EDIT' : 'ADD'} A PURCHASE
+						{t((id ? 'edit' : 'add') + ' a purchase')}
 					</h1>
 				</header>
 				<form onSubmit={submit} className={cn['form-container']}>
 					<fieldset disabled={disabled} className={cn['layout']}>
 						<div className={cn.left}>
-							<Card className={cn.fields} title='details'>
+							<Card className={cn.fields} title={t('details')}>
 								<BasicFields
 									form={form}
 									setForm={setForm}
@@ -44,7 +47,7 @@ const DesktopAdd = () => {
 									handleChange={handleChange}
 								/>
 							</Card>
-							<Card className={cn.upload} title='photo'>
+							<Card className={cn.upload} title={t('photo')}>
 								<ImageUpload
 									className={cn.state}
 									image={form.image}
@@ -55,7 +58,7 @@ const DesktopAdd = () => {
 						<div className={cn.right}>
 							<Card
 								className={cn.description}
-								title='description'
+								title={t('description')}
 							>
 								<DescriptionEditor
 									description={form.description ?? ''}
@@ -64,13 +67,13 @@ const DesktopAdd = () => {
 									}
 								/>
 							</Card>
-							<button>{id ? 'UPDATE' : 'ADD'}</button>
+							<button>{t(id ? 'update' : 'add')}</button>
 						</div>
 					</fieldset>
 				</form>
 			</main>
 			<aside>
-				<h2>saved drinks</h2>
+				<h2>{t('saved drinks')}</h2>
 				<p>
 					You can save your favorite drink to make recording them
 					easier! Just fill out the form with the fields you want

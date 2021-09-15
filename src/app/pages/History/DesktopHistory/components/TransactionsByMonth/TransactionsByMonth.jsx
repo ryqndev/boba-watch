@@ -1,5 +1,6 @@
 import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Card } from '../../../../../components';
 import { Transaction } from '../';
 import cn from './TransactionsByMonth.module.scss';
@@ -20,6 +21,7 @@ const MONTH_NAMES = [
 ];
 
 const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
+	const { t } = useTranslation();
 	const [itemsToDisplay, setItemsToDisplay] = useState(30);
 
 	return (
@@ -105,7 +107,7 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 						setItemsToDisplay(prev => prev + 50);
 					}}
 				>
-					Show More
+					{t('show more')}
 				</div>
 			)}
 		</div>

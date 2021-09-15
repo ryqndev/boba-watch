@@ -1,15 +1,18 @@
 import { memo } from 'react';
 import Pie from '@visx/shape/lib/shapes/Pie';
 import { Group } from '@visx/group';
+import { useTranslation } from 'react-i18next';
 import cn from './BudgetPieChart.module.scss';
 
 const BudgetPieChart = ({ spent = 0, budget = 1, theme }) => {
+	const { t } = useTranslation();
+	
 	return (
 		<div className={cn.container}>
 			<div className={cn.description}>
-				<p>MONTHLY LIMIT: ${budget / 100}</p>
+				<p>{t('monthly limit')}: ${budget / 100}</p>
 				<span>${(spent / 100).toFixed(2)}</span>
-				<p>REMAINING: ${(budget - spent) / 100}</p>
+				<p>{t('remaining')}: ${(budget - spent) / 100}</p>
 			</div>
 			<svg className={cn.chart} viewBox='0 0 100 100'>
 				<Group className={cn.full} left={50} top={50}>

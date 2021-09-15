@@ -32,6 +32,8 @@ span.text-input {
         width: 100%;
         height: calc(100% - 1.3em);
         pointer-events: none;
+        text-transform: capitalize;
+
         &::after, &::before{
             content: '';
             position: absolute;

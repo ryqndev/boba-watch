@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import clsx from 'clsx';
 import init from './controller/LoginFlow';
 import AuthUserContext from './controller/contexts/AuthUserContext';
 import useAuth from './controller/hooks/useAuth';
@@ -10,7 +11,6 @@ import UserIcon from './components/UserIcon';
 import cn from './App.module.scss';
 import 'react-markdown-editor-lite/lib/index.css';
 import { logout } from './libs/firestore';
-import clsx from 'clsx';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const History = lazy(() => import('./pages/History'));

@@ -161,7 +161,7 @@ const MobileAdd = () => {
 								disabled={disabled}
 								className={cn['text']}
 							>
-								{t(id ? 'EDIT' : 'ADD')}
+								{t(id ? 'UPDATE' : 'ADD')}
 							</button>
 						</div>
 					</div>

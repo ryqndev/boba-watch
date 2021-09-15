@@ -26,6 +26,3 @@ ReactDOM.render(
  * Things to be implemented: cache, indexdb, complete offline mode
  */
 serviceWorker.register();
-// if ('serviceWorker' in navigator) {
-// 	navigator.serviceWorker.register(`${process.env.PUBLIC_URL}/sw.js`);
-// };

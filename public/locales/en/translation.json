@@ -1,0 +1,47 @@
+{
+    "dashboard": "dashboard",
+    "drink frequency": "drink frequency",
+    "drinks this month": "drinks this month",
+    "this is how much you’ve spent on drinks so far": "This is how much you’ve spent on drinks so far",
+    "coming soon": "coming soon",
+
+    "monthly budget": "Monthly Budget",
+    "monthly limit": "MONTHLY LIMIT",
+    "remaining": "REMAINING",
+    "search": "Search",
+    "search your past uploads": "Search your past uploads",
+
+    "recent purchases": "Recent Purchases",
+    "no drinks recorded": "You don't have any drinks recorded!",
+
+
+    "history": "history",
+    "date": "date",
+    "location": "location",
+    "drink name": "drink name",
+    "price": "price",
+    "no drink recorded": "No drinks found. Let's get started by adding a drink",
+    "show more": "show more",
+
+    "no drink selected": "Select a drink from your history to view it's details",
+
+
+    "add a purchase": "add a purchase",
+    "edit a purchase": "edit a purchase",
+    "details": "details",
+    "rating": "rating",
+    "photo": "photo",
+    "upload an image": "upload an image",
+    "description": "description",
+    "preview": "preview",
+    "how was your drink": "how was your drink",
+    "add": "add",
+    "update": "update",
+
+    "saved drinks": "saved drinks",
+    "saved drinks description": "saved drinks description",
+    "create": "create",
+    "create button description": "create button description",
+    "no drinks saved": "no drinks saved"
+
+}

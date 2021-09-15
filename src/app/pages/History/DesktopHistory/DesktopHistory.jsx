@@ -1,5 +1,6 @@
 import { memo, useState } from 'react';
 import { saveAs } from 'file-saver';
+import { useTranslation } from 'react-i18next';
 import useDrinks from '../../../controller/hooks/useDrinks.js';
 import { Card, Searchbar } from '../../../components';
 import { DrinkPanel } from '../../../pages/Dashboard/DesktopDashboard/components';
@@ -9,6 +10,8 @@ import { confirmDownloadData } from '../../../libs/swal.js';
 import cn from './DesktopHistory.module.scss';
 
 const DesktopHistory = ({ theme }) => {
+	const { t } = useTranslation();
+
 	const { drinks, update } = useDrinks();
 	const [detailed, setDetailed] = useState(null);
 
@@ -27,7 +30,7 @@ const DesktopHistory = ({ theme }) => {
 		<div className={cn.container}>
 			<main>
 				<header>
-					<h1 className={cn.title}>History</h1>
+					<h1 className={cn.title}>{t('history')}</h1>
 					<GetAppRoundedIcon
 						className={cn.download}
 						onClick={download}
@@ -37,8 +40,8 @@ const DesktopHistory = ({ theme }) => {
 					<Transaction
 						className={cn['table-header']}
 						header
-						name='drink name'
-						location='location'
+						name={t('drink name')}
+						location={t('location')}
 					/>
 					<div className={cn.scrollable}>
 						<TransactionsByMonth
@@ -49,8 +52,8 @@ const DesktopHistory = ({ theme }) => {
 			</main>
 			<aside>
 				<Card className={cn.search}>
-					<h2>Search</h2>
-					<span>Search your past uploads</span>
+					<h2>{t('search')}</h2>
+					<span>{t('search your past uploads')}</span>
 					<Searchbar
 						data={drinks}
 						Result={({ item }) => <DrinkPanel data={item} />}
@@ -66,7 +69,7 @@ const DesktopHistory = ({ theme }) => {
 				)}
 				{!detailed && (
 					<Card className={cn['not-selected']}>
-						Select a drink from your history to view it's details
+						{t('no drink selected')}
 					</Card>
 				)}
 			</aside>

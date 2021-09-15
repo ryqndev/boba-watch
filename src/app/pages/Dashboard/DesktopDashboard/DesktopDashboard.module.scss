@@ -96,6 +96,7 @@
                 &>.budget {
                     background-color: var(--dash-bg-secondary);
                     font-size: 0.9em;
+                
                     & p{
                         color: var(--text-primary);
                         font-size: 1.2em;
@@ -126,6 +127,8 @@
                 height: 100%;
                 display: grid;
                 place-content: center;
+
+                text-transform: uppercase;
             }
         }
 
@@ -168,7 +171,7 @@
             &>.search {
                 padding: 20px 30px 20px;
                 overflow-x: hidden;
-
+                
                 &>span {
                     color: grey;
                 }

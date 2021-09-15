@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import clsx from 'clsx';
 import {format} from 'date-fns';
+import { useTranslation } from 'react-i18next';
 import ArrowRightIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import { Card, LocationTagIndicator } from '../../../../../components';
@@ -14,6 +15,7 @@ const Transaction = ({
 	...drink
 }) => {
 	const { date, location, name, rating, price } = drink;
+	const { t } = useTranslation();
 
 	const view = () => {
 		if (header) return;
@@ -30,7 +32,7 @@ const Transaction = ({
 			onClick={view}
 		>
 			<div className={cn.date}>
-				{!header ? format(new Date(date), 'ccc M/dd h:mm a') : 'date'}
+				{!header ? format(new Date(date), 'ccc M/dd h:mm a') : t('date')}
 			</div>
 			<div className={cn.location}>
 				<LocationTagIndicator className={cn.tag} address={drink?.address}/>
@@ -42,7 +44,7 @@ const Transaction = ({
 			</div>
 			<div className={cn.price}>
 				{!header && '$'}
-				{!header ? (price / 100).toFixed(2) : 'price'}
+				{!header ? (price / 100).toFixed(2) : t('price')}
 			</div>
 			{!header && (
 				<div className={cn['expand-icon']}>

@@ -10,9 +10,9 @@ const Listing = ({ data, selected, setCenter }) => {
 
 	const formatDistance = distanceInMeters => {
 		if (distanceInMeters > 1000) {
-			return (distanceInMeters / 1000).toFixed(2) + t(' km');
+			return (distanceInMeters / 1000).toFixed(2) + ' ' + t('km');
 		}
-		return distanceInMeters + t(' meters');
+		return distanceInMeters + ' ' + t('meters');
 	};
 
 	const viewOnMap = () => {

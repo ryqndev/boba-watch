@@ -1,0 +1,120 @@
+# language select dropdown title
+Language: 语
+
+# (desktop only) dashboard page title
+dashboard: 仪表盘
+
+# dashboard page > drinks time heatmap title
+drink frequency: 波霸日程
+# dashboard page > drinks time heatmap days of week key
+Sun: 星期日
+Mon: 星期一
+Tue: 星期二
+Wed: 星期三
+Thu: 星期四
+Fri: 星期五
+Sat: 星期六
+# dashboard page > drinks time heatmap > time block hover/click text
+drinks purchased: ' - 购买了{{count}}杯饮料'
+
+
+# dashboard page > "[number] drinks this month" ex. "14 drinks this month"
+drinks this month: 波霸本月
+
+# dashboard page > ex. "this is how much you’ve spent on drinks so far - $2546"
+this is how much you’ve spent on drinks so far: 从一开始，你花了
+
+# (desktop only) dashboard page > coming soon placeholder text
+coming soon: 敬请期待
+
+# dashboard page > pie chart 
+monthly budget: 每月预算
+monthly limit: 每月限额
+remaining: 其余的
+
+# (desktop only) search component | found in dashboard and history pages
+search: 検索
+search your past uploads: 検索你的记录
+search your history...: 搜索你的历史...
+
+# dashboard page > recent purchases title
+recent purchases: 近日买的
+
+# dashboard page > recent purchases content if no drinks recorded yet
+no drinks recorded: 你还没有记录任何饮料!
+
+
+# (desktop only) history page title
+history: 历史
+
+# (desktop only) drink list column name
+date: 日期
+location: 店
+drink name: 饮料名称
+price: 价钱
+
+# (desktop only) history page > no drinks saved message
+no drink recorded: No drinks found. Let's get started by adding a drink
+
+# (desktop only) history page > text in button to display more results
+show more: 展示更多
+
+# (desktop only) history page > no drink selected message underneath search component
+no drink selected: 从您的历史记录中选择一种饮品以查看其详细信息
+
+
+# (desktop only) Add/edit page title
+add a purchase: 记录
+edit a purchase: 编辑
+
+# (desktop only) add/edit page > details section
+details: 信息
+rating: 评分
+photo: 照片
+
+# (desktop only) add/edit page > image upload section
+UPLOAD AN IMAGE: 上载照片
+UPLOADING...: 上载...
+
+# add/edit page > description section
+description: 观点
+preview: 预览
+no description: 无信息
+how was your drink: 你喝的怎么样
+
+# add/edit page > submit button
+add: 记录
+update: 编辑
+
+# (desktop only) add/edit page > autofill section
+saved drinks: 保存的饮料
+saved drinks description: saved drinks description
+
+# (desktop only) add/edit > autofill section > + create button
+create: 保存
+create button description: 单击此处保存当前表单以备后用
+
+# (desktop only) add/edit > autofill section > no autofill saved yet
+no drinks saved: 没有保存饮料
+
+
+# (desktop only) boba locator page title
+boba locator: 波巴定位器
+
+# (desktop only) boba locator page > click on icon on map of any location > link on bottom to go to add page with this location pre-filled
+add drink for this location: '-aa-'
+locations: 咖啡店
+
+# (desktop only) boba locator page > location filters
+open now: 现在开门
+boba: 波巴
+coffee: 咖啡
+
+# (desktop only) boba locator page > listing text
+km: ' 公里'
+meters: ' 米'
+from search pin: 远离搜索图钉
+
+# (desktop only) boba locator page > map controls
+center on map: 以地图为中心
+search this area: 搜索

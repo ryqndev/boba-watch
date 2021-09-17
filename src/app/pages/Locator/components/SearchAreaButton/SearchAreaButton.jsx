@@ -1,10 +1,12 @@
 import { memo, useEffect, useCallback } from 'react';
 import { useMap } from 'react-leaflet';
+import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { useFoursquare } from '../../../../controller/hooks';
 import cn from './SearchAreaButton.module.scss';
 
 const SearchAreaButton = ({ className, position, setStores, filters }) => {
+	const { t } = useTranslation();
 	const map = useMap();
 	const { getLocationsNearby } = useFoursquare();
 
@@ -48,7 +50,7 @@ const SearchAreaButton = ({ className, position, setStores, filters }) => {
 
 	return (
 		<button className={clsx(cn.button, className)} onClick={search}>
-			Search this area
+			{t('search this area')}
 		</button>
 	);
 };

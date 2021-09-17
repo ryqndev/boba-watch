@@ -1,0 +1,120 @@
+# language select dropdown title
+Language: Language
+
+# (desktop only) dashboard page title
+dashboard: dashboard
+
+# dashboard page > drinks time heatmap title
+drink frequency: drink frequency
+# dashboard page > drinks time heatmap days of week key
+Sun: Sun
+Mon: Mon
+Tue: Tue
+Wed: Wed
+Thu: Thu
+Fri: Fri
+Sat: Sat
+# dashboard page > drinks time heatmap > time block hover/click text
+drinks purchased: drink purchased
+drinks purchased_plural: drinks purchased
+
+# dashboard page > "{{count}} drinks this month" ex. "14 drinks this month"
+drinks this month: drink this month 
+
+# dashboard page > ex. "this is how much you’ve spent on drinks so far - $2546"
+this is how much you’ve spent on drinks so far: This is how much you’ve spent on drinks so far
+
+# (desktop only) dashboard page > coming soon placeholder text
+coming soon: coming soon
+
+# dashboard page > pie chart 
+monthly budget: Monthly Budget
+monthly limit: MONTHLY LIMIT
+remaining: REMAINING
+
+# (desktop only) search component | found in dashboard and history pages
+search: Search
+search your past uploads: Search your past uploads
+search your history...: Search your history...
+
+# dashboard page > recent purchases title
+recent purchases: Recent Purchases
+
+# dashboard page > recent purchases content if no drinks recorded yet
+no drinks recorded: You don't have any drinks recorded!
+
+
+# (desktop only) history page title
+history: history
+
+# (desktop only) drink list column name
+date: date
+location: location
+drink name: drink name
+price: price
+
+# (desktop only) history page > no drinks saved message
+no drink recorded: No drinks found. Let's get started by adding a drink
+
+# (desktop only) history page > text in button to display more results
+show more: show more
+
+# (desktop only) history page > no drink selected message underneath search component
+no drink selected: Select a drink from your history to view it's details
+
+
+# (desktop only) Add/edit page title
+add a purchase: add a purchase
+edit a purchase: edit a purchase
+
+# (desktop only) add/edit page > details section
+details: details
+rating: rating
+photo: photo
+
+# (desktop only) add/edit page > image upload section
+UPLOAD AN IMAGE: UPLOAD AN IMAGE
+UPLOADING...: UPLOADING...
+
+# add/edit page > description section
+description: description
+preview: preview
+no description: no description
+how was your drink: how was your drink
+
+# add/edit page > submit button
+add: add
+update: update
+
+# (desktop only) add/edit page > autofill section
+saved drinks: saved drinks
+saved drinks description: saved drinks description
+
+# (desktop only) add/edit > autofill section > + create button
+create: Create
+create button description: Click here to save the current form for future use
+
+# (desktop only) add/edit > autofill section > no autofill saved yet
+no drinks saved: No drinks currently saved
+
+
+# (desktop only) boba locator page title
+boba locator: boba locator
+
+# (desktop only) boba locator page > click on icon on map of any location > link on bottom to go to add page with this location pre-filled
+add drink for this location: Add drink for this location
+locations: Locations
+
+# (desktop only) boba locator page > location filters
+open now: open now
+boba: boba
+coffee: coffee
+
+# (desktop only) boba locator page > listing text
+km: km
+meters: meters
+from search pin: from search pin
+
+# (desktop only) boba locator page > map controls
+center on map: center on map
+search this area: search this area

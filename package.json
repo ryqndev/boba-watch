@@ -1,6 +1,6 @@
 {
   "name": "boba-watch",
-  "version": "3.0.15",
+  "version": "3.0.16",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",

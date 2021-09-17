@@ -1,6 +1,7 @@
 import { memo, useState, useEffect } from 'react';
 import Fuse from 'fuse.js';
 import cn from './Searchbar.module.scss';
+import { useTranslation } from 'react-i18next';
 
 const DEFAULT_KEYS = [
 	'description',
@@ -21,11 +22,12 @@ const options = {
 };
 
 const Searchbar = ({
-	placeholder = 'Search your history...',
+	placeholder = 'search your history...',
 	data = [],
 	keys = DEFAULT_KEYS,
 	Result,
 }) => {
+	const { t } = useTranslation();
 	const [query, setQuery] = useState('');
 	const [results, setResults] = useState([]);
 	const [fuse, setFuse] = useState(() => new Fuse([], options));
@@ -48,7 +50,7 @@ const Searchbar = ({
 			<input
 				type='text'
 				value={query}
-				placeholder={placeholder}
+				placeholder={t(placeholder)}
 				onChange={handleInput}
 			/>
 			<div className={cn.results}>

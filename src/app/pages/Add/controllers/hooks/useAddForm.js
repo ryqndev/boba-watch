@@ -53,9 +53,10 @@ const useAddForm = () => {
     useEffect(() => {
         if (!id) return;
         const data = JSON.parse(localStorage.getItem(id));
+        if(!data) return navigate('/add');
         data.price = data.price / 100;
         setForm(data);
-    }, [id]);
+    }, [id, navigate]);
 
     useEffect(() => {
         if (!state?.address || !state?.location) return;

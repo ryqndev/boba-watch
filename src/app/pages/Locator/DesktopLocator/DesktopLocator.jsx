@@ -1,4 +1,5 @@
 import { memo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { Card, Map } from '../../../components';
 import {
@@ -11,6 +12,7 @@ import {
 import cn from './DesktopLocator.module.scss';
 
 const DesktopLocator = ({ theme }) => {
+	const { t } = useTranslation();
 	const [stores, setStores] = useState(null);
 	const [selected, setSelected] = useState(null);
 	const [center, setCenter] = useState(null);
@@ -26,7 +28,7 @@ const DesktopLocator = ({ theme }) => {
 	return (
 		<main className={cn.container}>
 			<header>
-				<h1 className={cn.title}>Boba Locator</h1>
+				<h1 className={cn.title}>{t('boba locator')}</h1>
 			</header>
 			<Map
 				className={cn.map}
@@ -55,27 +57,27 @@ const DesktopLocator = ({ theme }) => {
 				)}
 			</Map>
 			<div className={cn.details}>
-				<Card className={cn.filters} title='locations'>
+				<Card className={cn.filters} title={t('locations')}>
 					<button
 						className={clsx(filters.openNow && cn.selected)}
 						onClick={() => {
 							toggleFilterValue('openNow');
 						}}
 					>
-						OPEN NOW
+						{t('open now')}
 					</button>
 					<div className={cn.toggle}>
 						<button
 							className={clsx(!filters.coffee && cn.selected)}
 							onClick={() => toggleFilterValue('coffee', false)}
 						>
-							BOBA
+							{t('boba')}
 						</button>
 						<button
 							className={clsx(filters.coffee && cn.selected)}
 							onClick={() => toggleFilterValue('coffee', true)}
 						>
-							COFFEE
+							{t('coffee')}
 						</button>
 					</div>
 				</Card>

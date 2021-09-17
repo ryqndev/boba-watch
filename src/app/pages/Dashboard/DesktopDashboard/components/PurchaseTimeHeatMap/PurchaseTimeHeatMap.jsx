@@ -3,6 +3,7 @@ import { HeatmapRect } from '@visx/heatmap';
 import { Group } from '@visx/group';
 import { AxisTop, AxisLeft } from '@visx/axis';
 import { scaleBand } from '@visx/scale';
+import { useTranslation } from 'react-i18next';
 import cn from './PurchaseTimeHeatMap.module.scss';
 
 import { useTooltip, useTooltipInPortal } from '@visx/tooltip';
@@ -38,6 +39,7 @@ const TIME_LABELS = [
 ];
 
 const PurchaseTimeHeatMap = ({ data }) => {
+	const { t } = useTranslation();
 	const {
 		tooltipData,
 		tooltipLeft,
@@ -84,7 +86,7 @@ const PurchaseTimeHeatMap = ({ data }) => {
 		<svg ref={containerRef} className={cn.container} viewBox='0 0 214 400'>
 			<AxisTop
 				scale={scaleBand({
-					domain: DATE_LABELS,
+					domain: DATE_LABELS.map(date => t(date)),
 					range: [24, 209],
 				})}
 				top={14}
@@ -100,7 +102,7 @@ const PurchaseTimeHeatMap = ({ data }) => {
 			/>
 			<AxisLeft
 				scale={scaleBand({
-					domain: TIME_LABELS,
+					domain: TIME_LABELS.map(time => t(time)),
 					range: [13, 396],
 				})}
 				left={24}
@@ -146,13 +148,13 @@ const PurchaseTimeHeatMap = ({ data }) => {
 				>
 					<div className={cn.tooltip}>
 						<time>
-							{DATE_LABELS[tooltipData.column]}
+							{t(DATE_LABELS[tooltipData.column])}
 							{' | '}
-							{TIME_LABELS[tooltipData.row]}
+							{t(TIME_LABELS[tooltipData.row])}
 						</time>
 						<p>
-							<strong>{tooltipData.count} </strong>drink
-							{tooltipData === 1 ? '' : 's'} purchased
+							<strong>{tooltipData.count} </strong>
+							{t('drinks purchased', { count: tooltipData.count })}
 						</p>
 					</div>
 				</TooltipInPortal>

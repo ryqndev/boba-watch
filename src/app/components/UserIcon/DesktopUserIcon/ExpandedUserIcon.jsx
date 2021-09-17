@@ -9,7 +9,7 @@ import cn from './ExpandedUserIcon.module.scss';
 import { alertSettingsUpdateSuccess } from '../../../libs/swal';
 
 const ExpandedUserIcon = ({ className, theme }) => {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const [user, setAuthUser] = useContext(AuthUserContext);
 
 	const [budget, setBudget] = useState((user.profile.budget ?? 10000) / 100);
@@ -45,6 +45,10 @@ const ExpandedUserIcon = ({ className, theme }) => {
 		theme.setTheme(label);
 	};
 
+	const languageSelect = ({value}) => {
+		i18n.changeLanguage(value);
+	}
+
 	return (
 		<div className={clsx(className)}>
 			<div className={cn.container}>
@@ -54,6 +58,14 @@ const ExpandedUserIcon = ({ className, theme }) => {
 					defaultValue={theme.THEME_SELECT_OPTIONS[theme.THEMES[theme.theme]]}
 					name='theme'
 					onChange={themeSelect}
+					className={cn['theme-select']}
+				/>
+				<label className={cn['theme-label']}>{t('Language')}:</label>
+				<Select
+					options={[{label: 'English', value: 'en'}, {label: 'Chinese', value: 'zh'}]}
+					defaultValue={i18n.language === 'zh' ? {label: 'Chinese', value: 'zh'} : {label: 'English', value: 'en'}}
+					name='Language'
+					onChange={languageSelect}
 					className={cn['theme-select']}
 				/>
 				<TextInput

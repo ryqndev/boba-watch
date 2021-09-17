@@ -1,5 +1,6 @@
 import { memo, useState, useRef, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
+import { useTranslation } from 'react-i18next';
 import { deleteImage, getImageAttribute } from '../../../../libs/cloud-storage.js';
 import { firebase } from '../../../../libs/firestore.js';
 import AuthUserContext from '../../../../controller/contexts/AuthUserContext.js';
@@ -8,6 +9,8 @@ import clsx from 'clsx';
 import cn from './ImageUpload.module.scss';
 
 const ImageUpload = ({ image, setImage, className }) => {
+	const { t } = useTranslation();
+
 	const [user] = useContext(AuthUserContext);
 	const [imagePreview, setImagePreview] = useState('');
 	const [uploadProgress, setUploadProgress] = useState(-1);
@@ -95,7 +98,7 @@ const ImageUpload = ({ image, setImage, className }) => {
 					alt='upload-preview'
 				/>
 			)}
-			{status('UPLOAD AN IMAGE', 'UPLOADING...')}
+			{status(t('UPLOAD AN IMAGE'), t('UPLOADING...'))}
 			<input
 				type='file'
 				ref={upload}

@@ -55,12 +55,12 @@ const AuthenticatedRoutes = () => {
 			<UserIcon theme={{ theme, ...themeOptions }} />
 			<Suspense fallback={<div className={cn['page-background']}></div>}>
 				<Routes>
-					<Route path='/' element={<Dashboard theme={theme} />} />
 					<Route path='history' element={<History theme={theme} />} />
 					<Route path='add' element={<Add />} />
 					<Route path='edit/:id' element={<Add />} />
 					<Route path='map' element={<Locator theme={theme} />} />
 					<Route path='blog' element={<Blog />} />
+					<Route path='*' element={<Dashboard theme={theme} />} />
 				</Routes>
 			</Suspense>
 			<Navigation />

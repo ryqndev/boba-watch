@@ -1,16 +1,18 @@
 import { memo, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card } from '../../../../components';
 import cn from './Listing.module.scss';
 
 const Listing = ({ data, selected, setCenter }) => {
+	const { t } = useTranslation();
 	const restaurantID = data.venue.id;
 	const scrollToRef = useRef(null);
 
 	const formatDistance = distanceInMeters => {
 		if (distanceInMeters > 1000) {
-			return (distanceInMeters / 1000).toFixed(2) + ' km';
+			return (distanceInMeters / 1000).toFixed(2) + t(' km');
 		}
-		return distanceInMeters + ' meters';
+		return distanceInMeters + t(' meters');
 	};
 
 	const viewOnMap = () => {
@@ -29,10 +31,10 @@ const Listing = ({ data, selected, setCenter }) => {
 		>
 			<h3>{data.venue.name}</h3>
 			<p className={cn.distance}>
-				<span>{formatDistance(data.venue.location.distance)}</span> from search pin
+				<span>{formatDistance(data.venue.location.distance)}</span> {t('from search pin')}
 			</p>
 			<p className={cn.address}>{data.venue.location.formattedAddress.join(', ')}</p>
-			<span className={cn.center} onClick={viewOnMap}>CENTER ON MAP</span>
+			<span className={cn.center} onClick={viewOnMap}>{t('center on map')}</span>
 		</Card>
 	);
 };

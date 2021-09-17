@@ -3,8 +3,10 @@ import { Card } from '../../../../components';
 import useAutofill from '../../controllers/hooks/useAutofill';
 import { SavedItemCard } from './components';
 import cn from './AutofillManager.module.scss';
+import { useTranslation } from 'react-i18next';
 
 const AutofillManager = ({ form, setForm }) => {
+	const { t } = useTranslation();
 	const { autofill, add, remove } = useAutofill();
 
 	const save = e => {
@@ -30,11 +32,11 @@ const AutofillManager = ({ form, setForm }) => {
 		<div className={cn.scrollable}>
 			<div className={cn.container}>
 				<div className={cn.create} onClick={save}>
-					<h3>+ Create</h3>
-					<p>Click here to save the current form for future use</p>
+					<h3>+ {t('create')}</h3>
+					<p>{t('create button description')}</p>
 				</div>
 				{autofill?.length === 0 && (
-					<Card className={cn.empty}>No drinks currently saved</Card>
+					<Card className={cn.empty}>{t('no drinks saved')}</Card>
 				)}
 				{autofill.map(entry => (
 					<SavedItemCard

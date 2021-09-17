@@ -4,7 +4,8 @@ import XHRBackend from "i18next-xhr-backend";
 import { initReactI18next } from "react-i18next";
 
 const detectOptions = {
-    order: ['localStorage', 'navigator'],
+    // order: ['localStorage', 'navigator'],
+    order: ['navigator'],
     lookupLocalStorage: 'i18n',
     caches: ['localStorage'],
     checkWhitelist: true,

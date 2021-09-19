@@ -1,4 +1,5 @@
 import { memo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
 	Card,
 	Modal,
@@ -12,6 +13,7 @@ import {
 import cn from './DesktopLocationInput.module.scss';
 
 const DesktopLocationInput = ({ form, onChange, setForm }) => {
+	const { t } = useTranslation();
 	const [show, setShow] = useState(false);
 	const [tab, setTab] = useState('nearby');
 
@@ -35,7 +37,7 @@ const DesktopLocationInput = ({ form, onChange, setForm }) => {
 			</Modal>
 			<TextInput
 				value={form?.location ?? ''}
-				label={'Location'}
+				label={t('location')}
 				readOnly
 				onFocus={() => setShow(true)}
 			/>

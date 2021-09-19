@@ -75,11 +75,9 @@ const DesktopAdd = () => {
 			<aside>
 				<h2>{t('saved drinks')}</h2>
 				<p>
-					You can save your favorite drink to make recording them
-					easier! Just fill out the form with the fields you want
-					saved and click{' '}
-					<b style={{ whiteSpace: 'nowrap' }}>[+ Create]</b> below
-					before adding.
+					{t('saved drinks button description part 1')}{' '}
+					<b style={{ whiteSpace: 'nowrap' }}>[+ {t('create')}]</b>{' '}
+					{t('saved drinks button description part 2')}
 				</p>
 				<AutofillManager form={form} setForm={setForm} />
 			</aside>

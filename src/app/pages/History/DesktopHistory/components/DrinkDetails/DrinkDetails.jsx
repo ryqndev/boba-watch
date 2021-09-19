@@ -1,4 +1,5 @@
 import { memo, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import {
@@ -26,6 +27,7 @@ const DrinkDetails = ({
 	setDetailed,
 	theme,
 }) => {
+	const { t } = useTranslation();
 	const [user] = useContext(AuthUserContext);
 
 	const del = () => {
@@ -81,9 +83,9 @@ const DrinkDetails = ({
 
 			<div className={cn.actions}>
 				<Link to={'/edit/' + id}>
-					<button>EDIT</button>
+					<button>{t('edit')}</button>
 				</Link>
-				<button onClick={del}>DELETE</button>
+				<button onClick={del}>{t('delete')}</button>
 			</div>
 		</Card>
 	);

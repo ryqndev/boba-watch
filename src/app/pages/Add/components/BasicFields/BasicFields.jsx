@@ -6,9 +6,12 @@ import DateFnsUtils from '@date-io/date-fns';
 import { TextInput, StarRating, LocationTagIndicator } from '../../../../components';
 import { LocationInput } from '../';
 import cn from './BasicFields.module.scss';
+import { enUS, zhCN } from 'date-fns/locale';
+  
 
 const BasicFields = ({ form, setForm, handleChange, editForm }) => {
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
+	
 
 	return (
 		<div className={cn.container}>
@@ -30,10 +33,11 @@ const BasicFields = ({ form, setForm, handleChange, editForm }) => {
 			/>
 			
 			<div className={cn.divider}>
-				<MuiPickersUtilsProvider utils={DateFnsUtils}>
+				<MuiPickersUtilsProvider utils={DateFnsUtils} locale={i18n.language === 'zh' ? zhCN : enUS}>
 					<DateTimePicker
 						label={t('date')}
 						value={form.date}
+						format="M/dd/yy - h:mm a"
 						onChange={date => editForm('date', date, 30)}
 						inputProps={{ maxLength: 100 }}
 					/>

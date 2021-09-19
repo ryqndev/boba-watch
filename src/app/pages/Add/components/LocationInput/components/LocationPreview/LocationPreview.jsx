@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { LocationTagIndicator, TextInput } from '../../../../../../components';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
@@ -7,6 +8,8 @@ import ArrowRightIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import cn from './LocationPreview.module.scss';
 
 const LocationPreview = ({ form, setForm, setShow, tab, setTab }) => {
+	const { t } = useTranslation();
+	
 	const clear = () => {
 		setForm(prevForm => {
 			const updateForm = { ...prevForm };
@@ -27,31 +30,31 @@ const LocationPreview = ({ form, setForm, setShow, tab, setTab }) => {
 
 	return (
 		<div className={cn.container}>
-			<h3 className={cn.title}>Location</h3>
-			<h4>Select a location from:</h4>
+			<h3 className={cn.title}>{t('location')}</h3>
+			<h4>{t('Select a location from')}:</h4>
 			<div
 				className={clsx(cn.select, tab === 'nearby' && cn.selected)}
 				onClick={() => setTab('nearby')}
 			>
-				<h5>Nearby Locations</h5>
+				<h5>{t('nearby locations')}</h5>
 				{tab === 'nearby' && <ArrowRightIcon className={cn.expand} />}
 			</div>
 			<div
 				className={clsx(cn.select, tab === 'previous' && cn.selected)}
 				onClick={() => setTab('previous')}
 			>
-				<h5>Previously Used</h5>
+				<h5>{t('previously used')}</h5>
 				{tab === 'previous' && <ArrowRightIcon className={cn.expand} />}
 			</div>
 			<div className={cn.divider}></div>
-			<h4>or manually enter a location:</h4>
+			<h4>{t('or manually enter a location')}:</h4>
 			<div className={cn['name-container']}>
 				<LocationTagIndicator
 					className={cn.tag}
 					address={form?.address}
 				/>
 				<TextInput
-					label='Name'
+					label={t('name')}
 					value={form?.location ?? ''}
 					onChange={handleChange}
 					className={cn.name}

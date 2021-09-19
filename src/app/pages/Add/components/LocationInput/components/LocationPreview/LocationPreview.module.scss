@@ -5,6 +5,7 @@
         font-size: 1.5em;
         color: var(--text-accent);
         margin: 0 0 10px;
+        text-transform: capitalize;
     }
 
     &>.divider {
@@ -48,6 +49,7 @@
             font-size: 1em;
             font-weight: normal;
             transition: color 350ms;
+            text-transform: capitalize;
         }
 
         &.selected {

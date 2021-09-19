@@ -61,7 +61,8 @@ show more: show more
 
 # (desktop only) history page > no drink selected message underneath search component
 no drink selected: Select a drink from your history to view it's details
-
+edit: edit
+delete: delete
 
 # (desktop only) Add/edit page title
 add a purchase: add a purchase
@@ -80,7 +81,7 @@ UPLOADING...: UPLOADING...
 description: description
 preview: preview
 no description: no description
-how was your drink: how was your drink
+how was your drink?: how was your drink?
 
 # add/edit page > submit button
 add: add
@@ -88,14 +89,32 @@ update: update
 
 # (desktop only) add/edit page > autofill section
 saved drinks: saved drinks
-saved drinks description: saved drinks description
+
+# you can use the part 1 and part 2 but it's not needed. if you look at the english description, there is a [+ create] in bold that will come after part 1 and before part 2.
+saved drinks button description part 1: You can save your favorite drink to make recording them easier! Just fill out the form with the fields you want saved and click
+saved drinks button description part 2: below before adding
 
 # (desktop only) add/edit > autofill section > + create button
 create: Create
 create button description: Click here to save the current form for future use
-
-# (desktop only) add/edit > autofill section > no autofill saved yet
 no drinks saved: No drinks currently saved
+
+# add/edit > location popup
+Select a location from: Select a location from
+nearby locations: nearby locations
+previously used: previously used
+or manually enter a location: or manually enter a location
+
+# add/edit > location popup > nearby locations error messages 
+search by name: search by name
+allow location access to get nearby locations: Allow location access to get nearby locations.
+nothing found matching your search: Nothing found matching your search.
+
+# add/edit page > location > previous locations > no drinks error message
+no saved drinks with tagged location: You have no previous drinks with a tagged location
+
+# restaurant/business name
+name: name
 
 
 # (desktop only) boba locator page title

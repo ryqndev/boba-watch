@@ -1,10 +1,12 @@
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import MdEditor, { Plugins } from 'react-markdown-editor-lite';
 import MarkdownIt from 'markdown-it';
 import { Card } from '../../../../components';
 import cn from './DescriptionEditor.module.scss';
 
 const DescriptionEditor = ({ description, setDescription }) => {
+	const { t } = useTranslation();
 	const mdParser = new MarkdownIt();
 	const handleChange = ({ html, text }) => {
 		setDescription(text);
@@ -33,10 +35,10 @@ const DescriptionEditor = ({ description, setDescription }) => {
 					}}
 					value={description}
 					onChange={handleChange}
-					placeholder={'How was your drink?'}
+					placeholder={t('how was your drink?')}
 				/>
 			</Card>
-			<h2>preview</h2>
+			<h2>{t('preview')}</h2>
 			<Card className={cn.preview}>
 				<MdEditor
 					id={cn.preview}

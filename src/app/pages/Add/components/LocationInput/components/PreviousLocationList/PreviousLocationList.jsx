@@ -3,8 +3,10 @@ import useDrinks from '../../../../../../controller/hooks/useDrinks.js';
 import { useDrinkByLocation } from '../../../../../Dashboard/DesktopDashboard/components/VisitedMap/controller/hooks';
 import { Card } from '../../../../../../components';
 import cn from './PreviousLocationList.module.scss';
+import { useTranslation } from 'react-i18next';
 
 const PreviousLocationList = ({ onChange }) => {
+	const { t } = useTranslation();
 	const { drinks } = useDrinks();
 	const { locations } = useDrinkByLocation(drinks);
 
@@ -15,7 +17,7 @@ const PreviousLocationList = ({ onChange }) => {
 
 	return (
 		<div className={cn.container}>
-			<h3>Previously Used</h3>
+			<h3>{t('previously used')}</h3>
 			<div className={cn.scrollable}>
 				<div className={cn.list}>
 					{locations &&
@@ -37,7 +39,7 @@ const PreviousLocationList = ({ onChange }) => {
 						))}
 					{locations.length === 0 && (
 						<Card className={cn.empty}>
-							You have no previous drinks with a tagged location
+							{t('no saved drinks with tagged location')}
 						</Card>
 					)}
 				</div>

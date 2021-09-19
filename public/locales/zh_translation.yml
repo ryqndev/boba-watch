@@ -1,5 +1,5 @@
 # language select dropdown title
-Language: 语
+Language: 语言
 
 # (desktop only) dashboard page title
 dashboard: 仪表盘
@@ -61,6 +61,8 @@ show more: 展示更多
 
 # (desktop only) history page > no drink selected message underneath search component
 no drink selected: 从您的历史记录中选择一种饮品以查看其详细信息
+edit: 编辑
+delete: 删除
 
 
 # (desktop only) Add/edit page title
@@ -80,7 +82,7 @@ UPLOADING...: 上载...
 description: 观点
 preview: 预览
 no description: 无信息
-how was your drink: 你喝的怎么样
+how was your drink?: 你喝的怎么样?
 
 # add/edit page > submit button
 add: 记录
@@ -88,21 +90,39 @@ update: 编辑
 
 # (desktop only) add/edit page > autofill section
 saved drinks: 保存的饮料
-saved drinks description: saved drinks description
+
+# you can use the part 1 and part 2 but it's not needed. if you look at the english description, there is a [+ create] in bold that will come after part 1 and before part 2.
+saved drinks button description part 1: 您可以保存您最喜欢的饮料，以便更轻松地记录它们！只需使用您要保存的字段填写表单，然后单击
+saved drinks button description part 2: 添加之前在下面
 
 # (desktop only) add/edit > autofill section > + create button
 create: 保存
 create button description: 单击此处保存当前表单以备后用
-
-# (desktop only) add/edit > autofill section > no autofill saved yet
 no drinks saved: 没有保存饮料
+
+# add/edit > location popup
+Select a location from: 从中选择一个位置
+nearby locations: 附近地点
+previously used: 先前标记的位置
+or manually enter a location: 或手动添加位置
+
+# add/edit > location popup > nearby locations error messages 
+search by name: 按店铺名称搜索
+allow location access to get nearby locations: 允许位置访问以获取附近的位置.
+nothing found matching your search: 没有找到与您的搜索相符的内容.
+
+# add/edit page > location > previous locations > no drinks error message
+no saved drinks with tagged location: 您之前没有带有标记位置的饮品
+
+# restaurant/business name
+name: 店铺名称
 
 
 # (desktop only) boba locator page title
-boba locator: 波巴定位器
+boba locator: 波巴店名
 
 # (desktop only) boba locator page > click on icon on map of any location > link on bottom to go to add page with this location pre-filled
-add drink for this location: '-aa-'
+add drink for this location: 为该地点添加饮品
 locations: 咖啡店
 
 # (desktop only) boba locator page > location filters
@@ -111,10 +131,12 @@ boba: 波巴
 coffee: 咖啡
 
 # (desktop only) boba locator page > listing text
-km: ' 公里'
-meters: ' 米'
+km: 公里
+meters: 米
 from search pin: 远离搜索图钉
 
 # (desktop only) boba locator page > map controls
 center on map: 以地图为中心
 search this area: 搜索
+
+

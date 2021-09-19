@@ -1,4 +1,5 @@
 import { memo, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import useGeolocation from '../../../../../../controller/hooks/useGeolocation';
 import { Card, TextInput } from '../../../../../../components';
 import useFoursquare from '../../../../../../controller/hooks/useFoursquare';
@@ -6,6 +7,7 @@ import clsx from 'clsx';
 import cn from './NearbyLocationList.module.scss';
 
 const NearbyLocationList = ({ onChange }) => {
+	const { t } = useTranslation();
 	const position = useGeolocation();
 	const [listings, setListings] = useState(null);
 	const [search, setSearch] = useState('');
@@ -50,10 +52,10 @@ const NearbyLocationList = ({ onChange }) => {
 
 	return (
 		<div className={cn.container}>
-			<h3>Nearby Locations</h3>
+			<h3>{t('nearby locations')}</h3>
 			<div className={cn.search}>
 				<TextInput
-					label='Search by name'
+					label={t('search by name')}
 					value={search}
 					onChange={handleChange}
 				/>
@@ -87,8 +89,8 @@ const NearbyLocationList = ({ onChange }) => {
 							)}
 						>
 							{!listings
-								? 'Allow location access to get nearby locations.'
-								: 'Nothing found matching your search'}
+								? t('allow location access to get nearby locations')
+								: t('nothing found matching your search')}
 						</Card>
 					)}
 				</div>

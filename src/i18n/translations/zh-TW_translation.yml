@@ -2,6 +2,10 @@
 Language: 語言
 logout: 退出
 
+theme: 模式
+light: 淺色
+dark: 深色
+
 # (desktop only) dashboard page title
 dashboard: Dashboard # No need to translate
 

@@ -74,7 +74,7 @@ const User = ({ open, setOpen, theme }) => {
 						margin='normal'
 						onChange={handleChange(setBudget)}
 						value={budget}
-						label={t('Monthly Spending Limit')}
+						label={t('monthly limit')}
 					/>
 					<TextInput
 						id='monthly-drinking-limit'
@@ -88,7 +88,7 @@ const User = ({ open, setOpen, theme }) => {
 						label={t('Max of drinks / month')}
 					/>
 
-					<label className='theme-label'>Theme:</label>
+					<label className='theme-label'>{t('theme')}:</label>
 					<Select
 						options={theme.THEME_SELECT_OPTIONS}
 						defaultValue={
@@ -113,10 +113,10 @@ const User = ({ open, setOpen, theme }) => {
 
 					<div className='button-holder'>
 						<button className='logout text' onClick={logout}>
-							{t('LOGOUT')}
+							{t('logout')}
 						</button>
 						<button className='update' onClick={updateFirebase}>
-							{t('UPDATE')}
+							{t('update')}
 						</button>
 					</div>
 				</div>

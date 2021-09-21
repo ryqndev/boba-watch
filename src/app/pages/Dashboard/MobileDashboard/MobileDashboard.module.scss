@@ -27,6 +27,7 @@
     & .title {
         grid-column: 1/4;
         grid-row: 1/2;
+        text-transform: capitalize;
     }
 
     & #chart-holder {
@@ -115,6 +116,7 @@
     &>.heatmap {
         grid-column: 1/4;
         touch-action: pan-y;
+        text-transform: capitalize;
 
         &>h2 {
             padding: 20px 0px 0px 0px;

@@ -1,6 +1,9 @@
 {
   "Language": "Language",
   "logout": "logout",
+  "theme": "模式",
+  "light": "淺色",
+  "dark": "深色",
   "dashboard": "dashboard",
   "drink frequency": "drink frequency",
   "Sun": "Sun",

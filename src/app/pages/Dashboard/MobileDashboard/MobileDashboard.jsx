@@ -5,11 +5,9 @@ import { toMoney } from '../../../components/textUtil.js';
 import {
 	PurchaseTimeHeatMap,
 	BudgetPieChart,
-	VisitedMap,
 } from '../DesktopDashboard/components';
 import { Card } from '../../../components';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
-import { useDrinks } from '../../../controller/hooks';
 import useMetrics from '../../../controller/hooks/useMetrics';
 import cn from './MobileDashboard.module.scss';
 
@@ -18,13 +16,12 @@ const MobileDashboard = ({ theme }) => {
 	const metrics = useMetrics();
 
 	const [user] = useContext(AuthUserContext);
-	const { drinks } = useDrinks();
 
 	return (
 		<div className={cn.scrollable}>
 			<main className={cn.container}>
 				<h4 className={clsx(cn.bw, cn.title)}>
-					{t('Monthly Spending')}
+					{t('dashboard')}
 				</h4>
 				<Card id='chart-holder' className={cn['daily-chart']}>
 					<BudgetPieChart
@@ -35,7 +32,7 @@ const MobileDashboard = ({ theme }) => {
 				</Card>
 				<Card className={cn.budget}>
 					<p>
-						{t('This is how much you’ve spent on drinks so far')}:
+						{t('this is how much you’ve spent on drinks so far')}:
 					</p>
 					<h2 className={cn.bw}>
 						{t('$')}
@@ -64,7 +61,7 @@ const MobileDashboard = ({ theme }) => {
 					<p>{t('drinks this month')}</p>
 				</Card>
 				<Card className={cn.heatmap}>
-					<h2>Drink Frequency</h2>
+					<h2>{t('drink frequency')}</h2>
 					<PurchaseTimeHeatMap data={metrics.d} />
 				</Card>
 				{/* <h3 style={{gridColumn: '1/4', fontSize: '2em', color: 'var(--text-accent)', marginBottom: '10px'}}>Visited Locations</h3>

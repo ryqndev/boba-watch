@@ -54,7 +54,7 @@ const ExpandedUserIcon = ({ className, theme }) => {
 	return (
 		<div className={clsx(className)}>
 			<div className={cn.container}>
-				<label className={cn['theme-label']}>Theme:</label>
+				<label className={cn['theme-label']}>{t('theme')}:</label>
 				<Select
 					options={theme.THEME_SELECT_OPTIONS}
 					defaultValue={

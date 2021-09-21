@@ -26,7 +26,7 @@ const BudgetPieChart = ({ spent = 0, budget = 1, theme }) => {
 						fill={({ data }) =>
 							data.label === 'spent'
 								? '#14e33a'
-								: theme === 'default'
+								: theme !== 'dark'
 									? '#d8d8d8'
 									: '#223242'
 						}

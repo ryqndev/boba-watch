@@ -125,7 +125,7 @@ const MobileAdd = () => {
 						/>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 							<DateTimePicker
-								label={'Date'}
+								label={t('date')}
 								value={form.date}
 								onChange={date => editForm('date', date, 30)}
 								inputProps={{ maxLength: 100 }}

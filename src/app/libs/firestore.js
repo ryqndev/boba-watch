@@ -31,8 +31,10 @@ const logout = () => {
     firebase.auth().signOut().then(function () {
         analytics.logEvent('logout');
         let theme = localStorage.getItem('theme');
+        let lang = localStorage.getItem('i18n');
         localStorage.clear();
         localStorage.setItem('theme', theme);
+        localStorage.setItem('i18n', lang);
     }).catch(alertDefaultError);
 }
 

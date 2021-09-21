@@ -35,7 +35,7 @@ const Map = ({
 				{theme === 'dark' && (
 					<TileLayer url='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' />
 				)}
-				{theme === 'default' && (
+				{theme === 'light' && (
 					<TileLayer url='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png' />
 				)}
 			</MapContainer>

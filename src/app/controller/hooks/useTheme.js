@@ -8,7 +8,7 @@ const THEME_SELECT_DEFAULT_VALUE = 0;
 const THEME_SELECT_OPTIONS = [
     {
         'value': 0,
-        'label': 'default'
+        'label': 'light'
     },
     {
         'value': 1,
@@ -17,12 +17,16 @@ const THEME_SELECT_OPTIONS = [
 ];
 
 const THEMES = {
-    'default': 0,
+    'light': 0,
     'dark': 1,
 }
 
 const useTheme = () => {
-    const getTheme = () => localStorage.getItem('theme') ?? 'default';
+
+    const getTheme = () => {
+
+        return localStorage.getItem('theme') !== 'dark' ? 'light' : 'dark';
+    }
     const [theme, setTheme] = useState(() => getTheme());
 
     useEffect(() => {

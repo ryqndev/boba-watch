@@ -25,7 +25,7 @@ const NoDrinksLabel = ({ label }) => {
 	);
 };
 
-const MobileHistory = ({theme}) => {
+const MobileHistory = ({ theme }) => {
 	const { t } = useTranslation();
 	const [monthly, setMonthly] = useState([]);
 	const [total, setTotal] = useState([]);
@@ -115,22 +115,33 @@ const MobileHistory = ({theme}) => {
 		setTotal([...total]);
 
 		setExpandedDrinklistData(tempExpandedDrinkListData);
-	}, [drinkidsCopy.length, theme, drinkidsCopy, show, show.recent, show.complete]);
+	}, [
+		drinkidsCopy.length,
+		theme,
+		drinkidsCopy,
+		show,
+		show.recent,
+		show.complete,
+	]);
 
 	const DrinkSearchResult = ({ item, matches }) => {
-		return <DrinkPanel
-			theme={theme} triggerUpdate={setDrinkidsCopy} data={item} />;
+		return (
+			<DrinkPanel
+				theme={theme}
+				triggerUpdate={setDrinkidsCopy}
+				data={item}
+			/>
+		);
 	};
 
 	return (
 		<div className='page with-user'>
 			<div className={cn.container}>
 				<div className={cn.header}>
-					<h3 className={cn.title}>{t('Drink History')}</h3>
+					<h3 className={cn.title}>{t('history')}</h3>
 				</div>
 				<div className={cn.search}>
 					<Searchbar
-						placeholder={t('Search your history...')}
 						data={expandedDrinklistData}
 						keys={['description', 'location', 'name', 'price']}
 						Result={DrinkSearchResult}

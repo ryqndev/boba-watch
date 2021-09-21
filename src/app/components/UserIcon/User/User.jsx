@@ -7,6 +7,7 @@ import Select from 'react-select';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import './User.scss';
 import 'react-toggle/style.css';
+import useLanguages from '../../../controller/hooks/useLanguages';
 
 /**
  * @NOTE previous bad choice of naming for using 'public' as a state key which has to now
@@ -16,6 +17,8 @@ import 'react-toggle/style.css';
  */
 const User = ({ open, setOpen, theme }) => {
 	const { t } = useTranslation();
+	const { languageSelect, getCurrentLanguage, setSelectedLanguage } =
+		useLanguages();
 	const [authUser, setAuthUser] = useContext(AuthUserContext);
 	const [budget, setBudget] = useState(
 		(authUser.profile.budget ?? 10000) / 100
@@ -56,11 +59,7 @@ const User = ({ open, setOpen, theme }) => {
 		<>
 			<Modal open={open} setOpen={setOpen}>
 				<div className='user-modal'>
-					<img
-						src={authUser.photoURL}
-						className='avatar'
-						alt=''
-					/>
+					<img src={authUser.photoURL} className='avatar' alt='' />
 					<button className='close-button' onClick={close}>
 						<CloseButton />
 					</button>
@@ -92,10 +91,24 @@ const User = ({ open, setOpen, theme }) => {
 					<label className='theme-label'>Theme:</label>
 					<Select
 						options={theme.THEME_SELECT_OPTIONS}
-						defaultValue={theme.THEME_SELECT_OPTIONS[theme.THEMES[theme.theme]]}
+						defaultValue={
+							theme.THEME_SELECT_OPTIONS[
+								theme.THEMES[theme.theme]
+							]
+						}
 						name='theme'
 						onChange={themeSelect}
 						className='theme-select'
+					/>
+					<label className={'theme-label'}>
+						{t('Language')}:
+					</label>
+					<Select
+						options={languageSelect}
+						defaultValue={getCurrentLanguage()}
+						name='Language'
+						onChange={setSelectedLanguage}
+						className={'theme-select'}
 					/>
 
 					<div className='button-holder'>

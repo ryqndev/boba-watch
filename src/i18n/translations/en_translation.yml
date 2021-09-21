@@ -1,5 +1,6 @@
 # language select dropdown title
 Language: Language
+logout: logout
 
 # (desktop only) dashboard page title
 dashboard: dashboard

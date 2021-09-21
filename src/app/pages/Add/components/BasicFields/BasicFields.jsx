@@ -3,15 +3,15 @@ import 'date-fns';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import { useTranslation } from 'react-i18next';
 import DateFnsUtils from '@date-io/date-fns';
+import useLanguages from '../../../../controller/hooks/useLanguages';
 import { TextInput, StarRating, LocationTagIndicator } from '../../../../components';
 import { LocationInput } from '../';
 import cn from './BasicFields.module.scss';
-import { enUS, zhCN } from 'date-fns/locale';
   
 
 const BasicFields = ({ form, setForm, handleChange, editForm }) => {
-	const { t, i18n } = useTranslation();
-	
+	const { t } = useTranslation();
+	const { getCurrentLocale } = useLanguages();
 
 	return (
 		<div className={cn.container}>
@@ -33,7 +33,7 @@ const BasicFields = ({ form, setForm, handleChange, editForm }) => {
 			/>
 			
 			<div className={cn.divider}>
-				<MuiPickersUtilsProvider utils={DateFnsUtils} locale={i18n.language === 'zh' ? zhCN : enUS}>
+				<MuiPickersUtilsProvider utils={DateFnsUtils} locale={getCurrentLocale()}>
 					<DateTimePicker
 						label={t('date')}
 						value={form.date}

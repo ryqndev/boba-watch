@@ -79,7 +79,7 @@ const MobileAdd = () => {
 		<div className='page with-user'>
 			<form className={cn.container} onSubmit={submit}>
 				<h4 className='bw title'>
-					{t(`${id ? 'EDIT' : 'ADD'} A PURCHASE`)}
+					{t(`${id ? 'edit' : 'add'} a purchase`)}
 				</h4>
 				<Card className={cn['add-holder']}>
 					<h5>{t("WHAT'S THE TEA?")}</h5>
@@ -110,7 +110,7 @@ const MobileAdd = () => {
 						<TextInput
 							value={form.name ?? ''}
 							onChange={handleChange('name', 150)}
-							label={'Drink Name'}
+							label={t('drink name')}
 						/>
 						<TextInput
 							value={form.price ?? 0}
@@ -120,7 +120,7 @@ const MobileAdd = () => {
 									val.match(/^-?\d*\.?\d*$/) &&
 									val.length < 10
 							)}
-							label={'Price'}
+							label={t('price')}
 							type='text'
 						/>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -161,7 +161,7 @@ const MobileAdd = () => {
 								disabled={disabled}
 								className={cn['text']}
 							>
-								{t(id ? 'UPDATE' : 'ADD')}
+								{t(id ? 'update' : 'add')}
 							</button>
 						</div>
 					</div>

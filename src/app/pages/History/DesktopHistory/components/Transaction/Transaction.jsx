@@ -6,7 +6,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowForwardIosRounded';
 import StarRateRoundedIcon from '@material-ui/icons/StarRateRounded';
 import { Card, LocationTagIndicator } from '../../../../../components';
 import cn from './Transaction.module.scss';
-import { enUS, zhCN } from 'date-fns/locale'
+import { enUS, zhTW } from 'date-fns/locale'
 
 const Transaction = ({
 	className,
@@ -33,7 +33,7 @@ const Transaction = ({
 			onClick={view}
 		>
 			<div className={cn.date}>
-				{!header ? format(new Date(date), 'ccc M/dd h:mm a', {locale: i18n.language === 'zh' ? zhCN : enUS}) : t('date')}
+				{!header ? format(new Date(date), 'ccc M/dd h:mm a', {locale: i18n.language === 'zh-TW' ? zhTW : enUS}) : t('date')}
 			</div>
 			<div className={cn.location}>
 				<LocationTagIndicator className={cn.tag} address={drink?.address}/>

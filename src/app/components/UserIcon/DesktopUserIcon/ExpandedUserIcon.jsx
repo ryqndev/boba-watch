@@ -1,6 +1,7 @@
 import { memo, useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
+import useLanguages from '../../../controller/hooks/useLanguages.js';
 import { TextInput } from '../../../components';
 import AuthUserContext from '../../../controller/contexts/AuthUserContext';
 import { logout, database } from '../../../libs/firestore';
@@ -9,7 +10,12 @@ import cn from './ExpandedUserIcon.module.scss';
 import { alertSettingsUpdateSuccess } from '../../../libs/swal';
 
 const ExpandedUserIcon = ({ className, theme }) => {
-	const { t, i18n } = useTranslation();
+	const { t } = useTranslation();
+	const {
+		languageSelect,
+		getCurrentLanguage,
+		setSelectedLanguage,
+	} = useLanguages();
 	const [user, setAuthUser] = useContext(AuthUserContext);
 
 	const [budget, setBudget] = useState((user.profile.budget ?? 10000) / 100);
@@ -25,7 +31,7 @@ const ExpandedUserIcon = ({ className, theme }) => {
 	const handleChange = setUserInfo => event => {
 		setUserInfo(event.target.value);
 	};
-	
+
 	const updateFirebase = () => {
 		let data = {
 			budget: parseInt(parseFloat(budget) * 100),
@@ -45,27 +51,25 @@ const ExpandedUserIcon = ({ className, theme }) => {
 		theme.setTheme(label);
 	};
 
-	const languageSelect = ({value}) => {
-		i18n.changeLanguage(value);
-	}
-
 	return (
 		<div className={clsx(className)}>
 			<div className={cn.container}>
 				<label className={cn['theme-label']}>Theme:</label>
 				<Select
 					options={theme.THEME_SELECT_OPTIONS}
-					defaultValue={theme.THEME_SELECT_OPTIONS[theme.THEMES[theme.theme]]}
+					defaultValue={
+						theme.THEME_SELECT_OPTIONS[theme.THEMES[theme.theme]]
+					}
 					name='theme'
 					onChange={themeSelect}
 					className={cn['theme-select']}
 				/>
 				<label className={cn['theme-label']}>{t('Language')}:</label>
 				<Select
-					options={[{label: 'English', value: 'en'}, {label: 'Chinese', value: 'zh'}]}
-					defaultValue={i18n.language === 'zh' ? {label: 'Chinese', value: 'zh'} : {label: 'English', value: 'en'}}
+					options={languageSelect}
+					defaultValue={getCurrentLanguage()}
 					name='Language'
-					onChange={languageSelect}
+					onChange={setSelectedLanguage}
 					className={cn['theme-select']}
 				/>
 				<TextInput
@@ -75,7 +79,7 @@ const ExpandedUserIcon = ({ className, theme }) => {
 					className={cn.input}
 					onChange={handleChange(setBudget)}
 					value={budget}
-					label={t('Monthly Spending Limit')}
+					label={t('monthly limit')}
 				/>
 				<TextInput
 					id='monthly-drinking-limit'
@@ -88,10 +92,10 @@ const ExpandedUserIcon = ({ className, theme }) => {
 				/>
 				<div className={cn['button-holder']}>
 					<button className='update' onClick={updateFirebase}>
-						{t('UPDATE')}
+						{t('update')}
 					</button>
 					<button className={cn.logout} onClick={logout}>
-						{t('LOGOUT')}
+						{t('logout')}
 					</button>
 				</div>
 			</div>

@@ -44,6 +44,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm version patch --no-git-tag-version && npm run build",
+    "en": "js-yaml src/i18n/translations/en_translation.yml > public/locales/en/translation.json",
+    "zhTW": "js-yaml src/i18n/translations/zh-TW_translation.yml > public/locales/zh-TW/translation.json",
     "YESIKNOWWHATIMDOING": "gh-pages -d build"
   },
   "eslintConfig": {

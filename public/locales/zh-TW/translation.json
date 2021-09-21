@@ -1,5 +1,6 @@
 {
   "Language": "語言",
+  "logout": "退出",
   "dashboard": "Dashboard",
   "drink frequency": "時間表",
   "Sun": "星期日",
@@ -46,7 +47,7 @@
   "update": "修改",
   "saved drinks": "保存的飲品",
   "saved drinks button description part 1": "保存經常享用的饮品以方便以後填寫，只需單擊",
-  "saved drinks button description part 2": "添加之前在下面",
+  "saved drinks button description part 2": "添加",
   "create": "創建",
   "create button description": "單擊此處保存以備後用",
   "no drinks saved": "暫無保存的飲品",

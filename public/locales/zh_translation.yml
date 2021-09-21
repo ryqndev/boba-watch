@@ -82,7 +82,7 @@ UPLOADING...: 上傳中...
 description: 說明
 preview: 預覽
 no description: 无信息
-how was your drink?: 評價一下這款飲品吧
+how was your drink?: 評價一下這款飲品吧 
 
 # add/edit page > submit button
 add: 添加
@@ -92,7 +92,7 @@ update: 修改
 saved drinks: 保存的飲品
 
 # you can use the part 1 and part 2 but it's not needed. if you look at the english description, there is a [+ create] in bold that will come after part 1 and before part 2.
-saved drinks button description part 1: 保存經常享用的饮品以方便以後填寫，只需單擊【保存】
+saved drinks button description part 1: 保存經常享用的饮品以方便以後填寫，只需單擊
 saved drinks button description part 2: 添加之前在下面 #  I don't understand what you're saying??
 
 # (desktop only) add/edit > autofill section > + create button

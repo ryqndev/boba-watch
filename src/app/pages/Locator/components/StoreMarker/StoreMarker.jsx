@@ -31,7 +31,7 @@ const StoreMarker = ({ data, setCenter, setSelected }) => {
 					<h3>{data.venue.name}</h3>
 					<span>{data.venue.location.address}</span>
 					<Link to='/add' state={{ address: data.venue.location, location: data.venue.name }}>
-						{t('Add drink for this location')}
+						{t('add drink for this location')}
 					</Link>
 				</div>
 			</Popup>

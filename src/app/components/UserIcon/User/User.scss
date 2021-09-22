@@ -13,12 +13,16 @@
     padding: 60px 40px 26px 40px;
     transition: all 320ms;
     z-index: 1050;
+    @media screen and (max-width: 350px) {
+        padding: 50px 20px 16px 20px;
+    }
     &:focus{
         outline: none;
     }
     & .theme-select, .theme-select > div{
         background-color: var(--bg-primary);
         color: var(--text-secondary);
+        margin-bottom: 10px;
     }
     & label.theme-label{
         font-size: 16px;
@@ -44,6 +48,9 @@
         @media screen and (min-width: 370px){
             font-size: 1.8rem;
         }
+        @media screen and (max-width: 350px) {
+            margin: 0;
+        }
     }
 }
 .button-holder{
@@ -54,6 +61,9 @@
     & button{
         padding: 0px;
         margin: 26px 15px 5px;
+        @media screen and (max-width: 350px) {
+            margin: 10px 15px 5px;
+        }
     }
     & .logout{
         // box-shadow: none;

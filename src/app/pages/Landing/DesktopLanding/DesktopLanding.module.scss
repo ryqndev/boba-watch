@@ -12,7 +12,7 @@
         display: grid;
         max-width: 1400px;
         width: calc(100vw - 160px);
-        padding-top: calc(100vh - 35vw - 200px);
+        padding-top: 100vh;
 
         @keyframes fadeDownIn {
             0% {
@@ -66,11 +66,11 @@
         }
 
         &>.title {
-            position: relative;
+            position: absolute;
             pointer-events: none;
-
+            top: calc(100vh - 35vw - 200px);
+            left: 8vw;
             &>h1 {
-                
                 &>span {
                     opacity: 0;
                     display: inline-block;
@@ -124,7 +124,7 @@
                 margin: 40px 0px;
                 display: grid;
                 place-self: center;
-                width: 80vw;
+                width: 100%;
                 box-shadow: 1px 1px 4px 0px #404040;
             }
 

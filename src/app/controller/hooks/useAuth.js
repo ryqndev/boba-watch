@@ -3,20 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import AuthUserContext from '../contexts/AuthUserContext';
 
 /**
- * @description useLogin is a hook that exists in the login page. If there is no user logged in, it will 
- * do nothing. Otherwise, it will redirect to the dashboard page.
+ * @description useLogin is a hook that exists in all auth pages. If there is no user logged in, it will 
+ * redirect to about page. Otherwise, it will allow access to the auth required page.
  */
 const useAuth = () => {
     let navigate = useNavigate();
     const [user] = useContext(AuthUserContext);
 
     useEffect(() => {
-        if (!user){
-            navigate('/login');
-        }
+        if (!user) navigate('/about');
     }, [user, navigate]);
 
-    return {user};
+    return { user };
 }
 
 export default useAuth;

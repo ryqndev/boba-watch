@@ -12,6 +12,7 @@ import cn from './App.module.scss';
 import 'react-markdown-editor-lite/lib/index.css';
 import { logout } from './libs/firestore';
 
+const Landing = lazy(() => import('./pages/Landing'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const History = lazy(() => import('./pages/History'));
 const Add = lazy(() => import('./pages/Add'));
@@ -28,6 +29,7 @@ const App = () => {
 		<AuthUserContext.Provider value={[user, setUser]}>
 			<Suspense fallback={<div></div>}>
 				<Routes>
+					<Route path='/about' element={<Landing />} />
 					<Route path='/login' element={<Login />} />
 					<Route path='*' element={<AuthenticatedRoutes />} />
 				</Routes>

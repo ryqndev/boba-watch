@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { ui, firebase } from '../libs/firestore';
 import useLogin from '../controller/hooks/useLogin';
 import 'firebaseui/dist/firebaseui.css';

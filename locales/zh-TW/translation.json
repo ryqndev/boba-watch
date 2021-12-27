@@ -4,6 +4,7 @@
   "theme": "模式",
   "light": "淺色",
   "dark": "深色",
+  "Max of drinks / month": "Max # of drinks / month",
   "dashboard": "Dashboard",
   "drink frequency": "時間表",
   "Sun": "星期日",
@@ -35,6 +36,10 @@
   "no drink selected": "从已保存記錄中選擇一項以便快速記錄相似內容",
   "edit": "编辑",
   "delete": "删除",
+  "Monthly Spending": "Monthly Spending",
+  "Monthly Total": "Monthly Total",
+  "Overall Spending": "Overall Spending",
+  "Complete Total": "Complete Total",
   "add a purchase": "記錄",
   "edit a purchase": "編輯",
   "details": "信息",
@@ -73,5 +78,7 @@
   "meters": "米",
   "from search pin": "從位置图钉處",
   "center on map": "地圖中心",
-  "search this area": "搜索此區域"
+  "search this area": "搜索此區域",
+  "Showing visited places": "showing visited places",
+  "Finding nearby places": "finding nearby places"
 }

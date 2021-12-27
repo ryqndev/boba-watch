@@ -20,7 +20,7 @@ const NoDrinksLabel = ({ label }) => {
 	const { t } = useTranslation();
 	return (
 		<div className={clsx(cn['thaman-color'], cn['none-label'])}>
-			<h3 className='bw none-label'>{t(label)}</h3>
+			<h3 className={clsx(cn['bw'], cn['none-label'])}>{t(label)}</h3>
 		</div>
 	);
 };
@@ -111,8 +111,8 @@ const MobileHistory = ({ theme }) => {
 				/>
 			);
 
-		setMonthly([...monthly]);
-		setTotal([...total]);
+		setMonthly(monthly);
+		setTotal(total);
 
 		setExpandedDrinklistData(tempExpandedDrinkListData);
 	}, [

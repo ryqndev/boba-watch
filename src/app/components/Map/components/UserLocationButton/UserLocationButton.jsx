@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { memo, useEffect, useCallback } from 'react';
 import { CircleMarker, useMap } from 'react-leaflet';
 import useGeolocation from '../../../../controller/hooks/useGeolocation.js';
@@ -33,7 +34,7 @@ const UserLocationButton = ({ setPosition }) => {
 					fillOpacity={'1'}
 				/>
 			)}
-			<button className={cn.button} onClick={setView}>
+			<button className={clsx(cn.button, cn.center)} onClick={setView}>
 				<MyLocationRoundedIcon />
 			</button>
 		</>

@@ -12,11 +12,13 @@ import {
 	alertDrinkNotDeleted,
 } from '../../../../../libs/swal.js';
 import AuthUserContext from '../../../../../controller/contexts/AuthUserContext';
+import { format } from 'date-fns';
+import { enUS, zhTW } from 'date-fns/locale';
 import './DrinkPanel.scss';
 
 const DrinkPanel = ({ data, triggerUpdate, theme }) => {
 	const [authUser] = useContext(AuthUserContext);
-	const { t } = useTranslation();
+	const { i18n, t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
 	const navigate = useNavigate();
 
@@ -68,7 +70,12 @@ const DrinkPanel = ({ data, triggerUpdate, theme }) => {
 					{expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
 				</div>
 				<p className='name'>{data.name}</p>
-				<p className='time'>{drinkDate.toDateString().substr(4)}</p>
+				<p className='time'>
+					{format(drinkDate, 'M/dd h:mm a', {
+						locale: i18n.language === 'zh-TW' ? zhTW : enUS,
+					})}
+				</p>
+				{/* <p className='time'>{drinkDate.toDateString().substr(4)}</p> */}
 			</div>
 			<div className={'collapsed-info' + (expanded ? ' expanded' : '')}>
 				<ExpandedDrinkDescription

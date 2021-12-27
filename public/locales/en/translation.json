@@ -1,6 +1,7 @@
 {
   "Language": "Language",
   "logout": "logout",
+  "Max of drinks / month": "Max # of drinks / month",
   "theme": "theme",
   "light": "light",
   "dark": "dark",
@@ -36,6 +37,10 @@
   "no drink selected": "Select a drink from your history to view it's details",
   "edit": "edit",
   "delete": "delete",
+  "Monthly Spending": "Monthly Spending",
+  "Monthly Total": "Monthly Total",
+  "Overall Spending": "Overall Spending",
+  "Complete Total": "Complete Total",
   "add a purchase": "add a purchase",
   "edit a purchase": "edit a purchase",
   "details": "details",
@@ -74,5 +79,7 @@
   "meters": "meters",
   "from search pin": "from search pin",
   "center on map": "center on map",
-  "search this area": "search this area"
+  "search this area": "search this area",
+  "Showing visited places": "showing visited locations",
+  "Showing nearby places": "showing nearby locations"
 }

@@ -2,6 +2,9 @@
 Language: Language
 logout: logout
 
+# Options select
+Max of drinks / month: 'Max # of drinks / month'
+
 theme: theme
 light: light
 dark: dark
@@ -68,6 +71,13 @@ show more: show more
 no drink selected: Select a drink from your history to view it's details
 edit: edit
 delete: delete
+
+# (mobile only) history page > headers
+Monthly Spending: Monthly Spending
+Monthly Total: Monthly Total
+
+Overall Spending: Overall Spending
+Complete Total: Complete Total
 
 # (desktop only) Add/edit page title
 add a purchase: add a purchase
@@ -142,3 +152,7 @@ from search pin: from search pin
 # (desktop only) boba locator page > map controls
 center on map: center on map
 search this area: search this area
+
+# locator > toggle local drinks/search popup
+Showing visited places: showing visited locations
+Showing nearby places: showing nearby locations

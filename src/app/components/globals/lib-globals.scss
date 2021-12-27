@@ -18,8 +18,23 @@
         color: var(--text-secondary) !important;
     }
 
+    &.swal2-toast {
+        width: 230px;
+        margin-top: 30px;
+        font-size: 0.95em;
+        box-shadow: 0 0 .625em var(--nav-bg) !important;
+
+        & .swal2-content {
+            padding: 0px 5px;
+        }
+    }
+
     & .swal2-content {
         color: var(--history-summary) !important;
+    }
+
+    & .swal2-timer-progress-bar {
+        background-color: var(--text-accent) !important;
     }
 }
 
@@ -83,13 +98,15 @@
     border-color: var(--blog-bg-secondary) !important;
 }
 
-.rc-md-navigation, .rc-md-editor .editor-container .sec-md .input{
+.rc-md-navigation,
+.rc-md-editor .editor-container .sec-md .input {
     background-color: var(--editor-background) !important;
     color: var(--text-secondary) !important;
     transition: background-color 350ms, color 350ms;
-    
+
 }
-div.MuiDialogActions-root button > span {
+
+div.MuiDialogActions-root button>span {
     color: var(--text-secondary);
 }
 
@@ -105,7 +122,7 @@ table {
     margin-top: 8px;
 }
 
-.leaflet-popup-content-wrapper{
+.leaflet-popup-content-wrapper {
     max-width: calc(80vw - 40px);
     background-color: var(--bg-secondary);
     color: var(--text-secondary);
@@ -114,6 +131,7 @@ table {
 .leaflet-popup-tip {
     background-color: var(--bg-secondary);
 }
+
 .leaflet-container {
     background-color: var(--bg-primary);
 }

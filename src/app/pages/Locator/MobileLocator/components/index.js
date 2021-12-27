@@ -1,5 +1,5 @@
-import Filter from './Filter';
+import MapActions from './MapActions';
 
 export {
-    Filter,
+    MapActions,
 };

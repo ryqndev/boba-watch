@@ -1,0 +1,43 @@
+.container {
+    padding-top: 37px;
+    height: auto;
+    width: 37px;
+    border-radius: 20px;
+    position: absolute;
+    right: 15px;
+    top: 36px;
+    z-index: 590;
+    border: 2px solid var(--avatar-border);
+    background-color: var(--nav-bg);
+    transition: border-color 350ms;
+
+    & button {
+        display: grid;
+        place-content: center;
+        margin: 10px auto;
+        box-sizing: border-box;
+        padding: 0;
+        background-color: transparent;
+        cursor: pointer;
+
+        & svg {
+            width: 23px;
+            fill: var(--nav-text);
+        }
+
+        &.expand {
+            transition: transform 250ms;
+            transform: rotateZ(0deg);
+            margin: 0 auto 7px;
+
+            &.open {
+                transform: rotateZ(180deg);
+            }
+
+            & svg {
+                width: 37px;
+                height: 30px;
+            }
+        }
+    }
+}

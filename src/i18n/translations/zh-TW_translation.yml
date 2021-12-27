@@ -6,6 +6,9 @@ theme: 模式
 light: 淺色
 dark: 深色
 
+# Options select
+Max of drinks / month: 'Max # of drinks / month'
+
 # (desktop only) dashboard page title
 dashboard: Dashboard # No need to translate
 
@@ -69,6 +72,12 @@ no drink selected: 从已保存記錄中選擇一項以便快速記錄相似內�
 edit: 编辑
 delete: 删除
 
+# (mobile only) history page > headers
+Monthly Spending: Monthly Spending
+Monthly Total: Monthly Total
+
+Overall Spending: Overall Spending
+Complete Total: Complete Total
 
 # (desktop only) Add/edit page title
 add a purchase: 記錄
@@ -143,4 +152,9 @@ from search pin: 從位置图钉處
 # (desktop only) boba locator page > map controls
 center on map: 地圖中心
 search this area: 搜索此區域
+
+# locator > toggle local drinks/search popup
+Showing visited places: showing visited places
+Showing nearby places: showing nearby places
+
 

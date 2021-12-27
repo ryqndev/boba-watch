@@ -38,7 +38,8 @@ const TransactionsByMonth = ({ drinks, detailed, setDetailed }) => {
 						const date = new Date(drink.date);
 						if (
 							acc.display.length === 0 ||
-							(acc.currentPeriod.month !== date.getMonth() || acc.currentPeriod.year !== date.getFullYear())
+							acc.currentPeriod.month !== date.getMonth() ||
+							acc.currentPeriod.year !== date.getFullYear()
 						)
 							return {
 								display: [

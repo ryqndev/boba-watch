@@ -12,8 +12,13 @@
             margin: 0 auto;
             top: 37px;
             height: 37px;
+            width: 37px;
             right: 50%;
             transform: translateX(50%);
         }
+    }
+    & .toast {
+        position: absolute;
+        top: 40px;
     }
 }

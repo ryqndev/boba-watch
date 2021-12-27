@@ -9,7 +9,7 @@ const StoreMarker = ({ data, setCenter, setSelected }) => {
 	const position = data.venue.location;
 
 	const select = () => {
-		setCenter([position.lat, position.lng]);
+		// setCenter([position.lat, position.lng]);
 		setSelected(data.venue.id);
 	};
 

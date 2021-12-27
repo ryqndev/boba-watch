@@ -37,24 +37,22 @@ const DesktopLocator = ({ theme }) => {
 				setCenter={setCenter}
 				theme={theme}
 			>
-				{position => (
-					<>
-						<SearchAreaButton
-							position={position}
-							setStores={setStores}
-							filters={filters}
-						/>
-						{stores &&
-							stores.map(store => (
-								<StoreMarker
-									key={store.venue.id}
-									data={store}
-									setSelected={setSelected}
-									setCenter={setCenter}
-								/>
-							))}
-					</>
-				)}
+				<>
+					<SearchAreaButton
+						position={center}
+						setStores={setStores}
+						filters={filters}
+					/>
+					{stores &&
+						stores.map(store => (
+							<StoreMarker
+								key={store.venue.id}
+								data={store}
+								setSelected={setSelected}
+								setCenter={setCenter}
+							/>
+						))}
+				</>
 			</Map>
 			<div className={cn.details}>
 				<Card className={cn.filters} title={t('locations')}>

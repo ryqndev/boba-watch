@@ -12,7 +12,7 @@ const UserLocationButton = ({ setPosition }) => {
 	const map = useMap();
 
 	const setView = useCallback(() => {
-		if (!(geolocation?.lat || geolocation?.lng)) return null;
+		if (!geolocation?.lat || !geolocation?.lng) return null;
 		setPosition([geolocation.lat, geolocation.lng]);
 		map.flyTo([geolocation.lat, geolocation.lng], ZOOM_LEVEL_CITY, {
 			animate: true,

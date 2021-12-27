@@ -11,9 +11,11 @@ const useDrinkByLocation = drinks => {
 						if (!address?.lat || !address?.lng)
 							return locations;
 
-						const lat = address.lat.toFixed(6);
-						const lng = address.lng.toFixed(6);
+						const lat = Number(address.lat).toFixed(6);
+						const lng = Number(address.lng).toFixed(6);
 						const key = `${lat},${lng}${location}`;
+
+						if (isNaN(lat) || isNaN(lng)) return locations;
 
 						if (!locations.hasOwnProperty(key)) {
 							locations[key] = {

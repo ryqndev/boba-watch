@@ -4,7 +4,13 @@ import cn from './Blog.module.scss';
 const Blog = () => {
 	return (
 		<div className={cn.container}>
-			<h2>Check back soon!</h2>
+			<h2>Newest Features</h2>
+			<p>
+				Locator page has toggle to show either nearby locations or
+				previously recorded drinks. Next planned updates increase QOL of
+				locator page even more than most recent update.
+			</p>
+			<h3>Previous Updates</h3>
 			<p>
 				We are temporarily pausing our blog feature since we are
 				planning on releasing a new Guides feature instead.
@@ -15,11 +21,9 @@ const Blog = () => {
 				charts as soon as they're tested and ready!
 			</p>
 			<br />
-			(If some colors are missing, try changing the theme and toggle back. im working on a fix asap i promise)
 			<br />
-			<br />
-			If something is broken or you have any suggestions or just wanna chat, send me an{' '}
-			<a href='mailto:ryanqyang@gmail.com'>email</a>
+			If something is broken or you have any suggestions or just wanna
+			chat, send me an <a href='mailto:ryanqyang@gmail.com'>email</a>
 			!
 			<br />
 			<br />

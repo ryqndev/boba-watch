@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { memo, lazy } from 'react';
 import useDevice from '../../controller/hooks/useDevice';
 const MobileLocator = lazy(() => import('./MobileLocator'));
 const DesktopLocator = lazy(() => import('./DesktopLocator'));
@@ -13,4 +13,4 @@ const Locator = ({ theme }) => {
 	);
 };
 
-export default Locator;
+export default memo(Locator);

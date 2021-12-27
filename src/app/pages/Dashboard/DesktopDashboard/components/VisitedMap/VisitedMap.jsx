@@ -14,7 +14,7 @@ const VisitedMap = ({ className, theme, drinks }) => {
 			zoom={2.5}
 			theme={theme}
 		>
-			{position => <VisitedLocations drinks={drinks}/>}
+			<VisitedLocations drinks={drinks}/>
 		</Map>
 	);
 };

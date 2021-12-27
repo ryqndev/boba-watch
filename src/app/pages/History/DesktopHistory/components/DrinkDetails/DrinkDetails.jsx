@@ -52,17 +52,15 @@ const DrinkDetails = ({
 					zoom={10}
 					center={[address.lat, address.lng]}
 				>
-					{() => (
-						<CircleMarker
-							center={[address.lat, address.lng]}
-							radius={10}
-							fill={true}
-							weight={1}
-							color={'#F68080'}
-							fillColor={'#F68080'}
-							fillOpacity={'0.5'}
-						></CircleMarker>
-					)}
+					<CircleMarker
+						center={[address.lat, address.lng]}
+						radius={10}
+						fill={true}
+						weight={1}
+						color={'#F68080'}
+						fillColor={'#F68080'}
+						fillOpacity={'0.5'}
+					></CircleMarker>
 				</Map>
 			)}
 

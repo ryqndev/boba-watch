@@ -36,7 +36,6 @@ const ExpandedDrinkDescription = ({
 					zoom={10}
 					center={[address.lat, address.lng]}
 				>
-					{() => (
 						<CircleMarker
 							center={[address.lat, address.lng]}
 							radius={10}
@@ -46,7 +45,6 @@ const ExpandedDrinkDescription = ({
 							fillColor={'#F68080'}
 							fillOpacity={'0.5'}
 						></CircleMarker>
-					)}
 				</Map>
 			)}
 			<p className='title'>

@@ -5,8 +5,8 @@ import { useDrinks } from '../../../controller/hooks';
 import { SearchAreaButton, StoreMarker } from '../components';
 import Swal from 'sweetalert2';
 import { MapActions } from './components';
-import cn from './MobileLocator.module.scss';
 import { useTranslation } from 'react-i18next';
+import cn from './MobileLocator.module.scss';
 
 const MobileLocator = ({ theme }) => {
 	const { t } = useTranslation();
@@ -15,7 +15,7 @@ const MobileLocator = ({ theme }) => {
 	const [localOnly, setLocalOnly] = useState(true);
 	const [center, setCenter] = useState(null);
 	const { drinks } = useDrinks();
-	// const [filters, setFilters] = useState({ openNow: false, coffee: false });
+	const [filters, setFilters] = useState({ openNow: false, coffee: false });
 
 	useEffect(() => {
 		const Toast = Swal.mixin({
@@ -24,17 +24,13 @@ const MobileLocator = ({ theme }) => {
 			showConfirmButton: false,
 			timer: 3000,
 			timerProgressBar: true,
-			didOpen: toast => {
-				toast.addEventListener('mouseenter', Swal.stopTimer);
-				toast.addEventListener('mouseleave', Swal.resumeTimer);
-			},
 		});
 
 		Toast.fire({
 			icon: 'success',
 			text: localOnly
 				? t('Showing visited places')
-				: t('Showing nearby places'),
+				: t('Finding nearby places'),
 		});
 	}, [localOnly, t]);
 
@@ -48,27 +44,33 @@ const MobileLocator = ({ theme }) => {
 				theme={theme}
 				zoomControl={false}
 			>
-				{position => (
-					<>
-						<MapActions
-							localOnly={localOnly}
-							setLocalOnly={setLocalOnly}
-						/>
-						{localOnly ? (
-							<VisitedLocations drinks={drinks} />
-						) : (
-							stores &&
-							stores.map(store => (
-								<StoreMarker
-									key={store.venue.id}
-									data={store}
-									setSelected={setSelected}
-									setCenter={setCenter}
-								/>
-							))
-						)}
-					</>
-				)}
+				<>
+					<MapActions
+						localOnly={localOnly}
+						setLocalOnly={setLocalOnly}
+					/>
+					{localOnly ? (
+						<VisitedLocations drinks={drinks} />
+					) : (
+						<>
+							<SearchAreaButton
+								className={cn['search-area--btn']}
+								setStores={setStores}
+								position={center}
+								filters={filters}
+							/>
+							{stores &&
+								stores.map(store => (
+									<StoreMarker
+										key={store.venue.id}
+										data={store}
+										setSelected={setSelected}
+										setCenter={setCenter}
+									/>
+								))}
+						</>
+					)}
+				</>
 			</Map>
 		</div>
 	);

@@ -1,6 +1,6 @@
 {
   "name": "boba-watch",
-  "version": "3.1.7",
+  "version": "3.1.9",
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",
@@ -46,6 +46,7 @@
     "predeploy": "npm version patch --no-git-tag-version && npm run build",
     "en": "js-yaml src/i18n/translations/en_translation.yml > public/locales/en/translation.json",
     "zhTW": "js-yaml src/i18n/translations/zh-TW_translation.yml > public/locales/zh-TW/translation.json",
+    "translations": "npm run en && npm run zhTW",
     "YESIKNOWWHATIMDOING": "gh-pages -d build"
   },
   "eslintConfig": {

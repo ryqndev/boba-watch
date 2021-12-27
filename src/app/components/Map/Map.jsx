@@ -31,7 +31,7 @@ const Map = ({
 				{hasCenterButton && (
 					<UserLocationButton setPosition={setPosition} />
 				)}
-				{children(position)}
+				{children}
 				{theme === 'dark' && (
 					<TileLayer url='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' />
 				)}

@@ -6,7 +6,7 @@ import ExploreFilledIcon from '@material-ui/icons/ExploreRounded';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMoreRounded';
 import cn from './MapActions.module.scss';
 
-const Filter = ({ localOnly, setLocalOnly }) => {
+const MapActions = ({ localOnly, setLocalOnly }) => {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -35,4 +35,4 @@ const Filter = ({ localOnly, setLocalOnly }) => {
 	);
 };
 
-export default memo(Filter);
+export default memo(MapActions);

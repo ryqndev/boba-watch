@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { CircleMarker, Popup } from 'react-leaflet';
 import { useDrinkByLocation } from '../../controllers';
 import { format } from 'date-fns';
@@ -41,4 +42,4 @@ const VisitedLocations = ({ drinks }) => {
 	);
 };
 
-export default VisitedLocations;
+export default memo(VisitedLocations);

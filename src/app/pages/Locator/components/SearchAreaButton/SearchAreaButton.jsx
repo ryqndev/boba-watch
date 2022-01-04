@@ -45,6 +45,7 @@ const SearchAreaButton = ({ className, position, setStores, filters }) => {
 	);
 
 	useEffect(() => {
+		console.log(position);
 		position && search('user');
 	}, [position, search]);
 

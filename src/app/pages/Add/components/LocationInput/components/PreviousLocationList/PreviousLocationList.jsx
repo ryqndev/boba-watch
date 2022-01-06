@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import useDrinks from '../../../../../../controller/hooks/useDrinks.js';
-import { useDrinkByLocation } from '../../../../../Dashboard/DesktopDashboard/components/VisitedMap/controller/hooks';
+import { useDrinkByLocation } from '../../../../../../components/Map/controllers';
 import { Card } from '../../../../../../components';
 import cn from './PreviousLocationList.module.scss';
 import { useTranslation } from 'react-i18next';

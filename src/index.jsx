@@ -1,3 +1,4 @@
+import Plausible from 'plausible-tracker'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -8,6 +9,9 @@ import './app/components/globals/lib-globals.scss';
 import './app/components/globals/animations.scss';
 import './i18n';
 
+Plausible({
+  domain: 'boba.watch'
+});
 // try{
 ReactDOM.render(
 	<Router basename={process.env.PUBLIC_URL}>

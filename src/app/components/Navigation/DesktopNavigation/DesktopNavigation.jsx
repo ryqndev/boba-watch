@@ -1,3 +1,4 @@
+import Plausible from 'plausible-tracker';
 import { memo, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { onPageView } from '../../../libs/analytics';
@@ -19,11 +20,13 @@ const tabs = [
 ];
 
 const DesktopNavigation = () => {
+	let { trackPageview } = Plausible()
 	let { pathname } = useLocation();
 
 	useEffect(() => {
 		onPageView(pathname);
-	}, [pathname]);
+		trackPageview();
+	}, [pathname, trackPageview]);
 
 	return (
 		<nav className={cn.container}>

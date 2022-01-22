@@ -23,7 +23,7 @@ const TIME_LABELS = [
 	'9 AM',
 	'10 AM',
 	'11 AM',
-	'12 AM',
+	'12 PM',
 	'1 PM',
 	'2 PM',
 	'3 PM',
@@ -35,7 +35,7 @@ const TIME_LABELS = [
 	'9 PM',
 	'10 PM',
 	'11 PM',
-	'12 PM',
+	'12 AM',
 ];
 
 const PurchaseTimeHeatMap = ({ data }) => {

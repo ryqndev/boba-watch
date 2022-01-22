@@ -1,3 +1,4 @@
+import Plausible from 'plausible-tracker';
 import { memo, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import MapIcon from '@material-ui/icons/PlaceRounded';
@@ -9,12 +10,14 @@ import { onPageView } from '../../../libs/analytics';
 import cn from './MobileNavigation.module.scss';
 
 const MobileNavigation = () => {
+	const { trackPageview } = Plausible();
 	const { pathname } = useLocation();
 	const isTab = path => (path === pathname ? ' ' + cn.selected : '');
 
 	useEffect(() => {
 		onPageView(pathname);
-	}, [pathname]);
+		trackPageview();
+	}, [pathname, trackPageview]);
 
 	return (
 		<nav className={cn.container}>

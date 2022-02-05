@@ -38,6 +38,10 @@
             }
         }
 
+        & button {
+            padding: 0;
+        }
+
         &>img.hero {
             position: absolute;
             left: 50vw;

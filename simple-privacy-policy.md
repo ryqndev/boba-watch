@@ -22,6 +22,10 @@ We occasionally will use all aggregated user data to provide helpful stats and m
 we may deem interesting to our users. All data we collect and use later on is 
 anonymized and does not lead back to individual users. 
 
+### Delete your account
+
+If you want to delete your account and also remove all user data, please send an email to 
+ryanqyang@gmail.com with the email/login method you used to signup.
 
 ### One last informal note from the creator: 
 I originally made Boba Watch because I wanted to keep track of my own boba spending. As 

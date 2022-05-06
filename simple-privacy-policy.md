@@ -1,8 +1,7 @@
 # Simple Privacy Policy
 
 You can view the entire privacy policy but here I'll detail exactly what we use at 
-the moment. In no way is this the actual official privacy policy (so don't treat it as
-such) but hopefully it'll make it clear to others what we do.
+the moment.
 
 ## Things we use
 

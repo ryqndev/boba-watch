@@ -105,7 +105,7 @@ const DesktopLanding = () => {
 					content={{
 						title: 'track what you want',
 						description:
-							'You\'re in charge of your own data. Track what you want to track, however you\'d like. You can add drinks, locations, and even your own custom tags.',
+							"You're in charge of your own data. Track what you want to track, however you'd like. You can add drinks, locations, and even your own custom tags.",
 						tag: '/add',
 					}}
 				/>
@@ -121,6 +121,22 @@ const DesktopLanding = () => {
 				boba watch
 				<span>copyright 2021</span>
 			</footer>
+			<a
+				href='https://raw.githubusercontent.com/ryqndev/boba-watch/master/simple-privacy-policy.md'
+				target='_blank'
+				rel='noopener noreferrer'
+				style={{
+					position: 'absolute',
+					margin: '0 auto',
+					textTransform: 'uppercase',
+					padding: '8px',
+					backgroundColor: '#F68080',
+					width: '100vw',
+					textAlign: 'center',
+				}}
+			>
+				Privacy Policy
+			</a>
 		</div>
 	);
 };

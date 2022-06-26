@@ -1,6 +1,7 @@
 import Dexie from 'dexie';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 
 const db = new Dexie('blogposts');
 
@@ -11,7 +12,7 @@ db.version(1).stores({
 const add = (data) => {
     return db.blogposts.put({
         ...data,
-        published: new firebase.firestore.Timestamp(
+        published: new Timestamp(
             data.published.seconds, 
             data.published.nanoseconds
         ).toDate().toString(),

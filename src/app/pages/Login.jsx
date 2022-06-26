@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { ui, firebase } from '../libs/firestore';
+import { ui } from '../libs/firestore';
 import useLogin from '../controller/hooks/useLogin';
 import 'firebaseui/dist/firebaseui.css';
+import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 
 const loginHeaderStyle = {
 	fontFamily: 'Poppins',
@@ -19,8 +20,8 @@ const Login = () => {
 			signInSuccessUrl: window.location.href,
 			signInFlow: 'popup',
 			signInOptions: [
-				firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-				firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+				GoogleAuthProvider.PROVIDER_ID,
+				FacebookAuthProvider.PROVIDER_ID,
 			],
 			// tosUrl: '<your-tos-url>',
 		});

@@ -21,6 +21,7 @@ import {
 	setDoc,
 	where,
 	getDocs,
+	writeBatch,
 } from 'firebase/firestore';
 
 const init = callback => {
@@ -73,7 +74,7 @@ const newUserSetup = (user, callback) => {
 
 	user.profile = { ...defaultProfile };
 
-	let setupBatch = db.batch();
+	let setupBatch = writeBatch(db);
 	setupBatch.set(
 		collection(db, `users/${user.uid}/user`).doc('stats'),
 		defaultStats

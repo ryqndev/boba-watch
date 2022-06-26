@@ -2,11 +2,12 @@ import { memo, useState, useRef, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
 import { useTranslation } from 'react-i18next';
 import { deleteImage, getImageAttribute } from '../../../../libs/cloud-storage.js';
-import { firebase } from '../../../../libs/firestore.js';
+import { storage } from '../../../../libs/firestore.js';
 import AuthUserContext from '../../../../controller/contexts/AuthUserContext.js';
 import { onError } from '../../../../libs/analytics';
 import clsx from 'clsx';
 import cn from './ImageUpload.module.scss';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 const ImageUpload = ({ image, setImage, className }) => {
 	const { t } = useTranslation();
@@ -42,11 +43,8 @@ const ImageUpload = ({ image, setImage, className }) => {
 			user.uid
 		}/post-${new Date().valueOf()}`;
 
-		let uploadTask = firebase
-			.storage()
-			.ref()
-			.child(serverFilePath)
-			.put(file);
+
+		const uploadTask = uploadBytesResumable(ref(storage, serverFilePath), file);
 
 		uploadTask.on(
 			'state_changed',
@@ -64,8 +62,7 @@ const ImageUpload = ({ image, setImage, className }) => {
 			},
 			() => {
 				setImage(serverFilePath);
-				uploadTask.snapshot.ref
-					.getDownloadURL()
+				getDownloadURL(uploadTask.snapshot.ref)
 					.then(function (downloadURL) {
 						setImagePreview(downloadURL);
 					});

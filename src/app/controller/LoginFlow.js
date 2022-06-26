@@ -1,4 +1,4 @@
-import { firebase, database as db } from '../libs/firestore';
+import { database as db } from '../libs/firestore';
 import { onLogin as logLoginToAnalytics } from '../libs/analytics';
 import {
 	profile as defaultProfile,
@@ -10,9 +10,21 @@ import {
 	addDrink,
 	deleteDrink,
 } from './calculateStatistics';
+import { getAuth } from 'firebase/auth';
+import {
+	Timestamp,
+	collection,
+	doc,
+	getDoc,
+	query,
+	orderBy,
+	setDoc,
+	where,
+	getDocs,
+} from 'firebase/firestore';
 
 const init = callback => {
-	firebase.auth().onAuthStateChanged(user => {
+	getAuth().onAuthStateChanged(user => {
 		// if not logged in, do nothing.
 		if (!user) return callback(user);
 
@@ -63,11 +75,11 @@ const newUserSetup = (user, callback) => {
 
 	let setupBatch = db.batch();
 	setupBatch.set(
-		db.collection(`users/${user.uid}/user`).doc('stats'),
+		collection(db, `users/${user.uid}/user`).doc('stats'),
 		defaultStats
 	);
 	setupBatch.set(
-		db.collection(`users/${user.uid}/blog`).doc('user'),
+		collection(db, `users/${user.uid}/blog`).doc('user'),
 		{
 			name: user?.displayName,
 			profile: user?.photoURL,
@@ -75,7 +87,7 @@ const newUserSetup = (user, callback) => {
 		{ merge: true }
 	);
 	setupBatch.set(
-		db.collection(`users/${user.uid}/user`).doc('profile'),
+		collection(db, `users/${user.uid}/user`).doc('profile'),
 		defaultProfile
 	);
 	return setupBatch.commit().then(() => {
@@ -85,12 +97,12 @@ const newUserSetup = (user, callback) => {
 
 const newSignInLocation = (user, callback) => {
 	Promise.all([
-		db.collection(`users/${user.uid}/user`).doc('autofill').get(),
-		db.collection(`users/${user.uid}/user`).doc('profile').get(),
-		db
-			.collection(`users/${user.uid}/drinks`)
-			.orderBy('drink.date', 'desc')
-			.get(),
+		getDoc(doc(db, `users/${user.uid}/user/autofill`)),
+		getDoc(doc(db, `users/${user.uid}/user`).doc('profile')),
+		getDocs(query(
+			collection(db, `users/${user.uid}/drinks`),
+			orderBy('drink.date', 'desc')
+		)),
 	]).then(([autofill, profile, drinks]) => {
 		let drinkids = [];
 
@@ -117,33 +129,28 @@ const newSignInLocation = (user, callback) => {
 			...profile.data(),
 		};
 
-		db.collection(`users/${user.uid}/blog`)
-			.doc('user')
-			.set(
-				{
-					name: user?.displayName,
-					profile: user?.photoURL,
-				},
-				{ merge: true }
-			)
-			.finally(() => {
-				callback(user);
-			});
+		setDoc(
+			doc(db, `users/${user.uid}/blog/user`),
+			{
+				name: user?.displayName,
+				profile: user?.photoURL,
+			},
+			{ merge: true }
+		).finally(() => {
+			callback(user);
+		});
 	});
 };
 
 const syncUserData = (user, callback) => {
-	const latestSync = firebase.firestore.Timestamp.fromDate(
+	const latestSync = Timestamp.fromDate(
 		new Date(JSON.parse(localStorage.getItem('latestSyncTime')) ?? 0)
 	);
 
 	Promise.all([
-		db.collection(`users/${user.uid}/user`).doc('autofill').get(),
-		db.collection(`users/${user.uid}/user`).doc('profile').get(),
-		db
-			.collection(`users/${user.uid}/drinks`)
-			.where('edited', '>=', latestSync)
-			.get(),
+		getDoc(doc(db, `users/${user.uid}/user/autofill`)),
+		getDoc(doc(db, `users/${user.uid}/user/profile`)),
+		getDocs(query(collection(db, `users/${user.uid}/drinks`), where('edited', '>=', latestSync))),
 	]).then(([autofill, profile, unsyncedDrinks]) => {
 		localStorage.setItem('autofill', autofill?.data()?.data ?? '[]');
 		user.profile = {

@@ -1,14 +1,15 @@
 import Swal from 'sweetalert2';
 import i18next from 'i18next';
-import { database, firebase } from '../libs/firestore';
+import { database as db } from '../libs/firestore';
+import { collection, serverTimestamp } from 'firebase/firestore';
 import { alertDefaultError, alertDrinkDeletedSuccess, alertDrinkNotDeleted } from '../libs/swal';
 import { deleteDrink, addDrink } from './calculateStatistics';
 
 const add = async (data, uid) => {
     try {
-        let firebaseAddAction = await database.collection(`users/${uid}/drinks`).add({
-            created: firebase.firestore.FieldValue.serverTimestamp(),
-            edited: firebase.firestore.FieldValue.serverTimestamp(),
+        let firebaseAddAction = await collection(db, `users/${uid}/drinks`).add({
+            created: serverTimestamp(),
+            edited: serverTimestamp(),
             ...data
         });
         let firebaseReturnedResult = await firebaseAddAction.get(); //get drink + generated id
@@ -27,8 +28,8 @@ const add = async (data, uid) => {
 
 const edit = async (data, id, uid) => {
     try {
-        await database.collection(`users/${uid}/drinks`).doc(id).set({
-            edited: firebase.firestore.FieldValue.serverTimestamp(),
+        await collection(db, `users/${uid}/drinks`).doc(id).set({
+            edited: serverTimestamp(),
             ...data
         });
         deleteDrink(id);
@@ -66,7 +67,7 @@ const remove = (id, uid, callback = () => { }) => {
 
 const updateAutofill = (data, uid, callback = () => { }) => {
     try {
-        database.collection(`users/${uid}/user`)
+        collection(db, `users/${uid}/user`)
             .doc('autofill')
             .set({ data: JSON.stringify(data) })
             .then(() => {
@@ -86,7 +87,7 @@ const syncMetrics = (drink, uid, isEdit = false) => {
 
     metrics.d = JSON.stringify(metrics.d);
 
-    database.collection(`users/${uid}/user`).doc('stats').set(metrics).finally(() => {
+    collection(db, `users/${uid}/user`).doc('stats').set(metrics).finally(() => {
         Swal.fire(i18next.t('Done!'), i18next.t(isEdit ? 'Drink updated' : 'Drink added'), 'success');
     });
 }

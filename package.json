@@ -13,9 +13,10 @@
     "@visx/heatmap": "^2.10.0",
     "@visx/shape": "^2.10.0",
     "@visx/tooltip": "^2.10.0",
-    "@visx/visx": "^2.10.1",
+    "@visx/visx": "^2.11.1",
+    "@visx/xychart": "^2.11.1",
     "bad-words": "^3.0.3",
-    "clsx": "^1.1.1",
+    "clsx": "^1.2.0",
     "date-fns": "^2.16.1",
     "dexie": "^3.0.2",
     "file-saver": "^2.0.5",
@@ -41,7 +42,7 @@
     "react-star-rating-component": "^1.4.1",
     "react-toggle": "^4.1.1",
     "react-transition-group": "^4.4.1",
-    "sass": "^1.35.1",
+    "sass": "^1.53.0",
     "sweetalert2": "^9.17.2"
   },
   "scripts": {

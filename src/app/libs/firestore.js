@@ -1,7 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, Timestamp } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { getAnalytics } from 'firebase/analytics';
+import {
+	getFirestore,
+	Timestamp,
+	connectFirestoreEmulator,
+} from 'firebase/firestore';
+import { getAuth, connectAuthEmulator } from 'firebase/auth';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 import { getStorage } from 'firebase/storage';
 import { alertDefaultError } from '../libs/swal';
 import * as firebaseui from 'firebaseui';
@@ -20,20 +24,25 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
 
+const auth = getAuth(app);
+
 const analytics = getAnalytics(app);
 const storage = getStorage(app);
 const ui =
 	firebaseui.auth.AuthUI.getInstance() ||
 	new firebaseui.auth.AuthUI(getAuth(app));
 
-// database = getFirestore(app);
+if (window.location.hostname === 'localhost') {
+	connectFirestoreEmulator(database, 'localhost', 9000);
+	connectAuthEmulator(auth, 'http://localhost:9099');
+}
+
 // database.enablePersistence().catch(err => { console.error(err) });
 
 const logout = () => {
-	getAuth()
-		.signOut()
+	auth.signOut()
 		.then(function () {
-			analytics.logEvent('logout');
+			logEvent(analytics, 'logout');
 			let theme = localStorage.getItem('theme');
 			let lang = localStorage.getItem('i18n');
 			localStorage.clear();
@@ -113,6 +122,7 @@ export {
 	database,
 	storage,
 	analytics,
+	auth,
 	publishGetUser,
 	publishGetFeed,
 	deleteBlogPost,

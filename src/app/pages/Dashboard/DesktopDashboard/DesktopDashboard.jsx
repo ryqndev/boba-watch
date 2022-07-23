@@ -7,6 +7,7 @@ import {
 	DrinkPanel,
 	BudgetPieChart,
 	PurchaseTimeHeatMap,
+	SpendingXYChart,
 	VisitedMap,
 } from './components';
 import cn from './DesktopDashboard.module.scss';
@@ -55,7 +56,8 @@ const DesktopDashboard = ({ theme }) => {
 						</Card>
 					</div>
 					<Card className={cn.xy}>
-						<h3
+						<SpendingXYChart />
+						{/* <h3
 							style={{
 								display: 'grid',
 								color: 'var(--text-secondary)',
@@ -64,7 +66,7 @@ const DesktopDashboard = ({ theme }) => {
 							}}
 						>
 							{t('coming soon')}
-						</h3>
+						</h3> */}
 					</Card>
 				</div>
 			</main>

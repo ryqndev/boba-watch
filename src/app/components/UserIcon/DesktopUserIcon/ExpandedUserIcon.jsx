@@ -8,6 +8,7 @@ import { logout, database } from '../../../libs/firestore';
 import clsx from 'clsx';
 import cn from './ExpandedUserIcon.module.scss';
 import { alertSettingsUpdateSuccess } from '../../../libs/swal';
+import { doc, setDoc } from 'firebase/firestore';
 
 const ExpandedUserIcon = ({ className, theme }) => {
 	const { t } = useTranslation();
@@ -38,10 +39,7 @@ const ExpandedUserIcon = ({ className, theme }) => {
 			limit: parseInt(limit),
 			sharing: sharing,
 		};
-		database
-			.collection(`users/${user.uid}/user`)
-			.doc('profile')
-			.set(data)
+		setDoc(doc(database, `users/${user.uid}/user/profile`), data)
 			.then(() => {
 				setAuthUser(state => ({ ...state, profile: data }));
 				alertSettingsUpdateSuccess();

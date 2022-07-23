@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { ui } from '../libs/firestore';
+import { ui, auth } from '../libs/firestore';
+import { signInWithCredential } from 'firebase/auth';
 import useLogin from '../controller/hooks/useLogin';
 import 'firebaseui/dist/firebaseui.css';
 import { FacebookAuthProvider, GoogleAuthProvider } from 'firebase/auth';
@@ -26,11 +27,25 @@ const Login = () => {
 			// tosUrl: '<your-tos-url>',
 		});
 	});
-	
+
 	return (
 		<div className='login-page'>
 			<div className='login-logo'></div>
 			<h1 style={loginHeaderStyle}>boba watch</h1>
+			{window.location.hostname === 'localhost' && (
+				<button
+					onClick={() => {
+						signInWithCredential(
+							auth,
+							GoogleAuthProvider.credential(
+								'{"sub": "abc123", "email": "foo@example.com"}'
+							)
+						);
+					}}
+				>
+					Test Login
+				</button>
+			)}
 			<div id='auth-container'></div>
 		</div>
 	);

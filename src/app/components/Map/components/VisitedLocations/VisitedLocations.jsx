@@ -26,8 +26,8 @@ const VisitedLocations = ({ drinks }) => {
 								Visited <span>{drinks.length}</span> times
 							</p>
 							<p>Recent visits:</p>
-							{drinks.slice(0, 5).map(({ date }) => (
-								<div key={date}>
+							{drinks.slice(0, 5).map(({ date, id }) => (
+								<div key={id}>
 									{format(
 										new Date(date),
 										'MMM d, yyyy h:mm a'

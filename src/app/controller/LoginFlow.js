@@ -1,4 +1,4 @@
-import { database as db } from '../libs/firestore';
+import { database as db, auth } from '../libs/firestore';
 import { onLogin as logLoginToAnalytics } from '../libs/analytics';
 import {
 	profile as defaultProfile,
@@ -10,7 +10,7 @@ import {
 	addDrink,
 	deleteDrink,
 } from './calculateStatistics';
-import { getAuth } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import {
 	Timestamp,
 	collection,
@@ -25,7 +25,7 @@ import {
 } from 'firebase/firestore';
 
 const init = callback => {
-	getAuth().onAuthStateChanged(user => {
+	onAuthStateChanged(auth, user => {
 		// if not logged in, do nothing.
 		if (!user) return callback(user);
 
@@ -50,6 +50,7 @@ const init = callback => {
 			isAnonymous,
 			providerData,
 		}))(user);
+
 
 		// check if has been logged in before
 		const isNewUser =
@@ -76,11 +77,11 @@ const newUserSetup = (user, callback) => {
 
 	let setupBatch = writeBatch(db);
 	setupBatch.set(
-		collection(db, `users/${user.uid}/user`).doc('stats'),
+		doc(db, `users/${user.uid}/user/stats`),
 		defaultStats
 	);
 	setupBatch.set(
-		collection(db, `users/${user.uid}/blog`).doc('user'),
+		doc(db, `users/${user.uid}/blog/user`),
 		{
 			name: user?.displayName,
 			profile: user?.photoURL,
@@ -88,7 +89,7 @@ const newUserSetup = (user, callback) => {
 		{ merge: true }
 	);
 	setupBatch.set(
-		collection(db, `users/${user.uid}/user`).doc('profile'),
+		doc(db, `users/${user.uid}/user/profile`),
 		defaultProfile
 	);
 	return setupBatch.commit().then(() => {
